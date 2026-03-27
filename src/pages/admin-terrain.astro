@@ -65,9 +65,6 @@ import etapesData from '../data/terrain-etapes.json';
             <span class="vis-dot"></span>
             <span class="vis-label"></span>
           </button>
-          <button id="admin-export-gpx-btn" class="admin-btn" title="Télécharger le fichier GPX">
-            <i class="fas fa-route"></i> GPX
-          </button>
           <button id="admin-import-btn" class="admin-btn" title="Importer un fichier JSON de sauvegarde">
             <i class="fas fa-upload"></i> Importer
           </button>
@@ -76,17 +73,6 @@ import etapesData from '../data/terrain-etapes.json';
           </button>
           <input type="file" id="admin-import-file" accept=".json" style="display:none" />
         </div>
-      </div>
-
-      <!-- Workflow one-line -->
-      <div class="admin-workflow-oneline">
-        <span class="wf-step"><span class="wf-n">1</span> Modifier dans les onglets</span>
-        <span class="wf-arr">›</span>
-        <span class="wf-step"><span class="wf-n">2</span> Sauvegarder</span>
-        <span class="wf-arr">›</span>
-        <span class="wf-step wf-step--key"><span class="wf-n">3</span> Publier tout</span>
-        <span class="wf-arr">›</span>
-        <span class="wf-step" style="color:var(--text-muted);">Site mis à jour</span>
       </div>
 
       <!-- Tabs -->
@@ -135,44 +121,22 @@ import etapesData from '../data/terrain-etapes.json';
       <!-- ============================== -->
       <div class="admin-tab-content admin-tab-content--active" id="tab-dashboard">
 
-        <!-- Guide rapide -->
-        <div class="admin-card admin-card--guide">
-          <div class="admin-update-flow" style="margin-bottom:0.75rem;">
-            <div class="auf-step">
-              <span class="auf-n">1</span>
-              <span>Modifier dans les onglets</span>
-            </div>
-            <span class="auf-arr">›</span>
-            <div class="auf-step">
-              <span class="auf-n">2</span>
-              <span>Cliquer <strong>Sauvegarder</strong></span>
-            </div>
-            <span class="auf-arr">›</span>
-            <div class="auf-step auf-step--key">
-              <span class="auf-n">3</span>
-              <span>Cliquer <strong>Publier tout</strong></span>
-            </div>
-            <span class="auf-arr">›</span>
-            <span style="font-size:0.78rem;color:var(--text-muted);">Site mis à jour</span>
-          </div>
-          <p class="admin-update-key"><i class="fas fa-key"></i> Clé 1er usage : <code>op-admin-save-2026-oceanphenix</code></p>
-
-          <!-- Prérequis FTP -->
-          <div class="admin-update-ftp" style="margin-top:0.75rem;">
-            <span class="admin-update-ftp-label"><i class="fas fa-server"></i> Prérequis FTP (une seule fois)</span>
-            <span class="admin-update-ftp-row">
-              <code>public/api/admin-save.php</code>
-              <span class="auf-arrow">→</span>
-              <code>public_html/api/admin-save.php</code>
-              <span class="admin-guide-status admin-guide-status--ok">✓ Inclus dans le build</span>
-            </span>
-            <span class="admin-update-ftp-row" style="margin-top:0.3rem;opacity:0.8;">
-              <code>public/api/admin-env.php</code>
-              <span class="auf-arrow">→</span>
-              <code>public_html/api/admin-env.php</code>
-              <span class="admin-guide-status admin-guide-status--todo">Optionnel — surcharge clé</span>
-            </span>
-          </div>
+        <!-- Info barre déploiement -->
+        <div class="admin-infobar">
+          <span class="admin-infobar-item">
+            <i class="fas fa-key"></i>
+            Clé 1er usage&nbsp;: <code>op-admin-save-2026-oceanphenix</code>
+          </span>
+          <span class="admin-infobar-sep">·</span>
+          <span class="admin-infobar-item">
+            <i class="fas fa-server"></i>
+            FTP&nbsp;: <code>public_html/api/admin-save.php</code>
+            <span class="admin-guide-status admin-guide-status--ok">✓ dans le build</span>
+          </span>
+          <span class="admin-infobar-sep">·</span>
+          <span class="admin-infobar-item" style="opacity:0.7;">
+            <code>admin-env.php</code> <span class="admin-guide-status admin-guide-status--todo">optionnel — surcharge clé</span>
+          </span>
         </div>
 
         <div class="admin-card">
@@ -503,7 +467,11 @@ import etapesData from '../data/terrain-etapes.json';
             </button>
           </div>
 
-          <h3 class="admin-subtitle">Fichiers GPX enregistrés</h3>
+          <h3 class="admin-subtitle" style="display:flex;align-items:center;justify-content:space-between;">Fichiers GPX enregistrés
+            <button id="admin-export-gpx-btn" class="admin-btn" style="font-size:0.8rem;padding:4px 10px;" title="Exporter tous les tracés GPX enregistrés">
+              <i class="fas fa-download"></i> Exporter GPX
+            </button>
+          </h3>
           <div id="gpx-list" class="admin-gpx-list">
             <p class="admin-hint">Aucun fichier GPX enregistré pour le moment.</p>
           </div>
@@ -1193,25 +1161,30 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
   .wf-item--reset .wf-n { background: rgba(248,113,113,0.18); color: #f87171; }
   .admin-workflow-banner code { background: rgba(77,184,212,0.12); padding: 1px 5px; border-radius: 3px; font-size: 0.72rem; color: #6ec5d6; }
 
-  /* ── Workflow one-line (sous toolbar) ─────────────────────── */
-  .admin-workflow-oneline {
+  /* ── Info barre déploiement (dashboard) ─────────────────── */
+  .admin-infobar {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.6rem;
     flex-wrap: wrap;
     margin-bottom: 1.25rem;
-    padding: 0.5rem 1rem;
-    border-left: 3px solid rgba(77,184,212,0.35);
+    padding: 0.55rem 1rem;
     background: rgba(255,255,255,0.02);
+    border-left: 3px solid rgba(77,184,212,0.35);
     border-radius: 0 5px 5px 0;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
   }
-  .wf-step { display: flex; align-items: center; gap: 0.25rem; color: var(--text-muted); white-space: nowrap; }
-  .wf-step--key { color: var(--accent-cyan); font-weight: 700; }
+  .admin-infobar-item { display: flex; align-items: center; gap: 0.35rem; }
+  .admin-infobar-item code {
+    background: rgba(77,184,212,0.1);
+    padding: 1px 5px; border-radius: 3px;
+    font-size: 0.7rem; color: var(--accent-cyan); user-select: all;
+  }
+  .admin-infobar-item i { color: var(--accent-cyan); font-size: 0.7rem; }
+  .admin-infobar-sep { color: rgba(255,255,255,0.15); }
 
   /* ── Guide Dashboard ─────────────────────────────────────── */
-  .admin-card--guide { border-left: 3px solid rgba(77,184,212,0.3); }
-
   .admin-update-cases {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1219,127 +1192,6 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     margin: 1rem 0 0.75rem;
   }
   @media (max-width: 700px) { .admin-update-cases { grid-template-columns: 1fr; } }
-
-  .admin-update-case {
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.025);
-    padding: 0.9rem 1rem;
-  }
-
-  .admin-update-case-head {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.82rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--accent-cyan);
-  }
-  .admin-update-case-head em {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    margin-left: auto;
-  }
-
-  .admin-update-flow {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    flex-wrap: wrap;
-    font-size: 0.78rem;
-    margin-bottom: 0.6rem;
-  }
-  .auf-step {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-  .auf-step--key { color: var(--text-light); font-weight: 700; }
-  .auf-step--key .auf-n { background: rgba(77,184,212,0.25); }
-  .auf-n {
-    min-width: 17px; height: 17px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    color: var(--accent-cyan);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.6rem; font-weight: 800; flex-shrink: 0;
-  }
-  .auf-arr { color: rgba(255,255,255,0.2); font-size: 1rem; }
-  .auf-arrow { color: rgba(255,255,255,0.25); }
-
-  .admin-update-note {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    font-style: italic;
-    margin: 0 0 0.4rem;
-  }
-  .admin-update-key {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    margin: 0;
-  }
-  .admin-update-key code {
-    background: rgba(77,184,212,0.1);
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 0.7rem;
-    color: var(--accent-cyan);
-    user-select: all;
-  }
-
-  .admin-update-ftp {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding: 0.65rem 0.9rem;
-    background: rgba(255,255,255,0.015);
-    border-radius: 5px;
-    border: 1px solid rgba(255,255,255,0.06);
-    margin-top: 0.75rem;
-    font-size: 0.72rem;
-  }
-  .admin-update-ftp-label {
-    font-weight: 700;
-    color: var(--text-muted);
-    margin-bottom: 0.2rem;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .admin-update-ftp-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    color: var(--text-muted);
-  }
-  .admin-update-ftp-row code {
-    background: rgba(255,255,255,0.06);
-    padding: 1px 5px;
-    border-radius: 3px;
-    color: var(--text-light);
-    font-size: 0.7rem;
-  }
-
-  .admin-guide-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 0.75rem;
-  }
-  @media (max-width: 800px) { .admin-guide-grid { grid-template-columns: 1fr; } }
-
-  .admin-guide-bloc {
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.07);
-    background: rgba(255,255,255,0.02);
-    padding: 0.9rem 1rem;
-  }
   .admin-guide-bloc--wide { grid-column: 1 / -1; }
 
   .admin-guide-bloc-head {

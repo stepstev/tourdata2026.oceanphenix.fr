@@ -1807,7 +1807,15 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        var ct = r.headers.get('Content-Type') || '';
+        if (!ct.includes('application/json')) {
+          // Le serveur a renvoyé du HTML (404 Astro dev, PHP non actif, etc.)
+          if (r.status === 404) throw new Error('admin-save.php introuvable — uploadez-le sur o2switch via FTP (public_html/api/admin-save.php). En dev local, PHP ne tourne pas.');
+          throw new Error('Réponse inattendue du serveur (HTTP ' + r.status + ') — vérifiez que admin-save.php est bien uploadé sur o2switch.');
+        }
+        return r.json();
+      })
       .then(function (d) {
         if (d.error) throw new Error(d.error);
         var ts = d.updated_at ? new Date(d.updated_at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';

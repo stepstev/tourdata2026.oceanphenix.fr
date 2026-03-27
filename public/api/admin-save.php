@@ -56,7 +56,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 // Si absent, repli sur la clé par défaut définie à l'installation.
 $envFile = __DIR__ . '/admin-env.php';
 if (file_exists($envFile)) {
-    require $envFile; // doit définir : define('ADMIN_SECRET', 'votre-clé');
+    require_once $envFile; // doit définir : define('ADMIN_SECRET', 'votre-clé');
 }
 if (!defined('ADMIN_SECRET')) {
     define('ADMIN_SECRET', 'op-admin-save-2026-oceanphenix');

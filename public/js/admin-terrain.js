@@ -187,7 +187,7 @@
           const synced = JSON.parse(json);
           synced._lastSaved = new Date().toISOString();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(synced));
-        } catch(_) {}
+        } catch(e) { console.error('localStorage sync failed:', e); }
         const msg = result.deployed
           ? '\u2705 Build + deploy termin\u00e9 \u2014 tous les navigateurs sont synchronis\u00e9s \u2714'
           : '\u2705 Build termin\u00e9 \u2014 localStorage synchronis\u00e9 \u2714 \u2014 uploadez dist/ pour d\u00e9ployer';
@@ -231,7 +231,7 @@
           const synced = JSON.parse(json);
           synced._lastSaved = new Date().toISOString();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(synced));
-        } catch(_) {}
+        } catch(e) { console.error('localStorage sync failed:', e); }
         showToast('\u2705 ' + nbJournal + ' entr\u00e9e(s) + build termin\u00e9 \u2014 localStorage synchronis\u00e9 \u2714');
       } else {
         showToast('\u26a0\ufe0f Erreur build : ' + result.error);

@@ -164,7 +164,13 @@ import etapesData from '../data/terrain-etapes.json';
               <code>public/api/admin-save.php</code>
               <span class="auf-arrow">→</span>
               <code>public_html/api/admin-save.php</code>
-              <span class="admin-guide-status admin-guide-status--todo">À uploader</span>
+              <span class="admin-guide-status admin-guide-status--ok">✓ Inclus dans le build</span>
+            </span>
+            <span class="admin-update-ftp-row" style="margin-top:0.3rem;opacity:0.8;">
+              <code>public/api/admin-env.php</code>
+              <span class="auf-arrow">→</span>
+              <code>public_html/api/admin-env.php</code>
+              <span class="admin-guide-status admin-guide-status--todo">Optionnel — surcharge clé</span>
             </span>
           </div>
         </div>
@@ -1393,6 +1399,7 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;
   }
   .admin-guide-status--todo { background: rgba(255,255,255,0.08); color: #fbbf24; }
+  .admin-guide-status--ok   { background: rgba( 34,197, 94,0.15); color: #4ade80; }
   .admin-guide-status--done { background: rgba(255,255,255,0.06); color: var(--text-muted); }
 
   .admin-guide-ftp-note {

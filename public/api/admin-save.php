@@ -4,7 +4,7 @@
  * OceanPhenix TourData 2026
  *
  * Reçoit un POST JSON depuis l'interface admin et écrit
- * public_html/data/site-data.json sur O2Switch.
+ * {webroot}/data/site-data.json sur O2Switch (fonctionne quel que soit le dossier du sous-domaine).
  *
  * Payload attendu :
  *   { secret, terrain, coworking, radar }

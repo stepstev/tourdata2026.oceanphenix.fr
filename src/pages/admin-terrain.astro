@@ -184,7 +184,7 @@ import etapesData from '../data/terrain-etapes.json';
           <span class="admin-infobar-sep">·</span>
           <span class="admin-infobar-item">
             <i class="fas fa-server"></i>
-            FTP&nbsp;: <code>public_html/api/admin-save.php</code>
+            FTP&nbsp;: <code>{webroot}/api/admin-save.php</code>
             <span class="admin-guide-status admin-guide-status--ok">✓ dans le build</span>
           </span>
           <span class="admin-infobar-sep">·</span>
@@ -989,7 +989,7 @@ import etapesData from '../data/terrain-etapes.json';
         <div class="admin-card">
           <h2><i class="fas fa-key"></i> Configuration — <code>strava-env.php</code></h2>
           <p class="admin-hint">
-            Uploader ce fichier sur le serveur via FTP dans <code>public_html/api/strava-env.php</code>.
+            Uploader ce fichier sur le serveur via FTP dans <code>{webroot}/api/strava-env.php</code> (ex: goal.oceanphenix.fr/api/).
             Ne jamais le committer dans le repo.
           </p>
           <pre class="admin-strava-code" id="strava-env-code">&lt;?php
@@ -1029,7 +1029,7 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
             <i class="fas fa-code-branch wf-icon"></i>
             <span class="wf-item wf-item--key"><span class="wf-n">1</span> <code>npm run build</code></span>
             <span class="wf-arr">›</span>
-            <span class="wf-item wf-item--key"><span class="wf-n">2</span> Upload <code>dist/</code> → <code>public_html/</code></span>
+            <span class="wf-item wf-item--key"><span class="wf-n">2</span> Upload <code>dist/</code> → <code>{webroot}/</code> (ex: goal.oceanphenix.fr/)</span>
             <span class="wf-arr">›</span>
             <span class="wf-item"><span class="wf-n">3</span> Vérifier <code>/strava</code> (point vert)</span>
           </div>

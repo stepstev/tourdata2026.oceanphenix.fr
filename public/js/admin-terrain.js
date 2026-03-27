@@ -1811,7 +1811,7 @@
         var ct = r.headers.get('Content-Type') || '';
         if (!ct.includes('application/json')) {
           // Le serveur a renvoyé du HTML (404 Astro dev, PHP non actif, etc.)
-          if (r.status === 404) throw new Error('admin-save.php introuvable — uploadez-le sur o2switch via FTP (public_html/api/admin-save.php). En dev local, PHP ne tourne pas.');
+          if (r.status === 404) throw new Error('admin-save.php introuvable sur le serveur — uploadez-le via FTP dans le dossier api/ de votre sous-domaine (ex: goal.oceanphenix.fr/api/). En dev local, PHP ne tourne pas.');
           throw new Error('Réponse inattendue du serveur (HTTP ' + r.status + ') — vérifiez que admin-save.php est bien uploadé sur o2switch.');
         }
         return r.json();

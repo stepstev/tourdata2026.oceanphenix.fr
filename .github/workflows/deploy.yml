@@ -1,22 +1,17 @@
-name: Deploy Astro to GitHub Pages
+name: Build check (CI)
+# Ce site est hébergé sur O2Switch (PHP requis) — déploiement via deploy.bat (FTP/WinSCP)
+# GitHub Pages ne supporte pas PHP : ce workflow vérifie uniquement que le build Astro passe.
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build:
-    name: Build Astro
+    name: Build Astro (vérification CI)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,20 +28,3 @@ jobs:
 
       - name: Build with Astro
         run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: "./dist"
-
-  deploy:
-    name: Deploy to GitHub Pages
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

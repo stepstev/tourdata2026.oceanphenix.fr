@@ -2,58 +2,63 @@
 
 > **OceanPhenix™** · Data Product Management · Business Intelligence · Observabilité · Innovation IA
 
-Site vitrine et plateforme de suivi terrain pour **TourData 2026** — un parcours cyclo professionnel (~3 150 km, 14 étapes, Avril–Juillet 2026) croisant exploration terrain, open data et recrutement Data / IT.
+Site vitrine et plateforme de suivi terrain pour **TourData 2026** — parcours cyclo professionnel (~3 150 km, 14 étapes, Avril–Juillet 2026) croisant exploration terrain, open data et recrutement Data / IT.
 
 **Production :** [tourdata2026.oceanphenix.fr](https://tourdata2026.oceanphenix.fr)
 
 ---
 
-## Vue d'ensemble — Architecture système
+## Architecture système
 
 ```mermaid
 graph TB
-    subgraph DEV["💻 Poste développeur (Windows)"]
-        SRC["src/ — Composants Astro"]
+    subgraph DEV["Poste developpeur Windows"]
+        SRC["src/ - Composants Astro"]
         BUILD["npm run build"]
-        DEPLOYSH["deploy.bat"]
+        BAT["deploy.bat - WinSCP FTP"]
     end
 
-    subgraph GITHUB["☁️ GitHub"]
+    subgraph GH["GitHub"]
         REPO["stepstev/tourdata2026.oceanphenix.fr"]
-        CI["GitHub Actions CI\n(build check uniquement)"]
+        CI["GitHub Actions - build check"]
     end
 
-    subgraph O2SWITCH["🖥️ O2Switch — Hébergement mutualisé PHP"]
-        DIST["dist/ — HTML/CSS/JS statiques"]
-        PHP_PROXY["api/radar-proxy.php\nCORS + cache fichier"]
-        PHP_ADMIN["api/admin-save.php\nPersistance données JSON"]
-        DATA_JSON["data/site-data.json"]
+    subgraph O2["O2Switch - Hebergement PHP"]
+        DIST["dist/ - HTML CSS JS statiques"]
+        PROXY["api/radar-proxy.php"]
+        SAVE["api/admin-save.php"]
+        SDATA["data/site-data.json"]
     end
 
-    subgraph BROWSER["🌐 Navigateur visiteur"]
-        LEAFLET["Leaflet.js\nCarte interactive"]
-        LS["localStorage\nÉtat admin"]
+    subgraph NAV["Navigateur"]
+        LEAF["Leaflet.js - Carte"]
+        LS["localStorage - Etat admin"]
     end
 
-    subgraph APIS["🔌 APIs Open Data externes"]
-        OVERPASS["Overpass / OSM"]
-        SIRENE["recherche-entreprises\n(SIRENE)"]
-        OPENAGENDA["OpenAgenda"]
-        ODS["opendatasoft\nCampings classés"]
+    subgraph APIS["APIs Open Data"]
+        OSM["Overpass / OSM"]
+        SIR["SIRENE - entreprises"]
+        OAG["OpenAgenda"]
+        ODS["opendatasoft"]
         GEO["geo.api.gouv.fr"]
     end
 
     SRC --> BUILD --> DIST
-    DEPLOYSH -->|"FTP WinSCP\n(synchronise dist/)"| DIST
-    REPO --> CI
+    SRC --> REPO --> CI
+    BAT -->|"FTP sync dist/"| DIST
 
-    DIST --> BROWSER
-    LEAFLET -->|"fetch via proxy"| PHP_PROXY
-    PHP_PROXY --> OVERPASS & SIRENE & OPENAGENDA & ODS & GEO
+    DIST --> LEAF
+    DIST --> LS
+    LEAF -->|"fetch CORS"| PROXY
+    PROXY --> OSM
+    PROXY --> SIR
+    PROXY --> OAG
+    PROXY --> ODS
+    PROXY --> GEO
 
-    LS -->|"POST JSON\nsecret key"| PHP_ADMIN
-    PHP_ADMIN --> DATA_JSON
-    DATA_JSON -->|"lu au chargement"| LEAFLET
+    LS -->|"POST JSON secret key"| SAVE
+    SAVE --> SDATA
+    SDATA -->|"fetch au chargement"| LEAF
 ```
 
 ---
@@ -162,51 +167,51 @@ graph TB
 sequenceDiagram
     actor U as Utilisateur
     participant P as /admin-terrain
-    participant CS as crypto.subtle (browser)
+    participant CS as crypto.subtle
     participant SS as sessionStorage
 
     U->>P: Saisie mot de passe + CAPTCHA
     P->>CS: SHA-256(password)
     CS-->>P: hash hex
-    P->>P: hash_equals(stored_hash, computed_hash)
+    P->>P: Comparaison hash stocke vs hash calcule
 
-    alt Auth réussie
-        P->>SS: {v:2, ts:Date.now()} TTL 1h
-        P-->>U: Accès panel admin (8 onglets)
-    else Échec (max 5 essais)
-        P-->>U: Lockout 30s
+    alt Authentification reussie
+        P->>SS: Session v2 - TTL 1h
+        P-->>U: Acces panel admin - 8 onglets
+    else Echec - max 5 essais
+        P-->>U: Lockout 30 secondes
     end
 
-    Note over P,SS: /terrain vérifie sessionStorage au chargement
-    Note over P,SS: Redirection /admin-terrain si session absente ou expirée
+    Note over P,SS: /terrain verifie sessionStorage au chargement
+    Note over P,SS: Redirection /admin-terrain si session absente ou expiree
 ```
 
 ---
 
-## Flux de données terrain (admin → site public)
+## Flux de données terrain
 
 ```mermaid
 flowchart LR
     subgraph ADMIN["Panel Admin /admin-terrain"]
-        FORM["Formulaire\nétapes, journal,\nposition, compteurs"]
-        LS["localStorage\nop-terrain-admin"]
+        FORM["Formulaire etapes, journal, position"]
+        LS["localStorage op-terrain-admin"]
     end
 
     subgraph SERVER["O2Switch PHP"]
-        PHP["admin-save.php\nvalidation secret key\nécriture atomique"]
+        PHP["admin-save.php\nvalidation secret key"]
         JSON["data/site-data.json"]
     end
 
     subgraph PUBLIC["Pages publiques"]
-        TERRAIN["/terrain\nJournal live"]
-        DASH["TerrainDashboard\n(build-time)"]
+        TERRAIN["/terrain - Journal live"]
+        DASH["TerrainDashboard - build time"]
     end
 
-    FORM -->|"collectDashboard()\ncollectPosition()"| LS
-    LS -->|"POST JSON\n+ secret key"| PHP
-    PHP -->|"tmp → rename\natomique"| JSON
-    JSON -->|"fetch au load\nDOM update"| TERRAIN
-    JSON -.->|"lu au build\nnpm run build"| DASH
+    FORM -->|"collectDashboard + collectPosition"| LS
+    LS -->|"POST JSON + secret key"| PHP
+    PHP -->|"ecriture atomique"| JSON
+    JSON -->|"fetch au chargement"| TERRAIN
+    JSON -.->|"lu au npm run build"| DASH
 
     style PHP fill:#2d4a6e,color:#fff
     style JSON fill:#1a3a1a,color:#aef
@@ -218,38 +223,41 @@ flowchart LR
 
 ```mermaid
 graph LR
-    subgraph USER["Navigateur — /radar"]
+    subgraph NAV["Navigateur /radar"]
         MAP["Carte Leaflet"]
-        MODE{"Mode ?"}
+        MODE{"Mode"}
     end
 
-    subgraph PROXY["PHP radar-proxy.php\nCache fichier serveur"]
-        C_CAMP["campings — 10 min"]
-        C_ENT["entreprises — 30 min"]
-        C_COM["commune — 1h"]
-        C_EVT["events — 1h"]
-        C_SAL["salons-nationaux — 2h"]
+    subgraph PROXY["radar-proxy.php - Cache serveur"]
+        C_ENT["entreprises - 30 min"]
+        C_EVT["events locaux - 1h"]
+        C_SAL["salons nationaux - 2h"]
+        C_CAMP["campings - 10 min"]
+        C_COM["commune - 1h"]
     end
 
     subgraph OPENDATA["APIs Open Data"]
-        OSM["Overpass / OSM\nCoworkings, équip. cyclo"]
-        SIRENE["recherche-entreprises\n(SIRENE / NAF)"]
-        OA["OpenAgenda\nÉvénements IT"]
-        ODS["opendatasoft\nCampings classés"]
-        GEO["geo.api.gouv.fr\nGéocodage commune"]
+        OSM["Overpass / OSM"]
+        SIRENE["SIRENE - entreprises NAF"]
+        OA["OpenAgenda"]
+        ODS["opendatasoft - campings"]
+        GEO["geo.api.gouv.fr"]
     end
 
     MAP --> MODE
-    MODE -->|"Pro"| C_ENT & C_EVT & C_SAL
+    MODE -->|"Pro"| C_ENT
+    MODE -->|"Pro"| C_EVT
+    MODE -->|"Pro"| C_SAL
     MODE -->|"Cyclo"| C_CAMP
-
     MAP -->|"geoloc"| C_COM
 
     C_ENT --> SIRENE
-    C_EVT & C_SAL --> OA
-    C_CAMP --> ODS & OSM
+    C_EVT --> OA
+    C_SAL --> OA
+    C_CAMP --> ODS
+    C_CAMP --> OSM
     C_COM --> GEO
-    MAP -->|"direct (coworkings / OSM)"| OSM
+    MAP -->|"direct OSM"| OSM
 ```
 
 ---
@@ -258,25 +266,25 @@ graph LR
 
 ```mermaid
 sequenceDiagram
-    actor DEV as Développeur
+    actor DEV as Developpeur
     participant BAT as deploy.bat
-    participant NPM as npm / Astro
+    participant NPM as Astro Build
     participant WS as WinSCP
     participant O2 as O2Switch FTP
 
     DEV->>BAT: Double-clic deploy.bat
-    BAT->>BAT: Lit deploy.env\n(FTP_HOST, USER, PASS, REMOTE)
+    BAT->>BAT: Lecture deploy.env - host user pass remote
     BAT->>NPM: npm run build
-    NPM-->>BAT: dist/ généré ✓
+    NPM-->>BAT: dist/ genere OK
 
-    BAT->>WS: Lance script WinSCP inline
-    WS->>O2: open ftp EXPLICIT-TLS
-    WS->>O2: synchronize remote -delete\ndist/ → /goal.oceanphenix.fr/
-    O2-->>WS: Upload terminé
+    BAT->>WS: Execution script FTP inline
+    WS->>O2: Connexion FTPS explicite passif
+    WS->>O2: synchronize remote -delete dist vers remote
+    O2-->>WS: Upload termine
     WS-->>BAT: Exit code 0
 
-    BAT-->>DEV: ✅ DEPLOY TERMINÉ
-    Note over BAT: deploy.log généré pour debug
+    BAT-->>DEV: DEPLOY TERMINE
+    Note over BAT,O2: deploy.log disponible pour debug
 ```
 
 ---
@@ -285,31 +293,31 @@ sequenceDiagram
 
 ```mermaid
 graph TD
-    T["tokens.css\n(source de vérité)"]
-    G["global.css\n(reset + composants partagés)"]
-    TR["terrain.css"]
-    TD["terrain-dashboard.css"]
-    SCOPE["Styles scopés\n<style> dans chaque .astro"]
+    TOK["tokens.css - source de verite"]
+    GLO["global.css - reset + composants partages"]
+    TER["terrain.css"]
+    TDB["terrain-dashboard.css"]
+    SCP["Styles scopes dans chaque composant .astro"]
 
-    T --> G
-    T --> TR
-    T --> TD
-    T --> SCOPE
+    TOK --> GLO
+    TOK --> TER
+    TOK --> TDB
+    TOK --> SCP
 
-    subgraph THEME["Thème clair/sombre"]
-        DARK["Dark par défaut\n--primary-dark #0a1628\n--accent-cyan #4db8d4"]
-        LIGHT["Light via\n[data-theme=light] on html"]
+    subgraph THEME["Theme clair / sombre"]
+        DARK["Dark par defaut - primary-dark + accent-cyan"]
+        LIGHT["Light via attribut data-theme=light sur html"]
     end
 
-    T --> DARK
+    TOK --> DARK
     DARK -.->|"toggle"| LIGHT
-    LIGHT -.-> DARK
+    LIGHT -.->|"toggle"| DARK
 ```
 
 **Conventions CSS :**
 - `tokens.css` — variables globales (couleurs, typographie, espacements, ombres, border-radius)
 - `global.css` — reset, layout nav/hero/footer, composants modaux
-- Chaque page `.astro` encapsule ses styles dans `<style>` (scopé par Astro automatiquement)
+- Chaque page `.astro` encapsule ses styles dans `<style>` (scopé automatiquement par Astro)
 - Thème persisté en `localStorage['op-theme']`
 
 ---
@@ -326,19 +334,20 @@ graph TD
 
 ---
 
-## Page Radar — détail des sources
+## Page Radar — sources open data
 
-| Source | Mode | Type de données | Cache |
-| ------ | ---- | --------------- | ----- |
-| [Overpass / OSM](https://overpass-api.de) | Pro + Cyclo | Coworkings, campings OSM, équipements cyclo | Direct |
-| [opendatasoft](https://public.opendatasoft.com) | Cyclo | Campings classés officiels | 10 min |
+| Source | Mode | Données | Cache proxy |
+| ------ | ---- | ------- | ----------- |
+| [Overpass / OSM](https://overpass-api.de) | Pro + Cyclo | Coworkings, campings OSM, équip. cyclo | Direct |
+| [opendatasoft](https://public.opendatasoft.com) | Cyclo | Campings officiels classés | 10 min |
 | [recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api.gouv.fr) | Pro | Entreprises par code NAF + département | 30 min |
 | [OpenAgenda](https://openagenda.com) | Pro | Événements IT locaux + salons nationaux | 1–2 h |
 | [geo.api.gouv.fr](https://geo.api.gouv.fr) | Commun | Résolution commune depuis lat/lon | 1 h |
 
-Variable d'environnement serveur :
+Variable d'environnement serveur à renseigner dans `admin-env.php` ou l'environnement O2Switch :
+
 ```
-OPENAGENDA_KEY=votre_clé_openagenda
+OPENAGENDA_KEY=votre_cle_openagenda
 ```
 
 ---

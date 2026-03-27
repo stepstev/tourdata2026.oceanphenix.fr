@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="ChatGPT">
+  <trk>
+    <name>Tour_de_France_Data_gravel</name>
+    <trkseg>
+      <trkpt lat="48.6407" lon="2.1533">
+        <ele>0</ele>
+        <name>Fontenay-lès-Briis</name>
+      </trkpt>
+      <trkpt lat="49.1829" lon="-0.3707">
+        <ele>0</ele>
+        <name>Caen</name>
+      </trkpt>
+      <trkpt lat="48.1173" lon="-1.6778">
+        <ele>0</ele>
+        <name>Rennes</name>
+      </trkpt>
+      <trkpt lat="47.2184" lon="-1.5536">
+        <ele>0</ele>
+        <name>Nantes</name>
+      </trkpt>
+      <trkpt lat="44.8378" lon="-0.5792">
+        <ele>0</ele>
+        <name>Bordeaux</name>
+      </trkpt>
+      <trkpt lat="43.6047" lon="1.4442">
+        <ele>0</ele>
+        <name>Toulouse</name>
+      </trkpt>
+      <trkpt lat="43.6108" lon="3.8767">
+        <ele>0</ele>
+        <name>Montpellier</name>
+      </trkpt>
+      <trkpt lat="43.7102" lon="7.262">
+        <ele>0</ele>
+        <name>Nice</name>
+      </trkpt>
+      <trkpt lat="43.6147" lon="7.0719">
+        <ele>0</ele>
+        <name>Sophia Antipolis</name>
+      </trkpt>
+      <trkpt lat="43.2965" lon="5.3698">
+        <ele>0</ele>
+        <name>Marseille</name>
+      </trkpt>
+      <trkpt lat="45.764" lon="4.8357">
+        <ele>0</ele>
+        <name>Lyon</name>
+      </trkpt>
+      <trkpt lat="48.8566" lon="2.3522">
+        <ele>0</ele>
+        <name>Paris</name>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

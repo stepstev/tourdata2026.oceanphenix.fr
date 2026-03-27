@@ -1,0 +1,1094 @@
+---
+// src/pages/tourdata.astro — Dashboard TourData 2026
+// Vue synthétique : données Strava live + itinéraire JSON + métriques admin
+import BaseLayout    from '../layouts/BaseLayout.astro';
+import Nav           from '../components/Nav.astro';
+import Footer        from '../components/Footer.astro';
+import CopyrightBar  from '../components/CopyrightBar.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+import etapesData    from '../data/terrain-etapes.json';
+
+const projet    = etapesData.projet;
+const etapes    = etapesData.etapes;
+const position  = etapesData.positionActuelle;
+const dashboard = etapesData.dashboard;
+
+const GOAL_KM   = Number(String(projet.kmTotal).replace(/[^0-9]/g, '')) || 2500;
+const NB_CIBLES = etapes.filter(e => e.type === 'etape').length;
+
+function fmtMonthYear(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+}
+function fmtNum(n) {
+  if (n == null) return '—';
+  return Number(n).toLocaleString('fr-FR');
+}
+
+const departLabel = fmtMonthYear(position.dateDepart); // "avril 2026"
+---
+
+<BaseLayout
+  title="TourData 2026 — Dashboard | OceanPhenix"
+  description="Tableau de bord TourData 2026 : suivi physique Strava, itinéraire France à vélo, rencontres entreprises data. Stéphane Celton — OceanPhenix."
+  lastModified="20/03/2026 12:00"
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="td-page">
+    <div class="td-outer">
+
+      <h2 class="page-title"><i class="fas fa-tachometer-alt page-title-icon"></i> Dashboard &amp; suivi</h2>
+      <p class="page-sub">Suivi en temps réel du parcours TourData 2026 — étapes, rencontres entreprises et préparation physique</p>
+
+      <!-- ══════════════════════════════════════════
+           1. HEADER — Brand + badges
+      ══════════════════════════════════════════ -->
+      <header class="td-header">
+        <div class="td-header-left">
+          <div class="td-brand">
+            <span class="td-brand-icon"><i class="fas fa-bicycle"></i></span>
+            <div>
+              <span class="td-brand-title">TourData 2026</span>
+              <span class="td-brand-sub">{projet.porteur} &nbsp;·&nbsp; {position.ville} → France</span>
+            </div>
+          </div>
+        </div>
+        <div class="td-header-badges">
+          <span class="td-badge td-badge--green">
+            <i class="fas fa-calendar-check"></i> Départ : {departLabel}
+          </span>
+          <span class="td-badge td-badge--outline">
+            <i class="fas fa-route"></i> <span id="live-km-total">{projet.kmTotal}</span> km prévus
+          </span>
+        </div>
+      </header>
+
+      <!-- ══════════════════════════════════════════
+           2. PRÉPARATION PHYSIQUE (Strava live)
+      ══════════════════════════════════════════ -->
+      <section class="td-section">
+        <div class="td-section-head">
+          <span class="td-section-label">
+            Préparation physique —
+            <span id="td-period-lbl">30 derniers jours</span>
+          </span>
+          <div class="td-api-status">
+            <span id="td-status-dot" class="td-dot td-dot--loading"></span>
+            <span id="td-updated" class="td-api-lbl">—</span>
+            <button id="td-refresh" class="td-refresh-btn" title="Rafraîchir">
+              <i class="fas fa-sync-alt" id="td-refresh-icon"></i>
+            </button>
+          </div>
+        </div>
+        <div id="td-error" class="td-error" style="display:none">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span id="td-error-msg">Erreur de chargement</span>
+        </div>
+        <div class="td-kpi-row">
+          <div class="td-kpi">
+            <span class="td-kpi-val" id="td-km">—</span>
+            <span class="td-kpi-lbl">km parcourus</span>
+          </div>
+          <div class="td-kpi">
+            <span class="td-kpi-val" id="td-elev">—</span>
+            <span class="td-kpi-lbl">D+ (m)</span>
+          </div>
+          <div class="td-kpi">
+            <span class="td-kpi-val" id="td-time">—</span>
+            <span class="td-kpi-lbl">heures actif</span>
+          </div>
+          <div class="td-kpi">
+            <span class="td-kpi-val" id="td-count">—</span>
+            <span class="td-kpi-lbl">séances</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           3. CUMUL VÉLO + ACTIVITÉ RÉCENTE
+      ══════════════════════════════════════════ -->
+      <div class="td-two-col">
+
+        <!-- Cumul 2026 — Vélo -->
+        <div class="td-card">
+          <div class="td-card-label-row">
+            <span class="td-dot td-dot--green"></span>
+            <span class="td-card-lbl">Cumul 2026 — Vélo</span>
+          </div>
+          <div class="td-cumul-val">
+            <span class="td-cumul-km" id="td-ring-km">—</span>
+            <span class="td-cumul-unit">km</span>
+          </div>
+          <p class="td-cumul-sub">sur <span id="live-km-total2">{GOAL_KM.toLocaleString('fr-FR')}</span> km objectif</p>
+          <div class="td-progress-track">
+            <div class="td-progress-fill" id="td-progress-fill" style="width:0%"></div>
+          </div>
+          <div class="td-cumul-footer">
+            <span class="td-pct-lbl" id="td-pct">—% accompli</span>
+            <span class="td-obj-badge">Obj. {departLabel}</span>
+          </div>
+        </div>
+
+        <!-- Activité récente -->
+        <div class="td-card">
+          <div class="td-card-label-row">
+            <span class="td-dot td-dot--orange"></span>
+            <span class="td-card-lbl" id="td-last-date-lbl">Activité récente</span>
+          </div>
+          <p class="td-act-name" id="td-last-name">—</p>
+          <p class="td-act-meta" id="td-last-meta">—</p>
+          <div class="td-act-stats">
+            <div class="td-act-stat">
+              <span class="td-act-val" id="td-last-km">—</span>
+              <span class="td-act-lbl">km</span>
+            </div>
+            <div class="td-act-stat">
+              <span class="td-act-val" id="td-last-elev">—</span>
+              <span class="td-act-lbl">D+ (m)</span>
+            </div>
+            <div class="td-act-stat">
+              <span class="td-act-val" id="td-last-cumul">—</span>
+              <span class="td-act-lbl">km cumul</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           4. ITINÉRAIRE DU TOUR (statique JSON)
+      ══════════════════════════════════════════ -->
+      <section class="td-section">
+        <div class="td-section-head">
+          <span class="td-section-label">Itinéraire du Tour</span>
+          <span class="td-section-meta"><span id="td-etapes-meta-live">{etapes.filter(e => e.type === 'etape').length} étapes</span> · <span id="live-periode">{projet.periode}</span></span>
+        </div>
+        <div class="td-card td-card--list">
+          <ul class="td-etapes-list" id="td-etapes-list-live">
+            {etapes.map((etape) => {
+              const isDepart  = etape.type === 'depart';
+              const isArrivee = etape.type === 'arrivee';
+              const extraLabel = isDepart ? ' — Départ' : isArrivee ? ' — Retour' : '';
+              const dotCls = etape.statut === 'actuel' ? 'td-dot--live'
+                           : isArrivee                 ? 'td-dot--orange'
+                           : isDepart                  ? 'td-dot--green'
+                           : 'td-dot--blue';
+              const badgeTxt = etape.statut === 'actuel' ? 'En cours'
+                             : isDepart                  ? fmtMonthYear(etape.dateEstimee)
+                             : isArrivee                 ? fmtMonthYear(etape.dateEstimee)
+                             : 'Planifié';
+              const badgeCls = etape.statut === 'actuel' ? 'td-pill--live'
+                             : isDepart                  ? 'td-pill--green'
+                             : isArrivee                 ? 'td-pill--orange'
+                             : 'td-pill--muted';
+              const kmLabel = isDepart ? 'Km 0'
+                : `~${fmtNum(etape.distanceDepuisDepart)} km`;
+              return (
+                <li class={`td-etape-row${isDepart || isArrivee ? ' td-etape-row--accent' : ''}`}>
+                  <span class={`td-dot ${dotCls}`}></span>
+                  <span class="td-etape-ville">{etape.ville}{extraLabel}</span>
+                  <span class="td-etape-sep"></span>
+                  <span class="td-etape-km">{kmLabel}</span>
+                  <span class={`td-pill ${badgeCls}`}>{badgeTxt}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           5. RENCONTRES DATA TERRAIN (admin info)
+      ══════════════════════════════════════════ -->
+      <section class="td-section">
+        <div class="td-section-head">
+          <span class="td-section-label">Rencontres Data Terrain</span>
+          <div class="td-section-actions">
+            <a href="https://airtable.com/appFS7Qn7look1ZCy/pagY5TG49K4TMFpnG"
+               target="_blank" rel="noopener"
+               class="td-action-link">
+              <i class="fas fa-database"></i> Airtable
+            </a>
+            <a href="/admin-terrain" class="td-action-link">
+              <i class="fas fa-cog"></i> Admin
+            </a>
+          </div>
+        </div>
+        <div class="td-two-col">
+
+          <div class="td-card">
+            <div class="td-card-label-row">
+              <span class="td-dot td-dot--green"></span>
+              <span class="td-card-lbl">Entreprises contactées</span>
+            </div>
+            <span class="td-big-num" id="live-rencontres">{dashboard.rencontresEntreprises}</span>
+            <p class="td-big-sub">confirmées · <span id="live-nb-villes2">{NB_CIBLES}</span> villes cibles</p>
+            <div class="td-terrain-links">
+              <a href="https://airtable.com/appFS7Qn7look1ZCy/pagY5TG49K4TMFpnG"
+                 target="_blank" rel="noopener" class="td-terrain-btn">
+                <i class="fas fa-building"></i> Voir les entreprises
+              </a>
+            </div>
+          </div>
+
+          <div class="td-card">
+            <div class="td-card-label-row">
+              <span class="td-dot td-dot--orange"></span>
+              <span class="td-card-lbl">Interviews terrain</span>
+            </div>
+            <span class="td-big-num" id="live-besoins">{dashboard.besoinsIdentifies}</span>
+            <p class="td-big-sub">réalisées · objectif 10+</p>
+            <div class="td-terrain-links">
+              <a href="https://airtable.com/appFS7Qn7look1ZCy/pag6744ywS37n7FeJ"
+                 target="_blank" rel="noopener" class="td-terrain-btn">
+                <i class="fas fa-microphone-alt"></i> Interviews & besoins
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           6. STATUSBAR — Info API / Admin
+      ══════════════════════════════════════════ -->
+      <footer class="td-statusbar">
+        <div class="td-statusbar-left">
+          <span class="td-statusbar-chip">
+            <i class="fab fa-strava"></i> API Strava v3
+          </span>
+          <span class="td-statusbar-item" id="td-api-info">Cache 10 min · max 100 activités</span>
+        </div>
+        <div class="td-statusbar-right">
+          <span class="td-statusbar-item" id="td-act-count">—</span>
+          <a href="/strava" class="td-statusbar-link">
+            <i class="fas fa-chart-line"></i> Analyses détaillées
+          </a>
+          <a href="/terrain" class="td-statusbar-link">
+            <i class="fas fa-map-marked-alt"></i> Carte terrain
+          </a>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+</BaseLayout>
+
+<!-- ══════════════════════════════════════════════════════════════
+     STYLES
+══════════════════════════════════════════════════════════════ -->
+<style is:global>
+
+/* ── Outer layout ──────────────────────────────────────────── */
+.td-page {
+  min-height: 100vh;
+  padding: 5rem 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.td-outer {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+
+.td-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: rgba(12, 20, 36, 0.92);
+  border: 1px solid rgba(45, 130, 170, 0.12);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+}
+
+[data-theme="light"] .td-header {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(10,24,44,0.08);
+  border-left-color: var(--accent-cyan);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+.td-header-left { display: flex; align-items: center; }
+
+.td-brand { display: flex; align-items: center; gap: 0.7rem; }
+
+.td-brand-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(77,184,212,0.12);
+  border: 1px solid rgba(77,184,212,0.25);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.td-brand-title {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--heading-color);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+[data-theme="light"] .td-brand-title { color: var(--heading-color); }
+
+.td-brand-sub {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  margin-top: 0.05rem;
+}
+
+.td-header-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.td-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 0.3rem 0.75rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.td-badge--green {
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: #22c55e;
+}
+
+.td-badge--outline {
+  background: rgba(77,184,212,0.08);
+  border: 1px solid rgba(77,184,212,0.3);
+  color: var(--accent-cyan);
+}
+
+/* ── Section shell ───────────────────────────────────────── */
+.td-section {
+  background: rgba(12, 20, 36, 0.92);
+  border: 1px solid rgba(45, 130, 170, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem 1.5rem;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+}
+
+[data-theme="light"] .td-section {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(10,24,44,0.08);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+.td-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.9rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(45,130,170,0.1);
+}
+
+[data-theme="light"] .td-section-head {
+  border-bottom-color: rgba(10,24,44,0.08);
+}
+
+.td-section-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.td-section-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.td-section-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.td-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  background: rgba(77,184,212,0.07);
+  border: 1px solid rgba(77,184,212,0.2);
+  border-radius: 20px;
+  padding: 0.2rem 0.6rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.td-action-link:hover {
+  background: rgba(77,184,212,0.16);
+  border-color: rgba(77,184,212,0.4);
+}
+
+/* ── API status (strava prep header) ───────────────────────── */
+.td-api-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.td-api-lbl {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.td-refresh-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(77,184,212,0.07);
+  border: 1px solid rgba(77,184,212,0.18);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: var(--transition-fast);
+}
+
+.td-refresh-btn:hover { color: var(--accent-cyan); background: rgba(77,184,212,0.18); }
+
+.td-refresh-btn.spinning i { animation: td-spin 0.8s linear infinite; }
+@keyframes td-spin { 100% { transform: rotate(360deg); } }
+
+/* Error banner */
+.td-error {
+  background: rgba(239,68,68,0.07);
+  border: 1px solid rgba(239,68,68,0.18);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1rem;
+  color: #fca5a5;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.875rem;
+}
+
+/* ── KPI Row ─────────────────────────────────────────────── */
+.td-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.td-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.1rem 1.25rem 0.1rem 0;
+  border-right: 1px solid rgba(45,130,170,0.1);
+}
+
+.td-kpi:first-child { padding-left: 0; }
+.td-kpi:last-child  { border-right: none; }
+
+[data-theme="light"] .td-kpi { border-right-color: rgba(10,24,44,0.08); }
+
+.td-kpi-val {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--heading-color);
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+[data-theme="light"] .td-kpi-val { color: var(--heading-color); }
+
+.td-kpi-lbl {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+/* ── Two-column grid ─────────────────────────────────────── */
+.td-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.td-card {
+  background: rgba(12, 20, 36, 0.92);
+  border: 1px solid rgba(45, 130, 170, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+}
+
+[data-theme="light"] .td-card {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(10,24,44,0.08);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+.td-card--list { padding: 0.5rem 0; }
+
+.td-card-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.td-card-lbl {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Dots ─────────────────────────────────────────────────── */
+.td-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.td-dot--green   { background: #22c55e; }
+.td-dot--orange  { background: var(--accent-orange); }
+.td-dot--blue    { background: var(--accent-cyan); opacity: 0.6; }
+.td-dot--loading { background: #f59e0b; animation: td-blink 1.2s infinite; }
+.td-dot--ok      { background: #22c55e; }
+.td-dot--error   { background: #ef4444; }
+.td-dot--live    { background: #22c55e; animation: td-pulse 2s ease infinite; }
+
+@keyframes td-blink  { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes td-pulse  { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ── Cumul vélo card ─────────────────────────────────────── */
+.td-cumul-val {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin-bottom: 0.15rem;
+}
+
+.td-cumul-km {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--heading-color);
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+[data-theme="light"] .td-cumul-km { color: var(--heading-color); }
+
+.td-cumul-unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  align-self: flex-end;
+  padding-bottom: 0.3rem;
+}
+
+.td-cumul-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.td-progress-track {
+  height: 5px;
+  background: rgba(77,184,212,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.td-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), #22c55e);
+  border-radius: 10px;
+  transition: width 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+
+.td-cumul-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.1rem;
+}
+
+.td-pct-lbl {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.td-obj-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(77,184,212,0.06);
+  border: 1px solid rgba(77,184,212,0.18);
+  border-radius: 20px;
+  padding: 0.12rem 0.5rem;
+  white-space: nowrap;
+}
+
+/* ── Activité récente card ────────────────────────────────── */
+.td-act-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0 0 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-theme="light"] .td-act-name { color: var(--text-light); }
+
+.td-act-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.td-act-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(45,130,170,0.09);
+  padding-top: 0.75rem;
+}
+
+[data-theme="light"] .td-act-stats {
+  border-top-color: rgba(10,24,44,0.07);
+}
+
+.td-act-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-right: 0.75rem;
+  border-right: 1px solid rgba(45,130,170,0.09);
+}
+
+.td-act-stat:last-child { border-right: none; padding-right: 0; }
+[data-theme="light"] .td-act-stat { border-right-color: rgba(10,24,44,0.07); }
+
+.td-act-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--heading-color);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+[data-theme="light"] .td-act-val { color: var(--heading-color); }
+
+.td-act-lbl {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+/* ── Etapes list ──────────────────────────────────────────── */
+.td-etapes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.td-etape-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.5rem;
+  border-bottom: 1px solid rgba(45,130,170,0.07);
+  transition: background 0.15s;
+}
+
+.td-etape-row:last-child { border-bottom: none; }
+.td-etape-row:hover { background: rgba(77,184,212,0.04); }
+
+[data-theme="light"] .td-etape-row { border-bottom-color: rgba(10,24,44,0.06); }
+[data-theme="light"] .td-etape-row:hover { background: rgba(77,184,212,0.03); }
+
+.td-etape-row--accent .td-etape-ville {
+  font-weight: 700;
+  color: var(--white);
+}
+
+[data-theme="light"] .td-etape-row--accent .td-etape-ville {
+  color: var(--text-light);
+}
+
+.td-etape-ville {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+[data-theme="light"] .td-etape-ville { color: var(--text-light); }
+
+.td-etape-sep {
+  flex: 1;
+  border-bottom: 1px dotted rgba(45,130,170,0.18);
+  min-width: 20px;
+}
+
+[data-theme="light"] .td-etape-sep { border-bottom-color: rgba(10,24,44,0.1); }
+
+.td-etape-km {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ── Pills / status badges ────────────────────────────────── */
+.td-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 0.15rem 0.55rem;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.td-pill--muted  { background: rgba(143,163,184,0.1); border: 1px solid rgba(143,163,184,0.18); color: var(--text-muted); }
+.td-pill--green  { background: rgba(34,197,94,0.1);   border: 1px solid rgba(34,197,94,0.25);   color: #22c55e; }
+.td-pill--orange { background: rgba(212,132,90,0.1);  border: 1px solid rgba(212,132,90,0.25);  color: var(--accent-orange); }
+.td-pill--live   { background: rgba(34,197,94,0.12);  border: 1px solid rgba(34,197,94,0.3);    color: #22c55e; animation: td-pulse 2s ease infinite; }
+
+/* ── Rencontres ───────────────────────────────────────────── */
+.td-big-num {
+  display: block;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--heading-color);
+  letter-spacing: -0.06em;
+  line-height: 1;
+  margin: 0.15rem 0 0.25rem;
+}
+
+[data-theme="light"] .td-big-num { color: var(--heading-color); }
+
+.td-big-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0 0 0.875rem;
+}
+
+.td-terrain-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.td-terrain-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  background: rgba(77,184,212,0.07);
+  border: 1px solid rgba(77,184,212,0.22);
+  border-radius: 20px;
+  padding: 0.25rem 0.7rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.td-terrain-btn:hover {
+  background: rgba(77,184,212,0.18);
+  border-color: rgba(77,184,212,0.42);
+}
+
+/* ── Status bar (admin info) ──────────────────────────────── */
+.td-statusbar {
+  background: rgba(12, 20, 36, 0.85);
+  border: 1px solid rgba(45, 130, 170, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+[data-theme="light"] .td-statusbar {
+  background: rgba(240,245,249,0.9);
+  border-color: rgba(10,24,44,0.07);
+}
+
+.td-statusbar-left, .td-statusbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.td-statusbar-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fc4c02;
+  background: rgba(252,76,2,0.07);
+  border: 1px solid rgba(252,76,2,0.18);
+  border-radius: 20px;
+  padding: 0.12rem 0.5rem;
+}
+
+.td-statusbar-item {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.td-statusbar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.td-statusbar-link:hover { opacity: 0.75; }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .td-two-col          { grid-template-columns: 1fr; }
+  .td-kpi-row          { grid-template-columns: repeat(2, 1fr); gap: 1rem 0; }
+  .td-kpi              { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(45,130,170,0.1); padding-bottom: 0.75rem; }
+  .td-kpi:nth-child(2n){ border-right: none; }
+  .td-kpi:nth-last-child(-n+2) { border-bottom: none; }
+}
+
+@media (max-width: 540px) {
+  .td-page             { padding: 4.5rem 1rem 2rem; }
+  .td-header           { flex-direction: column; align-items: flex-start; }
+  .td-kpi-row          { grid-template-columns: repeat(2, 1fr); }
+  .td-kpi-val          { font-size: 1.9rem; }
+  .td-etape-row        { padding: 0.55rem 1rem; }
+  .td-statusbar        { flex-direction: column; align-items: flex-start; }
+  .td-act-val          { font-size: 1.25rem; }
+}
+</style>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPT — Terrain live (localStorage → étapes list)
+══════════════════════════════════════════════════════════════ -->
+<script src="/js/terrain-live.js" is:inline></script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPT — Strava API live
+══════════════════════════════════════════════════════════════ -->
+<script is:inline>
+(function () {
+  'use strict';
+
+  const IS_LOCAL  = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const API_URL   = IS_LOCAL ? '/api/strava-mock.json' : '/api/strava.php';
+  const KEYWORD   = '#tourdata2026';
+  let GOAL_KM = 2500;
+  try {
+    const _adminRaw = localStorage.getItem('op-terrain-admin');
+    if (_adminRaw) {
+      const _adminData = JSON.parse(_adminRaw);
+      const _km = Number(String(_adminData?.projet?.kmTotal || '').replace(/[^0-9]/g, ''));
+      if (_km > 0) GOAL_KM = _km;
+    }
+  } catch (_) { /* use default */ }
+  const RIDE_TYPES = new Set(['Ride','VirtualRide','MountainBikeRide','GravelRide','EMountainBikeRide']);
+
+  const SPORT_LABELS = {
+    Ride:'Vélo', VirtualRide:'Vélo virtuel', MountainBikeRide:'VTT',
+    GravelRide:'Gravel', EMountainBikeRide:'E-VTT', Run:'Course',
+    TrailRun:'Trail', Walk:'Marche', Hike:'Rando', Swim:'Natation',
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function setText(id, val) { const el = $(id); if (el) el.textContent = val ?? '—'; }
+  function fmtN(n) { return Number(n).toLocaleString('fr-FR'); }
+
+  function isTourData(a) {
+    return a.name && a.name.toLowerCase().includes(KEYWORD);
+  }
+
+  function computeStats(acts, days) {
+    const cut = Date.now() - days * 86400000;
+    const flt = acts.filter(a => new Date(a.date).getTime() >= cut);
+    return {
+      km    : Math.round(flt.reduce((s,a) => s + (a.distance_km || 0), 0) * 10) / 10,
+      elev  : Math.round(flt.reduce((s,a) => s + (a.elevation_m  || 0), 0)),
+      hours : Math.round(flt.reduce((s,a) => s + (a.duration_s   || 0), 0) / 360) / 10,
+      count : flt.length,
+    };
+  }
+
+  function setStatus(state, label) {
+    const dot = $('td-status-dot');
+    if (dot) dot.className = 'td-dot td-dot--' + (state === 'loading' ? 'loading' : state === 'ok' ? 'ok' : 'error');
+    setText('td-updated', label);
+  }
+
+  function setSpinning(on) {
+    const btn = $('td-refresh');
+    if (btn) btn.classList.toggle('spinning', on);
+  }
+
+  function renderPrep(acts) {
+    const s = computeStats(acts, 30);
+    setText('td-km',    s.km);
+    setText('td-elev',  fmtN(s.elev));
+    setText('td-time',  s.hours);
+    setText('td-count', s.count);
+  }
+
+  function renderCumul(acts) {
+    const rides = acts.filter(a => isTourData(a) && RIDE_TYPES.has(a.type));
+    const total = rides.reduce((s,a) => s + (a.distance_km || 0), 0);
+    const pct   = Math.min(total / GOAL_KM, 1);
+    const pctRnd = Math.round(pct * 100);
+
+    setText('td-ring-km', fmtN(Math.round(total)));
+    setText('td-pct', pctRnd + '% accompli');
+
+    const bar = $('td-progress-fill');
+    if (bar) requestAnimationFrame(function () { bar.style.width = (pct * 100) + '%'; });
+  }
+
+  function renderLastActivity(acts) {
+    const tourdata = acts.filter(isTourData);
+    if (tourdata.length === 0) return;
+
+    const sorted = [...tourdata].sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+    const last   = sorted[0];
+    const cumul  = tourdata.reduce(function (s,a) { return s + (a.distance_km || 0); }, 0);
+
+    const d       = new Date(last.date);
+    const dateStr = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+    const lbl$    = $('td-last-date-lbl');
+    if (lbl$) lbl$.textContent = 'Activité récente — ' + dateStr;
+
+    setText('td-last-name', last.name);
+    setText('td-last-meta',
+      dateStr + ' · ' + (SPORT_LABELS[last.type] || last.type) + ' · #Tourdata2026');
+    setText('td-last-km',    last.distance_km);
+    setText('td-last-elev',  Math.round(last.elevation_m || 0));
+    setText('td-last-cumul', Math.round(cumul * 10) / 10);
+  }
+
+  function renderAdmin(data, cacheHeader) {
+    const actCount = (data.activities || []).length;
+    setText('td-act-count', actCount + ' activité' + (actCount > 1 ? 's' : '') + ' récupérée' + (actCount > 1 ? 's' : ''));
+
+    const updAt    = data.updated_at
+      ? new Date(data.updated_at).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' })
+      : '—';
+    const isMock   = data._mock ? ' (mock)' : '';
+    const isStale  = cacheHeader === 'STALE' ? ' · cache' : '';
+    setStatus('ok', 'Mis à jour ' + updAt + isMock + isStale);
+  }
+
+  var _pending = false;
+
+  function fetchData() {
+    if (_pending) return;
+    _pending = true;
+    setStatus('loading', 'Actualisation…');
+    setSpinning(true);
+
+    fetch(API_URL)
+      .then(function (resp) {
+        var cache = resp.headers.get('X-Strava-Cache');
+        return resp.json().then(function (data) {
+          if (data.error) throw new Error(data.error);
+          var acts = data.activities || [];
+          renderPrep(acts);
+          renderCumul(acts);
+          renderLastActivity(acts);
+          renderAdmin(data, cache);
+          var errEl = $('td-error');
+          if (errEl) errEl.style.display = 'none';
+        });
+      })
+      .catch(function (err) {
+        setStatus('error', 'Erreur API');
+        var errEl  = $('td-error');
+        var errMsg = $('td-error-msg');
+        if (errMsg) errMsg.textContent = err.message;
+        if (errEl)  errEl.style.display = '';
+      })
+      .finally(function () {
+        _pending = false;
+        setSpinning(false);
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    fetchData();
+    var btn = $('td-refresh');
+    if (btn) btn.addEventListener('click', fetchData);
+    // Refresh auto toutes les 5 minutes si pas local
+    if (!IS_LOCAL) setInterval(fetchData, 300000);
+  });
+})();
+</script>

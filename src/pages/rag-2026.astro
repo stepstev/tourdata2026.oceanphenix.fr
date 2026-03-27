@@ -1,0 +1,536 @@
+---
+// src/pages/rag-2026.astro — Page démo RAG Platform 2026 Public
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+---
+
+<BaseLayout
+  title="RAG Platform 2026 — Stack Publique | OceanPhenix"
+  description="Stack RAG souveraine 2026 — LLM local Ollama, Qdrant, FastAPI/LangChain, OpenWebUI, observabilité Grafana/Prometheus, connectivité Power BI. Déploiement Docker Compose en une commande."
+  lastModified="03/03/2026 12:00"
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="main-content rag-page">
+
+    <!-- ── HERO + VIDEO ──────────────────────────────────── -->
+    <section class="rag-hero">
+      <div class="container">
+
+        <!-- Badges -->
+        <div class="rag-hero-badges">
+          <span class="section-badge">
+            <i class="fas fa-database"></i> RAG Stack 2026
+          </span>
+          <span class="rag-status-badge rag-status-public">
+            <i class="fab fa-github"></i> Public
+          </span>
+        </div>
+
+        <!-- Titre -->
+        <h1 class="page-title"><i class="fas fa-robot page-title-icon"></i> RAG Platform 2026</h1>
+
+        <!-- Description projet -->
+        <p class="page-sub rag-hero-subtitle">
+          Une stack RAG (Retrieval-Augmented Generation) <strong>souveraine, modulaire et prête à l'emploi</strong> —
+          conçue pour interroger vos documents via un LLM local, sans aucune dépendance cloud.
+          Déployable en une commande via Docker Compose, avec <strong>observabilité complète</strong>
+          (Grafana · Prometheus) et connectivité native <strong>Power BI</strong> via API REST.
+        </p>
+
+        <!-- CTA -->
+        <div class="rag-hero-actions">
+          <a
+            href="https://github.com/stepstev/rag-platform-2026-public"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rag-btn rag-btn-primary"
+          >
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+          <a
+            href="https://www.youtube.com/watch?v=znjMTwqLq1k"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rag-btn rag-btn-secondary"
+          >
+            <i class="fab fa-youtube"></i> Voir la démo
+          </a>
+        </div>
+
+        <!-- Vidéo centrale -->
+        <div class="rag-video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/znjMTwqLq1k"
+            title="RAG Platform 2026 - Démonstration"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── À PROPOS DU PROJET ────────────────────────────── -->
+    <section class="rag-about-section">
+      <div class="container rag-about-inner">
+        <div class="rag-about-block">
+          <i class="fas fa-brain rag-about-icon"></i>
+          <div>
+            <h2>Qu'est-ce que ce projet ?</h2>
+            <p>
+              RAG Platform 2026 est un démonstrateur open source d'architecture <em>Retrieval-Augmented Generation</em>.
+              Il combine un LLM local (Ollama), une base vectorielle (Qdrant), une interface chat (OpenWebUI)
+              et un backend FastAPI/LangChain pour permettre à n'importe qui d'interroger ses propres documents
+              <strong>entièrement en local</strong>, sans API externe, sans coût variable.
+            </p>
+          </div>
+        </div>
+        <div class="rag-about-block">
+          <i class="fas fa-chart-line rag-about-icon"></i>
+          <div>
+            <h2>Observabilité & connectivité</h2>
+            <p>
+              Chaque requête, chaque inférence et chaque cycle d'ingestion est tracé via
+              <strong>Prometheus + Grafana</strong>. L'API REST FastAPI expose des endpoints
+              consommables directement par <strong>Microsoft Power BI</strong> pour piloter
+              la performance RAG depuis vos tableaux de bord métier, sans export manuel.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STACK TECHNIQUE ──────────────────────────────── -->
+    <section class="rag-stack-section">
+      <div class="container">
+        <h2 class="rag-section-title">
+          <i class="fas fa-layer-group icon-accent"></i> Stack technique
+        </h2>
+        <div class="rag-stack-grid">
+
+          <div class="rag-stack-card">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-robot"></i></div>
+              <h3>LLM Local</h3>
+            </div>
+            <p>Ollama exécute les modèles open-source en local — zéro dépendance cloud.</p>
+            <span class="rag-tech-tag">Ollama</span>
+          </div>
+
+          <div class="rag-stack-card">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-search"></i></div>
+              <h3>Recherche Vectorielle</h3>
+            </div>
+            <p>Qdrant assure la recherche sémantique sur les documents indexés.</p>
+            <span class="rag-tech-tag">Qdrant</span>
+          </div>
+
+          <div class="rag-stack-card">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-comments"></i></div>
+              <h3>Interface Chat</h3>
+            </div>
+            <p>OpenWebUI offre une expérience conversationnelle moderne, compatible Ollama.</p>
+            <span class="rag-tech-tag">OpenWebUI</span>
+          </div>
+
+          <div class="rag-stack-card">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-bolt"></i></div>
+              <h3>API Backend</h3>
+            </div>
+            <p>FastAPI + LangChain orchestrent le pipeline RAG et exposent les endpoints REST.</p>
+            <span class="rag-tech-tag">FastAPI</span>
+            <span class="rag-tech-tag">LangChain</span>
+          </div>
+
+          <div class="rag-stack-card">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-file-alt"></i></div>
+              <h3>Ingestion Documents</h3>
+            </div>
+            <p>Pipeline PDF, Web et texte avec embeddings locaux pour indexer vos sources.</p>
+            <span class="rag-tech-tag">Embeddings</span>
+            <span class="rag-tech-tag">PDF / Web</span>
+          </div>
+
+          <div class="rag-stack-card">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-cubes"></i></div>
+              <h3>Déploiement</h3>
+            </div>
+            <p>Docker Compose démarre toute la stack en une seule commande.</p>
+            <span class="rag-tech-tag">Docker Compose</span>
+            <span class="rag-tech-tag">PostgreSQL</span>
+          </div>
+
+          <div class="rag-stack-card rag-stack-card--accent">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-chart-bar"></i></div>
+              <h3>Observabilité</h3>
+            </div>
+            <p>Métriques temps-réel sur chaque requête RAG — latence, tokens, erreurs — visualisées dans Grafana.</p>
+            <span class="rag-tech-tag rag-tech-tag--orange">Grafana</span>
+            <span class="rag-tech-tag rag-tech-tag--orange">Prometheus</span>
+          </div>
+
+          <div class="rag-stack-card rag-stack-card--accent">
+            <div class="rag-stack-header">
+              <div class="rag-stack-icon"><i class="fas fa-plug"></i></div>
+              <h3>Connectivité BI</h3>
+            </div>
+            <p>Endpoints REST prêts à consommer depuis Power BI — pilotez la performance RAG dans vos dashboards métier.</p>
+            <span class="rag-tech-tag rag-tech-tag--yellow">Power BI</span>
+            <span class="rag-tech-tag rag-tech-tag--yellow">REST API</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── GITHUB ────────────────────────────────────────── -->
+    <section class="rag-github-section">
+      <div class="container">
+        <div class="rag-github-card">
+          <div class="rag-github-left">
+            <i class="fab fa-github rag-github-icon"></i>
+            <div>
+              <h3>stepstev / rag-platform-2026-public</h3>
+              <p>Dépôt public — Architecture RAG souveraine 2026</p>
+              <div class="rag-github-meta">
+                <span><i class="fas fa-star"></i> Open Source</span>
+                <span><i class="fas fa-code-branch"></i> Docker Compose</span>
+                <span><i class="fas fa-shield-alt"></i> Souverain</span>
+                <span><i class="fas fa-unlock"></i> Reproductible</span>
+              </div>
+            </div>
+          </div>
+          <a
+            href="https://github.com/stepstev/rag-platform-2026-public"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rag-btn rag-btn-primary rag-github-cta"
+          >
+            <i class="fab fa-github"></i> Accéder au dépôt
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+
+</BaseLayout>
+
+<style>
+  /* ── Page wrapper ──────────────────────────────────────── */
+  .rag-page {
+    padding-top: 5rem;
+  }
+
+  /* ── Container ─────────────────────────────────────────── */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  /* ── HERO ──────────────────────────────────────────────── */
+  .rag-hero {
+    padding: var(--spacing-xl) 0 var(--spacing-xl);
+    text-align: center;
+  }
+  .rag-hero-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+  .rag-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .rag-status-public {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+  .rag-hero-subtitle {
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .rag-hero-subtitle strong {
+    color: var(--text-light);
+  }
+  .rag-hero-actions {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* ── Vidéo — pièce centrale ────────────────────────────── */
+  .rag-video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    box-shadow: 0 0 50px rgba(0, 217, 255, 0.12), 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .rag-video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ── À propos ──────────────────────────────────────────── */
+  .rag-about-section {
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+  }
+  .rag-about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+  }
+  .rag-about-block {
+    display: flex;
+    gap: var(--spacing-sm);
+    background: rgba(30, 58, 95, 0.25);
+    border: 1px solid rgba(0, 217, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    align-items: flex-start;
+  }
+  .rag-about-icon {
+    font-size: 1.4rem;
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .rag-about-block h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+  .rag-about-block p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: var(--lh-body, 1.65);
+  }
+  .rag-about-block p strong,
+  .rag-about-block p em {
+    color: var(--text-light);
+    font-style: normal;
+  }
+  @media (max-width: 680px) {
+    .rag-about-inner { grid-template-columns: 1fr; }
+  }
+
+  /* ── Boutons ───────────────────────────────────────────── */
+  .rag-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition-medium);
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+  }
+  .rag-btn-primary {
+    background: var(--accent-gradient);
+    color: var(--primary-dark);
+  }
+  .rag-btn-primary:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+  .rag-btn-secondary {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff5555;
+    border: 1px solid rgba(255, 85, 85, 0.3);
+  }
+  .rag-btn-secondary:hover {
+    background: rgba(255, 0, 0, 0.18);
+    transform: translateY(-2px);
+  }
+
+  /* ── Titres de section ─────────────────────────────────── */
+  .rag-section-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ── Stack cards ───────────────────────────────────────── */
+  .rag-stack-section {
+    padding: var(--spacing-md) 0;
+  }
+  .rag-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-sm);
+  }
+  @media (max-width: 860px) {
+    .rag-stack-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .rag-stack-grid { grid-template-columns: 1fr; }
+  }
+  .rag-stack-card {
+    background: rgba(30, 58, 95, 0.3);
+    border: 1px solid rgba(0, 217, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    transition: var(--transition-medium);
+  }
+  .rag-stack-card:hover {
+    border-color: rgba(0, 217, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 217, 255, 0.08);
+  }
+  .rag-stack-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.45rem;
+  }
+  .rag-stack-icon {
+    font-size: 1.1rem;
+    color: var(--accent-cyan);
+  }
+  .rag-stack-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+  .rag-stack-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: var(--lh-body, 1.65);
+    margin-bottom: 0.6rem;
+  }
+  .rag-tech-tag {
+    display: inline-block;
+    background: rgba(0, 217, 255, 0.08);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: var(--radius-full);
+    padding: 0.15rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-right: 0.25rem;
+    margin-top: 0.15rem;
+  }
+  .rag-tech-tag--orange {
+    background: rgba(251, 146, 60, 0.1);
+    color: #fb923c;
+    border-color: rgba(251, 146, 60, 0.25);
+  }
+  .rag-tech-tag--yellow {
+    background: rgba(250, 204, 21, 0.1);
+    color: #facc15;
+    border-color: rgba(250, 204, 21, 0.25);
+  }
+  .rag-stack-card--accent {
+    border-color: rgba(251, 146, 60, 0.2);
+  }
+  .rag-stack-card--accent:hover {
+    border-color: rgba(251, 146, 60, 0.45);
+    box-shadow: 0 6px 20px rgba(251, 146, 60, 0.08);
+  }
+  .rag-stack-card--accent .rag-stack-icon {
+    color: #fb923c;
+  }
+
+  /* ── GitHub card ───────────────────────────────────────── */
+  .rag-github-section {
+    padding: var(--spacing-md) 0 var(--spacing-xl);
+  }
+  .rag-github-card {
+    background: rgba(13, 17, 23, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+  .rag-github-left {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  .rag-github-icon {
+    font-size: 2rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .rag-github-left h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.2rem;
+  }
+  .rag-github-left > div > p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .rag-github-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  .rag-github-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .rag-github-meta i {
+    color: var(--accent-cyan);
+  }
+  .rag-github-cta {
+    flex-shrink: 0;
+  }
+</style>

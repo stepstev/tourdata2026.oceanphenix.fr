@@ -1,0 +1,87 @@
+# OceanPhenix.fr — Apache configuration
+# Fichier servi statiquement avec Astro SSG
+
+# ── Encodage ────────────────────────────────────────────────
+AddDefaultCharset UTF-8
+
+# ── Page 404 personnalisée ───────────────────────────────────
+ErrorDocument 404 /404.html
+
+# ── Compression GZIP ────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# ── Cache assets statiques ───────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css              "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml         "access plus 1 year"
+  ExpiresByType image/png             "access plus 1 year"
+  ExpiresByType image/webp            "access plus 1 year"
+  ExpiresByType font/woff2            "access plus 1 year"
+  ExpiresByType text/html             "access plus 1 hour"
+</IfModule>
+
+# ── Security Headers ─────────────────────────────────────────
+<IfModule mod_headers.c>
+
+  # Remove ALL CSP headers set by the server (o2switch adds its own)
+  Header unset Content-Security-Policy
+  Header always unset Content-Security-Policy
+  Header unset Content-Security-Policy "expr=%{REQUEST_STATUS} >= 200"
+  Header unset X-Content-Type-Options
+  Header always unset X-Content-Type-Options
+  Header unset X-Frame-Options
+  Header always unset X-Frame-Options
+  Header unset X-XSS-Protection
+  Header always unset X-XSS-Protection
+  Header unset Referrer-Policy
+  Header always unset Referrer-Policy
+  Header unset Permissions-Policy
+  Header always unset Permissions-Policy
+  Header unset Strict-Transport-Security
+  Header always unset Strict-Transport-Security
+
+  # Content Security Policy — scripts externes uniquement (pas d'inline)
+  Header set Content-Security-Policy "\
+default-src 'self'; \
+script-src 'self' 'unsafe-inline' https://giscus.app https://cdn.jsdelivr.net; \
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; \
+font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; \
+img-src 'self' data: https:; \
+frame-src https://www.youtube.com https://www.youtube-nocookie.com https://giscus.app; \
+connect-src 'self' http://localhost:4399 https://*.tile.openstreetmap.org https://*.cyclosm.openstreetmap.fr https://tile.waymarkedtrails.org https://overpass-api.de https://public.opendatasoft.com https://geo.api.gouv.fr https://recherche-entreprises.api.gouv.fr; \
+media-src 'self'"
+
+  # Autres headers de sécurité
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(self), camera=()"
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # Supprime la signature Apache
+  Header always unset X-Powered-By
+  Header always unset Server
+
+</IfModule>
+
+# ── HTTPS redirect ───────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ── Page d'entrée : racine → /terrain/ ──────────────────────
+# Redirige uniquement "/" vers "/terrain/" (les autres URLs ne sont pas affectées)
+RedirectMatch 301 ^/$ /terrain/
+
+# ── Bloc accès fichiers sensibles ────────────────────────────
+<FilesMatch "\.(md|env|lock|yml|yaml)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>

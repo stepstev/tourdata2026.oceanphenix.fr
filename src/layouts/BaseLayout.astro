@@ -1,0 +1,77 @@
+---
+// src/layouts/BaseLayout.astro — Head SEO + wrapper global
+import '../styles/tokens.css';  // Design tokens (branding)
+import '../styles/global.css';  // Styles globaux + composants
+import ThemeHint from '../components/ThemeHint.astro';
+import AboutModal from '../components/AboutModal.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  lastModified?: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "OceanPhenix 2026 | Stéphane Celton - Data Product Manager & Innovation Tech",
+  description = "Stéphane Celton - Data Product Manager certifié, Senior Data Analyst BI, Production Engineer. 15+ ans d'expertise IT, innovation data & IA, solutions métier impactantes.",
+  lastModified = "03/03/2026 12:00",
+  canonical,
+  ogImage = "https://oceanphenix.fr/Images/logos/ThinkinGboulversement_50.png",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="index, follow" />
+  <meta name="last-modified" content={lastModified} />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  {canonical && <link rel="canonical" href={canonical} />}
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="OceanPhenix" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  <meta property="og:image" content={ogImage} />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+  <slot name="head" />
+  <link rel="icon" type="image/svg+xml" href="/Images/logos/favicon.svg" />
+  <!-- Anti-FOUC: apply saved theme before first paint -->
+  <script src="/js/theme-init.js" is:inline></script>
+  <link rel="alternate icon" type="image/png" href="/Images/logos/ThinkinGboulversement_50.png" />
+  <link rel="apple-touch-icon" href="/Images/logos/ThinkinGboulversement_50.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    rel="stylesheet"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body>
+  <slot />
+  <AboutModal />
+  <ThemeHint />
+  <!-- JS main — chargé en fin de body comme l'original -->
+  <script src="/js/main.js" is:inline></script>
+</body>
+</html>

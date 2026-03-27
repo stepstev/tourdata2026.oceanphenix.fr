@@ -1,0 +1,389 @@
+---
+// src/pages/portfolio.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+import Nav from '../components/Nav.astro';
+---
+
+<BaseLayout
+  title="Portfolio — Stéphane Celton | Data Product Manager & BI Architect | OceanPhenix"
+  description="Stéphane Celton — Data Product Manager, Senior BI Analyst, Production Engineer. 15+ ans d'expertise en Data, IA souveraine, Power BI, RAG/LLM, SQL, Python & Agile."
+  canonical="https://oceanphenix.fr/portfolio"
+>
+  <script type="application/ld+json" slot="head">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Stéphane Celton",
+    "url": "https://oceanphenix.fr/portfolio",
+    "sameAs": [
+      "https://www.linkedin.com/in/stephane-celton",
+      "https://github.com/stepstev",
+      "https://stephanecelton.oceanphenix.fr"
+    ],
+    "jobTitle": "Data Product Manager",
+    "description": "Data Product Manager certifié, Senior BI Analyst, Production Engineer. 15+ ans d'expertise IT — Data, IA souveraine, Power BI, RAG, LLM, SQL, Python & Agile.",
+    "knowsAbout": [
+      "Data Product Management","Power BI","TMDL","Architecture IA","RAG","LLM","SQL","Python","DevOps","BI Analytics","Data Governance","Agile"
+    ]
+  })}
+  </script>
+  <OceanBackground />
+  <Nav />
+
+  <!-- Overlay assombrissant le fond -->
+  <div class="pf-backdrop"></div>
+
+  <!-- Panneau centré 80% -->
+  <div class="pf-stage">
+    <div class="pf-panel">
+
+      <div class="pf-panel-header">
+        <div class="pf-panel-title">
+          <i class="fas fa-id-badge"></i>
+          <span>Portfolio Professionnel — Stéphane Celton</span>
+        </div>
+        <a href="/" class="pf-btn-close"><i class="fas fa-times"></i></a>
+      </div>
+
+      <div class="pf-panel-body">
+        <div class="pf-avatar">
+          <img src="/Images/moi_detour.png" alt="Stéphane Celton" class="pf-avatar-img" />
+        </div>
+        <h1 class="pf-name">Stéphane Celton</h1>
+        <p class="pf-role">Data Product Manager · Business Intelligence · Gouvernance Data</p>
+        <p class="pf-bio">
+          Expérience dans la mise en place de solutions décisionnelles et de plateformes data
+          au sein d'environnements IT exigeants (banque, industrie, énergie).<br />
+          Interventions autour de Power BI, de la gouvernance des données,
+          du MCO et du pilotage de la production IT.
+        </p>
+
+        <div class="pf-tags">
+          <span class="pf-tag">Data Product Management</span>
+          <span class="pf-tag">Power BI &amp; TMDL</span>
+          <span class="pf-tag">Gouvernance Data</span>
+          <span class="pf-tag">Architecture Data</span>
+          <span class="pf-tag">Production IT &amp; MCO</span>
+          <span class="pf-tag">Observabilité</span>
+          <span class="pf-tag">Agile / Scrum</span>
+          <span class="pf-tag">Banque · Industrie · Énergie</span>
+        </div>
+
+        <div class="pf-hashtags">
+          <span class="pf-hash">#DataProductManager</span>
+          <span class="pf-hash">#PowerBI</span>
+          <span class="pf-hash">#DataGouvernance</span>
+          <span class="pf-hash">#ArchitectureData</span>
+          <span class="pf-hash">#ProductionIT</span>
+          <span class="pf-hash">#Observabilité</span>
+          <span class="pf-hash">#Agilité</span>
+          <span class="pf-hash">#Banque</span>
+        </div>
+
+        <a href="https://stephanecelton.oceanphenix.fr" class="pf-cta">
+          <i class="fas fa-globe"></i>
+          Accéder au Portfolio Complet
+          <i class="fas fa-arrow-right pf-cta-arrow"></i>
+        </a>
+
+        <p class="pf-hint">S'ouvre dans cette fenêtre</p>
+      </div>
+
+    </div>
+  </div>
+
+</BaseLayout>
+
+<style>
+  .pf-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(5, 10, 18, 0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .pf-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 51;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pf-panel {
+    width: 80vw;
+    max-height: 85vh;
+    background: rgba(10, 18, 32, 0.97);
+    border: 1px solid rgba(62, 148, 180, 0.22);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 90px rgba(0,0,0,0.6), 0 0 40px rgba(62, 148, 180, 0.05);
+    animation: pf-in 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes pf-in {
+    from { opacity: 0; transform: scale(0.96) translateY(16px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .pf-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1.2rem;
+    background: rgba(8, 15, 28, 0.98);
+    border-bottom: 1px solid rgba(62, 148, 180, 0.10);
+    flex-shrink: 0;
+  }
+
+  .pf-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #7ab5c0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .pf-panel-title i { color: #4db8d4; }
+
+  .pf-btn-close {
+    color: #7ab5c0;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.16s;
+  }
+  .pf-btn-close:hover { background: rgba(180, 90, 90,0.15); color: #c07070; border-color: rgba(180, 90, 90,0.3); }
+
+  .pf-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .pf-avatar {
+    line-height: 1;
+  }
+
+  .pf-avatar-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+    border: 1px solid rgba(62, 148, 180, 0.22);
+    box-shadow: 0 0 16px rgba(62, 148, 180, 0.2);
+  }
+
+  .pf-name {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4db8d4, #5ce1e6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+  }
+
+  .pf-role {
+    color: #7ab5c0;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+
+  .pf-bio {
+    color: #8fa3b8;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  .pf-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+    max-width: 600px;
+  }
+
+  .pf-tag {
+    padding: 0.22rem 0.65rem;
+    border-radius: 4px;
+    font-size: 0.73rem;
+    font-weight: 500;
+    background: rgba(130, 110, 180, 0.08);
+    border: 1px solid rgba(130, 110, 180, 0.28);
+    color: #9a90c0;
+  }
+
+  .pf-hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: center;
+    max-width: 600px;
+  }
+
+  .pf-hash {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(77, 184, 212, 0.55);
+    letter-spacing: 0.1px;
+    transition: color 0.16s;
+    cursor: default;
+  }
+  .pf-hash:hover { color: #4db8d4; }
+
+  .pf-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, #4db8d4, #0095d9);
+    color: #0a1929;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(77, 184, 212, 0.35);
+    transition: all 0.22s;
+    position: relative;
+  }
+  .pf-cta::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    animation: btn-dot-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    pointer-events: none;
+  }
+  .pf-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(77, 184, 212, 0.5);
+    color: #0a1929;
+  }
+  .pf-cta:hover::after {
+    opacity: 0;
+    animation: none;
+  }
+  .pf-cta-arrow { transition: transform 0.22s; }
+  .pf-cta:hover .pf-cta-arrow { transform: translateX(4px); }
+
+  .pf-hint {
+    color: rgba(197, 208, 222, 0.45);
+    font-size: 0.72rem;
+    margin-top: -0.4rem;
+  }
+
+  /* ---- Light theme ---- */
+  :global([data-theme="light"]) .pf-backdrop {
+    background: rgba(200, 220, 240, 0.65);
+  }
+  :global([data-theme="light"]) .pf-panel {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(26, 100, 140, 0.35);
+    box-shadow: 0 32px 90px rgba(0, 50, 100, 0.25), 0 0 60px rgba(0, 149, 217, 0.06);
+  }
+  :global([data-theme="light"]) .pf-panel-header {
+    background: rgba(240, 248, 255, 0.98);
+    border-bottom-color: rgba(26, 100, 140, 0.12);
+  }
+  :global([data-theme="light"]) .pf-panel-title {
+    color: #2a4560;
+  }
+  :global([data-theme="light"]) .pf-panel-title i {
+    color: #1a6580;
+  }
+  :global([data-theme="light"]) .pf-btn-close {
+    color: #4a6275;
+    background: rgba(0, 80, 130, 0.06);
+    border-color: rgba(0, 80, 130, 0.15);
+  }
+  :global([data-theme="light"]) .pf-btn-close:hover {
+    background: rgba(180, 90, 90, 0.1);
+    color: #a85050;
+    border-color: rgba(180, 90, 90, 0.25);
+  }
+  :global([data-theme="light"]) .pf-name {
+    background: linear-gradient(135deg, #1a6580, #0095d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  :global([data-theme="light"]) .pf-role {
+    color: #4a6275;
+  }
+  :global([data-theme="light"]) .pf-bio {
+    color: #4a6275;
+  }
+  :global([data-theme="light"]) .pf-tag {
+    background: rgba(26, 100, 140, 0.06);
+    border-color: rgba(26, 100, 140, 0.25);
+    color: #1a6580;
+  }
+  :global([data-theme="light"]) .pf-hash {
+    color: rgba(0, 95, 138, 0.5);
+  }
+  :global([data-theme="light"]) .pf-hash:hover {
+    color: #1a6580;
+  }
+  :global([data-theme="light"]) .pf-cta {
+    background: linear-gradient(135deg, #0095d9, #1a6580);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 95, 138, 0.3);
+  }
+  :global([data-theme="light"]) .pf-cta:hover {
+    box-shadow: 0 8px 28px rgba(0, 95, 138, 0.45);
+    color: #ffffff;
+  }
+  :global([data-theme="light"]) .pf-hint {
+    color: rgba(58, 82, 104, 0.5);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 640px) {
+    .pf-panel {
+      width: 95vw;
+      max-height: 92vh;
+    }
+    .pf-panel-body {
+      padding: 1.5rem 1rem;
+    }
+    .pf-name {
+      font-size: 1.5rem;
+    }
+    .pf-role {
+      font-size: 0.82rem;
+    }
+    .pf-bio {
+      font-size: 0.8rem;
+    }
+    .pf-cta {
+      padding: 0.7rem 1.5rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>

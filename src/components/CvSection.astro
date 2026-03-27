@@ -1,0 +1,46 @@
+---
+// src/components/CvSection.astro
+import { Icon } from 'astro-icon/components';
+---
+
+<section class="cv-section" id="cv">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <Icon name="lucide:contact" class="section-badge-icon" />
+        BUSINESS CARD
+      </span>
+      <h2 class="section-title fw-light">
+        <Icon name="lucide:award" class="icon-accent section-title-icon" />
+        <span class="gradient-text">Carte de Visite Professionnelle</span>
+      </h2>
+    </div>
+    <div class="cv-card">
+      <div class="cv-image-container">
+        <img src="/Images/cvise.png" alt="Business Card Stéphane Celton" class="cv-image" />
+      </div>
+      <div class="cv-download-container">
+        <a href="/Images/cvise.png" class="cv-download-btn" download="BusinessCard_Stephane_Celton.png">
+          <Icon name="lucide:download" class="cv-download-icon" />
+          Télécharger la Business Card
+        </a>
+      </div>
+    </div>
+
+    <div class="cv-social-links">
+      <a href="https://www.linkedin.com/company/oceanphenix/" target="_blank" rel="noopener noreferrer" class="cv-social-link cv-social-link--linkedin" aria-label="LinkedIn OceanPhenix">
+        <Icon name="lucide:linkedin" class="cv-social-icon" />
+        <span>LinkedIn</span>
+      </a>
+      <a href="https://www.youtube.com/@DiscoveryITDATA" target="_blank" rel="noopener noreferrer" class="cv-social-link cv-social-link--youtube" aria-label="YouTube DiscoveryITDATA">
+        <Icon name="lucide:youtube" class="cv-social-icon" />
+        <span>YouTube</span>
+      </a>
+      <a href="https://stephanecelton.oceanphenix.fr/" target="_blank" rel="noopener noreferrer" class="cv-social-link cv-social-link--portfolio" aria-label="Portfolio Stéphane Celton">
+        <Icon name="lucide:globe" class="cv-social-icon" />
+        <span>Portfolio</span>
+      </a>
+    </div>
+    <p class="cv-legend">Ce site est conçu comme un produit data, développé par itérations et amélioré en continu selon les usages, les démonstrations techniques et les retours d'expérience ( Stéphane CELTON 2026 ).</p>
+  </div>
+</section>

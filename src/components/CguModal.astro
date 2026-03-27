@@ -1,0 +1,126 @@
+---
+// src/components/CguModal.astro
+---
+
+<div id="cgu-modal" class="cgu-modal">
+  <div class="cgu-modal-content">
+    <div class="cgu-modal-header">
+      <h2 class="cgu-modal-title">Conditions Générales d'Utilisation (CGU)</h2>
+      <button class="cgu-close-btn" id="cgu-close">&times;</button>
+    </div>
+    <div class="cgu-modal-body">
+      <p class="cgu-last-update">Dernière mise à jour : 22 mars 2026</p>
+
+      <div class="cgu-section">
+        <h2>1. Mentions légales et identification de l'éditeur</h2>
+        <h3>1.1 Éditeur du site</h3>
+        <p>Le site <span class="cgu-highlight">oceanphenix.fr</span> et ses sous-domaines sont édités par :</p>
+        <ul>
+          <li><strong>Nom :</strong> Stéphane Celton</li>
+          <li><strong>Statut :</strong> Entrepreneur individuel</li>
+          <li><strong>Marque commerciale :</strong> OceanPhenix™</li>
+          <li><strong>Site web professionnel :</strong> <a href="https://stephanecelton.oceanphenix.fr" target="_blank" rel="noopener">stephanecelton.oceanphenix.fr</a></li>
+          <li><strong>Contact professionnel :</strong> <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener">LinkedIn - Stéphane Celton</a></li>
+        </ul>
+        <h3>1.2 Hébergement</h3>
+        <p>Le Site est hébergé sur deux infrastructures complémentaires :</p>
+        <ul>
+          <li><strong>Hébergeur principal (backend / services) :</strong> o2switch</li>
+          <li><strong>Adresse :</strong> 222-224 Boulevard Gustave Flaubert, 63000 Clermont-Ferrand, France</li>
+          <li><strong>Site web :</strong> <a href="https://www.o2switch.fr" target="_blank" rel="noopener">www.o2switch.fr</a></li>
+        </ul>
+        <ul>
+          <li><strong>Hébergement statique (site vitrine) :</strong> GitHub Pages — GitHub, Inc.</li>
+          <li><strong>Adresse :</strong> 88 Colin P Kelly Jr Street, San Francisco, CA 94107, États-Unis</li>
+          <li><strong>Site web :</strong> <a href="https://pages.github.com" target="_blank" rel="noopener">pages.github.com</a></li>
+        </ul>
+        <h3>1.3 Directeur de la publication</h3>
+        <p>Le directeur de la publication est <span class="cgu-highlight">Stéphane Celton</span>.</p>
+      </div>
+
+      <div class="cgu-section">
+        <h2>2. Objet et présentation des services</h2>
+        <h3>2.1 Objet du Site</h3>
+        <p><span class="cgu-highlight">OceanPhenix™</span> est une plateforme d'innovation technologique spécialisée dans le développement de solutions d'intelligence artificielle souveraines, ainsi que dans la mise en valeur du projet <span class="cgu-highlight">TourData 2026</span> — un parcours à vélo de 2 500 km à travers la France mené par Stéphane Celton.</p>
+        <h3>2.2 Services présentés</h3>
+        <ul>
+          <li><strong>Solutions IA :</strong> ChatBots avec architecture RAG, interfaces conversationnelles avec LLM locaux</li>
+          <li><strong>Infrastructure souveraine :</strong> Architecture 100% auto-hébergée</li>
+          <li><strong>Bases de données vectorielles :</strong> Qdrant pour la recherche sémantique</li>
+          <li><strong>Monitoring :</strong> Grafana, Prometheus, cAdvisor</li>
+          <li><strong>BI et Analytics :</strong> Superset</li>
+          <li><strong>Automatisation :</strong> n8n pour les workflows</li>
+          <li><strong>Stockage objet :</strong> MinIO S3 compatible</li>
+          <li><strong>TourData 2026 :</strong> Suivi en temps réel du parcours vélo, journal de terrain, Dashboard Strava, outil Radar Terrain</li>
+        </ul>
+      </div>
+
+      <div class="cgu-section">
+        <h2>3. Acceptation des CGU</h2>
+        <p>L'accès au Site implique l'acceptation pleine et entière des présentes CGU.</p>
+      </div>
+
+      <div class="cgu-section">
+        <h2>4. Propriété intellectuelle</h2>
+        <p>La marque <span class="cgu-highlight">OceanPhenix™</span> et le nom de domaine <span class="cgu-highlight">oceanphenix.fr</span> sont la propriété exclusive de <strong>Stéphane Celton</strong>.</p>
+        <p>Marque &amp; concept protégés. Tous droits réservés. Toute reproduction, représentation ou diffusion, intégrale ou partielle, du contenu de ce site, par quelque procédé que ce soit, sans l'autorisation écrite préalable de Stéphane Celton, est strictement interdite.</p>
+      </div>
+
+      <div class="cgu-section">
+        <h2>5. Protection des données personnelles et RGPD</h2>
+
+        <h3>5.1 Principe général</h3>
+        <p>Le Site ne collecte aucune donnée personnelle identifiable sans consentement explicite, conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679).</p>
+
+        <h3>5.2 Données de navigation (Strava)</h3>
+        <p>La page <span class="cgu-highlight">/strava</span> affiche des données d'activités sportives publiques issues de l'API Strava, avec le consentement de l'athlète (Stéphane Celton). Aucune donnée d'un visiteur tiers n'est collectée via cette page.</p>
+
+        <h3>5.3 Géolocalisation — page Radar Terrain</h3>
+        <p>La page <span class="cgu-highlight">/radar</span> (Radar Terrain) peut utiliser la géolocalisation du navigateur, <strong>uniquement avec votre consentement explicite</strong> via la fenêtre de permission standard du navigateur.</p>
+        <ul>
+          <li><strong>Votre position GPS n'est jamais stockée</strong> sur les serveurs du site.</li>
+          <li>Elle est conservée uniquement en mémoire locale (JavaScript) le temps de la session, et effacée à la fermeture de l'onglet.</li>
+          <li>Elle est transmise temporairement aux services tiers suivants, dans les paramètres de requête, afin d'afficher les résultats de proximité :
+            <ul>
+              <li><strong>OpenStreetMap / Overpass API</strong> — <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">Politique de confidentialité OSM</a></li>
+              <li><strong>Opendatasoft</strong> (hébergements classés Atout France) — entreprise française soumise au RGPD</li>
+              <li><strong>geo.api.gouv.fr</strong> et <strong>recherche-entreprises.api.gouv.fr</strong> — APIs publiques de l'État français (DINUM), aucun traitement commercial</li>
+            </ul>
+          </li>
+          <li>Vous pouvez refuser la géolocalisation et utiliser le sélecteur d'étapes manuelles sans aucune conséquence sur l'accès au service.</li>
+        </ul>
+
+        <h3>5.4 Évaluations terrain (localStorage)</h3>
+        <p>Les évaluations de lieux saisies dans la page Radar Terrain sont stockées <strong>exclusivement sur votre appareil</strong> via le mécanisme <code>localStorage</code> du navigateur (clé : <code>td_evals</code>). Ces données ne sont jamais transmises à un serveur.</p>
+
+        <h3>5.5 Commande vocale</h3>
+        <p>La fonction de commande vocale utilise l'API Web Speech du navigateur. Sur certains navigateurs (Chrome), l'audio peut être traité par les serveurs de Google. Cette fonctionnalité est optionnelle et peut ne pas être activée.</p>
+
+        <h3>5.6 Cookies</h3>
+        <p>Le site n'utilise pas de cookies de traçage ou publicitaires. Le seul stockage navigateur utilisé est <code>localStorage</code> pour les préférences de thème (clair/sombre) et les évaluations terrain, traitement strictement local ne nécessitant pas de bannière de consentement cookie (hors scope de la directive ePrivacy).</p>
+
+        <h3>5.7 Exercice de vos droits</h3>
+        <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression. Pour exercer ces droits : <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener">Stéphane Celton via LinkedIn</a>.</p>
+      </div>
+
+      <div class="cgu-section">
+        <h2>6. Responsabilité</h2>
+        <p>Les services sont fournis "en l'état" sans garantie. L'utilisateur reconnaît utiliser les informations sous sa seule responsabilité.</p>
+      </div>
+
+      <div class="cgu-section">
+        <h2>7. Droit applicable et juridiction</h2>
+        <p>Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+      </div>
+
+      <div class="cgu-section">
+        <h2>8. Contact</h2>
+        <ul>
+          <li><strong>Nom :</strong> Stéphane Celton</li>
+          <li><strong>LinkedIn :</strong> <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener">linkedin.com/in/stephane-celton</a></li>
+          <li><strong>Site web :</strong> <a href="https://stephanecelton.oceanphenix.fr" target="_blank" rel="noopener">stephanecelton.oceanphenix.fr</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

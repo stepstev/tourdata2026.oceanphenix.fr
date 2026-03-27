@@ -1,0 +1,210 @@
+---
+/**
+ * TerrainDashboard.astro
+ * Dashboard card matching the mockup: map + sidebar stats + profile
+ * All data-driven from terrain-etapes.json — no database needed
+ */
+import etapesData from '../data/terrain-etapes.json';
+
+const projet = etapesData.projet;
+const dash = etapesData.dashboard;
+const position = etapesData.positionActuelle;
+const etapes = etapesData.etapes;
+
+// Compute the "from → to" label
+const etapeActuelle = etapes.find(e => e.statut === 'actuel');
+const prochaine = etapes.find(e => e.ville === dash.prochaineEtape);
+const depart = etapeActuelle ? etapeActuelle.ville : position.ville;
+const arrivee = dash.prochaineEtape || '—';
+---
+
+<section class="tdash" id="dashboard">
+  <div class="tdash-outer">
+
+    <!-- Header -->
+    <div class="tdash-header">
+      <div class="tdash-brand">
+        <svg class="tdash-logo" viewBox="0 0 40 46" aria-hidden="true" fill="currentColor">
+          <path d="M20 22 C14 17 7 12 1 7 C8 13 14 18 18 23Z" opacity="0.8"/>
+          <path d="M20 22 C26 17 33 12 39 7 C32 13 26 18 22 23Z" opacity="0.8"/>
+          <path d="M20 5 C17 10 15 16 17 22 C18 24 22 24 23 22 C25 16 23 10 20 5Z"/>
+          <path d="M16 26 Q20 31 24 26 Q20 36 16 26Z" opacity="0.7"/>
+          <path d="M5 41 Q12 36 20 41 Q28 46 35 41" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span>OceanPhenix</span>
+      </div>
+    </div>
+
+    <!-- Title: From → To -->
+    <div class="tdash-route-title">
+      <h2>Suivi du parcours</h2>
+      <p class="tdash-route-from-to" id="live-route-from-to">
+        <span id="live-route-depart">{depart}</span> <span class="tdash-arrow">→</span> <span id="live-route-arrivee">{arrivee}</span>
+      </p>
+      <p class="tdash-route-desc">
+        Exploration terrain pour identifier les besoins data<br/>et connecter entreprises et experts
+      </p>
+    </div>
+
+    <!-- Main layout: map + sidebar -->
+    <div class="tdash-body">
+
+      <!-- Left: Map -->
+      <div class="tdash-map-col">
+        <div id="tdash-map" class="tdash-map"></div>
+
+        <!-- Route info bar -->
+        <div class="tdash-route-bar">
+          <div class="tdash-route-bar-item">
+            <i class="fas fa-bicycle"></i>
+            <span>Part de route</span>
+          </div>
+          <div class="tdash-route-bar-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Départ : <span id="live-depart-date-bar">{position.dateDepart}</span></span>
+          </div>
+          <div class="tdash-route-bar-item">
+            <i class="fas fa-clock"></i>
+            <span><span id="live-jours-bar">{dash.joursPrevus}</span> jours prévus</span>
+          </div>
+          <div class="tdash-route-bar-item tdash-route-bar-gpx">
+            <i class="fas fa-download"></i>
+            <span>Exporter GPX</span>
+          </div>
+        </div>
+
+        <!-- Suivi entreprises -->
+        <div class="tdash-suivi">
+          <div class="tdash-suivi-title">
+            <i class="fas fa-chart-bar"></i>
+            Suivi des entreprises &amp; interviews
+          </div>
+          <div class="tdash-suivi-links">
+            <button class="tdash-suivi-link" data-popup-url="https://airtable.com/appFS7Qn7look1ZCy/pagY5TG49K4TMFpnG">
+              <i class="fas fa-building"></i>
+              Entreprises rencontrées
+            </button>
+            <button class="tdash-suivi-link" data-popup-url="https://airtable.com/appFS7Qn7look1ZCy/pag6744ywS37n7FeJ">
+              <i class="fas fa-microphone-alt"></i>
+              Interviews &amp; besoins
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Sidebar -->
+      <div class="tdash-sidebar">
+
+        <!-- Prochaine étape -->
+        <div class="tdash-card">
+          <span class="tdash-card-label">Prochaine étape :</span>
+          <div class="tdash-card-city">
+            <i class="fas fa-map-pin"></i>
+            <strong id="live-prochaine">{arrivee}</strong>
+          </div>
+          <div class="tdash-stats-row">
+            <div class="tdash-stat">
+              <span class="tdash-stat-dot tdash-stat-dot--km"></span>
+              <strong><span id="live-km">{dash.kmParcourus}</span> km</strong> parcourus
+            </div>
+            <div class="tdash-stat">
+              <i class="fas fa-road"></i>
+              <span><span id="live-jours-route">{dash.joursRoute}</span> jours de route</span>
+            </div>
+            <div class="tdash-stat">
+              <i class="fas fa-clock"></i>
+              <span><span id="live-jours">{dash.joursPrevus}</span> jours prévus</span>
+            </div>
+          </div>
+          <div class="tdash-current">
+            <span class="tdash-card-label">Actuellement :</span>
+            <div class="tdash-current-status">
+              <span class="tdash-status-dot"></span>
+              <strong id="live-status">{dash.etapeEnCours || position.statut}</strong>
+            </div>
+          </div>
+          <div class="tdash-metrics">
+            <div class="tdash-metric">
+              <i class="fas fa-lightbulb"></i>
+              <strong id="live-besoins">{dash.besoinsIdentifies}</strong>
+              <span>besoins<br/>identifiés</span>
+            </div>
+            <div class="tdash-metric">
+              <i class="fas fa-handshake"></i>
+              <strong id="live-rencontres">{dash.rencontresEntreprises}</strong>
+              <span>rencontres<br/>entreprises</span>
+            </div>
+          </div>
+          <a href="#journal" class="tdash-btn">
+            <i class="fas fa-book-open"></i> Journal du parcours
+          </a>
+        </div>
+
+        <!-- Profile card -->
+        <div class="tdash-profile">
+          <img
+            src={projet.avatar}
+            alt={projet.porteur}
+            class="tdash-avatar"
+            width="48"
+            height="48"
+            loading="lazy"
+          />
+          <div class="tdash-profile-info">
+            <strong>{projet.porteur}</strong>
+            <span>{projet.role}</span>
+          </div>
+          <div class="tdash-profile-links">
+            <a href={projet.liens.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href={projet.liens.youtube} target="_blank" rel="noopener" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="tdash-thumbs" id="live-photos">
+          {dash.photos.map((src: string) => (
+            <div class="tdash-thumb">
+              <img src={src} alt="Photo terrain" loading="lazy" />
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom profile bar (mobile-visible duplicate) -->
+    <div class="tdash-bottom-bar">
+      <div class="tdash-bottom-profile">
+        <img
+          src={projet.avatar}
+          alt={projet.porteur}
+          class="tdash-avatar tdash-avatar--sm"
+          width="36"
+          height="36"
+          loading="lazy"
+        />
+        <div>
+          <strong>{projet.porteur}</strong>
+          <span>{projet.role}</span>
+        </div>
+        <div class="tdash-bottom-links">
+          <a href={projet.liens.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href={projet.liens.youtube} target="_blank" rel="noopener" aria-label="YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+      <div class="tdash-bottom-stats">
+        <span><span class="tdash-stat-dot tdash-stat-dot--green"></span> <strong id="live-besoins-m">{dash.besoinsIdentifies}</strong> besoins identifiés</span>
+        <span><i class="fas fa-handshake"></i> <strong id="live-rencontres-m">{dash.rencontresEntreprises}</strong> rencontres entreprises</span>
+      </div>
+    </div>
+
+  </div>
+</section>

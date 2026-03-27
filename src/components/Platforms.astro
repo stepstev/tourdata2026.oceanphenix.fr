@@ -1,0 +1,200 @@
+---
+// src/components/Platforms.astro
+import { Icon } from 'astro-icon/components';
+---
+
+<section class="platforms-section" id="platforms">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <Icon name="lucide:rocket" class="section-badge-icon" />
+        Écosystème
+      </span>
+      <h2 class="section-title fw-light">
+        <Icon name="lucide:layers" class="icon-accent section-title-icon" />
+        <span class="gradient-text">Projets &amp; Réalisations Data</span>
+      </h2>
+      <p class="section-subtitle">
+        Portfolio, quelques projets, initiatives récentes (2025-2026) et publications.
+      </p>
+    </div>
+
+    <div class="platforms-grid">
+
+      <!-- 1 — Portfolio -->
+      <div class="platform-card platform-card-featured">
+        <div class="platform-header">
+          <Icon name="lucide:user-round" class="platform-icon" />
+          <span class="platform-badge">Portfolio</span>
+        </div>
+        <h3 class="platform-title">Portfolio &amp; Parcours</h3>
+        <p class="platform-description">
+          CV interactif — 15+ ans IT, certifications et vidéo de présentation. Expertise en Data Product Management, BI/Analytics et Production Engineering.
+        </p>
+        <div class="platform-tags">
+          <span class="tag tag--skill">Data Product Mgmt</span>
+          <span class="tag tag--skill">BI/Analytics</span>
+          <span class="tag tag--skill">Architecture IA</span>
+          <span class="tag tag--skill">Agile/Scrum</span>
+          <span class="tag tag--skill">Power BI</span>
+          <span class="tag tag--skill">SQL &amp; Python</span>
+          <span class="tag tag--skill">CI/CD DevOps</span>
+        </div>
+        <div class="demo-buttons">
+          <a href="https://stephanecelton.oceanphenix.fr/" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--portfolio">
+            <Icon name="lucide:globe" class="demo-btn-icon" />
+            Portfolio Interactif
+          </a>
+        </div>
+      </div>
+
+      <!-- 2 — Power BI & TMDL -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <Icon name="lucide:bar-chart-3" class="platform-icon" />
+          <span class="platform-badge">Power BI &amp; TMDL</span>
+        </div>
+        <h3 class="platform-title">Démonstration technique</h3>
+        <p class="platform-description">
+          Modélisation sémantique avec TMDL — format texte natif de Power BI pour versionner et collaborer sur les modèles tabulaires. Bonnes pratiques DAX, Git et CI/CD sur les Semantic Models.
+        </p>
+        <div class="platform-tags">
+          <span class="tag tag--powerbi">Power BI Desktop</span>
+          <span class="tag tag--powerbi">TMDL</span>
+          <span class="tag tag--powerbi">DAX</span>
+          <span class="tag tag--powerbi">Git</span>
+          <span class="tag tag--powerbi">VS Code</span>
+          <span class="tag tag--powerbi">Semantic Models</span>
+          <span class="tag tag--powerbi">Azure Analysis Services</span>
+        </div>
+        <div class="demo-buttons">
+          <a href="https://www.youtube.com/watch?v=PgZ0SzRMvmw&t=4s" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--youtube">
+            <Icon name="lucide:youtube" class="demo-btn-icon" />
+            Démo TMDL
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 — Publications LinkedIn -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <Icon name="lucide:linkedin" class="platform-icon" />
+          <span class="platform-badge">Publications</span>
+        </div>
+        <h3 class="platform-title">Articles &amp; Retours d'expérience</h3>
+        <p class="platform-description">
+          Articles et retours d'expérience sur la data, l'IA souveraine, le Data Product Management et la Business Intelligence.
+        </p>
+        <div class="platform-tags">
+          <span class="tag tag--topic">Data Product Mgmt</span>
+          <span class="tag tag--topic">IA Souveraine</span>
+          <span class="tag tag--topic">Business Intelligence</span>
+          <span class="tag tag--topic">Architecture Data</span>
+          <span class="tag tag--topic">DevOps</span>
+        </div>
+        <div class="demo-buttons">
+          <a href="https://www.linkedin.com/in/stephane-celton/recent-activity/all/" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--linkedin">
+            <Icon name="lucide:linkedin" class="demo-btn-icon" />
+            Articles &amp; Insights
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 — RAG-IA Souveraine -->
+      <div class="platform-card">
+        <span class="new-badge new-badge--orange">2025</span>
+        <div class="platform-header">
+          <Icon name="lucide:cpu" class="platform-icon" />
+          <span class="platform-badge">IA Souveraine 2025</span>
+        </div>
+        <h3 class="platform-title">RAG-IA Souveraine V10 - 2025</h3>
+        <p class="platform-description">
+          Plateforme IA souveraine complète — RAG auto-hébergé, monitoring 360°. Architecture 100% souveraine, maîtrise totale des données et modèles en contexte professionnel.
+        </p>
+        <div class="platform-tags">
+          <span class="tag tag--stack">Ollama</span>
+          <span class="tag tag--stack">Qdrant</span>
+          <span class="tag tag--stack">OpenWebUI</span>
+          <span class="tag tag--stack">FastAPI</span>
+          <span class="tag tag--stack">Grafana</span>
+          <span class="tag tag--stack">Prometheus</span>
+          <span class="tag tag--stack">Superset BI</span>
+          <span class="tag tag--stack">MinIO</span>
+          <span class="tag tag--stack">N8n</span>
+          <span class="tag tag--stack">PostgreSQL</span>
+        </div>
+        <div class="demo-buttons">
+          <a href="https://www.youtube.com/watch?v=SQF49Uw_7gk" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--youtube">
+            <Icon name="lucide:youtube" class="demo-btn-icon" />
+            Démo RAG
+          </a>
+          <a href="https://github.com/stepstev/oceanphenix-IA-souveraine-v10_2026_DOCS" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--github">
+            <Icon name="lucide:github" class="demo-btn-icon" />
+            Docs Souveraine
+          </a>
+        </div>
+      </div>
+
+      <!-- 5 — RAG Platform 2026 Public -->
+      <div class="platform-card platform-card-featured">
+        <span class="new-badge">2026</span>
+        <div class="platform-header">
+          <Icon name="lucide:database" class="platform-icon" />
+          <span class="platform-badge">RAG Stack 2026</span>
+        </div>
+        <h3 class="platform-title">RAG Platform 2026 — Stack Publique</h3>
+        <p class="platform-description">
+          Stack RAG publique 2026 — modulaire, souveraine, déployable en une commande via Docker Compose. LLM local, recherche vectorielle et observabilité intégrée.
+        </p>
+        <div class="platform-tags">
+          <span class="tag tag--stack">Ollama</span>
+          <span class="tag tag--stack">Qdrant</span>
+          <span class="tag tag--stack">OpenWebUI</span>
+          <span class="tag tag--stack">FastAPI</span>
+          <span class="tag tag--stack">Docker Compose</span>
+          <span class="tag tag--stack">Embeddings</span>
+          <span class="tag tag--stack">PostgreSQL</span>
+          <span class="tag tag--stack">Grafana</span>
+        </div>
+        <div class="demo-buttons">
+          <a href="https://www.youtube.com/watch?v=znjMTwqLq1k" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--youtube">
+            <Icon name="lucide:youtube" class="demo-btn-icon" />
+            Démo Stack
+          </a>
+          <a href="https://github.com/stepstev/rag-platform-2026-public" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--github">
+            <Icon name="lucide:github" class="demo-btn-icon" />
+            Code Source
+          </a>
+        </div>
+      </div>
+
+      <!-- 6 — GitHub Open Source -->
+      <div class="platform-card platform-card-featured">
+        <div class="platform-header">
+          <Icon name="lucide:github" class="platform-icon" />
+          <span class="platform-badge">Open Source</span>
+        </div>
+        <h3 class="platform-title">GitHub — Projets &amp; Contributions</h3>
+        <p class="platform-description">
+          Dépôts publics autour de l'IA souveraine, la BI et la data engineering. Code source des stacks, documentations techniques et projets en cours.
+        </p>
+        <div class="platform-tags">
+          <span class="tag tag--stack">Python</span>
+          <span class="tag tag--stack">Docker</span>
+          <span class="tag tag--stack">FastAPI</span>
+          <span class="tag tag--stack">Astro</span>
+          <span class="tag tag--stack">TMDL</span>
+          <span class="tag tag--stack">RAG</span>
+          <span class="tag tag--stack">LLM</span>
+        </div>
+        <div class="demo-buttons">
+          <a href="https://github.com/stepstev" target="_blank" rel="noopener noreferrer" class="demo-btn demo-btn--github">
+            <Icon name="lucide:github" class="demo-btn-icon" />
+            Voir le profil GitHub
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

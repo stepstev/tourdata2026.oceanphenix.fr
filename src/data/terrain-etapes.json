@@ -1,0 +1,205 @@
+{
+  "isPublic": true,
+  "gpxFiles": [
+    {"name": "2026-03-13_2825614774_Tour DATA", "path": "/gpx/2026-03-13_2825614774_Tour_DATA.gpx", "visible": true}
+  ],
+  "projet": {
+    "nom": "Retour au Terrain — Besoins Data",
+    "porteur": "Stéphane Celton",
+    "role": "Data Product Manager",
+    "avatar": "/Images/moi_detour.png",
+    "structure": "OceanPhenix",
+    "transport": "Vélo",
+    "annee": 2026,
+    "kmTotal": "~2 500",
+    "nbEtapes": 12,
+    "periode": "Avril \u2013 Juillet 2026",
+    "description": "Parcours à vélo à travers la France pour aller à la rencontre des entreprises, comprendre leurs besoins réels autour de la data, identifier leurs pain points et faciliter les échanges entre entreprises et freelances / consultants.",
+    "liens": {
+      "youtube": "https://www.youtube.com/@DiscoveryITDATA",
+      "strava": "https://www.strava.com/",
+      "komoot": "https://www.komoot.com/",
+      "linkedin": "https://www.linkedin.com/in/stephane-celton",
+      "site": "https://oceanphenix.fr"
+    }
+  },
+  "dashboard": {
+    "kmParcourus": 0,
+    "joursRoute": 0,
+    "besoinsIdentifies": 0,
+    "rencontresEntreprises": 0,
+    "etapeEnCours": null,
+    "prochaineEtape": "Caen",
+    "joursPrevus": 3,
+    "photos": []
+  },
+  "positionActuelle": {
+    "ville": "Fontenay-lès-Briis",
+    "lat": 48.5358,
+    "lng": 2.1647,
+    "statut": "Préparation",
+    "dateDepart": "2026-04-15"
+  },
+  "etapes": [
+    {
+      "id": 1,
+      "ville": "Fontenay-lès-Briis",
+      "region": "Île-de-France",
+      "lat": 48.5358,
+      "lng": 2.1647,
+      "type": "depart",
+      "statut": "actuel",
+      "distanceDepuisDepart": 0,
+      "description": "Point de départ — préparation du parcours et des premiers contacts entreprises.",
+      "dateEstimee": "2026-04-15"
+    },
+    {
+      "id": 2,
+      "ville": "Caen",
+      "region": "Normandie",
+      "lat": 49.1829,
+      "lng": -0.3707,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 250,
+      "description": "Rencontres avec les acteurs de la data en Normandie — secteurs industriel et agroalimentaire.",
+      "dateEstimee": "2026-04-22"
+    },
+    {
+      "id": 3,
+      "ville": "Rennes",
+      "region": "Bretagne",
+      "lat": 48.1173,
+      "lng": -1.6778,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 420,
+      "description": "Écosystème tech breton — startups data, cybersécurité et pôles numériques.",
+      "dateEstimee": "2026-04-29"
+    },
+    {
+      "id": 4,
+      "ville": "Nantes",
+      "region": "Pays de la Loire",
+      "lat": 47.2184,
+      "lng": -1.5536,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 530,
+      "description": "Nantes Digital — écosystème data et IoT, industrie navale.",
+      "dateEstimee": "2026-05-06"
+    },
+    {
+      "id": 5,
+      "ville": "Bordeaux",
+      "region": "Nouvelle-Aquitaine",
+      "lat": 44.8378,
+      "lng": -0.5792,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 870,
+      "description": "Bordeaux tech — vin & data, aéronautique, French Tech.",
+      "dateEstimee": "2026-05-15"
+    },
+    {
+      "id": 6,
+      "ville": "Toulouse",
+      "region": "Occitanie",
+      "lat": 43.6047,
+      "lng": 1.4442,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 1120,
+      "description": "Capitale de l'aéronautique — Airbus, spatial, data engineering.",
+      "dateEstimee": "2026-05-22"
+    },
+    {
+      "id": 7,
+      "ville": "Montpellier",
+      "region": "Occitanie",
+      "lat": 43.6108,
+      "lng": 3.8767,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 1370,
+      "description": "Montpellier — santé, biotech, et pôles de recherche data.",
+      "dateEstimee": "2026-05-29"
+    },
+    {
+      "id": 8,
+      "ville": "Marseille",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "lat": 43.2965,
+      "lng": 5.3698,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 1540,
+      "description": "Marseille — port maritime, logistique data, écosystème méditerranéen.",
+      "dateEstimee": "2026-06-05"
+    },
+    {
+      "id": 9,
+      "ville": "Nice",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "lat": 43.7102,
+      "lng": 7.2620,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 1740,
+      "description": "Nice — tourisme data, smart city, économie numérique côtière.",
+      "dateEstimee": "2026-06-10"
+    },
+    {
+      "id": 10,
+      "ville": "Sophia Antipolis",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "lat": 43.6163,
+      "lng": 7.0554,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 1780,
+      "description": "Technopole européenne — R&D, IA, data science, télécoms et innovation.",
+      "dateEstimee": "2026-06-12"
+    },
+    {
+      "id": 11,
+      "ville": "Lyon",
+      "region": "Auvergne-Rhône-Alpes",
+      "lat": 45.7640,
+      "lng": 4.8357,
+      "type": "etape",
+      "statut": "planifie",
+      "distanceDepuisDepart": 2100,
+      "description": "Lyon — industrie pharma, fintech, data platforms, pôle Lumière.",
+      "dateEstimee": "2026-06-19"
+    },
+    {
+      "id": 12,
+      "ville": "Fontenay-lès-Briis",
+      "region": "Île-de-France",
+      "lat": 48.5358,
+      "lng": 2.1647,
+      "type": "arrivee",
+      "statut": "planifie",
+      "distanceDepuisDepart": 2500,
+      "description": "Retour au point de départ — boucle de 2 500 km complétée. Restitution des rencontres et des besoins data identifiés.",
+      "dateEstimee": "2026-07-04"
+    }
+  ],
+  "journal": [
+    {
+      "date": "2026-03-19",
+      "titre": "Présentation du projet sur Linkedin - Demande de contact partenariat et de rendez-vous",
+      "contenu": "J'ai 58 ans. 30 ans Parcours Production - Data d'IT derrière moi.\nEn avril 2026, je prends mon vélo pour traverser la France.\n\n2 500 km. 11 étapes. Seul. Pas pour prouver quoi que ce soit. Pour aller écouter des gens qui ont des choses vraies à dire et que personne n'écoute vraiment.\n\nDepuis 15 ans, je vois la même chose :\n📌 Des entreprises avec des besoins réels mal exprimés, rarement entendus.\n📌 Des talents expérimentés disponibles, invisibles, qui cherchent sans trouver.\n\nLes plateformes n'ont pas résolu ça. Les algorithmes non plus. J'essaie autrement.\nCe vélo, j'aimerais que ce soit un pont roulant entre les deux. Kilomètre après kilomètre. Rencontre après rencontre. Pas un pitch. Pas une offre d'emploi. Une personne qui écoute des deux côtés et qui essaie de relier.",
+      "ville": "Fontenay-lès-Briis",
+      "tags": ["linkedin", "partenariat", "rendez-vous", "présentation"]
+    },
+    {
+      "date": "2026-03-12",
+      "titre": "Lancement du projet",
+      "contenu": "Création de la page dédiée sur OceanPhenix.fr. Début de la planification de l'itinéraire et des premiers contacts avec les entreprises locales. Recherche de sponsors en cours.",
+      "ville": "Fontenay-lès-Briis",
+      "tags": ["lancement", "planification", "sponsors"]
+    }
+  ]
+}

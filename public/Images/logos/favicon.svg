@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1929;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e3a5f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d1117;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="phoenixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5ce1e6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0095d9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5ce1e6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#bgGradient)"/>
+  
+  <!-- Phoenix wings - left -->
+  <path d="M 35 50 Q 25 40, 28 32 Q 30 35, 35 42 L 40 50 Z" fill="url(#phoenixGradient)" opacity="0.9" filter="url(#glow)"/>
+  
+  <!-- Phoenix wings - right -->
+  <path d="M 65 50 Q 75 40, 72 32 Q 70 35, 65 42 L 60 50 Z" fill="url(#phoenixGradient)" opacity="0.9" filter="url(#glow)"/>
+  
+  <!-- Phoenix body/head -->
+  <ellipse cx="50" cy="48" rx="12" ry="16" fill="url(#accentGradient)" opacity="0.95"/>
+  
+  <!-- Phoenix tail -->
+  <path d="M 45 64 Q 50 75, 55 64 Q 52 70, 50 75 Q 48 70, 45 64 Z" fill="url(#phoenixGradient)" opacity="0.9" filter="url(#glow)"/>
+  
+  <!-- Eye detail -->
+  <circle cx="50" cy="45" r="2.5" fill="#0a1929"/>
+  
+  <!-- Crown/crest -->
+  <path d="M 50 32 L 48 28 L 50 30 L 52 28 Z" fill="#5ce1e6" filter="url(#glow)"/>
+  
+  <!-- Tech circuit lines -->
+  <path d="M 20 50 L 30 50" stroke="#00d9ff" stroke-width="1.5" opacity="0.7" stroke-linecap="round"/>
+  <path d="M 70 50 L 80 50" stroke="#00d9ff" stroke-width="1.5" opacity="0.7" stroke-linecap="round"/>
+  <circle cx="30" cy="50" r="1.5" fill="#5ce1e6" opacity="0.8"/>
+  <circle cx="70" cy="50" r="1.5" fill="#5ce1e6" opacity="0.8"/>
+  
+  <!-- Additional tech accents -->
+  <circle cx="50" cy="25" r="1" fill="#00d9ff" opacity="0.6"/>
+  <circle cx="35" cy="35" r="1" fill="#5ce1e6" opacity="0.5"/>
+  <circle cx="65" cy="35" r="1" fill="#5ce1e6" opacity="0.5"/>
+</svg>

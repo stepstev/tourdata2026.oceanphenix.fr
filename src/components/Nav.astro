@@ -1,0 +1,97 @@
+---
+// src/components/Nav.astro
+---
+
+<nav class="main-nav">
+  <div class="nav-container">
+    <a href="/index.html" class="logo">
+      <svg class="logo-img" viewBox="0 0 40 46" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+        <!-- Aile gauche -->
+        <path d="M20 22 C14 17 7 12 1 7 C8 13 14 18 18 23Z" opacity="0.8"/>
+        <!-- Aile droite -->
+        <path d="M20 22 C26 17 33 12 39 7 C32 13 26 18 22 23Z" opacity="0.8"/>
+        <!-- Corps / cime flamme -->
+        <path d="M20 5 C17 10 15 16 17 22 C18 24 22 24 23 22 C25 16 23 10 20 5Z"/>
+        <!-- Queue -->
+        <path d="M16 26 Q20 31 24 26 Q20 36 16 26Z" opacity="0.7"/>
+        <!-- Vague -->
+        <path d="M5 41 Q12 36 20 41 Q28 46 35 41" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-sub">OceanP consulting</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li id="nav-terrain"><a href="/terrain"><i class="fas fa-bicycle"></i> TourData</a></li>
+      <li><a href="/tourdata"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+      <li><a href="/strava"><i class="fab fa-strava"></i> Strava</a></li>
+      <li><a href="/radar"><i class="fas fa-crosshairs"></i> Radar</a></li>
+      <li><a href="/index.html#home"><i class="fas fa-home"></i> Solutions</a></li>
+      <li><a href="/expertises"><i class="fas fa-briefcase"></i> Expertises</a></li>
+      <li><a href="#" id="about-link" aria-label="À propos"><i class="fas fa-circle-info"></i></a></li>
+      <li><a href="/admin-terrain" class="nav-admin-link" title="Administration"><i class="fas fa-cog"></i> Admin</a></li>
+      <li>
+        <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+      </li>
+    </ul>
+
+    <!-- Lien Terrain : visible par défaut (mode public ON au 1er démarrage).
+         Masqué uniquement si l'admin a explicitement désactivé le mode public
+         ET qu'aucune session admin valide n'est présente. -->
+    <script is:inline>
+      (function() {
+        // 1er démarrage : activer le mode public par défaut
+        if (localStorage.getItem('op-terrain-public') === null) {
+          localStorage.setItem('op-terrain-public', '1');
+        }
+
+        // Le lien est visible par défaut dans le HTML.
+        // On le masque uniquement si mode public désactivé ET pas de session admin.
+        if (localStorage.getItem('op-terrain-public') === '1') return;
+
+        var AUTH_KEY = 'op-admin-auth';
+        var MAX_AGE = 3600000;
+        var raw = sessionStorage.getItem(AUTH_KEY);
+        var ok = false;
+        if (raw) {
+          try {
+            var s = JSON.parse(raw);
+            if (s.v === 2 && s.ts && (Date.now() - s.ts <= MAX_AGE)) ok = true;
+          } catch(e) {}
+        }
+        if (!ok) {
+          const el = document.getElementById('nav-terrain');
+          if (el) el.style.display = 'none';
+        }
+      })();
+    </script>
+
+    <!-- Right controls: theme toggle + hamburger -->
+    <div class="nav-controls">
+      <!-- Theme toggle: moon (dark) / sun (light) -->
+      <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème clair / sombre" title="Thème clair / sombre">
+        <!-- Moon — visible in dark mode -->
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <!-- Sun — visible in light mode -->
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Hamburger (mobile only) -->
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-mobile">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Overlay mobile -->
+<div class="nav-overlay" id="nav-overlay"></div>
+

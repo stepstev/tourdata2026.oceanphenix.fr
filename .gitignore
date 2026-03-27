@@ -1,0 +1,29 @@
+# Astro
+dist/
+node_modules/
+.astro/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+
+# FTP
+.ftpquota
+
+# Strava credentials — upload manuel sur serveur, jamais dans le repo
+public/api/strava-env.php
+public/api/strava-cache.json
+
+# Deploy archive
+dist-deploy.zip
+
+# Deploy credentials — jamais dans le repo
+deploy.env
+deploy.log

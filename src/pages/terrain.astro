@@ -1,0 +1,619 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+import CguModal from '../components/CguModal.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+import TerrainDashboard from '../components/TerrainDashboard.astro';
+import '../styles/terrain.css';
+import '../styles/terrain-dashboard.css';
+import etapesData from '../data/terrain-etapes.json';
+
+const buildPublic = etapesData.isPublic === true;
+const etapes = etapesData.etapes;
+const position = etapesData.positionActuelle;
+const journal = etapesData.journal;
+const projet = etapesData.projet;
+const gpxFiles = etapesData.gpxFiles || [];
+---
+
+<BaseLayout
+  title="Retour au Terrain — Besoins Data | OceanPhenix 2026"
+  description="Parcours à vélo à travers la France pour rencontrer les entreprises, comprendre leurs besoins data réels et faciliter les échanges entre entreprises et freelances / consultants."
+  lastModified="12/03/2026 12:00"
+>
+  <link slot="head" rel="stylesheet" href="/lib/leaflet.min.css" />
+  <OceanBackground />
+  <Nav />
+
+  <!-- Guard: redirige vers admin-terrain si pas authentifié ET pas en mode public -->
+  <script define:vars={{ buildPublic }}>
+    (function() {
+      if (buildPublic) return; // flag baked into build (true = public pour tous)
+      if (localStorage.getItem('op-terrain-public') === '1') return;
+      var AUTH_KEY = 'op-admin-auth';
+      var MAX_AGE = 3600000;
+      var raw = sessionStorage.getItem(AUTH_KEY);
+      var ok = false;
+      if (raw) {
+        try {
+          var s = JSON.parse(raw);
+          if (s.v === 2 && s.ts && (Date.now() - s.ts <= MAX_AGE)) ok = true;
+        } catch(e) {}
+      }
+      if (!ok) { window.location.replace('/admin-terrain'); }
+    })();
+  </script>
+
+  <main class="main-content terrain-page">
+
+    <!-- ============================== -->
+    <!-- 1. HERO                        -->
+    <!-- ============================== -->
+    <section class="terrain-hero" id="terrain-top">
+      <div class="terrain-hero-inner">
+
+        <!-- Badge -->
+        <div class="terrain-badge" aria-label="Projet Terrain 2026">
+          <i class="fas fa-bicycle"></i>
+          Projet Terrain 2026
+        </div>
+
+        <!-- Titre -->
+        <h1 class="terrain-hero-title">
+          <i class="fas fa-bicycle page-title-icon"></i>
+          <span>Retour au Terrain</span>
+        </h1>
+        <p class="terrain-hero-title-sub">vers les Besoins Data</p>
+
+        <!-- Métriques -->
+        <div class="terrain-hero-meta">
+          <span><i class="fas fa-road"></i> <span id="live-km-total">{projet.kmTotal}</span>&nbsp;km</span>
+          <span><i class="fas fa-map-marker-alt"></i> <span id="live-nb-etapes">{projet.nbEtapes}</span>&nbsp;étapes</span>
+          <span><i class="fas fa-calendar-alt"></i> <span id="live-periode">{projet.periode}</span></span>
+        </div>
+
+        <!-- Onglets : Visuel / Le Projet -->
+        <div class="thero-tabs-wrapper">
+
+          <div class="thero-tabs" role="tablist">
+            <button class="thero-tab thero-tab--active"
+              data-thero="visuel" role="tab"
+              aria-selected="true" aria-controls="thero-panel-visuel">
+              <i class="fas fa-image" aria-hidden="true"></i> Visuel
+            </button>
+            <button class="thero-tab"
+              data-thero="projet" role="tab"
+              aria-selected="false" aria-controls="thero-panel-projet">
+              <i class="fas fa-lightbulb" aria-hidden="true"></i> Le Projet
+            </button>
+          </div>
+
+          <!-- Panneau 1 : Image -->
+          <div class="thero-panel thero-panel--active" id="thero-panel-visuel" role="tabpanel">
+            <div class="terrain-hero-visual">
+              <div class="terrain-hero-img-wrap">
+                <div class="terrain-hero-img-glow"></div>
+                <img
+                  src="/Images/RDT.png"
+                  alt="Retour au Terrain — Besoins Data 2026"
+                  class="terrain-hero-img"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="terrain-hero-img-badge">
+                  <i class="fas fa-map-marked-alt"></i>
+                  <span>Parcours 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panneau 2 : Manifesto -->
+          <div class="thero-panel" id="thero-panel-projet" role="tabpanel">
+            <div class="terrain-hero-manifesto">
+
+              <!-- Block 1 : Accroche -->
+              <div class="thm-block thm-block--hook">
+                <span class="thm-eyebrow">Avril&nbsp;2026</span>
+                <p class="thm-headline">
+                  À 58 ans, je prends mon vélo.<br>
+                  Et je vais tenter de traverser la France.
+                </p>
+                <p class="thm-context">
+                  Le monde est complexe. En transition. Instable.<br>
+                  Les entreprises cherchent des repères. Les profils cherchent du sens.<br>
+                  Et parfois, ralentir est la décision la plus stratégique.
+                </p>
+              </div>
+
+              <!-- Block 2 : Problème + action -->
+              <div class="thm-block thm-block--problem">
+                <p class="thm-statement">
+                  Des consultants data disponibles.<br>
+                  Des entreprises qui cherchent.
+                </p>
+                <p class="thm-punch">Et pourtant&hellip;&nbsp;<strong>ça ne se rencontre pas.</strong></p>
+                <div class="thm-ride">
+                  <span class="thm-ride-icon"><i class="fas fa-bicycle" aria-hidden="true"></i></span>
+                  <span class="thm-ride-km">+ 1&nbsp;700&nbsp;km</span>
+                  <span class="thm-ride-text">pour écouter les deux côtés.</span>
+                </div>
+                <p class="thm-method">
+                  Sans algorithme. Juste du <strong>face à face.</strong><br>
+                  Mon itinéraire ne dépend pas d'une carte —<br>
+                  il se construira au fil de vos rendez-vous.
+                </p>
+              </div>
+
+              <!-- Block 3 : Bio -->
+              <div class="thm-block thm-block--bio">
+                <p class="thm-bio-name">Je m'appelle <strong>Stéphane Celton.</strong></p>
+                <p class="thm-bio-role">Data Product Manager Senior — 15 ans en environnements IT complexes.</p>
+                <p class="thm-bio-skills">Data, BI, observabilité. Passionné d'IA.</p>
+                <p class="thm-bio-stance">
+                  Entre deux missions, j'ai choisi de bouger plutôt qu'attendre.<br>
+                  Prendre la route pour aller à la rencontre du terrain — vraiment.
+                </p>
+              </div>
+
+              <!-- Block 4 : CTA texte -->
+              <div class="thm-block thm-block--cta-text">
+                <p class="thm-cta-question">Vous avez un besoin data&nbsp;? Une mission à partager&nbsp;?</p>
+                <p class="thm-cta-body">
+                  Contactez-moi directement ou rejoignez le groupe <strong>#TourData2026.</strong><br>
+                  Sans intermédiaire. Pour que consultants et entreprises<br>
+                  se trouvent enfin — simplement.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="terrain-hero-actions">
+          <a href="#carte" class="terrain-cta terrain-cta--primary">
+            <i class="fas fa-map"></i> Voir la carte
+          </a>
+          <a href="https://cal.com/tourdata2026" target="_blank" rel="noopener" class="terrain-cta terrain-cta--rdv">
+            <i class="fas fa-calendar-check"></i> Prendre RDV
+          </a>
+          <a href="#contact-terrain" class="terrain-cta terrain-cta--secondary">
+            <i class="fas fa-handshake"></i> Me contacter
+          </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <a href="#vision" class="terrain-scroll-indicator" aria-label="Défiler vers le bas">
+          <svg class="terrain-scroll-svg" viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1" y="1" width="28" height="48" rx="14" ry="14"
+              fill="none" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+            <circle class="terrain-scroll-dot" cx="15" cy="12" r="4" fill="currentColor"/>
+          </svg>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- DASHBOARD CARD (mockup style)  -->
+    <!-- ============================== -->
+    <TerrainDashboard />
+
+    <!-- ============================== -->
+    <!-- 2. VISION / DÉMARCHE           -->
+    <!-- ============================== -->
+    <section class="terrain-section" id="vision">
+      <div class="terrain-container">
+        <div class="terrain-section-header">
+          <div class="terrain-section-badge">
+            <i class="fas fa-eye"></i> VISION &amp; DÉMARCHE
+          </div>
+          <h2 class="terrain-section-title">
+            <span class="gradient-text">Pourquoi ce projet&nbsp;?</span>
+          </h2>
+        </div>
+        <div class="terrain-vision-grid">
+
+          <div class="terrain-vision-card">
+            <div class="terrain-vision-icon"><i class="fas fa-ear-listen"></i></div>
+            <h3>Écouter le terrain</h3>
+            <p>
+              En plus de 20&nbsp;ans d'IT, j'ai fait un constat honnête. Le monde s'emballe.
+              Les crises s'enchaînent. Et dans les organisations comme partout ailleurs,
+              <strong>ceux qui connaissent vraiment les problèmes ne sont pas ceux qu'on écoute.</strong>
+            </p>
+            <p class="terrain-vision-card-detail">
+              Ce voyage, c'est une tentative d'inverser ça.<br />
+              Aller vers vous. Vers ce que vous vivez vraiment.
+            </p>
+          </div>
+
+          <div class="terrain-vision-card">
+            <div class="terrain-vision-icon"><i class="fas fa-puzzle-piece"></i></div>
+            <h3>Identifier les pain&nbsp;points</h3>
+            <p>
+              Vous savez exactement où ça coince. Les problèmes qu'on n'ose pas remettre en question.
+              Le rapport que tout le monde reçoit <strong>et que personne ne lit.</strong>
+              L'outil acheté trop vite &mdash; et trop cher &mdash; adopté trop tard, <em>abandonné en silence.</em> Politiquement.
+            </p>
+            <p class="terrain-vision-card-detail">
+              Ces choses-là, certains les portent seuls depuis des années.<br />
+              C'est pour eux que ce projet est imaginé.
+            </p>
+          </div>
+
+          <div class="terrain-vision-card">
+            <div class="terrain-vision-icon"><i class="fas fa-network-wired"></i></div>
+            <h3>Connecter les acteurs</h3>
+            <p>
+              Les crises nous rappellent une vérité simple&nbsp;: ce qui tient, ce sont les liens humains.
+              Des équipes data qui n'en peuvent plus de chercher. Des consultants expérimentés
+              qu'on ghoste sans explication.
+              <strong>Deux mondes qui ont besoin l'un de l'autre &mdash; et qui ne se trouvent pas.</strong>
+            </p>
+            <p class="terrain-vision-card-detail">
+              Peut-être que l'important, c'est juste de faire le chemin entre les deux.<br />
+              À vélo si nécessaire.
+            </p>
+          </div>
+
+          <div class="terrain-vision-card">
+            <div class="terrain-vision-icon"><i class="fas fa-bicycle"></i></div>
+            <h3>Le vélo comme vecteur</h3>
+            <p>
+              Quand tout s'emballe, le vélo impose la lenteur. À vélo, on n'impressionne personne.
+              On arrive fatigué. On accepte le café. On s'assoit vraiment. On écoute.
+              <strong>C'est dans ces moments sans agenda que les gens disent ce qu'ils pensent vraiment.</strong>
+            </p>
+            <p class="terrain-vision-card-detail">
+              Pas ce qu'il faudrait dire. Ce qu'ils ressentent.<br />
+              J'ai choisi le vélo pour ça.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Bloc de clôture -->
+        <div class="terrain-vision-closing">
+          <p class="terrain-vision-closing-main">
+            Si vous êtes CDO, DSI, Data Manager, responsable BI &mdash; et que vous vous reconnaissez ici&nbsp;:
+            <a href="#rdv" class="tvc-link"><strong>prenez rendez-vous.</strong></a><br />
+            Si vous êtes consultant, freelance, Data Analyst, Data Engineer, PO data &mdash; disponible ou bientôt&nbsp;:
+            <a href="#rdv" class="tvc-link"><strong>réservez un créneau.</strong></a>
+          </p>
+          <p class="terrain-vision-closing-sub">
+            Ou commentez sur LinkedIn. Republiez. Partagez à quelqu'un qui cherche sans trouver.<br />
+            Ce n'est pas un acte commercial. C'est humain.
+          </p>
+          <p class="terrain-vision-closing-sign">
+            <em>On peut changer les choses. Petit à petit. Kilomètre après kilomètre.</em><br />
+            En tout cas &mdash; de mon côté, j'essaierai. Et j'en ai besoin.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- 3. CARTE INTERACTIVE           -->
+    <!-- ============================== -->
+    <section class="terrain-section terrain-section--map" id="carte">
+      <div class="terrain-container terrain-container--wide">
+        <div class="terrain-section-header">
+          <div class="terrain-section-badge">
+            <i class="fas fa-map-marked-alt"></i> PARCOURS
+          </div>
+          <h2 class="terrain-section-title">
+            <span class="gradient-text">Carte du parcours</span>
+          </h2>
+          <p class="terrain-section-desc">
+            Cliquez sur une étape pour voir les détails. Le tracé GPX est mis à jour en temps réel depuis l'admin.
+          </p>
+        </div>
+        <div id="terrain-map" class="terrain-map-container"></div>
+        <div class="terrain-map-legend">
+          <span class="legend-item"><span class="legend-dot legend-dot--actuel"></span> Position actuelle</span>
+          <span class="legend-item"><span class="legend-dot legend-dot--planifie"></span> Étape planifiée</span>
+          <span class="legend-item"><span class="legend-dot legend-dot--visite"></span> Étape visitée</span>
+          <label class="legend-item legend-toggle" title="Afficher/masquer les espaces de coworking">
+            <i class="fas fa-flag" style="color:#d4845a;"></i> Coworking
+            <input type="checkbox" id="cw-toggle" checked />
+            <span class="legend-switch"></span>
+          </label>
+          <label class="legend-item legend-toggle" title="Afficher/masquer pistes cyclables &amp; voies vertes">
+            <i class="fas fa-bicycle" style="color:#2ea043;"></i> Pistes cyclables
+            <input type="checkbox" id="cyclosm-toggle" checked />
+            <span class="legend-switch"></span>
+          </label>
+          <label class="legend-item legend-toggle" title="Afficher/masquer routes vélo nationales">
+            <i class="fas fa-route" style="color:#e04040;"></i> Routes vélo
+            <input type="checkbox" id="waymarked-toggle" />
+            <span class="legend-switch"></span>
+          </label>
+          <label class="legend-item legend-toggle" title="Afficher/masquer le tracé GPX du parcours">
+            <i class="fas fa-map-signs" style="color:#f59e0b;"></i> Tracé GPX
+            <input type="checkbox" id="gpx-toggle" checked />
+            <span class="legend-switch"></span>
+          </label>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- RDV / CAL.COM                  -->
+    <!-- ============================== -->
+    <section class="terrain-section terrain-section--rdv" id="rdv">
+      <div class="terrain-container">
+        <div class="terrain-section-header">
+          <div class="terrain-section-badge">
+            <i class="fas fa-calendar-check"></i> PRISE DE RENDEZ-VOUS
+          </div>
+          <h2 class="terrain-section-title">
+            <span class="gradient-text">Rencontrons-nous</span>
+          </h2>
+          <p class="terrain-section-desc">
+            Vous êtes sur mon parcours&nbsp;? Envie d'échanger autour de vos besoins data, d'une opportunité de
+            collaboration, ou simplement de parler du projet&nbsp;? Réservez directement un créneau dans mon agenda.
+          </p>
+        </div>
+
+        <div class="terrain-rdv-card">
+          <div class="terrain-rdv-card-left">
+            <img src="/Images/moi_detour.png" alt="Stéphane Celton" class="terrain-rdv-avatar" loading="lazy" />
+            <div class="terrain-rdv-info">
+              <strong>Stéphane Celton</strong>
+              <span>Data Product Manager</span>
+              <span class="terrain-rdv-info-sub">OceanPhenix · Parcours Terrain 2026</span>
+            </div>
+          </div>
+
+          <div class="terrain-rdv-card-right">
+            <div class="terrain-rdv-options">
+              <div class="terrain-rdv-option">
+                <i class="fas fa-building"></i>
+                <div>
+                  <span>Entreprise / DSI / CDO</span>
+                  <small>Diagnostic data, échanges terrain</small>
+                </div>
+              </div>
+              <div class="terrain-rdv-option">
+                <i class="fas fa-code"></i>
+                <div>
+                  <span>Consultant · Freelance · Data</span>
+                  <small>Mise en relation, réseau</small>
+                </div>
+              </div>
+              <div class="terrain-rdv-option">
+                <i class="fas fa-handshake"></i>
+                <div>
+                  <span>Sponsor · Partenaire</span>
+                  <small>Soutenir le projet</small>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://cal.com/tourdata2026"
+              target="_blank"
+              rel="noopener"
+              class="terrain-cta terrain-cta--rdv terrain-cta--rdv-large"
+            >
+              <i class="fas fa-calendar-check"></i>
+              Réserver un créneau
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- 6. FORMULAIRE DE CONTACT       -->
+    <!-- ============================== -->
+    <section class="terrain-section" id="contact-terrain">
+      <div class="terrain-container">
+        <div class="terrain-section-header">
+          <div class="terrain-section-badge">
+            <i class="fas fa-envelope"></i> CONTACT
+          </div>
+          <h2 class="terrain-section-title">
+            <span class="gradient-text">Me contacter</span>
+          </h2>
+          <p class="terrain-section-desc">
+            Vous êtes une entreprise sur mon parcours ? Vous souhaitez organiser une rencontre, proposer un échange
+            ou devenir sponsor ? Écrivez-moi&nbsp;!
+          </p>
+        </div>
+        <form
+          class="terrain-contact-form"
+          action="mailto:contact@oceanpconsulting.fr"
+          method="POST"
+          enctype="text/plain"
+        >
+          <div class="terrain-form-row">
+            <div class="terrain-form-group">
+              <label for="terrain-nom">Nom / Entreprise</label>
+              <input type="text" id="terrain-nom" name="nom" required autocomplete="organization" />
+            </div>
+            <div class="terrain-form-group">
+              <label for="terrain-email">Email</label>
+              <input type="email" id="terrain-email" name="email" required autocomplete="email" />
+            </div>
+          </div>
+          <div class="terrain-form-group">
+            <label for="terrain-ville">Ville / Étape concernée</label>
+            <select id="terrain-ville" name="ville">
+              <option value="">— Sélectionnez —</option>
+              {etapes.map((e) => (
+                <option value={e.ville}>{e.ville} ({e.region})</option>
+              ))}
+            </select>
+          </div>
+          <div class="terrain-form-group">
+            <label for="terrain-type">Type d'offre / demande</label>
+            <select id="terrain-type" name="type">
+              <option value="">— Sélectionnez —</option>
+              <optgroup label="— Demandes">
+                <option value="rencontre">Organiser une rencontre</option>
+                <option value="diagnostic">Demander un diagnostic data</option>
+                <option value="sponsor">Devenir sponsor</option>
+              </optgroup>
+              <optgroup label="— Offres">
+                <option value="hebergement">Me proposer un hébergement sur le parcours (1 nuit)</option>
+                <option value="datacoffee">Me proposer un DataCoffee (1 h échange data)</option>
+                <option value="freelance">Proposer mes services (freelance / consultant)</option>
+              </optgroup>
+              <optgroup label="— Autre">
+                <option value="autre">Autre</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="terrain-form-group">
+            <label for="terrain-message">Message</label>
+            <textarea id="terrain-message" name="message" rows="5" required></textarea>
+          </div>
+          <input type="text" name="_gotcha" style="display:none" />
+          <button type="submit" class="terrain-cta terrain-cta--primary terrain-form-submit">
+            <i class="fas fa-paper-plane"></i> Envoyer
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- 9. JOURNAL DU TERRAIN          -->
+    <!-- ============================== -->
+    <section class="terrain-section" id="journal">
+      <div class="terrain-container">
+        <div class="terrain-section-header">
+          <div class="terrain-section-badge">
+            <i class="fas fa-book-open"></i> JOURNAL
+          </div>
+          <h2 class="terrain-section-title">
+            <span class="gradient-text">Journal du terrain</span>
+          </h2>
+        </div>
+        <div class="terrain-journal-timeline" id="live-journal">
+          {journal.map((entry) => (
+            <div class="terrain-journal-entry">
+              <div class="terrain-journal-date">
+                <i class="fas fa-calendar-day"></i> {entry.date}
+                <span class="terrain-journal-ville">— {entry.ville}</span>
+              </div>
+              <h3 class="terrain-journal-titre">{entry.titre}</h3>
+              <p class="terrain-journal-contenu" set:html={entry.contenu.replace(/\n/g, '<br>')}></p>
+              <div class="terrain-journal-tags">
+                {entry.tags.map((tag: string) => (
+                  <span class="terrain-tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- VISIBILITÉ / LIENS             -->
+    <!-- ============================== -->
+    <section class="terrain-section terrain-section--links" id="suivre">
+      <div class="terrain-container">
+        <div class="terrain-section-header">
+          <div class="terrain-section-badge">
+            <i class="fas fa-satellite-dish"></i> SUIVRE LE PROJET
+          </div>
+          <h2 class="terrain-section-title">
+            <span class="gradient-text">Restez connectés</span>
+          </h2>
+        </div>
+        <div class="terrain-social-grid">
+          <a href={projet.liens.youtube} target="_blank" rel="noopener" class="terrain-social-card terrain-social--yt">
+            <i class="fab fa-youtube"></i>
+            <span>YouTube</span>
+            <small>Discovery IT DATA</small>
+          </a>
+          <a href="https://www.strava.com/athletes/49130349" target="_blank" rel="noopener" class="terrain-social-card terrain-social--strava">
+            <i class="fas fa-bicycle"></i>
+            <span>Strava</span>
+            <small>Suivre mon parcours vélo</small>
+          </a>
+          <a href={projet.liens.linkedin} target="_blank" rel="noopener" class="terrain-social-card terrain-social--li">
+            <i class="fab fa-linkedin"></i>
+            <span>LinkedIn</span>
+            <small>Stéphane Celton</small>
+          </a>
+          <a href="https://www.linkedin.com/company/oceanphenix" target="_blank" rel="noopener" class="terrain-social-card terrain-social--li">
+            <i class="fab fa-linkedin"></i>
+            <span>OceanPhenix</span>
+            <small>Page entreprise</small>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script is:inline>
+    document.querySelectorAll('.tdash-suivi-link').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var url = btn.getAttribute('data-popup-url');
+        var label = btn.querySelector('i').nextSibling.textContent.trim();
+        // Taille : 80% de la fenêtre mère (pas de l'écran)
+        var w = Math.round(window.outerWidth * 0.8);
+        var h = Math.round(window.outerHeight * 0.8);
+        // Centre par rapport à la fenêtre mère (gère multi-écran)
+        var left = Math.round(window.screenX + (window.outerWidth - w) / 2);
+        var top  = Math.round(window.screenY + (window.outerHeight - h) / 2);
+        window.open(url, label, 'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no');
+      });
+    });
+  </script>
+
+  <Footer />
+  <CopyrightBar />
+  <CguModal />
+
+  <!-- Leaflet JS (self-hosted) -->
+  <script src="/lib/leaflet.min.js" is:inline></script>
+
+  <!-- Data for map scripts (CSP-safe: not executed) -->
+  <script type="application/json" id="terrain-data" set:html={JSON.stringify({ etapes, position, gpxFiles })}></script>
+
+  <!-- Carte Leaflet init -->
+  <script src="/js/terrain-maps.js" is:inline></script>
+
+  <!-- Live updates from admin localStorage + cross-tab sync -->
+  <script src="/js/terrain-live.js" is:inline></script>
+
+  <!-- Onglets hero (Visuel / Le Projet) -->
+  <script is:inline>
+  (function () {
+    function onReady(fn) {
+      if (document.readyState !== 'loading') fn();
+      else document.addEventListener('DOMContentLoaded', fn);
+    }
+    onReady(function () {
+      document.querySelectorAll('.thero-tab').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var key = btn.dataset.thero;
+          document.querySelectorAll('.thero-tab').forEach(function (b) {
+            b.classList.remove('thero-tab--active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          document.querySelectorAll('.thero-panel').forEach(function (p) {
+            p.classList.remove('thero-panel--active');
+          });
+          btn.classList.add('thero-tab--active');
+          btn.setAttribute('aria-selected', 'true');
+          var panel = document.getElementById('thero-panel-' + key);
+          if (panel) panel.classList.add('thero-panel--active');
+        });
+      });
+    });
+  })();
+  </script>
+
+</BaseLayout>

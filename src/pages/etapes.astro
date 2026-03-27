@@ -1,0 +1,381 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+
+const API_URL = 'https://www.tourdata2026.oceanphenix.fr/api/etapes.php';
+---
+
+<BaseLayout
+  title="Journal de terrain — Tour de la Data 2026 | OceanPhenix"
+  description="Toutes les étapes du Tour de la Data 2026 : billets de terrain, photos, distances et rencontres."
+  lastModified={new Date().toLocaleDateString('fr-FR')}
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="etapes-page">
+
+    <!-- HERO -->
+    <section class="etapes-hero">
+      <div class="etapes-hero-inner">
+        <div class="etapes-badge">
+          <i class="fas fa-bicycle"></i> Tour de la Data 2026
+        </div>
+        <h1>Journal de terrain</h1>
+        <p class="etapes-subtitle">Les étapes, les rencontres, le vrai.</p>
+
+        <!-- Compteurs cumulés -->
+        <div class="etapes-counters" id="counters" aria-live="polite">
+          <div class="counter-item">
+            <span class="counter-val" id="cnt-etapes">—</span>
+            <span class="counter-label">étapes</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-val" id="cnt-km">—</span>
+            <span class="counter-label">km</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-val" id="cnt-jours">—</span>
+            <span class="counter-label">jours</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTE ÉTAPES -->
+    <section class="etapes-list-section">
+      <div class="etapes-container">
+
+        <!-- État : chargement -->
+        <div id="state-loading" class="state-block" aria-live="polite">
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Chargement des étapes…</p>
+        </div>
+
+        <!-- État : erreur -->
+        <div id="state-error" class="state-block" style="display:none" aria-live="assertive">
+          <i class="fas fa-triangle-exclamation" style="font-size:2rem;color:var(--status-err)"></i>
+          <p>Impossible de charger les étapes.</p>
+          <button id="btn-retry" class="btn-retry">Réessayer</button>
+        </div>
+
+        <!-- État : vide -->
+        <div id="state-empty" class="state-block" style="display:none">
+          <i class="fas fa-map-pin" style="font-size:2rem;color:var(--text-muted)"></i>
+          <p style="color:var(--text-muted)">Aucune étape publiée pour l'instant.<br/>Le départ approche.</p>
+        </div>
+
+        <!-- Liste -->
+        <div id="etapes-grid" style="display:none" role="list"></div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+</BaseLayout>
+
+<style>
+  /* ── Page layout ─────────────────────────────────── */
+  .etapes-page {
+    min-height: 100dvh;
+    background: transparent;
+  }
+
+  /* ── Hero ────────────────────────────────────────── */
+  .etapes-hero {
+    padding: 7rem 1.25rem 3rem;
+    text-align: center;
+  }
+
+  .etapes-hero-inner { max-width: 640px; margin: 0 auto; }
+
+  .etapes-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--accent-cyan);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    color: var(--accent-cyan);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .etapes-hero h1 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .etapes-subtitle {
+    color: var(--text-muted);
+    font-size: var(--text-base);
+    margin-bottom: 2rem;
+  }
+
+  /* ── Compteurs ───────────────────────────────────── */
+  .etapes-counters {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .counter-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.2rem;
+  }
+
+  .counter-val {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--accent-cyan);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .counter-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+  }
+
+  /* ── Section liste ───────────────────────────────── */
+  .etapes-list-section {
+    padding: 0 1rem 4rem;
+  }
+
+  .etapes-container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ── États ───────────────────────────────────────── */
+  .state-block {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 1rem;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid rgba(77,184,212,0.2);
+    border-top-color: var(--accent-cyan);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .btn-retry {
+    padding: 0.6rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--accent-cyan);
+    border-radius: var(--radius-full);
+    color: var(--accent-cyan);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    transition: background var(--transition-fast);
+  }
+
+  .btn-retry:hover { background: rgba(77,184,212,0.1); }
+
+  /* ── Cards étapes ────────────────────────────────── */
+  #etapes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .etape-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .etape-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .etape-photo {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+
+  .etape-body { padding: 1.25rem; }
+
+  .etape-meta {
+    display: flex; align-items: center;
+    gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .etape-date {
+    font-size: var(--text-xs);
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+  }
+
+  .etape-lieu {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+
+  .etape-km {
+    margin-left: auto;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-orange);
+  }
+
+  .etape-commentaire {
+    font-size: var(--text-base);
+    color: var(--text-light);
+    line-height: var(--lh-body);
+    white-space: pre-line;
+  }
+
+  .etape-commentaire.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .btn-lire-plus {
+    margin-top: 0.6rem;
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  /* ── Responsive ──────────────────────────────────── */
+  @media (max-width: 480px) {
+    .etapes-hero { padding-top: 6rem; }
+    .etapes-counters { gap: 1.5rem; }
+    .counter-val { font-size: var(--text-xl); }
+  }
+</style>
+
+<script define:vars={{ API_URL }}>
+  const grid     = document.getElementById('etapes-grid');
+  const stLoad   = document.getElementById('state-loading');
+  const stError  = document.getElementById('state-error');
+  const stEmpty  = document.getElementById('state-empty');
+  const btnRetry = document.getElementById('btn-retry');
+
+  const cntEtapes = document.getElementById('cnt-etapes');
+  const cntKm     = document.getElementById('cnt-km');
+  const cntJours  = document.getElementById('cnt-jours');
+
+  function show(el) {
+    [stLoad, stError, stEmpty, grid].forEach(e => e.style.display = 'none');
+    el.style.display = el === grid ? 'flex' : 'flex';
+  }
+
+  function formatDate(str) {
+    if (!str) return '';
+    const d = new Date(str);
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function buildCard(etape) {
+    const article = document.createElement('article');
+    article.className = 'etape-card';
+    article.setAttribute('role', 'listitem');
+
+    const texte = etape.commentaire || '';
+    const long  = texte.length > 300;
+
+    article.innerHTML = `
+      ${etape.image_url
+        ? `<img class="etape-photo" src="${etape.image_url}" alt="Photo étape ${etape.lieu || ''}" loading="lazy"/>`
+        : ''}
+      <div class="etape-body">
+        <div class="etape-meta">
+          <span class="etape-date">${formatDate(etape.date_etape)}</span>
+          ${etape.lieu
+            ? `<span class="etape-lieu"><i class="fas fa-map-pin" aria-hidden="true"></i>${etape.lieu}</span>`
+            : ''}
+          ${etape.distance_km
+            ? `<span class="etape-km">${etape.distance_km} km</span>`
+            : ''}
+        </div>
+        ${texte
+          ? `<p class="etape-commentaire${long ? ' collapsed' : ''}">${texte}</p>
+             ${long ? `<button class="btn-lire-plus" aria-expanded="false">Lire la suite</button>` : ''}`
+          : ''}
+      </div>
+    `;
+
+    if (long) {
+      const btn = article.querySelector('.btn-lire-plus');
+      const p   = article.querySelector('.etape-commentaire');
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        p.classList.toggle('collapsed', expanded);
+        btn.setAttribute('aria-expanded', String(!expanded));
+        btn.textContent = expanded ? 'Lire la suite' : 'Réduire';
+      });
+    }
+
+    return article;
+  }
+
+  function updateCounters(etapes) {
+    const nb   = etapes.length;
+    const km   = etapes.reduce((s, e) => s + (parseFloat(e.distance_km) || 0), 0);
+    const jours = nb > 0
+      ? Math.round((new Date(etapes[0].date_etape) - new Date(etapes[nb - 1].date_etape)) / 86400000) + 1
+      : 0;
+
+    cntEtapes.textContent = nb;
+    cntKm.textContent     = km > 0 ? Math.round(km) : '—';
+    cntJours.textContent  = jours > 0 ? jours : '—';
+  }
+
+  async function load() {
+    show(stLoad);
+    try {
+      const res = await fetch(API_URL, { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const etapes = await res.json();
+
+      if (!Array.isArray(etapes) || etapes.length === 0) {
+        show(stEmpty);
+        return;
+      }
+
+      updateCounters(etapes);
+      grid.innerHTML = '';
+      etapes.forEach(e => grid.appendChild(buildCard(e)));
+      show(grid);
+    } catch (err) {
+      console.error('etapes.php error:', err);
+      show(stError);
+    }
+  }
+
+  btnRetry.addEventListener('click', load);
+  load();
+</script>

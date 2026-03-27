@@ -1,0 +1,117 @@
+/* ============================================================
+   OceanPhenix — Design Tokens
+   Branding CSS custom properties : couleurs, typo, espacements.
+   Importer en premier via BaseLayout.astro.
+   ============================================================ */
+
+:root {
+  /* ── Brand Colors (desaturated) ────────────────────────── */
+  --primary-dark:       #0b1a2e;
+  --navy:               #0a182c;
+  --secondary-dark:     #1a3352;
+  --accent-cyan:        #4db8d4;
+  --accent-blue:        #2d8bb5;
+  --accent-light-cyan:  #6ec5d6;
+  --dark-charcoal:      #0e1319;
+  --white:              #f4f6f8;
+  --text-light:         #e8ecf0;
+  --text-muted:         #8fa3b8;
+  --accent-orange:      #d4845a;
+  --accent-copper:      #c87a4a;
+  --accent-copper-light: #d4a07a;
+
+  /* ── Gradients ────────────────────────────────────────── */
+  --primary-gradient: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+  --accent-gradient:  linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  --ocean-gradient:   linear-gradient(135deg, #0c3d6e, #1a6d96, #3ea8c4, #7dcde0);
+
+  /* ── Typography ───────────────────────────────────────── */
+  --font-primary:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-secondary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* ── Type Scale ────────────────────────────────────────── */
+  --text-xs:    0.75rem;
+  --text-sm:    0.875rem;
+  --text-base:  1rem;
+  --text-lg:    1.125rem;
+  --text-xl:    1.5rem;
+  --text-2xl:   1.875rem;
+  --text-3xl:   2.25rem;
+  --text-4xl:   3rem;
+
+  /* ── Spacing ──────────────────────────────────────────── */
+  --spacing-xs:  0.5rem;
+  --spacing-sm:  1rem;
+  --spacing-md:  1.5rem;
+  --spacing-lg:  2rem;
+  --spacing-xl:  3rem;
+  --spacing-xxl: 4rem;
+
+  /* ── Border Radius ────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 50px;
+
+  /* ── Shadows ──────────────────────────────────────────── */
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md:   0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg:   0 16px 48px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 30px rgba(0, 120, 160, 0.15);
+
+  /* ── Transitions ──────────────────────────────────────── */
+  --transition-fast:   0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Status / Semantic colors ──────────────────────────── */
+  --status-ok:   #22c55e;
+  --status-warn: #f59e0b;
+  --status-err:  #ef4444;
+  --brand-strava: #fc4c02;
+
+  /* ── Typography helpers ────────────────────────────────── */
+  --lh-body:    1.65;
+  --lh-compact: 1.3;
+  --ls-label:   0.06em;
+
+  /* ── Heading color ─────────────────────────────────────── */
+  --heading-color: #5bc4de;  /* dark theme — teal clair, contraste > 9:1 sur fond sombre */
+}
+
+/* ============================================================
+   LIGHT THEME — variable overrides applied on html[data-theme="light"]
+   ============================================================ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* ── Brand Colors (light) ─────────────────────────────── */
+  --primary-dark:       #eaf1f7;
+  --secondary-dark:     #d8e6f0;
+  --dark-charcoal:      #f0f5f9;
+  --white:              #1a2535;
+  --text-light:         #1a2535;
+  --text-muted:         #4a6275;
+  --accent-cyan:        #1a7fa0;
+  --accent-blue:        #15658a;
+  --accent-light-cyan:  #258fa8;
+  --accent-orange:      #b06830;
+  --accent-copper:      #b06830;
+  --accent-copper-light: #c49060;
+  --navy:               #1a2535;
+
+  /* ── Gradients (light) ────────────────────────────────── */
+  --primary-gradient: linear-gradient(135deg, #eaf1f7, #d8e6f0);
+  --accent-gradient:  linear-gradient(135deg, #1a7fa0, #15658a);
+  --ocean-gradient:   linear-gradient(135deg, #c0dbed, #a0cce0, #80bcd5, #60accb);
+
+  /* ── Heading color (light) ────────────────────────────── */
+  --heading-color: #1a6580;  /* contraste > 5.9:1 sur fond clair */
+
+  /* ── Shadows (light) ──────────────────────────────────── */
+  --shadow-sm:   0 1px 2px rgba(0, 30, 60, 0.04), 0 2px 8px rgba(0, 30, 60, 0.06);
+  --shadow-md:   0 2px 6px rgba(0, 30, 60, 0.05), 0 8px 28px rgba(0, 30, 60, 0.08);
+  --shadow-lg:   0 6px 18px rgba(0, 30, 60, 0.07), 0 20px 52px rgba(0, 30, 60, 0.10);
+  --shadow-glow: 0 0 20px rgba(0, 80, 120, 0.10);
+}

@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Crawl-delay: 1
+
+# Assets publics
+Allow: /Images/
+Allow: /js/
+
+# Fichiers sensibles
+Disallow: /*.md
+
+Sitemap: https://oceanphenix.fr/sitemap.xml

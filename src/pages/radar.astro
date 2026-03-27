@@ -1,0 +1,2170 @@
+---
+// src/pages/radar.astro — Radar Terrain TourData 2026
+// Localise en temps réel : campings, coworkings, entreprises data/IT, événements
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import CguModal from '../components/CguModal.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+---
+
+<BaseLayout
+  title="Radar Terrain — Campings, Coworkings & Entreprises | TourData 2026"
+  description="Localisez en temps réel autour de votre position : campings, coworkings, entreprises data/IT et événements IT/emploi. Outil terrain TourData 2026 — Stéphane Celton."
+  lastModified="22/03/2026 12:00"
+>
+  <link slot="head" rel="stylesheet" href="/lib/leaflet.min.css" />
+
+  <OceanBackground />
+  <Nav />
+
+  <main class="radar-page main-content" id="radar-page">
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- HERO — cohérent avec strava / terrain                 -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <section class="rd-hero">
+      <div class="rd-hero-badge">
+        <i class="fas fa-satellite-dish"></i> Outil Terrain — TourData 2026
+      </div>
+      <h2 class="page-title"><i class="fas fa-crosshairs page-title-icon"></i> Radar Terrain</h2>
+      <p class="page-sub">Localisez en temps réel : coworkings, entreprises data/IT et événements IT/emploi autour de votre position — TourData 2026</p>
+      <p class="rd-wip-notice"><i class="fas fa-triangle-exclamation"></i> En développement actif — données partielles</p>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- CONTRÔLES — toolbar compacte                          -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div class="rd-header">
+      <div class="rd-toolbar">
+        <!-- Dropdown custom villes Data/IA -->
+        <div class="rd-city-dropdown" id="city-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="city-panel">
+          <button class="rd-city-trigger" id="city-trigger" type="button" aria-label="Choisir une ville Data / IA">
+            <i class="fas fa-map-location-dot rd-city-trigger-icon"></i>
+            <span id="city-trigger-label">Ville Data / IA</span>
+            <i class="fas fa-chevron-down rd-city-chevron"></i>
+          </button>
+          <div class="rd-city-panel" id="city-panel" role="listbox">
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-city"></i> Île-de-France</div>
+              <button class="rd-city-item" data-lat="48.856" data-lon="2.352"><i class="fas fa-tower-observation" style="color:#f59e0b"></i> Paris</button>
+              <button class="rd-city-item" data-lat="48.897" data-lon="2.088"><i class="fas fa-building-columns" style="color:#94a3b8"></i> La Défense</button>
+              <button class="rd-city-item" data-lat="48.759" data-lon="2.208"><i class="fas fa-flask" style="color:#22d3ee"></i> Saclay / Paris-Sud</button>
+              <button class="rd-city-item" data-lat="48.638" data-lon="2.094"><i class="fas fa-bicycle" style="color:#10b981"></i> Fontenay-lès-Briis</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-mountain-sun"></i> Auvergne-Rhône-Alpes</div>
+              <button class="rd-city-item" data-lat="45.748" data-lon="4.847"><i class="fas fa-database" style="color:#f59e0b"></i> Lyon</button>
+              <button class="rd-city-item" data-lat="45.188" data-lon="5.724"><i class="fas fa-atom" style="color:#38bdf8"></i> Grenoble</button>
+              <button class="rd-city-item" data-lat="45.439" data-lon="4.387"><i class="fas fa-microchip" style="color:#a78bfa"></i> Saint-Étienne</button>
+              <button class="rd-city-item" data-lat="46.151" data-lon="6.867"><i class="fas fa-laptop" style="color:#34d399"></i> Annecy</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-sun"></i> Occitanie</div>
+              <button class="rd-city-item" data-lat="43.605" data-lon="1.444"><i class="fas fa-plane" style="color:#fb923c"></i> Toulouse</button>
+              <button class="rd-city-item" data-lat="43.611" data-lon="3.877"><i class="fas fa-brain" style="color:#c084fc"></i> Montpellier</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-wine-glass"></i> Nouvelle-Aquitaine</div>
+              <button class="rd-city-item" data-lat="44.837" data-lon="-0.579"><i class="fas fa-chart-line" style="color:#4ade80"></i> Bordeaux</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-water"></i> PACA</div>
+              <button class="rd-city-item" data-lat="43.296" data-lon="5.381"><i class="fas fa-ship" style="color:#38bdf8"></i> Marseille</button>
+              <button class="rd-city-item" data-lat="43.430" data-lon="5.215"><i class="fas fa-network-wired" style="color:#a78bfa"></i> Aix-en-Provence</button>
+              <button class="rd-city-item" data-lat="43.710" data-lon="7.262"><i class="fas fa-microchip" style="color:#f59e0b"></i> Nice / Sophia Antipolis</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-anchor"></i> Pays de la Loire / Bretagne</div>
+              <button class="rd-city-item" data-lat="47.218" data-lon="-1.553"><i class="fas fa-rocket" style="color:#fb923c"></i> Nantes</button>
+              <button class="rd-city-item" data-lat="48.117" data-lon="-1.677"><i class="fas fa-satellite-dish" style="color:#22d3ee"></i> Rennes</button>
+              <button class="rd-city-item" data-lat="48.390" data-lon="-4.486"><i class="fas fa-anchor" style="color:#60a5fa"></i> Brest</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-bridge"></i> Normandie</div>
+              <button class="rd-city-item" data-lat="49.183" data-lon="-0.357"><i class="fas fa-graduation-cap" style="color:#a78bfa"></i> Caen</button>
+              <button class="rd-city-item" data-lat="49.443" data-lon="1.099"><i class="fas fa-industry" style="color:#94a3b8"></i> Rouen</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-snowflake"></i> Grand Est / Hauts-de-France</div>
+              <button class="rd-city-item" data-lat="50.629" data-lon="3.057"><i class="fas fa-building" style="color:#60a5fa"></i> Lille</button>
+              <button class="rd-city-item" data-lat="48.573" data-lon="7.752"><i class="fas fa-landmark" style="color:#f472b6"></i> Strasbourg</button>
+              <button class="rd-city-item" data-lat="49.119" data-lon="6.176"><i class="fas fa-microchip" style="color:#34d399"></i> Metz</button>
+              <button class="rd-city-item" data-lat="48.692" data-lon="6.184"><i class="fas fa-flask" style="color:#38bdf8"></i> Nancy</button>
+            </div>
+
+            <div class="rd-city-group">
+              <div class="rd-city-group-label"><i class="fas fa-castle"></i> Bourgogne / Centre-Val</div>
+              <button class="rd-city-item" data-lat="47.322" data-lon="5.041"><i class="fas fa-chart-pie" style="color:#fb923c"></i> Dijon</button>
+              <button class="rd-city-item" data-lat="47.902" data-lon="1.909"><i class="fas fa-bolt" style="color:#facc15"></i> Orléans</button>
+              <button class="rd-city-item" data-lat="47.394" data-lon="0.691"><i class="fas fa-server" style="color:#a78bfa"></i> Tours</button>
+            </div>
+
+          </div>
+        </div>
+        <button id="btn-locate" class="rd-btn rd-btn--primary" aria-label="Géolocaliser ma position">
+          <i class="fas fa-location-dot"></i> Je suis ici
+        </button>
+        <div class="rd-toolbar-sep" aria-hidden="true"></div>
+        <!-- Toggle vue PRO / CYCLO -->
+        <div class="rd-view-toggle" role="group" aria-label="Vue">
+          <button class="rd-view-btn rd-view-btn--active" id="btn-view-pro" data-view="pro" type="button">
+            <i class="fas fa-briefcase"></i> Pro
+          </button>
+          <button class="rd-view-btn" id="btn-view-cyclo" data-view="cyclo" type="button">
+            <i class="fas fa-bicycle"></i> Cyclo
+          </button>
+        </div>
+        <div class="rd-toolbar-sep" aria-hidden="true"></div>
+        <div class="rd-radius-inline">
+          <span class="rd-radius-label"><i class="fas fa-circle-dot"></i> <strong id="radius-val">10</strong> km</span>
+          <input type="range" id="radius-slider" min="2" max="25" value="10" step="1"
+            aria-label="Rayon de recherche" />
+        </div>
+        <div class="rd-effectif-filter">
+          <label for="effectif-select" class="rd-effectif-label"><i class="fas fa-users"></i></label>
+          <select id="effectif-select" class="rd-effectif-select" aria-label="Filtrer par effectif">
+            <option value="">Tous effectifs</option>
+            <option value="11">10+ salariés</option>
+            <option value="21">50+ salariés</option>
+            <option value="22">100+ salariés</option>
+            <option value="32">250+ salariés</option>
+          </select>
+        </div>
+        <div class="rd-toolbar-sep" aria-hidden="true"></div>
+        <!-- Combobox catégories -->
+        <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
+          <button class="rd-cat-trigger" id="cat-trigger" type="button" aria-label="Filtrer les catégories">
+            <i class="fas fa-layer-group rd-cat-icon"></i>
+            <span id="cat-trigger-label">3 catégories</span>
+            <i class="fas fa-chevron-down rd-cat-chevron"></i>
+          </button>
+          <div class="rd-cat-panel" id="cat-panel" role="listbox">
+            <div class="rd-cat-panel-header">Afficher les catégories</div>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="camping">
+              <i class="fas fa-campground" style="color:#10b981"></i>
+              <span>Campings</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
+              <i class="fas fa-laptop" style="color:#8b5cf6"></i>
+              <span>Coworkings</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="entreprise" checked>
+              <i class="fas fa-microchip" style="color:#f59e0b"></i>
+              <span>Entreprises Data / IT</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="evenement" checked>
+              <i class="fas fa-calendar-days" style="color:#f43f5e"></i>
+              <span>Événements IT / Emploi</span>
+            </label>
+          </div>
+        </div>
+        <div class="rd-status">
+          <span class="rd-dot" id="rd-dot"></span>
+          <span id="loading-indicator" class="rd-status-label hidden" aria-live="polite">Chargement…</span>
+          <span id="results-count" class="rd-status-label rd-status-idle">Sélectionnez une étape</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- CONTENU PRINCIPAL — container admin-style              -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div class="rd-container">
+
+      <!-- TABS — inspirés de admin-terrain -->
+      <div class="rd-tabs" role="tablist">
+        <button class="rd-tab rd-tab--active" data-tab="carte" role="tab" aria-selected="true">
+          <i class="fas fa-map-marked-alt"></i> Carte
+        </button>
+        <button class="rd-tab" data-tab="camping" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#10b981"></span>
+          <i class="fas fa-campground" style="color:#10b981"></i> Campings
+          <span class="rd-tab-count" id="count-camping">0</span>
+        </button>
+        <button class="rd-tab" data-tab="coworking" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#8b5cf6"></span>
+          <i class="fas fa-laptop" style="color:#8b5cf6"></i> Coworkings
+          <span class="rd-tab-count" id="count-coworking">0</span>
+        </button>
+        <button class="rd-tab" data-tab="entreprise" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#f59e0b"></span>
+          <i class="fas fa-microchip" style="color:#f59e0b"></i> Entreprises
+          <span class="rd-tab-count" id="count-entreprise">0</span>
+        </button>
+        <button class="rd-tab" data-tab="evenement" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#f43f5e"></span>
+          <i class="fas fa-calendar-days" style="color:#f43f5e"></i> Événements
+          <span class="rd-tab-count" id="count-evenement">0</span>
+        </button>
+        <button class="rd-tab" data-tab="tous" role="tab" aria-selected="false">
+          <i class="fas fa-list"></i> Tous
+        </button>
+      </div>
+
+      <!-- TAB: Carte -->
+      <div class="rd-tab-content rd-tab-content--active" id="tab-carte" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-map"></i> Carte interactive</h3>
+            <div class="rd-card-badges filter-chips" role="group" aria-label="Filtres carte">
+              <button class="chip chip--hidden" data-type="camping" aria-pressed="false" style="--dot:#10b981;--chip-color:#10b981">
+                <i class="fas fa-campground"></i>Camping
+              </button>
+              <button class="chip active" data-type="coworking" aria-pressed="true" style="--dot:#8b5cf6;--chip-color:#8b5cf6">
+                <i class="fas fa-laptop"></i>Coworking
+              </button>
+              <button class="chip active" data-type="entreprise" aria-pressed="true" style="--dot:#f59e0b;--chip-color:#f59e0b">
+                <i class="fas fa-microchip"></i>Entreprise
+              </button>
+              <button class="chip active" data-type="evenement" aria-pressed="true" style="--dot:#f43f5e;--chip-color:#f43f5e">
+                <i class="fas fa-calendar-days"></i>Événement
+              </button>
+
+            </div>
+          </div>
+          <div class="rd-map-frame">
+            <div id="radar-map" aria-label="Carte interactive des lieux proches"></div>
+            <!-- Overlay info centré sur la carte -->
+            <div id="map-info-overlay" class="map-info-overlay map-info-overlay--hidden" role="status" aria-live="polite">
+              <span id="map-info-icon"></span>
+              <span id="map-info-text"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Campings -->
+      <div class="rd-tab-content" id="tab-camping" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-campground" style="color:#10b981"></i> Campings à proximité</h3>
+            <span class="rd-card-hint">Sources : OpenStreetMap + Atout France</span>
+          </div>
+          <ul class="rd-list" id="list-camping" aria-label="Liste des campings"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Coworkings -->
+      <div class="rd-tab-content" id="tab-coworking" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-laptop" style="color:#8b5cf6"></i> Coworkings</h3>
+            <span class="rd-card-hint">Sources : OpenStreetMap + données référencées</span>
+          </div>
+          <ul class="rd-list" id="list-coworking" aria-label="Liste des coworkings"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Entreprises -->
+      <div class="rd-tab-content" id="tab-entreprise" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-microchip" style="color:#f59e0b"></i> Entreprises Data / IT</h3>
+            <span class="rd-card-hint">Source : INSEE SIRENE — codes NAF Data, IT, Conseil</span>
+          </div>
+          <ul class="rd-list" id="list-entreprise" aria-label="Liste des entreprises"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Événements -->
+      <div class="rd-tab-content" id="tab-evenement" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-calendar-days" style="color:#f43f5e"></i> Événements IT / Data / Emploi</h3>
+            <span class="rd-card-hint">Source : OpenAgenda — salons, forums emploi, meetups tech</span>
+          </div>
+          <ul class="rd-list" id="list-evenement" aria-label="Liste des événements"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Tous -->
+      <div class="rd-tab-content" id="tab-tous" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-list"></i> Tous les résultats</h3>
+          </div>
+          <ul class="rd-list" id="results-list" aria-live="polite" aria-label="Liste des lieux trouvés"></ul>
+        </div>
+      </div>
+
+    </div><!-- /.rd-container -->
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- NOTE TECHNIQUE                                        -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div class="rd-tech-note">
+      <p>
+        <strong>Votre position reste dans votre navigateur.</strong>
+        Le bouton « Je suis ici » utilise l'API <code>navigator.geolocation</code> du navigateur — aucune coordonnée GPS n'est envoyée à un serveur OceanPhenix.
+        Les coordonnées sont transmises directement aux sources de données :
+        <strong>OpenStreetMap / Overpass</strong> pour campings et coworkings ;
+        <strong>OpenDataSoft / Atout France</strong> pour les hébergements classés ;
+        <strong>INSEE SIRENE</strong> pour les entreprises Data &amp; IT ;
+        <strong>OpenAgenda</strong> pour les événements IT, salons emploi et meetups tech (proxy PHP, clé API requise).
+        Résultats mis en cache 5 à 30&nbsp;min côté serveur pour limiter les appels.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- TOASTS                                                -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- FOOTER RADAR — nav + copyright                         -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <footer class="rd-footer">
+      <nav class="rd-footer-nav" aria-label="Navigation OceanPhenix">
+        <a href="/terrain"><i class="fas fa-bicycle"></i> TourData</a>
+        <a href="/tourdata"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/strava"><i class="fab fa-strava"></i> Strava</a>
+        <a href="/radar" class="rd-footer-nav--active" aria-current="page"><i class="fas fa-crosshairs"></i> Radar</a>
+        <a href="/expertises"><i class="fas fa-briefcase"></i> Expertises</a>
+        <a href="/index.html"><i class="fas fa-home"></i> Accueil</a>
+      </nav>
+      <div class="rd-footer-copy-row">
+        <span class="rd-footer-copy">© 2025–2026 <strong>OceanPhenix™</strong> · Stéphane Celton</span>
+        <span class="rd-footer-sep">·</span>
+        <span class="rd-footer-project"><i class="fas fa-bicycle"></i> TourData 2026</span>
+        <span class="rd-footer-sep">·</span>
+        <a href="#" id="cgu-link" class="rd-footer-link">CGU &amp; RGPD</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <CguModal />
+
+  <!-- Leaflet JS (local, cohérent avec terrain/strava) -->
+  <script is:inline src="/lib/leaflet.min.js"></script>
+
+  <script is:inline>
+  /* ============================================================
+     RADAR TERRAIN — TourData 2026
+     Stéphane Celton — OceanPhenix
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    // ── Constantes ────────────────────────────────────────────
+    const TYPE_COLORS = {
+      camping:    '#10b981',
+      coworking:  '#8b5cf6',
+      entreprise: '#f59e0b',
+      evenement:  '#f43f5e',
+    };
+    // Coworkings statiques enrichis
+    const COWORKINGS_STATIC = [
+      { nom: 'La Ruche',           ville: 'Paris',       lat: 48.866, lon:  2.387, adresse: '24 Rue Brézin, 75014 Paris' },
+      { nom: 'Mutinerie',          ville: 'Paris',       lat: 48.862, lon:  2.365, adresse: '181 Rue du Temple, 75003 Paris' },
+      { nom: 'Darwin Écosystème',  ville: 'Bordeaux',    lat: 44.841, lon: -0.565, adresse: '87 Quai des Queyries, 33100 Bordeaux' },
+      { nom: 'La Cordée',          ville: 'Lyon',        lat: 45.748, lon:  4.847, adresse: '1 Rue du Palais de Justice, 69005 Lyon' },
+      { nom: 'La Cantine',         ville: 'Toulouse',    lat: 43.608, lon:  1.445, adresse: '2 Place Dupuy, 31000 Toulouse' },
+      { nom: 'Remix Coworking',    ville: 'Nantes',      lat: 47.218, lon: -1.553, adresse: 'Nantes Centre' },
+      { nom: 'Le Dôme',            ville: 'Caen',        lat: 49.183, lon: -0.357, adresse: 'Caen' },
+      { nom: 'La Station',         ville: 'Nice',        lat: 43.706, lon:  7.267, adresse: '89 Rue de France, 06000 Nice' },
+      { nom: 'Village by CA',      ville: 'Rennes',      lat: 48.112, lon: -1.680, adresse: 'Rennes' },
+      { nom: 'Le Palace',          ville: 'Montpellier', lat: 43.611, lon:  3.877, adresse: 'Montpellier' },
+      { nom: 'Cité de l\'innovation', ville: 'Marseille', lat: 43.293, lon: 5.393, adresse: '2 Rue de la Charité, 13002 Marseille' },
+    ];
+
+    // Tranches effectif SIRENE — ordre croissant
+    const EFFECTIF_ORDER = ['00','01','02','03','11','12','21','22','31','32','41','42','51','52','53'];
+    const EFFECTIF_LABELS = {
+      '00':'0 salarié','01':'1-2','02':'3-5','03':'6-9',
+      '11':'10-19','12':'20-49','21':'50-99','22':'100-199',
+      '31':'200-249','32':'250-499','41':'500-999','42':'1 000-1 999',
+      '51':'2 000-4 999','52':'5 000-9 999','53':'10 000+',
+    };
+    function effectifLabel(code) {
+      return EFFECTIF_LABELS[code] ? `${EFFECTIF_LABELS[code]} salariés` : `Effectif ${code}`;
+    }
+
+    // ── État ──────────────────────────────────────────────────
+    let currentLat = null;
+    let currentLon = null;
+    let currentRadius = 10;
+    let minEffectifTranche = '';
+    let activeFilters = new Set(); // Initialisé par applyView('pro') au boot
+    let allResults = [];
+    let leafletMap = null;
+    let mapMarkers = [];
+    let radiusCircle = null;
+
+    // ── Mode dev : détection + mock data ──────────────────────
+    const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+    const MOCK_RESULTS = [
+      { id: 'mock-camp-1', nom: 'Camping La Belle Étoile', type: 'camping', lat: 48.642, lon: 2.098, adresse: '12 Chemin des Prés, 91580 Fontenay-lès-Briis', classement: '3 étoiles', source: 'Mock Dev', dist: 1.2 },
+      { id: 'mock-camp-2', nom: 'Camping Le Bois Joli', type: 'camping', lat: 48.651, lon: 2.075, adresse: '3 Route de Briis, 91580', classement: '2 étoiles', source: 'Mock Dev', dist: 2.8 },
+      { id: 'mock-camp-3', nom: 'Camping Municipal des Saules', type: 'camping', lat: 48.625, lon: 2.110, adresse: 'Allée des Saules, 91580', source: 'Mock Dev', dist: 3.5 },
+      { id: 'mock-cw-1', nom: 'CoWork Valley', type: 'coworking', lat: 48.636, lon: 2.102, adresse: '5 Rue du Commerce, 91580 Fontenay-lès-Briis', source: 'Mock Dev', dist: 0.8 },
+      { id: 'mock-cw-2', nom: 'La Ruche Numérique', type: 'coworking', lat: 48.648, lon: 2.088, adresse: '18 Boulevard Central, 91580', source: 'Mock Dev', dist: 1.9 },
+{ id: 'mock-ent-1', nom: 'DataFlow Consulting', type: 'entreprise', lat: 48.644, lon: 2.087, adresse: '24 Rue de la Tech, 91580 Fontenay-lès-Briis', siren: '123456789', naf: '6311Z', nafLabel: 'Traitement de données, hébergement', source: 'Mock Dev', dist: 1.4 },
+      { id: 'mock-ent-2', nom: 'CloudBridge Solutions', type: 'entreprise', lat: 48.630, lon: 2.100, adresse: '7 Avenue de l\'Innovation, 91580', siren: '987654321', naf: '6202A', nafLabel: 'Conseil en systèmes informatiques', source: 'Mock Dev', dist: 2.1 },
+      { id: 'mock-ent-3', nom: 'BI Analytics France', type: 'entreprise', lat: 48.653, lon: 2.082, adresse: '42 Place de la Data, 91580', siren: '456789123', naf: '7022Z', nafLabel: 'Conseil pour les affaires', source: 'Mock Dev', dist: 3.0 },
+      { id: 'mock-ws-1', nom: 'WarmShowers — Jean D.', type: 'warmshowers', lat: 48.639, lon: 2.096, adresse: 'Fontenay-lès-Briis (hôte vérifié)', source: 'Mock Dev', dist: 0.3 },
+      { id: 'mock-ws-2', nom: 'WarmShowers — Marie L.', type: 'warmshowers', lat: 48.645, lon: 2.080, adresse: 'Briis-sous-Forges (hôte vérifié)', source: 'Mock Dev', dist: 2.4 },
+      { id: 'mock-evt-1', nom: 'Forum Emploi IT Île-de-France 2026', type: 'evenement', lat: 48.721, lon: 2.177, adresse: 'Massy Palaiseau (91)', source: 'Mock Dev', dateDebut: '2026-04-15', url: 'https://www.apec.fr' },
+      { id: 'mock-evt-2', nom: 'Salon Data & BI — Paris-Saclay', type: 'evenement', lat: 48.712, lon: 2.163, adresse: 'École Polytechnique, Palaiseau (91)', source: 'Mock Dev', dateDebut: '2026-05-08', url: 'https://www.bigdataparis.com' },
+      { id: 'mock-evt-3', nom: 'Meetup Intelligence Artificielle 91', type: 'evenement', lat: 48.655, lon: 2.101, adresse: 'Courtabœuf, Les Ulis (91)', source: 'Mock Dev', dateDebut: '2026-04-02', url: 'https://www.meetup.com' },
+    ];
+
+    // ── Init carte ────────────────────────────────────────────
+    function initMap() {
+      leafletMap = L.map('radar-map', {
+        center: [46.6, 2.3],
+        zoom: 6,
+        zoomControl: true,
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+        maxZoom: 19,
+      }).addTo(leafletMap);
+
+      // Dark filter appliqué via CSS
+    }
+
+    // ── Overlay info centré sur la carte ────────────────────
+    let _mapInfoTimer = null;
+    function showMapInfo(icon, text, type = 'info', duration = 3500) {
+      const overlay = document.getElementById('map-info-overlay');
+      const iconEl  = document.getElementById('map-info-icon');
+      const textEl  = document.getElementById('map-info-text');
+      if (!overlay) return;
+      iconEl.textContent = icon;
+      textEl.textContent = text;
+      overlay.className = `map-info-overlay map-info-overlay--${type}`;
+      clearTimeout(_mapInfoTimer);
+      if (duration > 0) {
+        _mapInfoTimer = setTimeout(() => {
+          overlay.classList.add('map-info-overlay--hidden');
+        }, duration);
+      }
+    }
+    // ── Géolocalisation ───────────────────────────────────────
+    function locateMe() {
+      if (!navigator.geolocation) {
+        showMapInfo('❌', 'Géolocalisation non supportée par ce navigateur', 'error', 4000);
+        return;
+      }
+      showMapInfo('📡', 'Localisation en cours…', 'loading', 0);
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          currentLat = pos.coords.latitude;
+          currentLon = pos.coords.longitude;
+          showMapInfo('✅', `Position : ${currentLat.toFixed(4)}, ${currentLon.toFixed(4)}`, 'success', 3000);
+          search();
+        },
+        err => {
+          const msgs = {
+            1: 'Permission refusée — activez la géolocalisation',
+            2: 'Position indisponible',
+            3: 'Délai dépassé',
+          };
+          showMapInfo('🔒', msgs[err.code] || 'Erreur de géolocalisation', 'error', 5000);
+        },
+        { timeout: 15000, maximumAge: 300000, enableHighAccuracy: true }
+      );
+    }
+
+    // ── Haversine ─────────────────────────────────────────────
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    // ── Sources de données ────────────────────────────────────
+
+    async function fetchOverpass(lat, lon, radiusM) {
+      const query = `
+        [out:json][timeout:25];
+        (
+          node["tourism"="camp_site"](around:${radiusM},${lat},${lon});
+          way["tourism"="camp_site"](around:${radiusM},${lat},${lon});
+          node["amenity"="coworking_space"](around:${radiusM},${lat},${lon});
+          way["amenity"="coworking_space"](around:${radiusM},${lat},${lon});
+        );
+        out center;
+      `;
+      const resp = await fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: query,
+        signal: AbortSignal.timeout(20000),
+      });
+      if (!resp.ok) throw new Error(`Overpass HTTP ${resp.status}`);
+      const data = await resp.json();
+
+      return (data.elements || []).map(el => {
+        const elLat = el.lat ?? el.center?.lat;
+        const elLon = el.lon ?? el.center?.lon;
+        if (!elLat || !elLon) return null;
+
+        let type = 'autre';
+        if (el.tags?.tourism === 'camp_site') type = 'camping';
+        else if (el.tags?.amenity === 'coworking_space') type = 'coworking';
+
+        const adresseParts = [
+          el.tags?.['addr:housenumber'],
+          el.tags?.['addr:street'],
+          el.tags?.['addr:city'],
+        ].filter(Boolean);
+
+        return {
+          id: `osm-${el.id}`,
+          nom: el.tags?.name || labelForType(type),
+          type,
+          lat: elLat,
+          lon: elLon,
+          adresse: adresseParts.join(' ') || null,
+          phone: el.tags?.phone || el.tags?.['contact:phone'] || null,
+          website: el.tags?.website || el.tags?.['contact:website'] || null,
+          source: 'OpenStreetMap',
+        };
+      }).filter(Boolean);
+    }
+
+    async function fetchCampingsGouv(lat, lon, radiusKm) {
+      const url = `/api/radar-proxy.php?type=campings&lat=${lat}&lon=${lon}&radius=${radiusKm}`;
+      const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      if (!resp.ok) throw new Error(`Campings proxy HTTP ${resp.status}`);
+      const data = await resp.json();
+
+      return (data.results || [])
+        .filter(r => r.coordonnees_geo?.lat && r.coordonnees_geo?.lon)
+        .map(r => ({
+          id: `atout-${r.nom_commercial}-${r.code_postal}`,
+          nom: r.nom_commercial || 'Camping',
+          type: 'camping',
+          lat: r.coordonnees_geo.lat,
+          lon: r.coordonnees_geo.lon,
+          adresse: [r.adresse, r.code_postal, r.commune].filter(Boolean).join(' '),
+          classement: r.classement || null,
+          nbEmplacements: r.nombre_emplacements || null,
+          source: 'Atout France',
+        }));
+    }
+
+    async function fetchEntreprises(lat, lon) {
+      // 1. Code département via proxy (évite appel direct depuis mobile)
+      const geoResp = await fetch(
+        `/api/radar-proxy.php?type=commune&lat=${lat}&lon=${lon}`,
+        { signal: AbortSignal.timeout(8000) }
+      );
+      if (!geoResp.ok) throw new Error(`Commune proxy HTTP ${geoResp.status}`);
+      const geoData = await geoResp.json();
+      const dept = geoData[0]?.codeDepartement;
+      if (!dept) throw new Error('Département introuvable');
+
+      // 2. Entreprises via proxy (le proxy gère les 5 codes NAF côté serveur)
+      const entResp = await fetch(
+        `/api/radar-proxy.php?type=entreprises&dept=${encodeURIComponent(dept)}`,
+        { signal: AbortSignal.timeout(20000) }
+      );
+      if (!entResp.ok) throw new Error(`Entreprises proxy HTTP ${entResp.status}`);
+      const entData = await entResp.json();
+
+      if (entData._debug) console.debug('[Radar/entreprises]', entData._debug, `total brut: ${entData._count}`);
+
+      const seen = new Set();
+      const results = [];
+      for (const e of (entData.results || [])) {
+        if (!e.siren || seen.has(e.siren)) continue;
+        seen.add(e.siren);
+        const siege = e.siege;
+        // GPS optionnel — on garde l'entreprise même sans coordonnées (affichée en liste, pas sur carte)
+        const hasGeo = siege?.latitude && siege?.longitude;
+        results.push({
+          id: `siren-${e.siren}`,
+          nom: e.nom_complet || 'Entreprise',
+          type: 'entreprise',
+          lat: hasGeo ? parseFloat(siege.latitude)  : null,
+          lon: hasGeo ? parseFloat(siege.longitude) : null,
+          adresse: siege ? [siege.adresse, siege.code_postal, siege.libelle_commune].filter(Boolean).join(' ') : '',
+          source: 'INSEE SIRENE',
+          siren: e.siren,
+          naf: e.activite_principale,
+          nafLabel: e.libelle_activite_principale_libelle_65 || e.activite_principale,
+          effectif: e.tranche_effectif_salarie || null,
+        });
+      }
+      return results;
+    }
+
+    function getCoworkingsNearby(lat, lon, radiusKm) {
+      return COWORKINGS_STATIC
+        .filter(c => haversine(lat, lon, c.lat, c.lon) <= radiusKm)
+        .map(c => ({
+          id: `cw-${c.ville}-${c.nom}`.replace(/\s+/g, '-').toLowerCase(),
+          nom: c.nom,
+          type: 'coworking',
+          lat: c.lat,
+          lon: c.lon,
+          adresse: c.adresse,
+          source: 'Données statiques',
+        }));
+    }
+
+    async function fetchEvents(lat, lon, radiusKm) {
+      const url = `/api/radar-proxy.php?type=events&lat=${lat}&lon=${lon}&radius=${radiusKm}`;
+      const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      if (!resp.ok) throw new Error(`Events HTTP ${resp.status}`);
+      const data = await resp.json();
+      if (data.error || !data.events) return [];
+      return (data.events || []).map(e => {
+        const loc = e.location || {};
+        const title = e.title?.fr || e.title?.en || 'Événement';
+        const timing = e.timings?.[0];
+        const dateDebut = timing?.begin ? timing.begin.substring(0, 10) : null;
+        const adresseParts = [loc.address, loc.postalCode, loc.city].filter(Boolean);
+        return {
+          id: `evt-${e.uid}`,
+          nom: title,
+          type: 'evenement',
+          lat: loc.latitude ? parseFloat(loc.latitude) : null,
+          lon: loc.longitude ? parseFloat(loc.longitude) : null,
+          adresse: adresseParts.join(' ') || loc.name || null,
+          source: 'OpenAgenda',
+          dateDebut,
+          url: e.links?.[0]?.link || null,
+        };
+      });
+    }
+
+    // ── Recherche principale ──────────────────────────────────
+    async function search() {
+      if (currentLat === null || currentLon === null) return;
+
+      showLoading(true);
+      clearMapMarkers();
+      // Show skeletons in all lists
+      ['results-list', 'list-camping', 'list-coworking', 'list-entreprise', 'list-evenement'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = skeletonHTML(3);
+      });
+      document.getElementById('results-count').textContent = '⏳ Interrogation des sources…';
+
+      // En dev : utiliser les données mock pour avoir un rendu immédiat
+      if (IS_DEV) {
+        await new Promise(r => setTimeout(r, 400)); // Simule latence réseau
+        allResults = MOCK_RESULTS.map(r => ({
+          ...r,
+          dist: haversine(currentLat, currentLon, r.lat, r.lon)
+        })).filter(r => r.dist <= currentRadius).sort((a, b) => a.dist - b.dist);
+        renderResults();
+        renderMapMarkers();
+        showLoading(false);
+        const n = allResults.filter(r => activeFilters.has(r.type)).length;
+        showMapInfo('🧪', `DEV — ${n} lieu${n !== 1 ? 'x' : ''} simulé${n !== 1 ? 's' : ''}`, 'info', 3000);
+        return;
+      }
+
+      const radiusM = currentRadius * 1000;
+
+      const [resOverpass, resCampings, resEntreprises, resCw, resEvents] = await Promise.allSettled([
+        fetchOverpass(currentLat, currentLon, radiusM),
+        fetchCampingsGouv(currentLat, currentLon, currentRadius),
+        fetchEntreprises(currentLat, currentLon),
+        Promise.resolve(getCoworkingsNearby(currentLat, currentLon, currentRadius)),
+        fetchEvents(currentLat, currentLon, currentRadius),
+      ]);
+
+      // Log les erreurs silencieusement
+      if (resOverpass.status    === 'rejected') console.warn('Overpass:', resOverpass.reason);
+      if (resCampings.status    === 'rejected') console.warn('Atout France:', resCampings.reason);
+      if (resEntreprises.status === 'rejected') console.warn('INSEE SIRENE:', resEntreprises.reason);
+      if (resEvents.status      === 'rejected') console.warn('OpenAgenda:', resEvents.reason);
+
+      const raw = [
+        ...(resOverpass.status    === 'fulfilled' ? resOverpass.value    : []),
+        ...(resCampings.status    === 'fulfilled' ? resCampings.value    : []),
+        ...(resEntreprises.status === 'fulfilled' ? resEntreprises.value : []),
+        ...(resCw.status          === 'fulfilled' ? resCw.value         : []),
+        ...(resEvents.status      === 'fulfilled' ? resEvents.value      : []),
+      ];
+
+      // Dédupliquer par id, calculer distance, filtrer rayon, trier
+      const byId = new Map();
+      for (const item of raw) {
+        if (!byId.has(item.id)) byId.set(item.id, item);
+      }
+      allResults = [...byId.values()]
+        .map(r => ({
+          ...r,
+          dist: (r.lat && r.lon) ? haversine(currentLat, currentLon, r.lat, r.lon) : null,
+        }))
+        // Sans GPS : entreprises et événements toujours inclus ; autres types : filtrage par rayon
+        .filter(r => r.dist === null ? (r.type === 'entreprise' || r.type === 'evenement') : r.dist <= currentRadius)
+        .sort((a, b) => {
+          if (a.dist === null && b.dist === null) return 0;
+          if (a.dist === null) return 1;
+          if (b.dist === null) return -1;
+          return a.dist - b.dist;
+        });
+
+      renderResults();
+      renderMapMarkers();
+      showLoading(false);
+
+      const n = allResults.filter(r => activeFilters.has(r.type)).length;
+      showMapInfo('🎯', `${n} lieu${n !== 1 ? 'x' : ''} trouvé${n !== 1 ? 's' : ''} — rayon ${currentRadius} km`, 'success', 3500);
+    }
+
+    // ── Rendu résultats ───────────────────────────────────────
+    function renderItemHTML(r) {
+      const ficheBtn = r.type === 'entreprise' && r.siren
+        ? `<a href="https://annuaire-entreprises.data.gouv.fr/entreprise/${encodeURIComponent(r.siren)}" target="_blank" rel="noopener" class="result-btn btn-fiche"><i class="fas fa-external-link-alt"></i> Fiche</a>`
+        : '';
+      const eventBtn = r.type === 'evenement' && r.url
+        ? `<a href="${escHtml(r.url)}" target="_blank" rel="noopener" class="result-btn btn-event"><i class="fas fa-calendar-check"></i> Voir</a>`
+        : '';
+      const hasGeo = r.lat && r.lon;
+      const mapsUrl = hasGeo ? `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=bicycling` : null;
+      const distLabel = r.dist !== null ? `${r.dist.toFixed(1)} km` : '';
+      const color = TYPE_COLORS[r.type] || '#888';
+      const dateLabel = r.dateDebut ? new Date(r.dateDebut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+
+      return `
+        <li class="result-item" data-id="${r.id}" data-type="${r.type}">
+          <div class="result-left">
+            <span class="type-dot" style="background:${color}"></span>
+          </div>
+          <div class="result-body">
+            <div class="result-header-row">
+              <span class="result-nom">${escHtml(r.nom)}</span>
+              ${distLabel ? `<span class="result-dist">${distLabel}</span>` : ''}
+            </div>
+            ${dateLabel ? `<div class="result-meta result-date"><i class="fas fa-calendar-days" style="color:#f43f5e"></i> ${dateLabel}</div>` : ''}
+            ${r.adresse ? `<div class="result-adresse"><i class="fas fa-map-pin"></i> ${escHtml(r.adresse)}</div>` : ''}
+            ${r.nafLabel ? `<div class="result-meta"><i class="fas fa-tag"></i> ${escHtml(r.nafLabel)}</div>` : ''}
+            ${r.effectif ? `<div class="result-meta"><i class="fas fa-users"></i> ${escHtml(effectifLabel(r.effectif))}</div>` : ''}
+            ${r.classement ? `<div class="result-meta"><i class="fas fa-star"></i> ${escHtml(String(r.classement))}</div>` : ''}
+            ${r.source ? `<div class="result-source">Source : ${escHtml(r.source)}</div>` : ''}
+            <div class="result-actions">
+              ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" rel="noopener" class="result-btn btn-go"><i class="fas fa-route"></i> Itinéraire</a>` : ''}
+              ${ficheBtn}
+              ${eventBtn}
+            </div>
+          </div>
+        </li>`;
+    }
+
+    function effectifMatch(r) {
+      if (r.type !== 'entreprise' || !minEffectifTranche) return true;
+      if (!r.effectif) return false;
+      return EFFECTIF_ORDER.indexOf(r.effectif) >= EFFECTIF_ORDER.indexOf(minEffectifTranche);
+    }
+
+    function renderResults() {
+      const countEl = document.getElementById('results-count');
+      const filtered = allResults.filter(r => activeFilters.has(r.type) && effectifMatch(r));
+
+      countEl.textContent = `${filtered.length} résultat${filtered.length !== 1 ? 's' : ''} — rayon ${currentRadius} km`;
+
+      const types = ['camping', 'coworking', 'entreprise', 'evenement'];
+      types.forEach(type => {
+        const items = allResults.filter(r => r.type === type && effectifMatch(r));
+        const listEl = document.getElementById('list-' + type);
+        const countBadge = document.getElementById('count-' + type);
+        if (countBadge) countBadge.textContent = items.length;
+        if (listEl) {
+          listEl.innerHTML = items.length === 0
+            ? '<li class="no-results"><i class="fas fa-search"></i> Aucun résultat dans cette catégorie.</li>'
+            : items.map(r => renderItemHTML(r)).join('');
+        }
+      });
+
+      const allList = document.getElementById('results-list');
+      allList.innerHTML = filtered.length === 0
+        ? '<li class="no-results"><i class="fas fa-search"></i> Aucun résultat. Sélectionnez une étape ou géolocalisez-vous.</li>'
+        : filtered.map(r => renderItemHTML(r)).join('');
+    }
+
+    // ── Carte Leaflet ─────────────────────────────────────────
+    function renderMapMarkers() {
+      clearMapMarkers();
+      if (!currentLat || !currentLon || !leafletMap) return;
+
+      // Cercle rayon
+      radiusCircle = L.circle([currentLat, currentLon], {
+        radius: currentRadius * 1000,
+        color: '#9a9245',
+        weight: 1.5,
+        dashArray: '6 4',
+        fillColor: '#9a9245',
+        fillOpacity: 0.04,
+      }).addTo(leafletMap);
+
+      // Marqueur position actuelle
+      const posIcon = L.divIcon({
+        className: 'pos-marker-wrap',
+        html: '<div class="pos-marker">📍</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+      });
+      const posM = L.marker([currentLat, currentLon], { icon: posIcon })
+        .bindPopup('<strong>Ma position</strong>')
+        .addTo(leafletMap);
+      mapMarkers.push(posM);
+
+      // Marqueurs résultats
+      const filtered = allResults.filter(r => activeFilters.has(r.type) && r.lat && r.lon);
+      for (const r of filtered) {
+        const color = TYPE_COLORS[r.type] || '#888';
+        const distPopup = r.dist !== null ? `<br><em>${r.dist.toFixed(1)} km</em>` : '';
+        const m = L.circleMarker([r.lat, r.lon], {
+          radius: 7,
+          fillColor: color,
+          color: '#0b1a2e',
+          weight: 1.5,
+          fillOpacity: 0.9,
+        }).bindPopup(`
+          <strong>${escHtml(r.nom)}</strong>${distPopup}
+          ${r.adresse ? `<br><small>${escHtml(r.adresse)}</small>` : ''}
+        `).addTo(leafletMap);
+        mapMarkers.push(m);
+      }
+
+      // Recadrer
+      const margin = currentRadius / 90;
+      leafletMap.fitBounds([
+        [currentLat - margin, currentLon - margin * 1.4],
+        [currentLat + margin, currentLon + margin * 1.4],
+      ], { padding: [24, 24] });
+    }
+
+    function clearMapMarkers() {
+      mapMarkers.forEach(m => m.remove());
+      mapMarkers = [];
+      if (radiusCircle) { radiusCircle.remove(); radiusCircle = null; }
+    }
+
+
+    // ── Utilitaires UI ────────────────────────────────────────
+    function showLoading(on) {
+      const dot    = document.getElementById('rd-dot');
+      const loader = document.getElementById('loading-indicator');
+      const idle   = document.getElementById('results-count');
+      if (on) {
+        dot.className = 'rd-dot loading';
+        loader.classList.remove('hidden');
+        idle.classList.add('hidden');
+      } else {
+        dot.className = 'rd-dot active';
+        loader.classList.add('hidden');
+        idle.classList.remove('hidden');
+      }
+    }
+
+    function updateCatLabel() {
+      const count = document.querySelectorAll('.rd-cat-cb:checked').length;
+      const el = document.getElementById('cat-trigger-label');
+      if (el) el.textContent = `${count} catégorie${count !== 1 ? 's' : ''}`;
+    }
+
+    function toggleFilter(type, forceOn) {
+      const chip = document.querySelector(`.chip[data-type="${type}"]`);
+      const cb   = document.querySelector(`.rd-cat-cb[data-type="${type}"]`);
+      const next = forceOn !== undefined ? forceOn : !activeFilters.has(type);
+      if (next) { activeFilters.add(type); chip?.classList.add('active'); chip?.setAttribute('aria-pressed', 'true'); }
+      else       { activeFilters.delete(type); chip?.classList.remove('active'); chip?.setAttribute('aria-pressed', 'false'); }
+      if (cb && cb.checked !== next) cb.checked = next;
+      updateCatLabel();
+      renderResults();
+      renderMapMarkers();
+    }
+
+    function labelForType(type) {
+      return { camping: 'Camping', coworking: 'Coworking', entreprise: 'Entreprise', evenement: 'Événement' }[type] || type;
+    }
+
+    function escHtml(str) {
+      return String(str ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function skeletonHTML(n) {
+      return Array.from({ length: n }, () =>
+        '<li class="skeleton-item"><div class="skel-line skel-w70"></div><div class="skel-line skel-w45"></div></li>'
+      ).join('');
+    }
+
+    function hintHTML() {
+      return `<li class="rd-hint">
+        <i class="fas fa-crosshairs"></i>
+        <strong>Radar Terrain</strong>
+        <span>Sélectionnez une étape dans le menu ou cliquez sur<br><em>📍 Je suis ici</em> pour lancer la recherche</span>
+      </li>`;
+    }
+
+    // ── Tabs switching ────────────────────────────────────────
+    function switchTab(tabName) {
+      document.querySelectorAll('.rd-tab').forEach(t => {
+        t.classList.toggle('rd-tab--active', t.dataset.tab === tabName);
+        t.setAttribute('aria-selected', t.dataset.tab === tabName ? 'true' : 'false');
+      });
+      document.querySelectorAll('.rd-tab-content').forEach(c => {
+        c.classList.toggle('rd-tab-content--active', c.id === 'tab-' + tabName);
+      });
+      // Refresh map when switching back to carte tab
+      if (tabName === 'carte' && leafletMap) {
+        setTimeout(() => leafletMap.invalidateSize(), 100);
+      }
+    }
+
+    // ── Boot ──────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      initMap();
+
+      // Tab switching
+      document.querySelectorAll('.rd-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+      });
+
+      // En dev : charger automatiquement les mocks sur Fontenay-lès-Briis
+      if (IS_DEV) {
+        document.getElementById('results-list').innerHTML = hintHTML();
+        currentLat = 48.638;
+        currentLon = 2.094;
+        showMapInfo('🧪', 'Mode Dev — données mock activées', 'info', 3000);
+        setTimeout(() => search(), 300);
+      } else {
+        document.getElementById('results-list').innerHTML = hintHTML();
+      }
+
+      // Bouton géolocalisation
+      document.getElementById('btn-locate').addEventListener('click', locateMe);
+
+      // Filtre effectif entreprises
+      document.getElementById('effectif-select').addEventListener('change', e => {
+        minEffectifTranche = e.target.value;
+        renderResults();
+      });
+
+
+      // Sélecteur d'étape
+      // Dropdown villes Data/IA
+      const cityDropdown = document.getElementById('city-dropdown');
+      const cityTrigger  = document.getElementById('city-trigger');
+      const cityPanel    = document.getElementById('city-panel');
+      const cityLabel    = document.getElementById('city-trigger-label');
+
+      cityTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = cityDropdown.getAttribute('aria-expanded') === 'true';
+        cityDropdown.setAttribute('aria-expanded', String(!open));
+        cityPanel.classList.toggle('rd-city-panel--open', !open);
+      });
+
+      cityPanel.querySelectorAll('.rd-city-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lat = parseFloat(btn.dataset.lat);
+          const lon = parseFloat(btn.dataset.lon);
+          const label = btn.textContent.trim();
+          currentLat = lat;
+          currentLon = lon;
+          cityLabel.textContent = label;
+          cityDropdown.setAttribute('aria-expanded', 'false');
+          cityPanel.classList.remove('rd-city-panel--open');
+          showMapInfo('🏙️', label, 'info', 2500);
+          search();
+        });
+      });
+
+      document.addEventListener('click', e => {
+        if (!cityDropdown.contains(e.target)) {
+          cityDropdown.setAttribute('aria-expanded', 'false');
+          cityPanel.classList.remove('rd-city-panel--open');
+        }
+      });
+
+      // Slider rayon
+      const slider = document.getElementById('radius-slider');
+      slider.addEventListener('input', () => {
+        currentRadius = parseInt(slider.value);
+        document.getElementById('radius-val').textContent = currentRadius;
+      });
+      slider.addEventListener('change', () => {
+        if (currentLat !== null) search();
+      });
+
+      // Chips filtres
+      document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => toggleFilter(chip.dataset.type));
+      });
+
+      // Combobox catégories
+      const catDropdown = document.getElementById('cat-dropdown');
+      const catTrigger  = document.getElementById('cat-trigger');
+      const catPanel    = document.getElementById('cat-panel');
+
+      catTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = catDropdown.getAttribute('aria-expanded') === 'true';
+        catDropdown.setAttribute('aria-expanded', String(!open));
+        catPanel.classList.toggle('rd-cat-panel--open', !open);
+      });
+
+      catPanel.querySelectorAll('.rd-cat-cb').forEach(cb => {
+        cb.addEventListener('change', () => {
+          toggleFilter(cb.dataset.type, cb.checked);
+          // Si l'utilisateur modifie manuellement → aucun preset actif
+          setViewActive(null);
+        });
+      });
+
+      document.addEventListener('click', e => {
+        if (!catDropdown.contains(e.target)) {
+          catDropdown.setAttribute('aria-expanded', 'false');
+          catPanel.classList.remove('rd-cat-panel--open');
+        }
+      });
+
+      // ── Toggle PRO / CYCLO ─────────────────────────────────
+      const VIEWS = {
+        pro:   ['coworking', 'entreprise', 'evenement'],
+        cyclo: ['camping'],
+      };
+      const ALL_TYPES = ['camping', 'coworking', 'entreprise', 'evenement'];
+
+      function setViewActive(view) {
+        document.querySelectorAll('.rd-view-btn').forEach(b => {
+          b.classList.toggle('rd-view-btn--active', b.dataset.view === view);
+        });
+      }
+
+      function applyView(view) {
+        const active = VIEWS[view] || [];
+        ALL_TYPES.forEach(t => toggleFilter(t, active.includes(t)));
+        setViewActive(view);
+      }
+
+      document.querySelectorAll('.rd-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyView(btn.dataset.view));
+      });
+
+      // Vue Pro active au démarrage
+      applyView('pro');
+
+    });
+
+  })();
+  </script>
+
+  <style is:global>
+  /* ============================================================
+     RADAR TERRAIN — Design system admin-style OceanPhenix
+  ============================================================ */
+
+  /* ── Layout racine ───────────────────────────────────────── */
+  .radar-page {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100dvh - 5rem);
+  }
+
+  /* ── Hero section (cohérent strava/terrain) ─────────── */
+  .rd-hero {
+    text-align: center;
+    padding: 1.6rem 1rem 0.8rem;
+  }
+
+  .rd-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1.2rem;
+    background: rgba(77, 184, 212, 0.08);
+    border: 1px solid rgba(77, 184, 212, 0.25);
+    border-radius: var(--radius-full);
+    color: var(--accent-cyan);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 0.6rem;
+    animation: fadeInDown 0.6s ease;
+  }
+  .rd-hero-badge i { font-size: 0.75rem; opacity: 0.85; }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Toolbar ────────────────────────────────────────────── */
+  .rd-header {
+    flex-shrink: 0;
+    background: rgba(10, 18, 32, 0.96);
+    border: 1px solid rgba(45, 130, 170, 0.18);
+    border-bottom: 2px solid rgba(45, 130, 170, 0.22);
+    padding: 10px 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .rd-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* Séparateur visuel entre groupes toolbar */
+  .rd-toolbar-sep {
+    width: 1px;
+    height: 24px;
+    background: rgba(77, 184, 212, 0.15);
+    flex-shrink: 0;
+  }
+
+  .rd-select {
+    min-width: 150px;
+    max-width: 220px;
+    padding: 0 12px;
+    height: 34px;
+    background: rgba(20, 40, 68, 0.9);
+    color: var(--text-light);
+    border: 1px solid rgba(45, 130, 170, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: border-color var(--transition-fast);
+  }
+  .rd-select:focus { outline: none; border-color: var(--accent-cyan); }
+
+  /* ── Dropdown villes Data/IA ──────────────────────────── */
+  .rd-city-dropdown {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .rd-city-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    height: 34px;
+    background: rgba(20, 40, 68, 0.9);
+    color: var(--text-light);
+    border: 1px solid rgba(45, 130, 170, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-family: var(--font-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color .2s, background .2s;
+    min-width: 150px;
+  }
+  .rd-city-trigger:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(30, 58, 95, 0.95);
+  }
+  .rd-city-dropdown[aria-expanded="true"] .rd-city-trigger {
+    border-color: var(--accent-cyan);
+    background: rgba(30, 58, 95, 0.95);
+  }
+  .rd-city-trigger-icon { color: var(--accent-cyan); font-size: 0.8rem; }
+  .rd-city-chevron { font-size: 0.65rem; color: var(--text-muted); margin-left: auto; transition: transform .2s; }
+  .rd-city-dropdown[aria-expanded="true"] .rd-city-chevron { transform: rotate(180deg); }
+
+  .rd-city-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 999;
+    min-width: 230px;
+    max-height: 380px;
+    overflow-y: auto;
+    background: rgba(8, 15, 28, 0.99);
+    border: 1px solid rgba(77, 184, 212, 0.35);
+    border-top: 2px solid rgba(77, 184, 212, 0.5);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(77,184,212,0.05);
+    backdrop-filter: blur(12px);
+    padding: 0.3rem 0;
+    animation: dropdownFadeIn .15s ease;
+  }
+  .rd-city-panel--open { display: block; }
+  @keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .rd-city-group { padding: 0.2rem 0; border-bottom: 1px solid rgba(45,130,170,0.08); }
+  .rd-city-group:last-child { border-bottom: none; }
+
+  .rd-city-group-label {
+    padding: 0.4rem 0.9rem 0.2rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .rd-city-group-label i { color: rgba(77,184,212,0.5); font-size: 0.65rem; }
+
+  .rd-city-item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    width: 100%;
+    padding: 0.38rem 0.9rem;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 0.82rem;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    text-align: left;
+    transition: background .15s, color .15s;
+  }
+  .rd-city-item:hover {
+    background: rgba(77,184,212,0.08);
+    color: var(--accent-cyan);
+  }
+  .rd-city-item i { font-size: 0.78rem; width: 14px; text-align: center; flex-shrink: 0; }
+
+  /* Light mode */
+  [data-theme="light"] .rd-city-trigger {
+    background: #fff; color: #1a2535; border-color: rgba(26,127,160,.25);
+  }
+  [data-theme="light"] .rd-city-panel {
+    background: #fff; border-color: rgba(26,101,128,0.2);
+    box-shadow: 0 8px 24px rgba(26,101,128,0.12);
+  }
+  [data-theme="light"] .rd-city-item { color: #1a2535; }
+  [data-theme="light"] .rd-city-item:hover { background: rgba(26,101,128,0.07); color: #1a6580; }
+  [data-theme="light"] .rd-city-group { border-bottom-color: rgba(26,101,128,0.08); }
+
+  .rd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 16px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+    flex-shrink: 0;
+  }
+  .rd-btn--primary {
+    background: var(--accent-cyan);
+    color: #0b1a2e;
+    border-color: var(--accent-cyan);
+  }
+  .rd-btn--primary:hover { background: var(--accent-light-cyan); border-color: var(--accent-light-cyan); }
+
+  .rd-btn--ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: rgba(45, 130, 170, 0.25);
+  }
+  .rd-btn--ghost:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+  .rd-btn--ghost:disabled { opacity: .35; cursor: not-allowed; }
+  .rd-btn--full { width: 100%; justify-content: center; }
+
+  /* ── Toggle vue PRO / CYCLO ──────────────────────────────── */
+  .rd-view-toggle {
+    display: flex;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(77, 184, 212, 0.3);
+    overflow: hidden;
+    height: 34px;
+  }
+  .rd-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 13px;
+    height: 100%;
+    background: rgba(20, 40, 68, 0.7);
+    color: var(--text-muted);
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s, color .15s;
+    border-right: 1px solid rgba(77, 184, 212, 0.2);
+  }
+  .rd-view-btn:last-child { border-right: none; }
+  .rd-view-btn i { font-size: 0.75rem; }
+  .rd-view-btn:hover {
+    background: rgba(30, 58, 95, 0.9);
+    color: var(--text-light);
+  }
+  .rd-view-btn--active {
+    background: rgba(77, 184, 212, 0.18);
+    color: var(--accent-cyan);
+  }
+  .rd-view-btn--active:hover {
+    background: rgba(77, 184, 212, 0.26);
+  }
+  /* Light mode */
+  [data-theme="light"] .rd-view-toggle { border-color: rgba(26,127,160,.3); }
+  [data-theme="light"] .rd-view-btn {
+    background: #fff;
+    color: #4a6275;
+    border-right-color: rgba(26,127,160,.15);
+  }
+  [data-theme="light"] .rd-view-btn:hover { background: #f0f8ff; color: #1a2535; }
+  [data-theme="light"] .rd-view-btn--active { background: rgba(26,127,160,.12); color: #0e7fa8; }
+  [data-theme="light"] .rd-view-btn--active:hover { background: rgba(26,127,160,.2); }
+
+  .rd-radius-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    height: 34px;
+    padding: 0 10px;
+    background: rgba(20, 40, 68, 0.6);
+    border: 1px solid rgba(45, 130, 170, 0.2);
+    border-radius: var(--radius-sm);
+  }
+  .rd-radius-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .rd-radius-label strong { color: var(--accent-cyan); font-weight: 700; }
+  #radius-slider {
+    width: 80px;
+    accent-color: var(--accent-cyan);
+    cursor: pointer;
+  }
+  .rd-effectif-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    height: 34px;
+    padding: 0 10px;
+    background: rgba(20, 40, 68, 0.6);
+    border: 1px solid rgba(45, 130, 170, 0.2);
+    border-radius: var(--radius-sm);
+  }
+  .rd-effectif-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .rd-effectif-select {
+    font-size: 0.72rem;
+    font-family: var(--font-primary);
+    background: rgba(10, 20, 35, 0.8);
+    color: var(--text-light);
+    border: 1px solid rgba(77, 184, 212, 0.25);
+    border-radius: 4px;
+    padding: 3px 6px;
+    height: 24px;
+    cursor: pointer;
+    outline: none;
+    appearance: auto;
+    transition: border-color .15s;
+  }
+  .rd-effectif-select:focus { border-color: var(--accent-cyan); }
+  [data-theme="light"] .rd-effectif-select {
+    background: #fff;
+    color: #1a2535;
+    border-color: rgba(26, 101, 128, 0.3);
+  }
+
+  .rd-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .rd-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+    transition: background .3s;
+  }
+  .rd-dot.active  { background: var(--status-ok); box-shadow: 0 0 6px var(--status-ok); }
+  .rd-dot.loading { background: var(--accent-cyan); animation: pulse-dot 1s ease infinite; }
+  .rd-dot.error   { background: var(--status-err); }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .rd-status-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rd-status-label.hidden { display: none; }
+
+  /* ── Container admin-style ─────────────────────────────── */
+  .rd-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 var(--spacing-sm) 2rem;
+    flex: 1;
+  }
+
+  /* ── Tabs — inspiré admin-terrain ──────────────────────── */
+  .rd-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid rgba(45, 130, 170, 0.12);
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .rd-tabs::-webkit-scrollbar { display: none; }
+
+  .rd-tab {
+    padding: 0.65rem 1rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .rd-tab:hover { color: var(--text-light); }
+  .rd-tab--active {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
+  }
+
+  .rd-tab-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--dot-color, #888);
+    opacity: .5;
+    transition: opacity .2s;
+    flex-shrink: 0;
+  }
+  .rd-tab--active .rd-tab-dot { opacity: 1; }
+
+  .rd-tab-count {
+    font-size: 0.65rem;
+    background: rgba(77, 184, 212, 0.12);
+    border: 1px solid rgba(77, 184, 212, 0.2);
+    color: var(--accent-cyan);
+    border-radius: var(--radius-full);
+    padding: 0 6px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .rd-tab-content { display: none; }
+  .rd-tab-content--active { display: block; }
+
+  /* ── Card — admin-style ────────────────────────────────── */
+  .rd-card {
+    background: rgba(12, 20, 36, 0.8);
+    border: 1px solid rgba(45, 130, 170, 0.1);
+    border-radius: var(--radius-md);
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .rd-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .rd-card-header h3 {
+    font-size: var(--text-lg);
+    color: var(--heading-color);
+    margin: 0;
+    font-weight: 700;
+  }
+  .rd-card-header h3 i {
+    margin-right: 0.4rem;
+  }
+
+  .rd-card-hint {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: var(--ls-label);
+  }
+
+  .rd-card-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Carte ─────────────────────────────────────────────── */
+  .rd-map-frame {
+    height: 45vh;
+    min-height: 320px;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(45, 130, 170, 0.1);
+    position: relative;
+  }
+
+  /* ── Overlay centré sur la carte ──────────────────────── */
+  .map-info-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font-primary);
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: 88%;
+    box-shadow: 0 4px 24px rgba(0,0,0,.45);
+    transition: opacity .25s ease, transform .25s ease;
+    opacity: 1;
+  }
+
+  /* États */
+  .map-info-overlay--hidden {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 8px));
+    pointer-events: none;
+  }
+  .map-info-overlay--info,
+  .map-info-overlay--loading {
+    background: rgba(10, 20, 38, 0.96);
+    border: 1px solid rgba(77, 184, 212, 0.3);
+    color: #e8ecf0;
+  }
+  .map-info-overlay--loading #map-info-icon {
+    display: inline-block;
+    animation: spin-slow 1.2s linear infinite;
+  }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  .map-info-overlay--success {
+    background: rgba(10, 20, 38, 0.96);
+    border: 1px solid rgba(77, 184, 212, 0.3);
+    color: #e8ecf0;
+  }
+  .map-info-overlay--error {
+    background: rgba(10, 20, 38, 0.96);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+  }
+  #map-info-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+  #radar-map {
+    width: 100%;
+    height: 100%;
+    filter: brightness(.88) saturate(.70) hue-rotate(2deg);
+    transition: filter .3s;
+  }
+  .rd-map-frame:hover #radar-map {
+    filter: brightness(.95) saturate(.80) hue-rotate(2deg);
+  }
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip   { filter: brightness(1.65) saturate(2.5); }
+  .leaflet-control-zoom { filter: brightness(1.65) saturate(2.5); }
+
+  .pos-marker {
+    font-size: 22px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.9));
+    animation: bounce .9s ease infinite alternate;
+  }
+  @keyframes bounce { to { transform: translateY(-5px); } }
+
+  /* ── Combobox catégories ─────────────────────────────────── */
+  .rd-cat-dropdown { position: relative; flex-shrink: 0; }
+
+  .rd-cat-trigger {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 12px;
+    height: 34px;
+    background: rgba(20, 40, 68, 0.9);
+    color: var(--text-light);
+    border: 1px solid rgba(77, 184, 212, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-family: var(--font-primary);
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+    min-width: 148px;
+  }
+  .rd-cat-trigger:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(30, 58, 95, 0.95);
+  }
+  .rd-cat-dropdown[aria-expanded="true"] .rd-cat-trigger {
+    border-color: var(--accent-cyan);
+    background: rgba(30, 58, 95, 0.95);
+    box-shadow: 0 0 0 2px rgba(77, 184, 212, 0.15);
+  }
+  .rd-cat-icon { color: var(--accent-cyan); font-size: 0.82rem; }
+  .rd-cat-chevron { font-size: 0.65rem; color: var(--accent-cyan); opacity: 0.7; margin-left: auto; transition: transform .2s; }
+  .rd-cat-dropdown[aria-expanded="true"] .rd-cat-chevron { transform: rotate(180deg); opacity: 1; }
+
+  .rd-cat-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1000;
+    min-width: 230px;
+    background: rgba(8, 15, 28, 0.99);
+    border: 1px solid rgba(77, 184, 212, 0.35);
+    border-top: 2px solid rgba(77, 184, 212, 0.5);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(77,184,212,0.05);
+    backdrop-filter: blur(12px);
+    padding: 0.4rem 0;
+    animation: dropdownFadeIn .15s ease;
+  }
+  .rd-cat-panel--open { display: block; }
+
+  .rd-cat-panel-header {
+    padding: 0.3rem 0.9rem 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(77, 184, 212, 0.08);
+    margin-bottom: 0.25rem;
+  }
+
+  .rd-cat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    font-size: 0.83rem;
+    color: var(--text-light);
+    font-family: var(--font-primary);
+    user-select: none;
+    border-left: 2px solid transparent;
+  }
+  .rd-cat-item:hover {
+    background: rgba(77, 184, 212, 0.1);
+    color: #e0f7ff;
+    border-left-color: rgba(77, 184, 212, 0.4);
+  }
+  .rd-cat-item:has(.rd-cat-cb:checked) {
+    background: rgba(77, 184, 212, 0.06);
+  }
+  .rd-cat-item i { font-size: 0.82rem; width: 15px; text-align: center; flex-shrink: 0; }
+  .rd-cat-cb {
+    accent-color: var(--accent-cyan);
+    width: 15px; height: 15px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* Light mode — cat-dropdown */
+  [data-theme="light"] .rd-cat-trigger {
+    background: #fff;
+    color: #1a2535;
+    border-color: rgba(26, 101, 128, 0.3);
+  }
+  [data-theme="light"] .rd-cat-trigger:hover,
+  [data-theme="light"] .rd-cat-dropdown[aria-expanded="true"] .rd-cat-trigger {
+    background: #f0f8ff;
+    border-color: #1a7fa0;
+  }
+  [data-theme="light"] .rd-cat-panel {
+    background: #fff;
+    border-color: rgba(26, 101, 128, 0.25);
+    border-top-color: #1a7fa0;
+    box-shadow: 0 8px 24px rgba(26, 101, 128, 0.15);
+  }
+  [data-theme="light"] .rd-cat-item { color: #1a2535; }
+  [data-theme="light"] .rd-cat-item:hover {
+    background: rgba(26, 101, 128, 0.07);
+    color: #1a6580;
+    border-left-color: rgba(26, 101, 128, 0.3);
+  }
+  [data-theme="light"] .rd-cat-panel-header { color: #6b7280; border-bottom-color: rgba(26,101,128,0.1); }
+
+  /* ── Chips filtres ─────────────────────────────────────── */
+  .chip--hidden { display: none !important; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(45, 130, 170, 0.2);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    font-family: var(--font-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-fast);
+    user-select: none;
+  }
+  .chip i {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    transition: opacity .2s;
+  }
+  .chip.active {
+    border-color: rgba(var(--chip-rgb, 77,184,212), 0.5);
+    background: rgba(var(--chip-rgb, 77,184,212), 0.1);
+    color: var(--text-light);
+  }
+  .chip.active i { opacity: 1; color: var(--chip-color, var(--accent-cyan)); }
+  .chip:hover { border-color: var(--chip-color, var(--accent-cyan)); color: var(--text-light); }
+  .chip:hover i { opacity: 1; }
+
+  /* ── Résultats (listes) ────────────────────────────────── */
+  .rd-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 55vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(77,184,212,.2) transparent;
+  }
+
+  .result-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(18, 30, 50, 0.6);
+    border: 1px solid rgba(45, 130, 170, 0.08);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+  }
+  .result-item:hover {
+    border-color: rgba(77, 184, 212, 0.28);
+    background: rgba(18, 30, 50, 0.95);
+  }
+
+  .result-left { flex-shrink: 0; padding-top: 4px; }
+
+  .type-dot {
+    display: block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 7px currentColor;
+  }
+
+  .result-body { flex: 1; min-width: 0; }
+
+  .result-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .result-nom {
+    flex: 1;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .result-dist {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+    background: rgba(77, 184, 212, 0.08);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(77, 184, 212, 0.15);
+  }
+
+  .result-adresse, .result-meta {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .result-source {
+    font-size: 0.65rem;
+    color: rgba(143, 163, 184, 0.45);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .result-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .result-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(45, 130, 170, 0.2);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition-fast);
+    line-height: 1.4;
+  }
+  .result-btn:hover { border-color: rgba(77,184,212,0.4); color: var(--text-light); background: rgba(255,255,255,0.04); }
+  .btn-go   { }
+  .btn-fiche { }
+  .btn-event { background: rgba(244,63,94,0.12); color: #f43f5e; border-color: rgba(244,63,94,0.3); }
+  .btn-event:hover { background: rgba(244,63,94,0.22); }
+  .result-date { color: #f43f5e; font-size: 0.75rem; font-weight: 600; }
+
+  /* Empty / skeleton / hint */
+  .no-results {
+    padding: 32px 16px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .no-results i { font-size: 1.5rem; opacity: .4; }
+
+  .rd-hint {
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .rd-hint i { font-size: 2rem; opacity: .25; }
+  .rd-hint strong { color: var(--accent-cyan); font-size: var(--text-base); }
+
+  .skeleton-item {
+    padding: 12px 14px;
+    background: rgba(18, 30, 50, 0.6);
+    border: 1px solid rgba(45, 130, 170, 0.06);
+    border-radius: var(--radius-sm);
+  }
+  .skel-line {
+    height: 10px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(77,184,212,.06) 25%, rgba(77,184,212,.14) 50%, rgba(77,184,212,.06) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    margin-bottom: 8px;
+  }
+  .skel-w70 { width: 70%; }
+  .skel-w45 { width: 45%; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  /* ── Toasts ────────────────────────────────────────────── */
+  #toast-container {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: rgba(12, 20, 36, 0.97);
+    border: 1px solid rgba(45, 130, 170, 0.35);
+    color: var(--text-light);
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .2s, transform .2s;
+    backdrop-filter: blur(10px);
+    max-width: 88vw;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+  }
+  .toast-show { opacity: 1; transform: translateY(0); }
+  .toast-error { border-color: rgba(239,68,68,.45); color: #fca5a5; }
+
+  /* ── Responsive ────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .rd-header { padding: 8px 12px; margin: 0 8px 0.5rem; }
+    .rd-toolbar { gap: 6px; }
+    .rd-select { min-width: 120px; max-width: none; flex: 1; }
+    .rd-radius-inline { margin-left: 0; width: 100%; }
+    #radius-slider { flex: 1; }
+    .rd-container { padding: 0 8px; }
+    .rd-tabs { gap: 0; }
+    .rd-tab { padding: 0.5rem 0.7rem; font-size: var(--text-xs); }
+    .rd-card { padding: 0.8rem; }
+    .rd-map-frame { height: 38vh; min-height: 250px; }
+    .rd-list { max-height: 45vh; gap: 6px; }
+    .result-item { padding: 10px; gap: 8px; }
+  }
+
+  /* ── Micro-footer ──────────────────────────────────────── */
+  /* ── Note technique ── */
+  .rd-tech-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    max-width: 860px;
+    margin: 0.6rem auto 0;
+    padding: 0.6rem 1rem;
+    border-top: 1px solid rgba(77,184,212,0.08);
+  }
+
+  .rd-tech-note-icon {
+    color: rgba(77,184,212,0.4);
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .rd-tech-note p {
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .rd-tech-note p strong { color: rgba(200,215,230,0.7); font-weight: 600; }
+  .rd-tech-note p code {
+    font-size: 0.68rem;
+    background: rgba(77,184,212,0.08);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: var(--accent-cyan);
+  }
+
+  [data-theme="light"] .rd-tech-note {
+    border-top-color: rgba(26,101,128,0.1);
+  }
+  [data-theme="light"] .rd-tech-note p { color: #6a85a0; }
+  [data-theme="light"] .rd-tech-note p strong { color: #3a5268; }
+  [data-theme="light"] .rd-tech-note-icon { color: rgba(26,101,128,0.3); }
+
+  .rd-footer {
+    flex-shrink: 0;
+    background: rgba(8, 15, 28, 0.97);
+    border-top: 1px solid rgba(45, 130, 170, 0.15);
+    padding: 0.8rem 1.2rem 0.6rem;
+  }
+
+  .rd-footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(45, 130, 170, 0.08);
+  }
+  .rd-footer-nav a {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color var(--transition-fast);
+    padding: 0.15rem 0;
+  }
+  .rd-footer-nav a:hover { color: var(--accent-cyan); }
+  .rd-footer-nav a i { font-size: 0.65rem; opacity: 0.75; }
+  .rd-footer-nav--active {
+    color: var(--accent-cyan) !important;
+    font-weight: 600 !important;
+  }
+  .rd-footer-nav--active i { opacity: 1 !important; }
+
+  .rd-footer-copy-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    opacity: 0.7;
+  }
+  .rd-footer-copy  { color: var(--text-muted); }
+  .rd-footer-copy strong { color: var(--accent-cyan); font-weight: 600; }
+  .rd-footer-sep   { color: rgba(143, 163, 184, 0.3); }
+  .rd-footer-project { color: var(--text-muted); }
+  .rd-footer-project i { color: var(--text-muted); margin-right: 3px; }
+  .rd-footer-link  {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+  .rd-footer-link:hover { color: var(--accent-cyan); }
+
+  @media (max-width: 480px) {
+    .rd-footer-nav { gap: 0.8rem; }
+    .rd-footer-nav a { font-size: 0.68rem; }
+  }
+
+  /* ── Light theme ────────────────────────────────────────── */
+  [data-theme="light"] .rd-header    { background: rgba(234,241,247,.98); border-color: rgba(26,127,160,.2); border-bottom-color: rgba(26,127,160,.35); }
+  [data-theme="light"] .rd-toolbar-sep { background: rgba(26,127,160,.2); }
+  [data-theme="light"] .rd-select    { background: #fff; color: #1a2535; border-color: rgba(26,127,160,.25); }
+
+  /* Bouton "Je suis ici" en light */
+  [data-theme="light"] .rd-btn--primary {
+    background: #0e7fa8;
+    border-color: #0e7fa8;
+    color: #fff;
+  }
+  [data-theme="light"] .rd-btn--primary:hover { background: #0a6a8f; border-color: #0a6a8f; }
+
+  [data-theme="light"] .rd-btn--ghost { color: #4a6275; border-color: rgba(26,127,160,.2); }
+
+  /* Périmètre (radius) en light */
+  [data-theme="light"] .rd-radius-inline {
+    background: #fff;
+    border-color: rgba(26,127,160,.25);
+  }
+  [data-theme="light"] .rd-radius-label { color: #4a6275; }
+  [data-theme="light"] .rd-radius-label strong { color: #0e7fa8; }
+
+  /* Effectif en light */
+  [data-theme="light"] .rd-effectif-filter {
+    background: #fff;
+    border-color: rgba(26,127,160,.25);
+  }
+  [data-theme="light"] .rd-effectif-label { color: #4a6275; }
+  [data-theme="light"] .rd-tabs      { border-color: rgba(26,127,160,.12); }
+  [data-theme="light"] .rd-tab:hover { color: #1a2535; }
+  [data-theme="light"] .rd-tab--active { color: var(--accent-cyan); border-bottom-color: var(--accent-cyan); }
+  [data-theme="light"] .rd-card      { background: rgba(255,255,255,.85); border-color: rgba(26,127,160,.12); }
+  [data-theme="light"] .rd-card-header h3 { color: var(--heading-color); }
+  [data-theme="light"] .chip.active  { background: rgba(26,127,160,.1); border-color: #1a7fa0; color: #1a2535; }
+  [data-theme="light"] .result-item  { background: rgba(255,255,255,.8); border-color: rgba(26,127,160,.1); }
+  [data-theme="light"] .result-nom   { color: #1a2535; }
+  [data-theme="light"] #radar-map    { filter: brightness(.95) saturate(.75); }
+  [data-theme="light"] .rd-map-frame { border-color: rgba(26,127,160,.12); }
+  [data-theme="light"] .rd-footer    { background: rgba(228,238,248,.97); border-top-color: rgba(26,127,160,.15); }
+  [data-theme="light"] .rd-footer-nav a { color: #4a6275; }
+  [data-theme="light"] .rd-footer-nav a:hover { color: var(--accent-cyan); }
+  [data-theme="light"] .rd-footer-copy-row { color: #5a7285; }
+  [data-theme="light"] .rd-hero-badge { background: rgba(26,127,160,.07); border-color: rgba(26,127,160,.22); }
+
+  .rd-wip-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 0.85rem;
+    padding: 0.5rem 1.1rem;
+    background: rgba(234, 88, 12, 0.12);
+    border: 1.5px solid rgba(234, 88, 12, 0.55);
+    border-radius: 999px;
+    font-size: 0.83rem;
+    font-weight: 700;
+    color: #ea580c;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    box-shadow: 0 0 12px rgba(234, 88, 12, 0.15);
+  }
+  .rd-wip-notice i { font-size: 0.8rem; }
+  [data-theme="light"] .skeleton-item { background: rgba(200,215,230,.55); border-color: rgba(26,127,160,.08); }
+  [data-theme="light"] .skel-line     { background: linear-gradient(90deg, rgba(26,127,160,.1) 25%, rgba(26,127,160,.22) 50%, rgba(26,127,160,.1) 75%); background-size: 200% 100%; }
+  [data-theme="light"] .result-dist   { color: var(--accent-cyan); background: rgba(26,127,160,.08); border-color: rgba(26,127,160,.18); }
+  [data-theme="light"] .result-adresse, [data-theme="light"] .result-meta, [data-theme="light"] .result-source { color: var(--text-muted); }
+  [data-theme="light"] .no-results    { color: var(--text-muted); }
+
+  /* toast-info (toast default type) */
+  .toast-info { border-color: rgba(77, 184, 212, 0.45); color: var(--text-light); }
+  </style>
+
+</BaseLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="ChatGPT">
+  <trk>
+    <name>Fontenay-les-Briis_to_Caen_gravel_route</name>
+    <trkseg>
+      <trkpt lat="48.6407" lon="2.1533">
+        <ele>0</ele>
+        <name>Fontenay-lès-Briis</name>
+      </trkpt>
+      <trkpt lat="48.646" lon="2.07">
+        <ele>0</ele>
+        <name>Limours</name>
+      </trkpt>
+      <trkpt lat="48.644" lon="1.829">
+        <ele>0</ele>
+        <name>Rambouillet</name>
+      </trkpt>
+      <trkpt lat="48.61" lon="1.672">
+        <ele>0</ele>
+        <name>Epernon</name>
+      </trkpt>
+      <trkpt lat="48.588" lon="1.578">
+        <ele>0</ele>
+        <name>Maintenon</name>
+      </trkpt>
+      <trkpt lat="48.4439" lon="1.489">
+        <ele>0</ele>
+        <name>Chartres</name>
+      </trkpt>
+      <trkpt lat="48.301" lon="1.248">
+        <ele>0</ele>
+        <name>Illiers-Combray</name>
+      </trkpt>
+      <trkpt lat="48.321" lon="0.821">
+        <ele>0</ele>
+        <name>Nogent-le-Rotrou</name>
+      </trkpt>
+      <trkpt lat="48.431" lon="0.092">
+        <ele>0</ele>
+        <name>Alençon</name>
+      </trkpt>
+      <trkpt lat="48.604" lon="0.172">
+        <ele>0</ele>
+        <name>Sées</name>
+      </trkpt>
+      <trkpt lat="48.744" lon="-0.02">
+        <ele>0</ele>
+        <name>Argentan</name>
+      </trkpt>
+      <trkpt lat="48.891" lon="-0.199">
+        <ele>0</ele>
+        <name>Falaise</name>
+      </trkpt>
+      <trkpt lat="49.1829" lon="-0.3707">
+        <ele>0</ele>
+        <name>Caen</name>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

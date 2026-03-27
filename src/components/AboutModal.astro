@@ -1,0 +1,434 @@
+﻿---
+// src/components/AboutModal.astro — Popup "À propos" TourData 2026 / OceanPhenix
+---
+
+<div id="about-modal" class="about-overlay" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
+  <div class="about-sheet">
+
+    <!-- Handle -->
+    <div class="about-handle"></div>
+
+    <!-- Header / Hero -->
+    <div class="about-hero">
+      <div class="about-hero-icon">
+        <i class="fas fa-bicycle"></i>
+      </div>
+      <div class="about-hero-text">
+        <h2 id="about-title" class="about-title">TourData 2026</h2>
+        <p class="about-tagline">Projet terrain vélo · France · Data &amp; Territoire</p>
+      </div>
+      <span class="about-badge"><i class="fas fa-circle-dot"></i> En préparation</span>
+      <button class="about-close" id="about-close" aria-label="Fermer">&times;</button>
+    </div>
+
+    <div class="about-body">
+
+      <!-- Qui -->
+      <section class="about-section">
+        <h3 class="about-section-title"><i class="fas fa-user"></i> Qui ?</h3>
+        <p>
+          <strong>Stéphane Celton</strong> — Data Product Manager, Senior Data Analyst BI,
+          15&nbsp;ans d'expérience IT. Fondateur d'<strong>OceanPhenix™</strong>, spécialisé
+          en solutions data souveraines, IA et Business Intelligence.
+        </p>
+      </section>
+
+      <!-- La démarche -->
+      <section class="about-section">
+        <h3 class="about-section-title"><i class="fas fa-route"></i> La démarche</h3>
+        <p>
+          Une tentative de parcours à vélo à travers la France, au printemps 2026,
+          pour aller à la rencontre d'entreprises, collectivités et acteurs du territoire —
+          et comprendre leurs <strong>besoins data réels</strong>, loin des conférences et des écrans.
+        </p>
+        <div class="about-note">
+          <i class="fas fa-info-circle"></i>
+          <span>Le parcours et les étapes seront définis au fil des prises de contact.
+          Chaque tronçon dépendra des <strong>entretiens confirmés</strong> et des
+          propositions de rendez-vous reçues.</span>
+        </div>
+      </section>
+
+      <!-- Ce site -->
+      <section class="about-section">
+        <h3 class="about-section-title"><i class="fas fa-lightbulb"></i> Ce site, c'est quoi ?</h3>
+        <ul class="about-list">
+          <li><i class="fas fa-map-marker-alt"></i> <strong>Journal de terrain</strong> — étapes, rencontres, observations</li>
+          <li><i class="fas fa-chart-pie"></i> <strong>Dashboard</strong> — suivi physique Strava, km parcourus</li>
+          <li><i class="fas fa-crosshairs"></i> <strong>Radar Terrain</strong> — trouver campings, coworkings et entreprises data autour d'une position GPS</li>
+          <li><i class="fab fa-strava"></i> <strong>Strava live</strong> — activités et performance en temps réel</li>
+        </ul>
+      </section>
+
+      <!-- Itinéraire -->
+      <section class="about-section">
+        <h3 class="about-section-title"><i class="fas fa-map"></i> Zones envisagées <span class="about-section-hint">(indicatif)</span></h3>
+        <p class="about-route-note">
+          Ces villes illustrent une orientation générale du projet —
+          le tracé réel se construira au fur et à mesure des rendez-vous validés.
+        </p>
+        <div class="about-route">
+          <span class="about-route-city about-route-end">Essonne</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Caen</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Rennes</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Nantes</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Bordeaux</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Toulouse</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Montpellier</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Nice</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-tentative">Lyon</span>
+          <i class="fas fa-arrow-right about-route-arrow"></i>
+          <span class="about-route-city about-route-end"><i class="fas fa-rotate-left" style="font-size:0.6rem;margin-right:3px"></i>Essonne</span>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="about-section about-section--contact">
+        <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener"
+          class="about-cta">
+          <i class="fab fa-linkedin"></i> Suivre sur LinkedIn
+        </a>
+        <a href="/terrain" class="about-cta about-cta--outline">
+          <i class="fas fa-bicycle"></i> Journal de terrain
+        </a>
+      </section>
+
+    </div><!-- /.about-body -->
+  </div><!-- /.about-sheet -->
+</div><!-- /.about-overlay -->
+
+<style>
+/* ── Animations (mêmes que CGU) ──────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.about-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: fadeIn 0.25s ease;
+  overflow-y: auto;
+}
+.about-overlay[hidden] { display: none; }
+
+/* ── Sheet ───────────────────────────────────────────────── */
+.about-sheet {
+  background: var(--dark-charcoal);
+  border: 1px solid rgba(62, 148, 180, 0.25);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 660px;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(77,184,212,0.06);
+  animation: slideUp 0.25s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(77,184,212,.3) transparent;
+  margin: auto;
+}
+.about-sheet::-webkit-scrollbar { width: 6px; }
+.about-sheet::-webkit-scrollbar-track { background: transparent; }
+.about-sheet::-webkit-scrollbar-thumb { background: rgba(77,184,212,.3); border-radius: 3px; }
+.about-sheet::-webkit-scrollbar-thumb:hover { background: rgba(77,184,212,.5); }
+
+/* ── Handle — masqué (plus de bottom sheet) ──────────────── */
+.about-handle { display: none; }
+
+/* ── Header (style CGU) ──────────────────────────────────── */
+.about-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid rgba(77, 184, 212, 0.2);
+  flex-shrink: 0;
+}
+
+.about-hero-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(30, 80, 40, 0.25);
+  border: 1px solid rgba(40, 120, 60, 0.4);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4caf72;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.about-hero-text { flex: 1; min-width: 0; }
+
+.about-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin: 0 0 2px;
+}
+
+.about-tagline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 400;
+}
+
+.about-badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  background: rgba(77, 184, 212, 0.08);
+  border: 1px solid rgba(77, 184, 212, 0.22);
+  color: var(--accent-cyan);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-style: italic;
+}
+.about-badge i { font-size: 0.5rem; animation: pulse-dot 2s ease infinite; }
+
+/* ── Bouton fermer (style CGU) ───────────────────────────── */
+.about-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+.about-close:hover { color: var(--accent-cyan); background: rgba(77, 184, 212, 0.1); }
+
+/* ── Body ────────────────────────────────────────────────── */
+.about-body {
+  padding: 2rem;
+  flex: 1;
+}
+
+/* ── Sections ────────────────────────────────────────────── */
+.about-section {
+  margin-bottom: 1.5rem;
+}
+.about-section:last-child { margin-bottom: 0; }
+
+.about-section-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.about-section-title i { opacity: .75; }
+
+.about-section-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+.about-section p {
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.about-section p:last-child { margin-bottom: 0; }
+.about-section p strong { color: var(--text-light); font-weight: 500; }
+
+/* ── Note encadrée ───────────────────────────────────────── */
+.about-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(77, 184, 212, 0.05);
+  border: 1px solid rgba(77, 184, 212, 0.18);
+  border-left: 3px solid rgba(77, 184, 212, 0.5);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.about-note i { color: var(--accent-cyan); flex-shrink: 0; margin-top: 2px; }
+.about-note strong { color: var(--text-light); font-weight: 500; }
+
+/* ── Liste ───────────────────────────────────────────────── */
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.about-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+.about-list li i { color: var(--accent-cyan); margin-top: 3px; flex-shrink: 0; width: 14px; }
+.about-list li strong { color: var(--text-light); font-weight: 500; }
+
+/* ── Itinéraire ──────────────────────────────────────────── */
+.about-route-note {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.about-route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+.about-route-city {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(77, 184, 212, 0.05);
+  border: 1px dashed rgba(77, 184, 212, 0.2);
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-size: 0.82rem;
+}
+.about-route-tentative { opacity: 0.55; }
+.about-route-start {
+  border-style: solid;
+  border-color: rgba(226,249,76,.35);
+  color: #e2f94c;
+  background: rgba(226,249,76,.06);
+  opacity: 1;
+}
+.about-route-end {
+  border-style: solid;
+  border-color: rgba(61,232,160,.3);
+  color: #3de8a0;
+  background: rgba(61,232,160,.05);
+  opacity: 1;
+}
+.about-route-arrow { color: rgba(143,163,184,.25); font-size: 0.55rem; }
+
+/* ── CTA Contact ─────────────────────────────────────────── */
+.about-section--contact {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.about-cta {
+  flex: 1;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: var(--font-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  background: #0077b5;
+  color: #fff;
+  border: 1px solid #0077b5;
+}
+.about-cta:hover { background: #005f94; }
+.about-cta--outline {
+  background: transparent;
+  color: var(--text-light);
+  border: 1px solid rgba(62, 148, 180, 0.3);
+}
+.about-cta--outline:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+/* ── Light theme ─────────────────────────────────────────── */
+[data-theme="light"] .about-sheet {
+  background: #f0f5fa;
+  border-color: rgba(26, 127, 160, 0.2);
+}
+[data-theme="light"] .about-hero { border-bottom-color: rgba(26, 127, 160, 0.2); }
+[data-theme="light"] .about-section p,
+[data-theme="light"] .about-list li { color: #4a6275; }
+[data-theme="light"] .about-section p strong,
+[data-theme="light"] .about-list li strong { color: #1a2535; }
+[data-theme="light"] .about-route-city { color: #4a6275; }
+[data-theme="light"] .about-note { color: #4a6275; }
+[data-theme="light"] .about-note strong { color: #1a2535; }
+[data-theme="light"] .about-route-note { color: #5a7285; }
+[data-theme="light"] .about-close { color: #5a7285; }
+[data-theme="light"] .about-close:hover { color: #1a7fa0; background: rgba(26,127,160,.1); }
+</style>
+
+<script is:inline>
+(function () {
+  function openAbout() {
+    var m = document.getElementById('about-modal');
+    if (!m) return;
+    var sb = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = sb + 'px';
+    document.body.style.overflow = 'hidden';
+    m.removeAttribute('hidden');
+  }
+  function closeAbout() {
+    var m = document.getElementById('about-modal');
+    if (!m) return;
+    m.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('#about-link, .about-trigger').forEach(function (el) {
+      el.addEventListener('click', function (e) { e.preventDefault(); openAbout(); });
+    });
+    var btn = document.getElementById('about-close');
+    if (btn) btn.addEventListener('click', closeAbout);
+    var overlay = document.getElementById('about-modal');
+    if (overlay) overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeAbout();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAbout();
+    });
+  });
+})();
+</script>

@@ -1,0 +1,27 @@
+---
+// src/components/Footer.astro
+const lastModified = new Date().toLocaleDateString('fr-FR', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<footer class="main-footer" id="contact">
+  <div class="footer-content">
+    <div class="footer-bio">
+      <p class="founder-name">
+        <strong>Stéphane Celton</strong> - Founder
+      </p>
+      <p class="founder-title">
+        Data Product Manager • Senior Data Analyst BI • Production Engineer
+      </p>
+      <p class="founder-expertise">
+        15+ ans d'expertise IT • Innovation IA/BI pratique • Souveraineté &amp; Excellence
+      </p>
+    </div>
+    <p>© 2025–2026 OceanPhenix™ | Stéphane Celton — Tous droits réservés.</p>
+    <p class="footer-license">Concept, design et contenu protégés. Reproduction interdite sans autorisation écrite.</p>
+    <p class="footer-updated">Dernière mise à jour : {lastModified}</p>
+  </div>
+</footer>

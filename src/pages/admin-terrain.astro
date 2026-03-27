@@ -49,28 +49,82 @@ import etapesData from '../data/terrain-etapes.json';
           </div>
         </div>
         <div class="admin-topbar-actions">
-          <!-- Action principale -->
+
+          <!-- ── Publier tout ── -->
           <div class="admin-publish-wrap">
-            <button id="admin-publish-btn" class="admin-btn admin-btn--publish" title="Envoie toutes les données vers /data/site-data.json sur O2Switch">
-              <i class="fas fa-cloud-upload-alt"></i> Publier tout
-            </button>
+            <div class="abtn-wrap">
+              <button id="admin-publish-btn" class="admin-btn admin-btn--publish">
+                <i class="fas fa-cloud-upload-alt"></i> Publier tout
+              </button>
+              <div class="abtn-tip abtn-tip--wide">
+                <strong><i class="fas fa-cloud-upload-alt"></i> Publier tout</strong>
+                <p>Envoie <em>toutes</em> les données (étapes, journal, coworking, radar) au serveur o2switch via <code>/api/admin-save.php</code>.</p>
+                <p>Le fichier <code>data/site-data.json</code> est mis à jour immédiatement — le site public reflète les changements <strong>sans rebuild ni FTP</strong>.</p>
+                <hr class="abtn-tip-hr"/>
+                <p class="abtn-tip-note"><i class="fas fa-key"></i> Demande la clé secrète au 1er usage. Elle est mémorisée ensuite.</p>
+              </div>
+            </div>
             <span id="admin-publish-status" class="admin-publish-status" style="display:none;"></span>
           </div>
-          <button id="admin-save-btn" class="admin-btn" title="Sauvegarder dans la mémoire du navigateur">
-            <i class="fas fa-save"></i> Sauvegarder
-          </button>
+
+          <!-- ── Sauvegarder ── -->
+          <div class="abtn-wrap">
+            <button id="admin-save-btn" class="admin-btn">
+              <i class="fas fa-save"></i> Sauvegarder
+            </button>
+            <div class="abtn-tip">
+              <strong><i class="fas fa-save"></i> Sauvegarder</strong>
+              <p>Enregistre toutes les modifications <strong>dans ce navigateur uniquement</strong> (localStorage).</p>
+              <p>Rien n'est envoyé au serveur. Utile pour garder un brouillon entre deux sessions.</p>
+              <hr class="abtn-tip-hr"/>
+              <p class="abtn-tip-note"><i class="fas fa-info-circle"></i> Après Sauvegarder → cliquez <strong>Publier tout</strong> pour mettre le site en ligne.</p>
+            </div>
+          </div>
+
           <!-- Séparateur -->
           <span class="admin-topbar-sep"></span>
-          <button id="admin-visibility-btn" class="admin-visibility-btn" title="Basculer la visibilité de la page Terrain">
-            <span class="vis-dot"></span>
-            <span class="vis-label"></span>
-          </button>
-          <button id="admin-import-btn" class="admin-btn" title="Importer un fichier JSON de sauvegarde">
-            <i class="fas fa-upload"></i> Importer
-          </button>
-          <button id="admin-reset-cache-btn" class="admin-btn admin-btn--danger-light" title="Efface le localStorage et recharge les données">
-            <i class="fas fa-trash-alt"></i> Réinitialiser
-          </button>
+
+          <!-- ── Visibilité terrain ── -->
+          <div class="abtn-wrap">
+            <button id="admin-visibility-btn" class="admin-visibility-btn">
+              <span class="vis-dot"></span>
+              <span class="vis-label"></span>
+            </button>
+            <div class="abtn-tip">
+              <strong><i class="fas fa-eye"></i> Visibilité page Terrain</strong>
+              <p>Bascule la page <code>/terrain</code> entre <strong>publique</strong> (visible par tous) et <strong>privée</strong> (vos visiteurs voient une page vide ou sont redirigés).</p>
+              <hr class="abtn-tip-hr"/>
+              <p class="abtn-tip-note"><i class="fas fa-exclamation-triangle"></i> N'oubliez pas de cliquer <strong>Publier tout</strong> pour appliquer le changement sur le site.</p>
+            </div>
+          </div>
+
+          <!-- ── Importer ── -->
+          <div class="abtn-wrap">
+            <button id="admin-import-btn" class="admin-btn">
+              <i class="fas fa-upload"></i> Importer
+            </button>
+            <div class="abtn-tip">
+              <strong><i class="fas fa-upload"></i> Importer un JSON</strong>
+              <p>Charge un fichier <code>.json</code> exporté précédemment (depuis un autre navigateur ou une sauvegarde) et remplace toutes les données en mémoire.</p>
+              <hr class="abtn-tip-hr"/>
+              <p class="abtn-tip-note"><i class="fas fa-info-circle"></i> Après import → cliquez <strong>Sauvegarder</strong> puis <strong>Publier tout</strong>.</p>
+            </div>
+          </div>
+
+          <!-- ── Réinitialiser ── -->
+          <div class="abtn-wrap">
+            <button id="admin-reset-cache-btn" class="admin-btn admin-btn--danger-light">
+              <i class="fas fa-trash-alt"></i> Réinitialiser
+            </button>
+            <div class="abtn-tip abtn-tip--danger">
+              <strong><i class="fas fa-trash-alt"></i> Réinitialiser le cache local</strong>
+              <p>Efface <em>toutes</em> les données de ce navigateur (étapes, journal, radar, GPX…) et recharge la page.</p>
+              <p>Après réinitialisation, les données affichées sont celles du <strong>dernier "Publier tout"</strong> sur le serveur.</p>
+              <hr class="abtn-tip-hr"/>
+              <p class="abtn-tip-note"><i class="fas fa-exclamation-triangle"></i> Action irréversible — utilisez uniquement si le localStorage est corrompu ou pour repartir de l'état serveur.</p>
+            </div>
+          </div>
+
           <input type="file" id="admin-import-file" accept=".json" style="display:none" />
         </div>
       </div>
@@ -1321,6 +1375,61 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     gap: 0.5rem;
     flex-wrap: wrap;
   }
+
+  /* ── Popup tooltip boutons admin ────────────────────────── */
+  .abtn-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+  .abtn-tip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 260px;
+    background: #0e1929;
+    border: 1px solid rgba(77,184,212,0.25);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    z-index: 200;
+    pointer-events: none;
+  }
+  .abtn-tip--wide { width: 300px; }
+  .abtn-tip--danger { border-color: rgba(248,113,113,0.35); }
+  .abtn-tip strong { color: var(--accent-cyan); font-size: 0.8rem; display: block; margin-bottom: 0.5rem; }
+  .abtn-tip--danger strong { color: #f87171; }
+  .abtn-tip p { margin: 0.3rem 0; }
+  .abtn-tip code {
+    background: rgba(77,184,212,0.1); padding: 1px 4px;
+    border-radius: 3px; color: #6ec5d6; font-size: 0.7rem;
+  }
+  .abtn-tip em { color: var(--text-light); font-style: normal; }
+  .abtn-tip-hr { border: 0; border-top: 1px solid rgba(255,255,255,0.07); margin: 0.5rem 0; }
+  .abtn-tip-note {
+    font-size: 0.68rem; color: rgba(255,255,255,0.4);
+    display: flex; align-items: flex-start; gap: 0.3rem;
+  }
+  .abtn-tip-note i { color: var(--accent-cyan); margin-top: 2px; flex-shrink: 0; }
+  .abtn-tip--danger .abtn-tip-note i { color: #f87171; }
+  /* Affichage au hover ET au focus-within (accessible clavier) */
+  .abtn-wrap:hover .abtn-tip,
+  .abtn-wrap:focus-within .abtn-tip { display: block; }
+  /* Flèche pointant vers le haut */
+  .abtn-tip::before {
+    content: '';
+    position: absolute;
+    top: -6px; right: 16px;
+    width: 10px; height: 10px;
+    background: #0e1929;
+    border-left: 1px solid rgba(77,184,212,0.25);
+    border-top: 1px solid rgba(77,184,212,0.25);
+    transform: rotate(45deg);
+  }
+  .abtn-tip--danger::before { border-color: rgba(248,113,113,0.35); }
 
   .admin-visibility-btn {
     display: inline-flex;

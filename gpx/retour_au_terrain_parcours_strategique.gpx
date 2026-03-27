@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="OpenAI ChatGPT" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Retour au terrain - Parcours stratégique France Data</name>
+    <desc>Tracé stratégique par grandes étapes pour préparation dans Komoot / Garmin. Ce fichier n'est pas un itinéraire routé turn-by-turn.</desc>
+    <time>2026-03-13T17:18:04.224651+00:00</time>
+  </metadata>
+  <wpt lat="48.645" lon="2.155">
+    <name>Fontenay-lès-Briis</name>
+    <desc>Départ</desc>
+  </wpt>
+  <wpt lat="49.1829" lon="-0.3707">
+    <name>Caen</name>
+    <desc>Écosystème numérique normand</desc>
+  </wpt>
+  <wpt lat="48.1173" lon="-1.6778">
+    <name>Rennes</name>
+    <desc>French Tech / cyber / data</desc>
+  </wpt>
+  <wpt lat="47.2184" lon="-1.5536">
+    <name>Nantes</name>
+    <desc>Hub numérique</desc>
+  </wpt>
+  <wpt lat="44.8378" lon="-0.5792">
+    <name>Bordeaux</name>
+    <desc>Data / innovation</desc>
+  </wpt>
+  <wpt lat="43.6047" lon="1.4442">
+    <name>Toulouse</name>
+    <desc>Industrie / IA / aéronautique</desc>
+  </wpt>
+  <wpt lat="43.6108" lon="3.8767">
+    <name>Montpellier</name>
+    <desc>Tech / data / santé</desc>
+  </wpt>
+  <wpt lat="43.7102" lon="7.262">
+    <name>Nice</name>
+    <desc>Côte d’Azur</desc>
+  </wpt>
+  <wpt lat="43.6156" lon="7.0713">
+    <name>Sophia Antipolis</name>
+    <desc>Pôle technologique</desc>
+  </wpt>
+  <wpt lat="43.2965" lon="5.3698">
+    <name>Marseille</name>
+    <desc>Innovation / French Tech</desc>
+  </wpt>
+  <wpt lat="45.764" lon="4.8357">
+    <name>Lyon</name>
+    <desc>Grand hub data</desc>
+  </wpt>
+  <wpt lat="45.1885" lon="5.7245">
+    <name>Grenoble</name>
+    <desc>IA / deep tech</desc>
+  </wpt>
+  <wpt lat="48.5734" lon="7.7521">
+    <name>Strasbourg</name>
+    <desc>Innovation / institutions</desc>
+  </wpt>
+  <wpt lat="50.6292" lon="3.0573">
+    <name>Lille</name>
+    <desc>Retail tech / data</desc>
+  </wpt>
+  <rte>
+    <name>Tour Data France - route stratégique</name>
+    <desc>Suite de grandes étapes à affiner par tronçons sécurisés.</desc>
+    <rtept lat="48.645" lon="2.155">
+      <name>Fontenay-lès-Briis</name>
+    </rtept>
+    <rtept lat="49.1829" lon="-0.3707">
+      <name>Caen</name>
+    </rtept>
+    <rtept lat="48.1173" lon="-1.6778">
+      <name>Rennes</name>
+    </rtept>
+    <rtept lat="47.2184" lon="-1.5536">
+      <name>Nantes</name>
+    </rtept>
+    <rtept lat="44.8378" lon="-0.5792">
+      <name>Bordeaux</name>
+    </rtept>
+    <rtept lat="43.6047" lon="1.4442">
+      <name>Toulouse</name>
+    </rtept>
+    <rtept lat="43.6108" lon="3.8767">
+      <name>Montpellier</name>
+    </rtept>
+    <rtept lat="43.7102" lon="7.262">
+      <name>Nice</name>
+    </rtept>
+    <rtept lat="43.6156" lon="7.0713">
+      <name>Sophia Antipolis</name>
+    </rtept>
+    <rtept lat="43.2965" lon="5.3698">
+      <name>Marseille</name>
+    </rtept>
+    <rtept lat="45.764" lon="4.8357">
+      <name>Lyon</name>
+    </rtept>
+    <rtept lat="45.1885" lon="5.7245">
+      <name>Grenoble</name>
+    </rtept>
+    <rtept lat="48.5734" lon="7.7521">
+      <name>Strasbourg</name>
+    </rtept>
+    <rtept lat="50.6292" lon="3.0573">
+      <name>Lille</name>
+    </rtept>
+  </rte>
+</gpx>

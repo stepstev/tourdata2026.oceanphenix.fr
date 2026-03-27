@@ -13,6 +13,8 @@ import OceanBackground from '../components/OceanBackground.astro';
   lastModified="22/03/2026 12:00"
 >
   <link slot="head" rel="stylesheet" href="/lib/leaflet.min.css" />
+  <link slot="head" rel="stylesheet" href="/lib/MarkerCluster.css" />
+  <link slot="head" rel="stylesheet" href="/lib/MarkerCluster.Default.css" />
 
   <OceanBackground />
   <Nav />
@@ -46,65 +48,65 @@ import OceanBackground from '../components/OceanBackground.astro';
           <div class="rd-city-panel" id="city-panel" role="listbox">
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-city"></i> Île-de-France</div>
-              <button class="rd-city-item" data-lat="48.856" data-lon="2.352"><i class="fas fa-tower-observation" style="color:#f59e0b"></i> Paris</button>
-              <button class="rd-city-item" data-lat="48.897" data-lon="2.088"><i class="fas fa-building-columns" style="color:#94a3b8"></i> La Défense</button>
-              <button class="rd-city-item" data-lat="48.759" data-lon="2.208"><i class="fas fa-flask" style="color:#22d3ee"></i> Saclay / Paris-Sud</button>
-              <button class="rd-city-item" data-lat="48.638" data-lon="2.094"><i class="fas fa-bicycle" style="color:#10b981"></i> Fontenay-lès-Briis</button>
+              <div class="rd-city-group-label">Île-de-France</div>
+              <button class="rd-city-item" data-lat="48.856" data-lon="2.352"><i class="fas fa-location-dot"></i> Paris</button>
+              <button class="rd-city-item" data-lat="48.897" data-lon="2.088"><i class="fas fa-location-dot"></i> La Défense</button>
+              <button class="rd-city-item" data-lat="48.759" data-lon="2.208"><i class="fas fa-location-dot"></i> Saclay / Paris-Sud</button>
+              <button class="rd-city-item" data-lat="48.638" data-lon="2.094"><i class="fas fa-location-dot"></i> Fontenay-lès-Briis</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-mountain-sun"></i> Auvergne-Rhône-Alpes</div>
-              <button class="rd-city-item" data-lat="45.748" data-lon="4.847"><i class="fas fa-database" style="color:#f59e0b"></i> Lyon</button>
-              <button class="rd-city-item" data-lat="45.188" data-lon="5.724"><i class="fas fa-atom" style="color:#38bdf8"></i> Grenoble</button>
-              <button class="rd-city-item" data-lat="45.439" data-lon="4.387"><i class="fas fa-microchip" style="color:#a78bfa"></i> Saint-Étienne</button>
-              <button class="rd-city-item" data-lat="46.151" data-lon="6.867"><i class="fas fa-laptop" style="color:#34d399"></i> Annecy</button>
+              <div class="rd-city-group-label">Auvergne-Rhône-Alpes</div>
+              <button class="rd-city-item" data-lat="45.748" data-lon="4.847"><i class="fas fa-location-dot"></i> Lyon</button>
+              <button class="rd-city-item" data-lat="45.188" data-lon="5.724"><i class="fas fa-location-dot"></i> Grenoble</button>
+              <button class="rd-city-item" data-lat="45.439" data-lon="4.387"><i class="fas fa-location-dot"></i> Saint-Étienne</button>
+              <button class="rd-city-item" data-lat="46.151" data-lon="6.867"><i class="fas fa-location-dot"></i> Annecy</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-sun"></i> Occitanie</div>
-              <button class="rd-city-item" data-lat="43.605" data-lon="1.444"><i class="fas fa-plane" style="color:#fb923c"></i> Toulouse</button>
-              <button class="rd-city-item" data-lat="43.611" data-lon="3.877"><i class="fas fa-brain" style="color:#c084fc"></i> Montpellier</button>
+              <div class="rd-city-group-label">Occitanie</div>
+              <button class="rd-city-item" data-lat="43.605" data-lon="1.444"><i class="fas fa-location-dot"></i> Toulouse</button>
+              <button class="rd-city-item" data-lat="43.611" data-lon="3.877"><i class="fas fa-location-dot"></i> Montpellier</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-wine-glass"></i> Nouvelle-Aquitaine</div>
-              <button class="rd-city-item" data-lat="44.837" data-lon="-0.579"><i class="fas fa-chart-line" style="color:#4ade80"></i> Bordeaux</button>
+              <div class="rd-city-group-label">Nouvelle-Aquitaine</div>
+              <button class="rd-city-item" data-lat="44.837" data-lon="-0.579"><i class="fas fa-location-dot"></i> Bordeaux</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-water"></i> PACA</div>
-              <button class="rd-city-item" data-lat="43.296" data-lon="5.381"><i class="fas fa-ship" style="color:#38bdf8"></i> Marseille</button>
-              <button class="rd-city-item" data-lat="43.430" data-lon="5.215"><i class="fas fa-network-wired" style="color:#a78bfa"></i> Aix-en-Provence</button>
-              <button class="rd-city-item" data-lat="43.710" data-lon="7.262"><i class="fas fa-microchip" style="color:#f59e0b"></i> Nice / Sophia Antipolis</button>
+              <div class="rd-city-group-label">PACA</div>
+              <button class="rd-city-item" data-lat="43.296" data-lon="5.381"><i class="fas fa-location-dot"></i> Marseille</button>
+              <button class="rd-city-item" data-lat="43.430" data-lon="5.215"><i class="fas fa-location-dot"></i> Aix-en-Provence</button>
+              <button class="rd-city-item" data-lat="43.710" data-lon="7.262"><i class="fas fa-location-dot"></i> Nice / Sophia Antipolis</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-anchor"></i> Pays de la Loire / Bretagne</div>
-              <button class="rd-city-item" data-lat="47.218" data-lon="-1.553"><i class="fas fa-rocket" style="color:#fb923c"></i> Nantes</button>
-              <button class="rd-city-item" data-lat="48.117" data-lon="-1.677"><i class="fas fa-satellite-dish" style="color:#22d3ee"></i> Rennes</button>
-              <button class="rd-city-item" data-lat="48.390" data-lon="-4.486"><i class="fas fa-anchor" style="color:#60a5fa"></i> Brest</button>
+              <div class="rd-city-group-label">Pays de la Loire / Bretagne</div>
+              <button class="rd-city-item" data-lat="47.218" data-lon="-1.553"><i class="fas fa-location-dot"></i> Nantes</button>
+              <button class="rd-city-item" data-lat="48.117" data-lon="-1.677"><i class="fas fa-location-dot"></i> Rennes</button>
+              <button class="rd-city-item" data-lat="48.390" data-lon="-4.486"><i class="fas fa-location-dot"></i> Brest</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-bridge"></i> Normandie</div>
-              <button class="rd-city-item" data-lat="49.183" data-lon="-0.357"><i class="fas fa-graduation-cap" style="color:#a78bfa"></i> Caen</button>
-              <button class="rd-city-item" data-lat="49.443" data-lon="1.099"><i class="fas fa-industry" style="color:#94a3b8"></i> Rouen</button>
+              <div class="rd-city-group-label">Normandie</div>
+              <button class="rd-city-item" data-lat="49.183" data-lon="-0.357"><i class="fas fa-location-dot"></i> Caen</button>
+              <button class="rd-city-item" data-lat="49.443" data-lon="1.099"><i class="fas fa-location-dot"></i> Rouen</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-snowflake"></i> Grand Est / Hauts-de-France</div>
-              <button class="rd-city-item" data-lat="50.629" data-lon="3.057"><i class="fas fa-building" style="color:#60a5fa"></i> Lille</button>
-              <button class="rd-city-item" data-lat="48.573" data-lon="7.752"><i class="fas fa-landmark" style="color:#f472b6"></i> Strasbourg</button>
-              <button class="rd-city-item" data-lat="49.119" data-lon="6.176"><i class="fas fa-microchip" style="color:#34d399"></i> Metz</button>
-              <button class="rd-city-item" data-lat="48.692" data-lon="6.184"><i class="fas fa-flask" style="color:#38bdf8"></i> Nancy</button>
+              <div class="rd-city-group-label">Grand Est / Hauts-de-France</div>
+              <button class="rd-city-item" data-lat="50.629" data-lon="3.057"><i class="fas fa-location-dot"></i> Lille</button>
+              <button class="rd-city-item" data-lat="48.573" data-lon="7.752"><i class="fas fa-location-dot"></i> Strasbourg</button>
+              <button class="rd-city-item" data-lat="49.119" data-lon="6.176"><i class="fas fa-location-dot"></i> Metz</button>
+              <button class="rd-city-item" data-lat="48.692" data-lon="6.184"><i class="fas fa-location-dot"></i> Nancy</button>
             </div>
 
             <div class="rd-city-group">
-              <div class="rd-city-group-label"><i class="fas fa-castle"></i> Bourgogne / Centre-Val</div>
-              <button class="rd-city-item" data-lat="47.322" data-lon="5.041"><i class="fas fa-chart-pie" style="color:#fb923c"></i> Dijon</button>
-              <button class="rd-city-item" data-lat="47.902" data-lon="1.909"><i class="fas fa-bolt" style="color:#facc15"></i> Orléans</button>
-              <button class="rd-city-item" data-lat="47.394" data-lon="0.691"><i class="fas fa-server" style="color:#a78bfa"></i> Tours</button>
+              <div class="rd-city-group-label">Bourgogne / Centre-Val</div>
+              <button class="rd-city-item" data-lat="47.322" data-lon="5.041"><i class="fas fa-location-dot"></i> Dijon</button>
+              <button class="rd-city-item" data-lat="47.902" data-lon="1.909"><i class="fas fa-location-dot"></i> Orléans</button>
+              <button class="rd-city-item" data-lat="47.394" data-lon="0.691"><i class="fas fa-location-dot"></i> Tours</button>
             </div>
 
           </div>
@@ -113,62 +115,10 @@ import OceanBackground from '../components/OceanBackground.astro';
           <i class="fas fa-location-dot"></i> Je suis ici
         </button>
         <div class="rd-toolbar-sep" aria-hidden="true"></div>
-        <!-- Toggle vue PRO / CYCLO -->
-        <div class="rd-view-toggle" role="group" aria-label="Vue">
-          <button class="rd-view-btn rd-view-btn--active" id="btn-view-pro" data-view="pro" type="button">
-            <i class="fas fa-briefcase"></i> Pro
-          </button>
-          <button class="rd-view-btn" id="btn-view-cyclo" data-view="cyclo" type="button">
-            <i class="fas fa-bicycle"></i> Cyclo
-          </button>
-        </div>
-        <div class="rd-toolbar-sep" aria-hidden="true"></div>
         <div class="rd-radius-inline">
           <span class="rd-radius-label"><i class="fas fa-circle-dot"></i> <strong id="radius-val">10</strong> km</span>
           <input type="range" id="radius-slider" min="2" max="25" value="10" step="1"
             aria-label="Rayon de recherche" />
-        </div>
-        <div class="rd-effectif-filter">
-          <label for="effectif-select" class="rd-effectif-label"><i class="fas fa-users"></i></label>
-          <select id="effectif-select" class="rd-effectif-select" aria-label="Filtrer par effectif">
-            <option value="">Tous effectifs</option>
-            <option value="11">10+ salariés</option>
-            <option value="21">50+ salariés</option>
-            <option value="22">100+ salariés</option>
-            <option value="32">250+ salariés</option>
-          </select>
-        </div>
-        <div class="rd-toolbar-sep" aria-hidden="true"></div>
-        <!-- Combobox catégories -->
-        <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
-          <button class="rd-cat-trigger" id="cat-trigger" type="button" aria-label="Filtrer les catégories">
-            <i class="fas fa-layer-group rd-cat-icon"></i>
-            <span id="cat-trigger-label">3 catégories</span>
-            <i class="fas fa-chevron-down rd-cat-chevron"></i>
-          </button>
-          <div class="rd-cat-panel" id="cat-panel" role="listbox">
-            <div class="rd-cat-panel-header">Afficher les catégories</div>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="camping">
-              <i class="fas fa-campground" style="color:#10b981"></i>
-              <span>Campings</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
-              <i class="fas fa-laptop" style="color:#8b5cf6"></i>
-              <span>Coworkings</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="entreprise" checked>
-              <i class="fas fa-microchip" style="color:#f59e0b"></i>
-              <span>Entreprises Data / IT</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="evenement" checked>
-              <i class="fas fa-calendar-days" style="color:#f43f5e"></i>
-              <span>Événements IT / Emploi</span>
-            </label>
-          </div>
         </div>
         <div class="rd-status">
           <span class="rd-dot" id="rd-dot"></span>
@@ -180,36 +130,174 @@ import OceanBackground from '../components/OceanBackground.astro';
     </div>
 
     <!-- ══════════════════════════════════════════════════════ -->
+    <!-- MODEBAR — Sélecteur de mode + contrôles contextuels   -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div class="rd-modebar">
+
+      <!-- Sélecteur PRO / CYCLO -->
+      <div class="rd-mode-toggle" role="group" aria-label="Mode de vue">
+        <button class="rd-mode-btn rd-mode-btn--active" id="btn-mode-pro" data-mode="pro" type="button">
+          <i class="fas fa-briefcase rd-mode-btn-icon"></i>
+          <div class="rd-mode-btn-body">
+            <span class="rd-mode-btn-title">Pro</span>
+            <span class="rd-mode-btn-sub">Coworkings · Entreprises · Salons</span>
+          </div>
+        </button>
+        <button class="rd-mode-btn" id="btn-mode-cyclo" data-mode="cyclo" type="button">
+          <i class="fas fa-bicycle rd-mode-btn-icon"></i>
+          <div class="rd-mode-btn-body">
+            <span class="rd-mode-btn-title">Cyclo</span>
+            <span class="rd-mode-btn-sub">Campings · Hébergements</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="rd-modebar-sep" aria-hidden="true"></div>
+
+      <!-- Contrôles contextuels PRO -->
+      <div class="rd-mode-controls" id="mode-ctrl-pro">
+        <!-- Combobox catégories Pro -->
+        <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
+          <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+            <i class="fas fa-layer-group rd-cat-icon"></i>
+            <span class="rd-cat-trigger-label">3 catégories</span>
+            <i class="fas fa-chevron-down rd-cat-chevron"></i>
+          </button>
+          <div class="rd-cat-panel" id="cat-panel" role="listbox">
+            <div class="rd-cat-panel-header">Catégories Pro</div>
+            <label class="rd-cat-item rd-cat-item--all">
+              <input type="checkbox" class="rd-cat-cb-all" checked>
+              <i class="fas fa-check-double"></i>
+              <span>Toutes les catégories</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
+              <i class="fas fa-laptop"></i>
+              <span>Coworkings</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="entreprise" checked>
+              <i class="fas fa-microchip"></i>
+              <span>Entreprises Data / IT</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="evenement" checked>
+              <i class="fas fa-calendar-days"></i>
+              <span>Événements IT / Emploi</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contrôles contextuels CYCLO -->
+      <div class="rd-mode-controls rd-mode-controls--hidden" id="mode-ctrl-cyclo">
+        <!-- Combobox catégories Cyclo -->
+        <div class="rd-cat-dropdown" id="cat-dropdown-cyclo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel-cyclo">
+          <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+            <i class="fas fa-layer-group rd-cat-icon"></i>
+            <span class="rd-cat-trigger-label">5 catégories</span>
+            <i class="fas fa-chevron-down rd-cat-chevron"></i>
+          </button>
+          <div class="rd-cat-panel" id="cat-panel-cyclo" role="listbox">
+            <div class="rd-cat-panel-header">Catégories Cyclo</div>
+            <label class="rd-cat-item rd-cat-item--all">
+              <input type="checkbox" class="rd-cat-cb-all" checked>
+              <i class="fas fa-check-double"></i>
+              <span>Toutes les catégories</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="camping" checked>
+              <i class="fas fa-campground"></i>
+              <span>Campings</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="piscine" checked>
+              <i class="fas fa-person-swimming"></i>
+              <span>Piscines / Baignade</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="fontaine" checked>
+              <i class="fas fa-droplet"></i>
+              <span>Points d'eau</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="douche" checked>
+              <i class="fas fa-shower"></i>
+              <span>Douches publiques</span>
+            </label>
+            <label class="rd-cat-item">
+              <input type="checkbox" class="rd-cat-cb" data-type="abri" checked>
+              <i class="fas fa-house-chimney"></i>
+              <span>Abris / Refuges</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
     <!-- CONTENU PRINCIPAL — container admin-style              -->
     <!-- ══════════════════════════════════════════════════════ -->
     <div class="rd-container">
 
-      <!-- TABS — inspirés de admin-terrain -->
+      <!-- TABS — sous-navigation contextuelle par mode -->
       <div class="rd-tabs" role="tablist">
-        <button class="rd-tab rd-tab--active" data-tab="carte" role="tab" aria-selected="true">
+        <!-- Commun PRO + CYCLO -->
+        <button class="rd-tab rd-tab--active" data-tab="carte" data-modes="pro,cyclo" role="tab" aria-selected="true">
           <i class="fas fa-map-marked-alt"></i> Carte
         </button>
-        <button class="rd-tab" data-tab="camping" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#10b981"></span>
-          <i class="fas fa-campground" style="color:#10b981"></i> Campings
-          <span class="rd-tab-count" id="count-camping">0</span>
-        </button>
-        <button class="rd-tab" data-tab="coworking" role="tab" aria-selected="false">
+        <!-- PRO uniquement -->
+        <button class="rd-tab" data-tab="coworking" data-modes="pro" role="tab" aria-selected="false">
           <span class="rd-tab-dot" style="--dot-color:#8b5cf6"></span>
-          <i class="fas fa-laptop" style="color:#8b5cf6"></i> Coworkings
+          <i class="fas fa-laptop"></i> Coworkings
           <span class="rd-tab-count" id="count-coworking">0</span>
         </button>
-        <button class="rd-tab" data-tab="entreprise" role="tab" aria-selected="false">
+        <button class="rd-tab" data-tab="entreprise" data-modes="pro" role="tab" aria-selected="false">
           <span class="rd-tab-dot" style="--dot-color:#f59e0b"></span>
-          <i class="fas fa-microchip" style="color:#f59e0b"></i> Entreprises
+          <i class="fas fa-microchip"></i> Entreprises
           <span class="rd-tab-count" id="count-entreprise">0</span>
         </button>
-        <button class="rd-tab" data-tab="evenement" role="tab" aria-selected="false">
+        <button class="rd-tab" data-tab="evenement" data-modes="pro" role="tab" aria-selected="false">
           <span class="rd-tab-dot" style="--dot-color:#f43f5e"></span>
-          <i class="fas fa-calendar-days" style="color:#f43f5e"></i> Événements
+          <i class="fas fa-calendar-days"></i> Événements
           <span class="rd-tab-count" id="count-evenement">0</span>
         </button>
-        <button class="rd-tab" data-tab="tous" role="tab" aria-selected="false">
+        <button class="rd-tab rd-tab--salons" data-tab="salons" data-modes="pro" role="tab" aria-selected="false">
+          <i class="fas fa-flag"></i> Salons FR
+          <span class="rd-tab-count" id="count-salons">—</span>
+        </button>
+        <button class="rd-tab" data-tab="liens-utiles" data-modes="pro" role="tab" aria-selected="false">
+          <i class="fas fa-link"></i> Liens utiles
+        </button>
+        <!-- CYCLO uniquement -->
+        <button class="rd-tab rd-tab--mode-hidden" data-tab="camping" data-modes="cyclo" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#10b981"></span>
+          <i class="fas fa-campground"></i> Campings
+          <span class="rd-tab-count" id="count-camping">0</span>
+        </button>
+        <button class="rd-tab rd-tab--mode-hidden" data-tab="piscine" data-modes="cyclo" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#38bdf8"></span>
+          <i class="fas fa-person-swimming"></i> Piscines
+          <span class="rd-tab-count" id="count-piscine">0</span>
+        </button>
+        <button class="rd-tab rd-tab--mode-hidden" data-tab="fontaine" data-modes="cyclo" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#67e8f9"></span>
+          <i class="fas fa-droplet"></i> Eau
+          <span class="rd-tab-count" id="count-fontaine">0</span>
+        </button>
+        <button class="rd-tab rd-tab--mode-hidden" data-tab="douche" data-modes="cyclo" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#a78bfa"></span>
+          <i class="fas fa-shower"></i> Douches
+          <span class="rd-tab-count" id="count-douche">0</span>
+        </button>
+        <button class="rd-tab rd-tab--mode-hidden" data-tab="abri" data-modes="cyclo" role="tab" aria-selected="false">
+          <span class="rd-tab-dot" style="--dot-color:#84cc16"></span>
+          <i class="fas fa-house-chimney"></i> Abris
+          <span class="rd-tab-count" id="count-abri">0</span>
+        </button>
+        <!-- Commun PRO + CYCLO -->
+        <button class="rd-tab" data-tab="tous" data-modes="pro,cyclo" role="tab" aria-selected="false">
           <i class="fas fa-list"></i> Tous
         </button>
       </div>
@@ -232,7 +320,18 @@ import OceanBackground from '../components/OceanBackground.astro';
               <button class="chip active" data-type="evenement" aria-pressed="true" style="--dot:#f43f5e;--chip-color:#f43f5e">
                 <i class="fas fa-calendar-days"></i>Événement
               </button>
-
+              <button class="chip chip--hidden" data-type="piscine" aria-pressed="false" style="--dot:#38bdf8;--chip-color:#38bdf8">
+                <i class="fas fa-person-swimming"></i>Piscine
+              </button>
+              <button class="chip chip--hidden" data-type="fontaine" aria-pressed="false" style="--dot:#67e8f9;--chip-color:#67e8f9">
+                <i class="fas fa-droplet"></i>Eau
+              </button>
+              <button class="chip chip--hidden" data-type="douche" aria-pressed="false" style="--dot:#a78bfa;--chip-color:#a78bfa">
+                <i class="fas fa-shower"></i>Douche
+              </button>
+              <button class="chip chip--hidden" data-type="abri" aria-pressed="false" style="--dot:#84cc16;--chip-color:#84cc16">
+                <i class="fas fa-house-chimney"></i>Abri
+              </button>
             </div>
           </div>
           <div class="rd-map-frame">
@@ -250,7 +349,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       <div class="rd-tab-content" id="tab-camping" role="tabpanel">
         <div class="rd-card">
           <div class="rd-card-header">
-            <h3><i class="fas fa-campground" style="color:#10b981"></i> Campings à proximité</h3>
+            <h3><i class="fas fa-campground"></i> Campings à proximité</h3>
             <span class="rd-card-hint">Sources : OpenStreetMap + Atout France</span>
           </div>
           <ul class="rd-list" id="list-camping" aria-label="Liste des campings"></ul>
@@ -261,7 +360,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       <div class="rd-tab-content" id="tab-coworking" role="tabpanel">
         <div class="rd-card">
           <div class="rd-card-header">
-            <h3><i class="fas fa-laptop" style="color:#8b5cf6"></i> Coworkings</h3>
+            <h3><i class="fas fa-laptop"></i> Coworkings</h3>
             <span class="rd-card-hint">Sources : OpenStreetMap + données référencées</span>
           </div>
           <ul class="rd-list" id="list-coworking" aria-label="Liste des coworkings"></ul>
@@ -272,7 +371,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       <div class="rd-tab-content" id="tab-entreprise" role="tabpanel">
         <div class="rd-card">
           <div class="rd-card-header">
-            <h3><i class="fas fa-microchip" style="color:#f59e0b"></i> Entreprises Data / IT</h3>
+            <h3><i class="fas fa-microchip"></i> Entreprises Data / IT</h3>
             <span class="rd-card-hint">Source : INSEE SIRENE — codes NAF Data, IT, Conseil</span>
           </div>
           <ul class="rd-list" id="list-entreprise" aria-label="Liste des entreprises"></ul>
@@ -283,10 +382,54 @@ import OceanBackground from '../components/OceanBackground.astro';
       <div class="rd-tab-content" id="tab-evenement" role="tabpanel">
         <div class="rd-card">
           <div class="rd-card-header">
-            <h3><i class="fas fa-calendar-days" style="color:#f43f5e"></i> Événements IT / Data / Emploi</h3>
+            <h3><i class="fas fa-calendar-days"></i> Événements IT / Data / Emploi</h3>
             <span class="rd-card-hint">Source : OpenAgenda — salons, forums emploi, meetups tech</span>
           </div>
-          <ul class="rd-list" id="list-evenement" aria-label="Liste des événements"></ul>
+          <div id="list-evenement" class="rd-link-table-wrap"></div>
+        </div>
+      </div>
+
+      <!-- TAB: Piscines -->
+      <div class="rd-tab-content" id="tab-piscine" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-person-swimming"></i> Piscines &amp; Baignade</h3>
+            <span class="rd-card-hint">Source : OpenStreetMap — accès public uniquement</span>
+          </div>
+          <ul class="rd-list" id="list-piscine" aria-label="Liste des piscines"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Points d'eau -->
+      <div class="rd-tab-content" id="tab-fontaine" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-droplet"></i> Points d'eau &amp; Fontaines</h3>
+            <span class="rd-card-hint">Source : OpenStreetMap — eau potable</span>
+          </div>
+          <ul class="rd-list" id="list-fontaine" aria-label="Liste des points d'eau"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Douches -->
+      <div class="rd-tab-content" id="tab-douche" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-shower"></i> Douches publiques</h3>
+            <span class="rd-card-hint">Source : OpenStreetMap</span>
+          </div>
+          <ul class="rd-list" id="list-douche" aria-label="Liste des douches"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Abris -->
+      <div class="rd-tab-content" id="tab-abri" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-house-chimney"></i> Abris &amp; Refuges</h3>
+            <span class="rd-card-hint">Source : OpenStreetMap — shelters, huttes, abris vélo</span>
+          </div>
+          <ul class="rd-list" id="list-abri" aria-label="Liste des abris"></ul>
         </div>
       </div>
 
@@ -297,6 +440,61 @@ import OceanBackground from '../components/OceanBackground.astro';
             <h3><i class="fas fa-list"></i> Tous les résultats</h3>
           </div>
           <ul class="rd-list" id="results-list" aria-live="polite" aria-label="Liste des lieux trouvés"></ul>
+        </div>
+      </div>
+
+      <!-- TAB: Salons France -->
+      <div class="rd-tab-content" id="tab-salons" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-flag"></i> Salons Emploi DATA / IA &mdash; France</h3>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span class="rd-card-hint"><i class="fas fa-globe"></i> Couverture nationale · Prochains 9 mois</span>
+              <span class="salon-national-badge"><i class="fas fa-satellite-dish"></i> National</span>
+            </div>
+          </div>
+
+          <!-- Filtres domaine + format -->
+          <div class="salons-filters">
+            <div class="salons-filter-group">
+              <span class="salons-filter-label"><i class="fas fa-tag"></i> Domaine</span>
+              <div class="salons-chips" role="group" aria-label="Filtrer par domaine">
+                <button class="salon-chip salon-chip--active" data-salon-domain="emploi"><i class="fas fa-briefcase"></i> Emploi</button>
+                <button class="salon-chip salon-chip--active" data-salon-domain="data"><i class="fas fa-database"></i> Data</button>
+                <button class="salon-chip salon-chip--active" data-salon-domain="ia"><i class="fas fa-brain"></i> IA</button>
+                <button class="salon-chip salon-chip--active" data-salon-domain="dev"><i class="fas fa-code"></i> Dev</button>
+                <button class="salon-chip salon-chip--active" data-salon-domain="tech"><i class="fas fa-microchip"></i> Tech</button>
+              </div>
+            </div>
+            <div class="salons-filter-sep" aria-hidden="true"></div>
+            <div class="salons-filter-group">
+              <span class="salons-filter-label"><i class="fas fa-location-dot"></i> Format</span>
+              <div class="salons-chips" role="group" aria-label="Filtrer par format">
+                <button class="salon-chip salon-chip--active" data-salon-format="presentiel"><i class="fas fa-building"></i> Présentiel</button>
+                <button class="salon-chip salon-chip--active" data-salon-format="hybride"><i class="fas fa-arrows-split-up-and-left"></i> Hybride</button>
+                <button class="salon-chip salon-chip--active" data-salon-format="visio"><i class="fas fa-video"></i> Visio</button>
+                <button class="salon-chip salon-chip--active" data-salon-format="autre"><i class="fas fa-circle-question"></i> N/C</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tableau salons -->
+          <div id="salons-timeline" class="rd-link-table-wrap" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <!-- TAB: Liens utiles -->
+      <div class="rd-tab-content" id="tab-liens-utiles" role="tabpanel">
+        <div class="rd-card">
+          <div class="rd-card-header">
+            <h3><i class="fas fa-link"></i> Sources &amp; Liens utiles — Data / IA 2026</h3>
+            <span class="rd-card-hint">Organisateurs officiels · Plateformes de veille · Agrégateurs</span>
+          </div>
+          <div id="liens-utiles-content">
+            <div class="rd-list-empty" style="padding:1.5rem;color:#666;text-align:center;">
+              <i class="fas fa-spinner fa-spin"></i> Chargement…
+            </div>
+          </div>
         </div>
       </div>
 
@@ -348,8 +546,9 @@ import OceanBackground from '../components/OceanBackground.astro';
 
   <CguModal />
 
-  <!-- Leaflet JS (local, cohérent avec terrain/strava) -->
+  <!-- Leaflet JS + MarkerCluster (local) -->
   <script is:inline src="/lib/leaflet.min.js"></script>
+  <script is:inline src="/lib/leaflet.markercluster.min.js"></script>
 
   <script is:inline>
   /* ============================================================
@@ -365,6 +564,11 @@ import OceanBackground from '../components/OceanBackground.astro';
       coworking:  '#8b5cf6',
       entreprise: '#f59e0b',
       evenement:  '#f43f5e',
+      // Cyclo — sans clé API (Overpass/OSM)
+      piscine:  '#38bdf8',
+      fontaine: '#67e8f9',
+      douche:   '#a78bfa',
+      abri:     '#84cc16',
     };
     // Coworkings statiques enrichis
     const COWORKINGS_STATIC = [
@@ -381,28 +585,69 @@ import OceanBackground from '../components/OceanBackground.astro';
       { nom: 'Cité de l\'innovation', ville: 'Marseille', lat: 43.293, lon: 5.393, adresse: '2 Rue de la Charité, 13002 Marseille' },
     ];
 
-    // Tranches effectif SIRENE — ordre croissant
-    const EFFECTIF_ORDER = ['00','01','02','03','11','12','21','22','31','32','41','42','51','52','53'];
-    const EFFECTIF_LABELS = {
-      '00':'0 salarié','01':'1-2','02':'3-5','03':'6-9',
-      '11':'10-19','12':'20-49','21':'50-99','22':'100-199',
-      '31':'200-249','32':'250-499','41':'500-999','42':'1 000-1 999',
-      '51':'2 000-4 999','52':'5 000-9 999','53':'10 000+',
-    };
-    function effectifLabel(code) {
-      return EFFECTIF_LABELS[code] ? `${EFFECTIF_LABELS[code]} salariés` : `Effectif ${code}`;
-    }
 
     // ── État ──────────────────────────────────────────────────
     let currentLat = null;
     let currentLon = null;
     let currentRadius = 10;
-    let minEffectifTranche = '';
+    let currentMode = 'pro';
     let activeFilters = new Set(); // Initialisé par applyView('pro') au boot
     let allResults = [];
+    let searchAbortController = null; // Annule les requêtes en cours si nouvelle recherche
+    let modeChangeTimer = null;       // Debounce changement de mode
+    const searchCache   = new Map();  // Cache mémoire session : clé → résultats
+    let lastSearchKey   = null;       // Dernière clé recherchée
+    let lastSearchTime  = 0;          // Timestamp dernière recherche (ms)
+    const SEARCH_THROTTLE_MS = 20000; // 20 s min entre deux recherches identiques
+    const OVERPASS_MAX_KM    = 15;    // Rayon max Overpass (au-delà → trop lourd)
     let leafletMap = null;
-    let mapMarkers = [];
+    let mapClusters = {};     // cluster group par type
+    let posMarker   = null;   // marqueur position actuelle
     let radiusCircle = null;
+
+    // ── État — Salons nationaux ────────────────────────────────
+    let salonsData        = [];
+    let salonsLoaded      = false;
+    let salonDomains      = new Set(['emploi', 'data', 'ia', 'dev', 'tech']);
+    let salonFormats      = new Set(['presentiel', 'hybride', 'visio', 'autre']);
+
+    // ── Données curées admin (localStorage) ───────────────────
+    let adminProData = { entreprises: [], salons: [], events: [], liens: [] };
+
+    async function loadAdminProData() {
+      // Fallback localStorage (données admin locales — prioritaires sur l'admin lui-même)
+      try { adminProData.entreprises = JSON.parse(localStorage.getItem('op-radar-entreprises') || '[]'); } catch(e) { adminProData.entreprises = []; }
+      try { adminProData.salons      = JSON.parse(localStorage.getItem('op-radar-salons')      || '[]'); } catch(e) { adminProData.salons      = []; }
+      try { adminProData.events      = JSON.parse(localStorage.getItem('op-radar-events')      || '[]'); } catch(e) { adminProData.events      = []; }
+      try { adminProData.liens       = JSON.parse(localStorage.getItem('op-radar-liens')       || '[]'); } catch(e) { adminProData.liens       = []; }
+
+      // Fichier serveur unifié → prioritaire pour les visiteurs publics
+      // Essaie d'abord site-data.json (nouveau), puis radar-pro.json (compat)
+      try {
+        const resp = await fetch('/data/site-data.json', { signal: AbortSignal.timeout(5000) });
+        if (resp.ok) {
+          const d = await resp.json();
+          const r = d.radar || {};
+          if (Array.isArray(r.entreprises) && r.entreprises.length) adminProData.entreprises = r.entreprises;
+          if (Array.isArray(r.salons)      && r.salons.length)      adminProData.salons      = r.salons;
+          if (Array.isArray(r.events)      && r.events.length)      adminProData.events      = r.events;
+          if (Array.isArray(r.liens)       && r.liens.length)       adminProData.liens       = r.liens;
+          return; // site-data.json OK → pas besoin de radar-pro.json
+        }
+      } catch(_) { /* continuer vers fallback */ }
+
+      // Fallback : ancien radar-pro.json (si site-data.json absent)
+      try {
+        const resp = await fetch('/data/radar-pro.json', { signal: AbortSignal.timeout(5000) });
+        if (resp.ok) {
+          const d = await resp.json();
+          if (Array.isArray(d.entreprises) && d.entreprises.length) adminProData.entreprises = d.entreprises;
+          if (Array.isArray(d.salons)      && d.salons.length)      adminProData.salons      = d.salons;
+          if (Array.isArray(d.events)      && d.events.length)      adminProData.events      = d.events;
+          if (Array.isArray(d.liens)       && d.liens.length)       adminProData.liens       = d.liens;
+        }
+      } catch(_) { /* localStorage conservé */ }
+    }
 
     // ── Mode dev : détection + mock data ──────────────────────
     const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
@@ -421,7 +666,71 @@ import OceanBackground from '../components/OceanBackground.astro';
       { id: 'mock-evt-1', nom: 'Forum Emploi IT Île-de-France 2026', type: 'evenement', lat: 48.721, lon: 2.177, adresse: 'Massy Palaiseau (91)', source: 'Mock Dev', dateDebut: '2026-04-15', url: 'https://www.apec.fr' },
       { id: 'mock-evt-2', nom: 'Salon Data & BI — Paris-Saclay', type: 'evenement', lat: 48.712, lon: 2.163, adresse: 'École Polytechnique, Palaiseau (91)', source: 'Mock Dev', dateDebut: '2026-05-08', url: 'https://www.bigdataparis.com' },
       { id: 'mock-evt-3', nom: 'Meetup Intelligence Artificielle 91', type: 'evenement', lat: 48.655, lon: 2.101, adresse: 'Courtabœuf, Les Ulis (91)', source: 'Mock Dev', dateDebut: '2026-04-02', url: 'https://www.meetup.com' },
+      // Cyclo
+      { id: 'mock-pisc-1', nom: 'Piscine Municipale de Briis', type: 'piscine', lat: 48.641, lon: 2.092, adresse: 'Rue des Sports, 91640 Briis-sous-Forges', source: 'Mock Dev', dist: 0.9, access: 'public', fee: 'yes' },
+      { id: 'mock-pisc-2', nom: 'Base de Loisirs — Lac de la Haute-Vallée', type: 'piscine', lat: 48.628, lon: 2.107, adresse: 'Base de Loisirs, 91580', source: 'Mock Dev', dist: 2.2, access: 'public', fee: 'yes' },
+      { id: 'mock-font-1', nom: 'Fontaine Place de l\'Église', type: 'fontaine', lat: 48.638, lon: 2.094, adresse: 'Place de l\'Église, 91580 Fontenay-lès-Briis', source: 'Mock Dev', dist: 0.4 },
+      { id: 'mock-font-2', nom: 'Point d\'eau — Stade Municipal', type: 'fontaine', lat: 48.650, lon: 2.081, adresse: 'Rue du Stade, 91580', source: 'Mock Dev', dist: 1.7 },
+      { id: 'mock-dch-1', nom: 'Douches — Camping Aire Naturelle', type: 'douche', lat: 48.643, lon: 2.098, adresse: 'Chemin Rural, 91580', source: 'Mock Dev', dist: 1.1 },
+      { id: 'mock-abri-1', nom: 'Abri Cycliste — Forêt de Rambouillet', type: 'abri', lat: 48.622, lon: 2.078, adresse: 'Forêt Régionale, 91580', source: 'Mock Dev', dist: 3.4, capacity: '8' },
     ];
+
+    // Données mock — Salons nationaux (dev uniquement)
+    const MOCK_SALONS = [
+      { id: 'mock-salon-1', nom: 'Forum Emploi DATA & IA — Paris La Défense', adresse: 'CNIT, 2 Place de la Défense, 92800 Puteaux', lat: 48.892, lon: 2.237, dateDebut: '2026-04-15', url: 'https://www.apec.fr',             source: 'Mock Dev', format: 'presentiel' },
+      { id: 'mock-salon-2', nom: 'Big Data Paris 2026 — Salon & Emploi',      adresse: 'Paris Expo Porte de Versailles, Paris 15e', lat: 48.833, lon: 2.288, dateDebut: '2026-04-22', url: 'https://www.bigdataparis.com',   source: 'Mock Dev', format: 'presentiel' },
+      { id: 'mock-salon-3', nom: 'Job Dating Intelligence Artificielle Lyon',  adresse: 'Cité Internationale, 69006 Lyon',         lat: 45.767, lon: 4.856, dateDebut: '2026-05-06', url: 'https://www.tech.rocks',           source: 'Mock Dev', format: 'presentiel' },
+      { id: 'mock-salon-4', nom: 'DevFest Nantes — Data & Dev',                adresse: 'Cité des Congrès, Nantes',               lat: 47.218, lon: -1.540, dateDebut: '2026-05-14', url: 'https://devfest.gdgnantes.com',  source: 'Mock Dev', format: 'hybride'    },
+      { id: 'mock-salon-5', nom: 'Webinar Recrutement Data Science',           adresse: 'En ligne',                               lat: null,   lon: null,   dateDebut: '2026-05-20', url: 'https://www.welcometothejungle.com', source: 'Mock Dev', format: 'visio'   },
+      { id: 'mock-salon-6', nom: 'Forum Emploi Numérique Toulouse',            adresse: 'Centre de Congrès Pierre Baudis, Toulouse', lat: 43.617, lon: 1.454, dateDebut: '2026-06-03', url: 'https://metropole.toulouse.fr', source: 'Mock Dev', format: 'presentiel' },
+      { id: 'mock-salon-7', nom: 'Salon Recrutement IA & Machine Learning',   adresse: 'Salle Pleyel, Paris 8e',                 lat: 48.879, lon: 2.308, dateDebut: '2026-06-18', url: 'https://www.maddyness.com',        source: 'Mock Dev', format: 'hybride'    },
+      { id: 'mock-salon-8', nom: 'Data Engineering Summit Bordeaux',           adresse: 'Darwin Écosystème, Bordeaux',            lat: 44.841, lon: -0.565, dateDebut: '2026-07-02', url: 'https://www.darwin.camp',         source: 'Mock Dev', format: 'presentiel' },
+    ];
+
+    // ── MarkerCluster helpers ─────────────────────────────────
+    function makeClusterIcon(color) {
+      return (cluster) => {
+        const n = cluster.getChildCount();
+        const size = n < 10 ? 30 : n < 100 ? 36 : 42;
+        return L.divIcon({
+          html: `<div style="
+            background:${color};width:${size}px;height:${size}px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-weight:700;font-size:${size < 36 ? 0.75 : 0.85}rem;
+            border:2px solid rgba(11,26,46,0.8);box-shadow:0 2px 6px rgba(0,0,0,0.4)
+          ">${n}</div>`,
+          className: '',
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2],
+        });
+      };
+    }
+
+    function makeMarkerIcon(color) {
+      return L.divIcon({
+        html: `<div style="
+          width:12px;height:12px;border-radius:50%;
+          background:${color};border:2px solid #0b1a2e;
+          box-shadow:0 1px 4px rgba(0,0,0,0.5)
+        "></div>`,
+        className: '',
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+      });
+    }
+
+    function createClusters() {
+      const types = Object.keys(TYPE_COLORS);
+      types.forEach(type => {
+        const color = TYPE_COLORS[type];
+        mapClusters[type] = L.markerClusterGroup({
+          maxClusterRadius: 55,
+          showCoverageOnHover: false,
+          iconCreateFunction: makeClusterIcon(color),
+        });
+        leafletMap.addLayer(mapClusters[type]);
+      });
+    }
 
     // ── Init carte ────────────────────────────────────────────
     function initMap() {
@@ -436,6 +745,7 @@ import OceanBackground from '../components/OceanBackground.astro';
         maxZoom: 19,
       }).addTo(leafletMap);
 
+      createClusters();
       // Dark filter appliqué via CSS
     }
 
@@ -496,23 +806,10 @@ import OceanBackground from '../components/OceanBackground.astro';
 
     // ── Sources de données ────────────────────────────────────
 
-    async function fetchOverpass(lat, lon, radiusM) {
-      const query = `
-        [out:json][timeout:25];
-        (
-          node["tourism"="camp_site"](around:${radiusM},${lat},${lon});
-          way["tourism"="camp_site"](around:${radiusM},${lat},${lon});
-          node["amenity"="coworking_space"](around:${radiusM},${lat},${lon});
-          way["amenity"="coworking_space"](around:${radiusM},${lat},${lon});
-        );
-        out center;
-      `;
-      const resp = await fetch('https://overpass-api.de/api/interpreter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: query,
-        signal: AbortSignal.timeout(20000),
-      });
+    async function fetchOverpass(lat, lon, radiusM, signal) {
+      const radiusKm = Math.round(radiusM / 1000);
+      const url = `/api/radar-proxy.php?type=overpass&lat=${lat}&lon=${lon}&radius=${radiusKm}&mode=${currentMode}`;
+      const resp = await fetch(url, { signal: signal ?? AbortSignal.timeout(25000) });
       if (!resp.ok) throw new Error(`Overpass HTTP ${resp.status}`);
       const data = await resp.json();
 
@@ -521,56 +818,82 @@ import OceanBackground from '../components/OceanBackground.astro';
         const elLon = el.lon ?? el.center?.lon;
         if (!elLat || !elLon) return null;
 
+        const tags = el.tags || {};
         let type = 'autre';
-        if (el.tags?.tourism === 'camp_site') type = 'camping';
-        else if (el.tags?.amenity === 'coworking_space') type = 'coworking';
+        if (tags.tourism === 'camp_site')                                                  type = 'camping';
+        else if (tags.amenity === 'coworking_space')                                       type = 'coworking';
+        else if (tags.amenity === 'shower')                                                type = 'douche';
+        else if (tags.amenity === 'drinking_water' || tags.man_made === 'water_tap')       type = 'fontaine';
+        else if (tags.leisure === 'swimming_pool' || tags.sport === 'swimming')            type = 'piscine';
+        else if (tags.amenity === 'shelter' || tags.tourism === 'wilderness_hut' || tags.tourism === 'alpine_hut') type = 'abri';
 
         const adresseParts = [
-          el.tags?.['addr:housenumber'],
-          el.tags?.['addr:street'],
-          el.tags?.['addr:city'],
+          tags['addr:housenumber'],
+          tags['addr:street'],
+          tags['addr:city'],
         ].filter(Boolean);
+
+        const extra = {};
+        if (type === 'piscine') {
+          extra.access = tags.access || 'public';
+          extra.fee    = tags.fee || null;
+        }
+        if (type === 'abri') {
+          extra.capacity = tags.capacity || null;
+        }
 
         return {
           id: `osm-${el.id}`,
-          nom: el.tags?.name || labelForType(type),
+          nom: tags.name || labelForType(type),
           type,
           lat: elLat,
           lon: elLon,
           adresse: adresseParts.join(' ') || null,
-          phone: el.tags?.phone || el.tags?.['contact:phone'] || null,
-          website: el.tags?.website || el.tags?.['contact:website'] || null,
+          phone:   tags.phone || tags['contact:phone'] || null,
+          website: tags.website || tags['contact:website'] || null,
           source: 'OpenStreetMap',
+          ...extra,
         };
-      }).filter(Boolean);
+      }).filter(r => r.type !== 'autre');
     }
 
-    async function fetchCampingsGouv(lat, lon, radiusKm) {
+    async function fetchCampingsGouv(lat, lon, radiusKm, signal) {
       const url = `/api/radar-proxy.php?type=campings&lat=${lat}&lon=${lon}&radius=${radiusKm}`;
-      const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      const resp = await fetch(url, { signal: signal ?? AbortSignal.timeout(15000) });
       if (!resp.ok) throw new Error(`Campings proxy HTTP ${resp.status}`);
       const data = await resp.json();
 
       return (data.results || [])
-        .filter(r => r.coordonnees_geo?.lat && r.coordonnees_geo?.lon)
-        .map(r => ({
-          id: `atout-${r.nom_commercial}-${r.code_postal}`,
-          nom: r.nom_commercial || 'Camping',
-          type: 'camping',
-          lat: r.coordonnees_geo.lat,
-          lon: r.coordonnees_geo.lon,
-          adresse: [r.adresse, r.code_postal, r.commune].filter(Boolean).join(' '),
-          classement: r.classement || null,
-          nbEmplacements: r.nombre_emplacements || null,
-          source: 'Atout France',
-        }));
+        .filter(r => {
+          const g = r.coordonnees_geo;
+          if (!g) return false;
+          // OpenDataSoft v2 retourne {lat, lon} ou GeoJSON {coordinates:[lon,lat]}
+          return (g.lat && g.lon) || (Array.isArray(g.coordinates) && g.coordinates.length === 2);
+        })
+        .map(r => {
+          const g = r.coordonnees_geo;
+          const coords = Array.isArray(g.coordinates) ? g.coordinates : [];
+          const lat = g.lat !== undefined ? g.lat : coords[1];
+          const lon = g.lon !== undefined ? g.lon : coords[0];
+          return {
+            id: `atout-${r.nom_commercial}-${r.code_postal}`,
+            nom: r.nom_commercial || 'Camping',
+            type: 'camping',
+            lat: parseFloat(lat),
+            lon: parseFloat(lon),
+            adresse: [r.adresse, r.code_postal, r.commune].filter(Boolean).join(' '),
+            classement: r.classement || null,
+            nbEmplacements: r.nombre_emplacements || null,
+            source: 'Atout France',
+          };
+        });
     }
 
-    async function fetchEntreprises(lat, lon) {
+    async function fetchEntreprises(lat, lon, signal) {
       // 1. Code département via proxy (évite appel direct depuis mobile)
       const geoResp = await fetch(
         `/api/radar-proxy.php?type=commune&lat=${lat}&lon=${lon}`,
-        { signal: AbortSignal.timeout(8000) }
+        { signal: signal ?? AbortSignal.timeout(8000) }
       );
       if (!geoResp.ok) throw new Error(`Commune proxy HTTP ${geoResp.status}`);
       const geoData = await geoResp.json();
@@ -580,7 +903,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       // 2. Entreprises via proxy (le proxy gère les 5 codes NAF côté serveur)
       const entResp = await fetch(
         `/api/radar-proxy.php?type=entreprises&dept=${encodeURIComponent(dept)}`,
-        { signal: AbortSignal.timeout(20000) }
+        { signal: signal ?? AbortSignal.timeout(20000) }
       );
       if (!entResp.ok) throw new Error(`Entreprises proxy HTTP ${entResp.status}`);
       const entData = await entResp.json();
@@ -606,7 +929,6 @@ import OceanBackground from '../components/OceanBackground.astro';
           siren: e.siren,
           naf: e.activite_principale,
           nafLabel: e.libelle_activite_principale_libelle_65 || e.activite_principale,
-          effectif: e.tranche_effectif_salarie || null,
         });
       }
       return results;
@@ -626,12 +948,12 @@ import OceanBackground from '../components/OceanBackground.astro';
         }));
     }
 
-    async function fetchEvents(lat, lon, radiusKm) {
+    async function fetchEvents(lat, lon, radiusKm, signal) {
       const url = `/api/radar-proxy.php?type=events&lat=${lat}&lon=${lon}&radius=${radiusKm}`;
-      const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      const resp = await fetch(url, { signal: signal ?? AbortSignal.timeout(15000) });
       if (!resp.ok) throw new Error(`Events HTTP ${resp.status}`);
       const data = await resp.json();
-      if (data.error || !data.events) return [];
+      if (data.error || data._error || !data.events) return [];
       return (data.events || []).map(e => {
         const loc = e.location || {};
         const title = e.title?.fr || e.title?.en || 'Événement';
@@ -652,14 +974,279 @@ import OceanBackground from '../components/OceanBackground.astro';
       });
     }
 
+    // ── Classification automatique des salons ─────────────────
+
+    function classifyEventDomaines(text) {
+      const t = (text || '').toLowerCase();
+      const tags = [];
+      if (/\b(emploi|recrutement|recrute|job\b|jobs\b|carrière|forum emploi|job.?dating|salon.?emploi)\b/.test(t)) tags.push('emploi');
+      if (/\b(data|données|big.?data|bi\b|analytique|dataiku|power.?bi|tableau\b|spark|dbt|databricks|data.?science|data.?warehouse|data.?lake)\b/.test(t)) tags.push('data');
+      if (/\b(ia\b|intelligence.?artificielle|machine.?learning|deep.?learning|llm|gpt|nlp|computer.?vision|mlops|ia.?générative|genai)\b/.test(t)) tags.push('ia');
+      if (/\b(développeur|dev\b|devops|kubernetes|docker|microservice|fullstack|front.?end|back.?end|api\b|cloud)\b/.test(t)) tags.push('dev');
+      return tags.length > 0 ? tags : ['tech'];
+    }
+
+    function classifyEventFormat(text) {
+      const t = (text || '').toLowerCase();
+      if (/\b(visio|visioconférence|en.?ligne|online|distanciel|webinaire|webinar)\b/.test(t)) return 'visio';
+      if (/\b(hybride|hybrid)\b/.test(t)) return 'hybride';
+      if (/\b(présentiel|en.?présentiel|sur.?place|physique)\b/.test(t)) return 'presentiel';
+      return 'autre';
+    }
+
+    // ── Salons nationaux — fetch ───────────────────────────────
+
+    async function fetchSalonsNationaux() {
+      if (salonsLoaded) { renderSalons(); return; }
+
+      const countEl = document.getElementById('count-salons');
+      if (countEl) countEl.textContent = '…';
+
+      // Affiche l'indicateur dans la status bar
+      const dot    = document.getElementById('rd-dot');
+      const loader = document.getElementById('loading-indicator');
+      const idle   = document.getElementById('results-count');
+      dot.className = 'rd-dot loading';
+      if (loader) { loader.textContent = 'Recherche nationale…'; loader.classList.remove('hidden'); }
+      if (idle)   idle.classList.add('hidden');
+
+      const listEl = document.getElementById('salons-timeline');
+      if (listEl) listEl.innerHTML = skeletonHTML(4);
+
+      if (IS_DEV) {
+        await new Promise(r => setTimeout(r, 450));
+        salonsData = MOCK_SALONS.map(s => ({
+          ...s,
+          domaines: classifyEventDomaines(s.nom + ' ' + (s.adresse || '') + ' ' + (s.format || '')),
+          format:   s.format || classifyEventFormat(s.nom),
+        })).sort((a, b) => (a.dateDebut || '').localeCompare(b.dateDebut || ''));
+        // Injecter les salons curés en admin (premier)
+        const adminSalonsDev = adminProData.salons.map(s => ({
+          ...s,
+          domaines: s.domaines && s.domaines.length ? s.domaines : ['data'],
+          format:   s.format || 'autre',
+        }));
+        salonsData = [...adminSalonsDev, ...salonsData];
+        salonsLoaded = true;
+        renderSalons();
+        if (dot)    dot.className = 'rd-dot active';
+        if (loader) loader.classList.add('hidden');
+        if (idle)   idle.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const resp = await fetch('/api/radar-proxy.php?type=salons-nationaux', {
+          signal: AbortSignal.timeout(20000),
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+
+        salonsData = (data.events || []).map(e => {
+          const loc   = e.location || {};
+          const title = e.title?.fr || e.title?.en || 'Événement';
+          const timing = e.timings?.[0];
+          const dateDebut = timing?.begin ? timing.begin.substring(0, 10) : null;
+          const adresseParts = [loc.address, loc.postalCode, loc.city].filter(Boolean);
+          const fullText = [title, adresseParts.join(' '), e.description?.fr || ''].join(' ');
+          return {
+            id:       `salon-${e.uid}`,
+            nom:      title,
+            adresse:  adresseParts.join(' ') || loc.name || null,
+            lat:      loc.latitude  ? parseFloat(loc.latitude)  : null,
+            lon:      loc.longitude ? parseFloat(loc.longitude) : null,
+            dateDebut,
+            url:      e.links?.[0]?.link || null,
+            source:   'OpenAgenda',
+            domaines: classifyEventDomaines(fullText),
+            format:   classifyEventFormat(fullText),
+          };
+        }).sort((a, b) => (a.dateDebut || '').localeCompare(b.dateDebut || ''));
+
+        // Injecter les salons curés en admin (premier)
+        const adminSalons = adminProData.salons.map(s => ({
+          ...s,
+          domaines: s.domaines && s.domaines.length ? s.domaines : ['data'],
+          format:   s.format || 'autre',
+        }));
+        salonsData = [...adminSalons, ...salonsData];
+
+        salonsLoaded = true;
+        renderSalons();
+      } catch (err) {
+        console.warn('[Radar/salons-nationaux]', err);
+        if (listEl) listEl.innerHTML = `
+          <li class="no-results">
+            <i class="fas fa-exclamation-triangle"></i>
+            Impossible de charger les salons. Vérifiez la clé OpenAgenda ou réessayez.
+          </li>`;
+        if (countEl) countEl.textContent = '!';
+      } finally {
+        if (dot)    dot.className = 'rd-dot active';
+        if (loader) loader.classList.add('hidden');
+        if (idle)   idle.classList.remove('hidden');
+      }
+    }
+
+    // ── Événements — tableau de liens ─────────────────────────
+
+    function renderEventsTable(items) {
+      const wrap = document.getElementById('list-evenement');
+      if (!wrap) return;
+      if (items.length === 0) {
+        wrap.innerHTML = '<p class="lt-empty"><i class="fas fa-calendar-xmark"></i> Aucun événement dans ce rayon.</p>';
+        return;
+      }
+      const rows = items.map(e => {
+        const date = e.dateDebut
+          ? new Date(e.dateDebut + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+          : '—';
+        const nom = e.url
+          ? `<a href="${escHtml(e.url)}" target="_blank" rel="noopener" class="lt-link">${escHtml(e.nom)} <i class="fas fa-arrow-up-right-from-square"></i></a>`
+          : escHtml(e.nom);
+        return `<tr>
+          <td class="lt-date">${date}</td>
+          <td class="lt-nom">${nom}</td>
+          <td class="lt-lieu">${e.adresse ? escHtml(e.adresse) : '—'}</td>
+        </tr>`;
+      }).join('');
+      wrap.innerHTML = `<table class="lt-table">
+        <thead><tr><th>Date</th><th>Événement</th><th>Lieu</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+
+    // ── Salons — tableau de liens ──────────────────────────────
+
+    const DOMAIN_CFG = { emploi: ['#10b981','EMPLOI'], data: ['#f59e0b','DATA'], ia: ['#8b5cf6','IA'], dev: ['#60a5fa','DEV'], tech: ['#94a3b8','TECH'] };
+    const FMT_CFG    = { presentiel: 'Présentiel', hybride: 'Hybride', visio: 'Visio', autre: 'N/C' };
+
+    // ── Liens utiles ──────────────────────────────────────────
+    const LIEN_CAT = {
+      officiel:   { label: 'Organisateurs officiels', icon: 'fa-calendar-alt' },
+      veille:     { label: 'Plateformes de veille',   icon: 'fa-globe'        },
+      agregateur: { label: 'Agrégateurs',             icon: 'fa-newspaper'    },
+    };
+
+    function renderLiensUtiles() {
+      const wrap = document.getElementById('liens-utiles-content');
+      if (!wrap) return;
+      const liens = adminProData.liens || [];
+
+      if (liens.length === 0) {
+        wrap.innerHTML = `<p class="lt-empty"><i class="fas fa-link"></i> Aucun lien configuré — ajoutez des liens dans l'admin (<strong>Liens utiles</strong>).</p>`;
+        return;
+      }
+
+      const groups = {};
+      liens.forEach(l => {
+        const cat = l.categorie || 'autre';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(l);
+      });
+
+      const catOrder = ['officiel', 'veille', 'agregateur'];
+      Object.keys(groups).forEach(c => { if (!catOrder.includes(c)) catOrder.push(c); });
+
+      let html = '';
+      catOrder.forEach(cat => {
+        if (!groups[cat] || groups[cat].length === 0) return;
+        const cfg = LIEN_CAT[cat] || { label: cat, icon: 'fa-link' };
+        html += `<div class="lu-section">
+          <h4 class="lu-section-title"><i class="fas ${cfg.icon}"></i>${cfg.label}</h4>
+          <div class="rd-link-table-wrap">
+          <table class="lt-table">
+            <thead><tr>
+              <th>Nom</th><th>Date</th><th>Lieu</th><th>Lien</th><th>Description</th>
+            </tr></thead>
+            <tbody>`;
+        groups[cat].forEach(l => {
+          const urlDisplay = (l.url || '').replace(/^https?:\/\//, '');
+          const urlHtml = l.url
+            ? `<a href="${escHtml(l.url)}" target="_blank" rel="noopener" class="lt-link">${escHtml(urlDisplay)}<i class="fas fa-arrow-up-right-from-square"></i></a>`
+            : '—';
+          html += `<tr>
+            <td class="lt-nom">${escHtml(l.nom || '')}</td>
+            <td class="lt-date">${escHtml(l.date || '—')}</td>
+            <td class="lt-lieu">${escHtml(l.lieu || '—')}</td>
+            <td>${urlHtml}</td>
+            <td class="lt-lieu lu-desc">${escHtml(l.interet || '')}</td>
+          </tr>`;
+        });
+        html += `</tbody></table></div></div>`;
+      });
+
+      wrap.innerHTML = html;
+    }
+
+    function renderSalons() {
+      const countEl = document.getElementById('count-salons');
+      const wrap    = document.getElementById('salons-timeline');
+      if (!wrap) return;
+
+      const filtered = salonsData.filter(s => {
+        const domOk = (s.domaines || []).some(d => salonDomains.has(d));
+        const fmtOk = salonFormats.has(s.format || 'autre');
+        return domOk && fmtOk;
+      });
+
+      if (countEl) countEl.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        wrap.innerHTML = '<p class="lt-empty"><i class="fas fa-calendar-xmark"></i> Aucun salon pour ces critères.</p>';
+        return;
+      }
+
+      const rows = filtered.map(s => {
+        const date = s.dateDebut
+          ? new Date(s.dateDebut + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+          : '—';
+        const domainBadges = (s.domaines || []).map(d => {
+          const [c, l] = DOMAIN_CFG[d] || ['#94a3b8', d.toUpperCase()];
+          return `<span class="lt-badge" style="--badge-color:${c}">${l}</span>`;
+        }).join('');
+        const fmt = FMT_CFG[s.format] || 'N/C';
+        const nom = s.url
+          ? `<a href="${escHtml(s.url)}" target="_blank" rel="noopener" class="lt-link">${escHtml(s.nom)} <i class="fas fa-arrow-up-right-from-square"></i></a>`
+          : escHtml(s.nom);
+        return `<tr>
+          <td class="lt-date">${date}</td>
+          <td class="lt-nom">${nom}<div class="lt-badges">${domainBadges}</div></td>
+          <td class="lt-lieu">${s.adresse ? escHtml(s.adresse) : '—'}</td>
+          <td class="lt-fmt">${fmt}</td>
+        </tr>`;
+      }).join('');
+
+      wrap.innerHTML = `<table class="lt-table">
+        <thead><tr><th>Date</th><th>Salon</th><th>Lieu</th><th>Format</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+
     // ── Recherche principale ──────────────────────────────────
     async function search() {
       if (currentLat === null || currentLon === null) return;
 
+      // Clé de cache : position arrondie 2 décimales (~1 km) + rayon + mode
+      const cacheKey = `${currentLat.toFixed(2)},${currentLon.toFixed(2)},${currentRadius},${currentMode}`;
+      const now = Date.now();
+
+      // Throttle — même recherche < 20 s : servir le cache mémoire sans appel réseau
+      if (cacheKey === lastSearchKey && (now - lastSearchTime) < SEARCH_THROTTLE_MS && searchCache.has(cacheKey)) {
+        allResults = searchCache.get(cacheKey);
+        renderResults();
+        renderMapMarkers();
+        return;
+      }
+
+      // Annuler toute recherche en cours
+      if (searchAbortController) searchAbortController.abort();
+      searchAbortController = new AbortController();
+      const signal = searchAbortController.signal;
+
       showLoading(true);
       clearMapMarkers();
-      // Show skeletons in all lists
-      ['results-list', 'list-camping', 'list-coworking', 'list-entreprise', 'list-evenement'].forEach(id => {
+      ['results-list', 'list-camping', 'list-coworking', 'list-entreprise', 'list-evenement', 'list-piscine', 'list-fontaine', 'list-douche', 'list-abri'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = skeletonHTML(3);
       });
@@ -667,7 +1254,7 @@ import OceanBackground from '../components/OceanBackground.astro';
 
       // En dev : utiliser les données mock pour avoir un rendu immédiat
       if (IS_DEV) {
-        await new Promise(r => setTimeout(r, 400)); // Simule latence réseau
+        await new Promise(r => setTimeout(r, 400));
         allResults = MOCK_RESULTS.map(r => ({
           ...r,
           dist: haversine(currentLat, currentLon, r.lat, r.lon)
@@ -680,23 +1267,34 @@ import OceanBackground from '../components/OceanBackground.astro';
         return;
       }
 
-      const radiusM = currentRadius * 1000;
+      // Rayon Overpass plafonné à OVERPASS_MAX_KM pour éviter les timeouts
+      const radiusM = Math.min(currentRadius, OVERPASS_MAX_KM) * 1000;
+      const isCyclo = currentMode === 'cyclo';
 
-      const [resOverpass, resCampings, resEntreprises, resCw, resEvents] = await Promise.allSettled([
-        fetchOverpass(currentLat, currentLon, radiusM),
-        fetchCampingsGouv(currentLat, currentLon, currentRadius),
-        fetchEntreprises(currentLat, currentLon),
-        Promise.resolve(getCoworkingsNearby(currentLat, currentLon, currentRadius)),
-        fetchEvents(currentLat, currentLon, currentRadius),
-      ]);
+      // Appels conditionnels selon le mode — évite les timeouts inutiles
+      const promises = [
+        fetchOverpass(currentLat, currentLon, radiusM, signal),
+        isCyclo ? fetchCampingsGouv(currentLat, currentLon, currentRadius, signal) : Promise.resolve([]),
+        isCyclo ? Promise.resolve([]) : fetchEntreprises(currentLat, currentLon, signal),
+        isCyclo ? Promise.resolve([]) : Promise.resolve(getCoworkingsNearby(currentLat, currentLon, currentRadius)),
+        isCyclo ? Promise.resolve([]) : fetchEvents(currentLat, currentLon, currentRadius, signal),
+      ];
 
-      // Log les erreurs silencieusement
-      if (resOverpass.status    === 'rejected') console.warn('Overpass:', resOverpass.reason);
-      if (resCampings.status    === 'rejected') console.warn('Atout France:', resCampings.reason);
-      if (resEntreprises.status === 'rejected') console.warn('INSEE SIRENE:', resEntreprises.reason);
-      if (resEvents.status      === 'rejected') console.warn('OpenAgenda:', resEvents.reason);
+      const [resOverpass, resCampings, resEntreprises, resCw, resEvents] = await Promise.allSettled(promises);
 
+      // Requête annulée — une nouvelle recherche a déjà démarré
+      if (signal.aborted) return;
+
+      if (resOverpass.status    === 'rejected' && resOverpass.reason?.name !== 'AbortError') console.warn('Overpass:', resOverpass.reason);
+      if (resCampings.status    === 'rejected' && resCampings.reason?.name !== 'AbortError') console.warn('Atout France:', resCampings.reason);
+      if (resEntreprises.status === 'rejected' && resEntreprises.reason?.name !== 'AbortError') console.warn('INSEE SIRENE:', resEntreprises.reason);
+      if (resEvents.status      === 'rejected' && resEvents.reason?.name !== 'AbortError') console.warn('OpenAgenda:', resEvents.reason);
+
+      const adminEnts  = !isCyclo ? adminProData.entreprises : [];
+      const adminEvts  = !isCyclo ? adminProData.events       : [];
       const raw = [
+        ...adminEnts,
+        ...adminEvts,
         ...(resOverpass.status    === 'fulfilled' ? resOverpass.value    : []),
         ...(resCampings.status    === 'fulfilled' ? resCampings.value    : []),
         ...(resEntreprises.status === 'fulfilled' ? resEntreprises.value : []),
@@ -722,6 +1320,12 @@ import OceanBackground from '../components/OceanBackground.astro';
           if (b.dist === null) return -1;
           return a.dist - b.dist;
         });
+
+      // Stocker en cache mémoire (max 30 entrées pour éviter la fuite mémoire)
+      if (searchCache.size >= 30) searchCache.delete(searchCache.keys().next().value);
+      searchCache.set(cacheKey, allResults);
+      lastSearchKey  = cacheKey;
+      lastSearchTime = Date.now();
 
       renderResults();
       renderMapMarkers();
@@ -755,11 +1359,13 @@ import OceanBackground from '../components/OceanBackground.astro';
               <span class="result-nom">${escHtml(r.nom)}</span>
               ${distLabel ? `<span class="result-dist">${distLabel}</span>` : ''}
             </div>
-            ${dateLabel ? `<div class="result-meta result-date"><i class="fas fa-calendar-days" style="color:#f43f5e"></i> ${dateLabel}</div>` : ''}
+            ${dateLabel ? `<div class="result-meta result-date"><i class="fas fa-calendar-days"></i> ${dateLabel}</div>` : ''}
             ${r.adresse ? `<div class="result-adresse"><i class="fas fa-map-pin"></i> ${escHtml(r.adresse)}</div>` : ''}
             ${r.nafLabel ? `<div class="result-meta"><i class="fas fa-tag"></i> ${escHtml(r.nafLabel)}</div>` : ''}
-            ${r.effectif ? `<div class="result-meta"><i class="fas fa-users"></i> ${escHtml(effectifLabel(r.effectif))}</div>` : ''}
             ${r.classement ? `<div class="result-meta"><i class="fas fa-star"></i> ${escHtml(String(r.classement))}</div>` : ''}
+            ${r.type === 'piscine' && r.fee === 'yes' ? `<div class="result-meta"><i class="fas fa-ticket"></i> Payant</div>` : ''}
+            ${r.type === 'piscine' && r.fee === 'no'  ? `<div class="result-meta"><i class="fas fa-ticket"></i> Gratuit</div>` : ''}
+            ${r.type === 'abri' && r.capacity ? `<div class="result-meta"><i class="fas fa-person"></i> ${escHtml(r.capacity)} pers.</div>` : ''}
             ${r.source ? `<div class="result-source">Source : ${escHtml(r.source)}</div>` : ''}
             <div class="result-actions">
               ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" rel="noopener" class="result-btn btn-go"><i class="fas fa-route"></i> Itinéraire</a>` : ''}
@@ -770,21 +1376,15 @@ import OceanBackground from '../components/OceanBackground.astro';
         </li>`;
     }
 
-    function effectifMatch(r) {
-      if (r.type !== 'entreprise' || !minEffectifTranche) return true;
-      if (!r.effectif) return false;
-      return EFFECTIF_ORDER.indexOf(r.effectif) >= EFFECTIF_ORDER.indexOf(minEffectifTranche);
-    }
-
     function renderResults() {
       const countEl = document.getElementById('results-count');
-      const filtered = allResults.filter(r => activeFilters.has(r.type) && effectifMatch(r));
+      const filtered = allResults.filter(r => activeFilters.has(r.type));
 
       countEl.textContent = `${filtered.length} résultat${filtered.length !== 1 ? 's' : ''} — rayon ${currentRadius} km`;
 
-      const types = ['camping', 'coworking', 'entreprise', 'evenement'];
+      const types = ['camping', 'coworking', 'entreprise', 'piscine', 'fontaine', 'douche', 'abri'];
       types.forEach(type => {
-        const items = allResults.filter(r => r.type === type && effectifMatch(r));
+        const items = allResults.filter(r => r.type === type);
         const listEl = document.getElementById('list-' + type);
         const countBadge = document.getElementById('count-' + type);
         if (countBadge) countBadge.textContent = items.length;
@@ -794,6 +1394,12 @@ import OceanBackground from '../components/OceanBackground.astro';
             : items.map(r => renderItemHTML(r)).join('');
         }
       });
+
+      // Événements — tableau de liens
+      const evtBadge = document.getElementById('count-evenement');
+      const evtItems = allResults.filter(r => r.type === 'evenement');
+      if (evtBadge) evtBadge.textContent = evtItems.length;
+      renderEventsTable(evtItems);
 
       const allList = document.getElementById('results-list');
       allList.innerHTML = filtered.length === 0
@@ -823,27 +1429,22 @@ import OceanBackground from '../components/OceanBackground.astro';
         iconSize: [28, 28],
         iconAnchor: [14, 28],
       });
-      const posM = L.marker([currentLat, currentLon], { icon: posIcon })
+      posMarker = L.marker([currentLat, currentLon], { icon: posIcon })
         .bindPopup('<strong>Ma position</strong>')
         .addTo(leafletMap);
-      mapMarkers.push(posM);
 
-      // Marqueurs résultats
+      // Marqueurs résultats — via cluster groups typés
       const filtered = allResults.filter(r => activeFilters.has(r.type) && r.lat && r.lon);
       for (const r of filtered) {
-        const color = TYPE_COLORS[r.type] || '#888';
+        const color  = TYPE_COLORS[r.type] || '#888';
         const distPopup = r.dist !== null ? `<br><em>${r.dist.toFixed(1)} km</em>` : '';
-        const m = L.circleMarker([r.lat, r.lon], {
-          radius: 7,
-          fillColor: color,
-          color: '#0b1a2e',
-          weight: 1.5,
-          fillOpacity: 0.9,
-        }).bindPopup(`
-          <strong>${escHtml(r.nom)}</strong>${distPopup}
-          ${r.adresse ? `<br><small>${escHtml(r.adresse)}</small>` : ''}
-        `).addTo(leafletMap);
-        mapMarkers.push(m);
+        const popup = `<strong style="font-size:0.85rem">${escHtml(r.nom)}</strong>${distPopup}${r.adresse ? `<br><small style="color:#a0b0c0">${escHtml(r.adresse)}</small>` : ''}`;
+        const cluster = mapClusters[r.type];
+        if (cluster) {
+          cluster.addLayer(
+            L.marker([r.lat, r.lon], { icon: makeMarkerIcon(color) }).bindPopup(popup)
+          );
+        }
       }
 
       // Recadrer
@@ -855,9 +1456,9 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     function clearMapMarkers() {
-      mapMarkers.forEach(m => m.remove());
-      mapMarkers = [];
+      if (posMarker) { posMarker.remove(); posMarker = null; }
       if (radiusCircle) { radiusCircle.remove(); radiusCircle = null; }
+      Object.values(mapClusters).forEach(cg => cg.clearLayers());
     }
 
 
@@ -878,9 +1479,11 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     function updateCatLabel() {
-      const count = document.querySelectorAll('.rd-cat-cb:checked').length;
-      const el = document.getElementById('cat-trigger-label');
-      if (el) el.textContent = `${count} catégorie${count !== 1 ? 's' : ''}`;
+      document.querySelectorAll('.rd-cat-dropdown').forEach(dropdown => {
+        const count = dropdown.querySelectorAll('.rd-cat-cb:checked').length;
+        const label = dropdown.querySelector('.rd-cat-trigger-label');
+        if (label) label.textContent = `${count} catégorie${count !== 1 ? 's' : ''}`;
+      });
     }
 
     function toggleFilter(type, forceOn) {
@@ -896,7 +1499,16 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     function labelForType(type) {
-      return { camping: 'Camping', coworking: 'Coworking', entreprise: 'Entreprise', evenement: 'Événement' }[type] || type;
+      return {
+        camping:    'Camping',
+        coworking:  'Coworking',
+        entreprise: 'Entreprise',
+        evenement:  'Événement',
+        piscine:    'Piscine / Baignade',
+        fontaine:   'Point d\'eau',
+        douche:     'Douche publique',
+        abri:       'Abri / Refuge',
+      }[type] || type;
     }
 
     function escHtml(str) {
@@ -930,10 +1542,19 @@ import OceanBackground from '../components/OceanBackground.astro';
       if (tabName === 'carte' && leafletMap) {
         setTimeout(() => leafletMap.invalidateSize(), 100);
       }
+      // Charger les salons nationaux au premier accès
+      if (tabName === 'salons' && !salonsLoaded) {
+        fetchSalonsNationaux();
+      }
+      // Rendre les liens utiles à chaque accès (données légères)
+      if (tabName === 'liens-utiles') {
+        renderLiensUtiles();
+      }
     }
 
     // ── Boot ──────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadAdminProData();
       initMap();
 
       // Tab switching
@@ -955,11 +1576,28 @@ import OceanBackground from '../components/OceanBackground.astro';
       // Bouton géolocalisation
       document.getElementById('btn-locate').addEventListener('click', locateMe);
 
-      // Filtre effectif entreprises
-      document.getElementById('effectif-select').addEventListener('change', e => {
-        minEffectifTranche = e.target.value;
-        renderResults();
+
+
+      // Filtres domaine salons
+      document.querySelectorAll('[data-salon-domain]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const domain = chip.dataset.salonDomain;
+          const active = chip.classList.toggle('salon-chip--active');
+          if (active) salonDomains.add(domain); else salonDomains.delete(domain);
+          renderSalons();
+        });
       });
+
+      // Filtres format salons
+      document.querySelectorAll('[data-salon-format]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const fmt = chip.dataset.salonFormat;
+          const active = chip.classList.toggle('salon-chip--active');
+          if (active) salonFormats.add(fmt); else salonFormats.delete(fmt);
+          renderSalons();
+        });
+      });
+
 
 
       // Sélecteur d'étape
@@ -1013,58 +1651,118 @@ import OceanBackground from '../components/OceanBackground.astro';
         chip.addEventListener('click', () => toggleFilter(chip.dataset.type));
       });
 
-      // Combobox catégories
-      const catDropdown = document.getElementById('cat-dropdown');
-      const catTrigger  = document.getElementById('cat-trigger');
-      const catPanel    = document.getElementById('cat-panel');
+      // Combobox catégories — init générique (pro + cyclo)
+      document.querySelectorAll('.rd-cat-dropdown').forEach(dropdown => {
+        const trigger = dropdown.querySelector('.rd-cat-trigger');
+        const panel   = dropdown.querySelector('.rd-cat-panel');
+        const allCb   = panel.querySelector('.rd-cat-cb-all');
+        const itemCbs = Array.from(panel.querySelectorAll('.rd-cat-cb'));
 
-      catTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const open = catDropdown.getAttribute('aria-expanded') === 'true';
-        catDropdown.setAttribute('aria-expanded', String(!open));
-        catPanel.classList.toggle('rd-cat-panel--open', !open);
-      });
+        function syncAllCheckbox() {
+          if (!allCb) return;
+          const checkedCount = itemCbs.filter(c => c.checked).length;
+          allCb.checked = checkedCount === itemCbs.length;
+          allCb.indeterminate = checkedCount > 0 && checkedCount < itemCbs.length;
+        }
 
-      catPanel.querySelectorAll('.rd-cat-cb').forEach(cb => {
-        cb.addEventListener('change', () => {
-          toggleFilter(cb.dataset.type, cb.checked);
-          // Si l'utilisateur modifie manuellement → aucun preset actif
-          setViewActive(null);
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const open = dropdown.getAttribute('aria-expanded') === 'true';
+          dropdown.setAttribute('aria-expanded', String(!open));
+          panel.classList.toggle('rd-cat-panel--open', !open);
+        });
+
+        if (allCb) {
+          allCb.addEventListener('change', () => {
+            itemCbs.forEach(cb => {
+              cb.checked = allCb.checked;
+              toggleFilter(cb.dataset.type, allCb.checked);
+            });
+            setViewActive(null);
+          });
+        }
+
+        itemCbs.forEach(cb => {
+          cb.addEventListener('change', () => {
+            toggleFilter(cb.dataset.type, cb.checked);
+            syncAllCheckbox();
+            setViewActive(null);
+          });
         });
       });
 
       document.addEventListener('click', e => {
-        if (!catDropdown.contains(e.target)) {
-          catDropdown.setAttribute('aria-expanded', 'false');
-          catPanel.classList.remove('rd-cat-panel--open');
-        }
+        document.querySelectorAll('.rd-cat-dropdown').forEach(dropdown => {
+          if (!dropdown.contains(e.target)) {
+            dropdown.setAttribute('aria-expanded', 'false');
+            dropdown.querySelector('.rd-cat-panel')?.classList.remove('rd-cat-panel--open');
+          }
+        });
       });
 
-      // ── Toggle PRO / CYCLO ─────────────────────────────────
-      const VIEWS = {
+      // ── Modes PRO / CYCLO ─────────────────────────────────
+      const MODE_FILTERS = {
         pro:   ['coworking', 'entreprise', 'evenement'],
-        cyclo: ['camping'],
+        cyclo: ['camping', 'piscine', 'fontaine', 'douche', 'abri'],
       };
-      const ALL_TYPES = ['camping', 'coworking', 'entreprise', 'evenement'];
+      const ALL_TYPES = ['camping', 'coworking', 'entreprise', 'evenement', 'piscine', 'fontaine', 'douche', 'abri'];
 
+      // Désactive visuellement tous les boutons de mode (filtres personnalisés)
       function setViewActive(view) {
-        document.querySelectorAll('.rd-view-btn').forEach(b => {
-          b.classList.toggle('rd-view-btn--active', b.dataset.view === view);
+        document.querySelectorAll('.rd-mode-btn').forEach(b => {
+          b.classList.toggle('rd-mode-btn--active', b.dataset.mode === view);
         });
       }
 
-      function applyView(view) {
-        const active = VIEWS[view] || [];
+      function applyMode(mode) {
+        currentMode = mode;
+        // 1. Filtres actifs
+        const active = MODE_FILTERS[mode] || [];
         ALL_TYPES.forEach(t => toggleFilter(t, active.includes(t)));
-        setViewActive(view);
+
+        // 2. Boutons mode
+        document.querySelectorAll('.rd-mode-btn').forEach(b => {
+          b.classList.toggle('rd-mode-btn--active', b.dataset.mode === mode);
+        });
+
+        // 3. Panneaux de contrôles contextuels
+        document.querySelectorAll('.rd-mode-controls').forEach(ctrl => {
+          ctrl.classList.toggle('rd-mode-controls--hidden', ctrl.id !== `mode-ctrl-${mode}`);
+        });
+
+        // 4. Tabs — visibilité selon data-modes
+        document.querySelectorAll('.rd-tab[data-modes]').forEach(tab => {
+          const modes = tab.dataset.modes.split(',');
+          tab.classList.toggle('rd-tab--mode-hidden', !modes.includes(mode));
+        });
+
+        // 5. Chips carte — cohérence avec les types actifs
+        document.querySelectorAll('.chip[data-type]').forEach(chip => {
+          chip.classList.toggle('chip--hidden', !active.includes(chip.dataset.type));
+        });
+
+        updateCatLabel();
+
+        // 6. Si le tab actif n'est plus disponible dans ce mode → retour sur Carte
+        const currentTab = document.querySelector('.rd-tab--active');
+        if (currentTab) {
+          const modes = (currentTab.dataset.modes || '').split(',');
+          if (!modes.includes(mode)) switchTab('carte');
+        }
+
+        // 7. Relancer la recherche — les sources de données diffèrent selon le mode
+        if (currentLat !== null && currentLon !== null) {
+          clearTimeout(modeChangeTimer);
+          modeChangeTimer = setTimeout(() => search(), 300);
+        }
       }
 
-      document.querySelectorAll('.rd-view-btn').forEach(btn => {
-        btn.addEventListener('click', () => applyView(btn.dataset.view));
+      document.querySelectorAll('.rd-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyMode(btn.dataset.mode));
       });
 
-      // Vue Pro active au démarrage
-      applyView('pro');
+      // Mode Pro actif au démarrage
+      applyMode('pro');
 
     });
 
@@ -1370,42 +2068,6 @@ import OceanBackground from '../components/OceanBackground.astro';
     accent-color: var(--accent-cyan);
     cursor: pointer;
   }
-  .rd-effectif-filter {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-    height: 34px;
-    padding: 0 10px;
-    background: rgba(20, 40, 68, 0.6);
-    border: 1px solid rgba(45, 130, 170, 0.2);
-    border-radius: var(--radius-sm);
-  }
-  .rd-effectif-label {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-  .rd-effectif-select {
-    font-size: 0.72rem;
-    font-family: var(--font-primary);
-    background: rgba(10, 20, 35, 0.8);
-    color: var(--text-light);
-    border: 1px solid rgba(77, 184, 212, 0.25);
-    border-radius: 4px;
-    padding: 3px 6px;
-    height: 24px;
-    cursor: pointer;
-    outline: none;
-    appearance: auto;
-    transition: border-color .15s;
-  }
-  .rd-effectif-select:focus { border-color: var(--accent-cyan); }
-  [data-theme="light"] .rd-effectif-select {
-    background: #fff;
-    color: #1a2535;
-    border-color: rgba(26, 101, 128, 0.3);
-  }
 
   .rd-status {
     display: flex;
@@ -1680,6 +2342,13 @@ import OceanBackground from '../components/OceanBackground.astro';
     animation: dropdownFadeIn .15s ease;
   }
   .rd-cat-panel--open { display: block; }
+  .rd-cat-item--hidden { display: none !important; }
+  .rd-cat-item--all {
+    font-weight: 600;
+    border-bottom: 1px solid rgba(77, 184, 212, 0.15);
+    margin-bottom: 2px;
+    padding-bottom: 6px;
+  }
 
   .rd-cat-panel-header {
     padding: 0.3rem 0.9rem 0.4rem;
@@ -2118,12 +2787,6 @@ import OceanBackground from '../components/OceanBackground.astro';
   [data-theme="light"] .rd-radius-label { color: #4a6275; }
   [data-theme="light"] .rd-radius-label strong { color: #0e7fa8; }
 
-  /* Effectif en light */
-  [data-theme="light"] .rd-effectif-filter {
-    background: #fff;
-    border-color: rgba(26,127,160,.25);
-  }
-  [data-theme="light"] .rd-effectif-label { color: #4a6275; }
   [data-theme="light"] .rd-tabs      { border-color: rgba(26,127,160,.12); }
   [data-theme="light"] .rd-tab:hover { color: #1a2535; }
   [data-theme="light"] .rd-tab--active { color: var(--accent-cyan); border-bottom-color: var(--accent-cyan); }
@@ -2165,6 +2828,402 @@ import OceanBackground from '../components/OceanBackground.astro';
 
   /* toast-info (toast default type) */
   .toast-info { border-color: rgba(77, 184, 212, 0.45); color: var(--text-light); }
+
+  /* ══════════════════════════════════════════════════════════
+     MODEBAR — Sélecteur de mode + contrôles contextuels
+  ══════════════════════════════════════════════════════════ */
+
+  .rd-modebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto 0.5rem;
+    width: 100%;
+    padding: 8px 16px;
+    background: rgba(8, 15, 28, 0.92);
+    border: 1px solid rgba(45, 130, 170, 0.14);
+    border-bottom: 2px solid rgba(45, 130, 170, 0.18);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 14px rgba(0,0,0,.22);
+  }
+
+  .rd-modebar-sep {
+    width: 1px;
+    height: 38px;
+    background: rgba(77, 184, 212, 0.14);
+    flex-shrink: 0;
+  }
+
+  /* Toggle PRO / CYCLO */
+  .rd-mode-toggle {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .rd-mode-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 13px;
+    background: rgba(20, 40, 68, 0.7);
+    border: 1px solid rgba(45, 130, 170, 0.2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-primary);
+    transition: border-color .2s, background .2s;
+  }
+  .rd-mode-btn:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .rd-mode-btn-icon {
+    font-size: 1rem;
+    color: var(--text-muted);
+    transition: color .2s;
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+  }
+
+  .rd-mode-btn-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .rd-mode-btn-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 0.02em;
+    transition: color .2s;
+    line-height: 1.2;
+  }
+
+  .rd-mode-btn-sub {
+    font-size: 0.68rem;
+    color: rgba(160, 180, 200, 0.8);
+    font-weight: 400;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  .rd-mode-btn:hover .rd-mode-btn-icon,
+  .rd-mode-btn:hover .rd-mode-btn-title { color: var(--text-light); }
+
+  /* Actif — style unifié Pro & Cyclo */
+  .rd-mode-btn--active {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.07);
+  }
+  .rd-mode-btn--active .rd-mode-btn-icon,
+  .rd-mode-btn--active .rd-mode-btn-title { color: var(--text-light); }
+  .rd-mode-btn--active .rd-mode-btn-sub   { color: rgba(200, 215, 230, 0.9); }
+
+  /* Panneaux contrôles contextuels */
+  .rd-mode-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .rd-mode-controls--hidden { display: none !important; }
+
+  .rd-mode-cyclo-hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-style: italic;
+  }
+
+  /* Tab caché par mode */
+  .rd-tab--mode-hidden { display: none !important; }
+
+  /* Light mode modebar */
+  [data-theme="light"] .rd-modebar {
+    background: rgba(234, 241, 247, 0.98);
+    border-color: rgba(26, 127, 160, 0.18);
+    border-bottom-color: rgba(26, 127, 160, 0.28);
+  }
+  [data-theme="light"] .rd-modebar-sep { background: rgba(26, 127, 160, 0.14); }
+  [data-theme="light"] .rd-mode-btn {
+    background: #fff;
+    border-color: rgba(26, 127, 160, 0.2);
+  }
+  [data-theme="light"] .rd-mode-btn:hover { background: #f0f8ff; }
+  [data-theme="light"] .rd-mode-btn-title { color: #4a6275; }
+  [data-theme="light"] .rd-mode-btn:hover .rd-mode-btn-title { color: #1a2535; }
+  [data-theme="light"] .rd-mode-btn--active {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(26, 127, 160, 0.35);
+  }
+  [data-theme="light"] .rd-mode-btn--active .rd-mode-btn-icon,
+  [data-theme="light"] .rd-mode-btn--active .rd-mode-btn-title { color: #1a2535; }
+  [data-theme="light"] .rd-mode-btn--active .rd-mode-btn-sub   { color: #4a6275; }
+
+  /* Responsive modebar */
+  @media (max-width: 640px) {
+    .rd-modebar { padding: 7px 10px; gap: 7px; }
+    .rd-mode-btn { padding: 6px 10px; gap: 7px; }
+    .rd-mode-btn-sub { display: none; }
+    .rd-modebar-sep { display: none; }
+    .rd-mode-controls { gap: 6px; }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     MODULE — SALONS FRANCE
+  ══════════════════════════════════════════════════════════ */
+
+  /* Bouton toolbar Salons FR */
+  .rd-btn--salons {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .rd-btn--salons-active {
+    background: rgba(255, 255, 255, 0.09) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: var(--text-light) !important;
+  }
+
+  /* Tab Salons FR */
+  .rd-tab--salons.rd-tab--active {
+    color: #06b6d4;
+    border-bottom-color: #06b6d4;
+  }
+
+  /* Badge national dans le card header */
+  .salon-national-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.28);
+    border-radius: var(--radius-full);
+    color: #06b6d4;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    flex-shrink: 0;
+  }
+  .salon-national-badge i { font-size: 0.6rem; opacity: 0.8; }
+
+  /* Zone filtres domaine + format */
+  .salons-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.9rem;
+    background: rgba(6, 182, 212, 0.04);
+    border: 1px solid rgba(6, 182, 212, 0.1);
+    border-radius: var(--radius-sm);
+  }
+
+  .salons-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+
+  .salons-filter-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .salons-filter-label i { font-size: 0.6rem; opacity: 0.7; }
+
+  .salons-filter-sep {
+    width: 1px;
+    height: 22px;
+    background: rgba(6, 182, 212, 0.15);
+    flex-shrink: 0;
+  }
+
+  .salons-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+
+  /* Chip générique salons */
+  .salon-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(45, 130, 170, 0.2);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    user-select: none;
+  }
+  .salon-chip i { font-size: 0.62rem; }
+  .salon-chip:hover {
+    border-color: var(--accent-cyan);
+    color: var(--text-light);
+  }
+  .salon-chip--active {
+    border-color: rgba(77, 184, 212, 0.5);
+    color: var(--accent-cyan);
+    background: rgba(77, 184, 212, 0.06);
+  }
+
+  [data-theme="light"] .salon-chip--active {
+    background: rgba(0, 0, 0, 0.04);
+  }
+  [data-theme="light"] .salons-filters {
+    background: rgba(6, 182, 212, 0.03);
+    border-color: rgba(6, 182, 212, 0.12);
+  }
+
+  /* ── Link tables (événements & salons) ──────────────────── */
+  .rd-link-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    color: var(--text-light);
+  }
+
+  .lt-table thead th {
+    padding: 6px 10px;
+    text-align: left;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    white-space: nowrap;
+  }
+
+  .lt-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background var(--transition-fast);
+  }
+  .lt-table tbody tr:last-child { border-bottom: none; }
+  .lt-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  .lt-table td {
+    padding: 7px 10px;
+    vertical-align: top;
+  }
+
+  .lt-date {
+    white-space: nowrap;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    min-width: 80px;
+  }
+
+  .lt-nom { min-width: 160px; }
+
+  .lt-lieu {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    max-width: 160px;
+  }
+
+  .lt-fmt {
+    white-space: nowrap;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+  }
+
+  .lt-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+  }
+  .lt-link:hover { opacity: 0.75; text-decoration: underline; }
+  .lt-link i { font-size: 0.58rem; margin-left: 4px; opacity: 0.5; vertical-align: middle; }
+
+  .lt-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .lt-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    border-radius: 3px;
+    border: 1px solid var(--badge-color, #888);
+    color: var(--badge-color, #888);
+    background: transparent;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .lt-empty {
+    padding: 1.4rem 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lt-empty i { opacity: 0.5; }
+
+  /* ── Liens utiles sections ───────────────────────────── */
+  .lu-section { margin-bottom: 1.75rem; }
+  .lu-section:last-child { margin-bottom: 0; }
+
+  .lu-section-title {
+    margin: 0 0 0.6rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .lu-section-title i { font-size: 0.6rem; opacity: 0.5; }
+
+  .lu-desc { max-width: 220px; }
+
+  [data-theme="light"] .lu-section-title { border-bottom-color: rgba(0,0,0,0.07); }
+
+  [data-theme="light"] .lt-table thead th { border-bottom-color: rgba(0,0,0,0.08); }
+  [data-theme="light"] .lt-table tbody tr { border-bottom-color: rgba(0,0,0,0.05); }
+  [data-theme="light"] .lt-table tbody tr:hover { background: rgba(0,0,0,0.02); }
+
+  @media (max-width: 640px) {
+    .salons-filters { gap: 8px; padding: 0.5rem 0.7rem; }
+    .salons-filter-sep { display: none; }
+    .lt-lieu { display: none; }
+    .lt-fmt  { display: none; }
+  }
   </style>
 
 </BaseLayout>

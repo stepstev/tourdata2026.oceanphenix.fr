@@ -21,9 +21,23 @@ Thumbs.db
 public/api/strava-env.php
 public/api/strava-cache.json
 
+# Proxy radar — contient la clé OpenAgenda en dur, upload manuel sur serveur
+public/api/radar-proxy.php
+
+# Endpoint upload Radar Pro — contient le secret, upload manuel sur serveur
+public/api/radar-pro-save.php
+
+# Endpoint admin unifié — contient le secret, upload manuel sur serveur
+public/api/admin-save.php
+
 # Deploy archive
 dist-deploy.zip
 
 # Deploy credentials — jamais dans le repo
 deploy.env
 deploy.log
+
+# Env vars locaux — jamais dans le repo
+.env
+.env.local
+.env.*.local

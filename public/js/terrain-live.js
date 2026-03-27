@@ -283,6 +283,27 @@
     }
   }
 
+  // ── Fetch serveur : /data/site-data.json ──────────────────
+  // Utilisé quand localStorage est vide (visiteurs hors admin)
+  function fetchServerData() {
+    fetch('/data/site-data.json', { signal: AbortSignal.timeout(5000) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.updated_at) return; // fichier vide / non encore publié
+        if (d.terrain && Object.keys(d.terrain).length) {
+          d.terrain._lastSaved = d.updated_at;
+          applyLiveData(d.terrain);
+        }
+        // Coworking serveur → stocké en mémoire pour les cartes
+        if (Array.isArray(d.coworking) && d.coworking.length) {
+          globalThis._serverCoworking = d.coworking;
+          if (globalThis._terrainMainMap) addCwFlags(globalThis._terrainMainMap, false);
+          if (globalThis._terrainDashMap) addCwFlags(globalThis._terrainDashMap, true);
+        }
+      })
+      .catch(function () { /* réseau indisponible, données build utilisées */ });
+  }
+
   // Load from localStorage on page load
   // NOTE: terrain-live.js is READ-ONLY — it never writes to localStorage.
   // Only admin-terrain.js is allowed to write (single source of truth).
@@ -293,13 +314,14 @@
       const initStatut = badge.dataset.statut || 'Pr\u00e9paration';
       updatePositionBadge(initStatut);
     }
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const d = JSON.parse(raw);
-        applyLiveData(d);
-      }
-    } catch { /* invalid JSON, skip */ }
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      // Admin browser : localStorage prioritaire
+      try { applyLiveData(JSON.parse(raw)); } catch { /* invalid JSON, skip */ }
+    } else {
+      // Visiteur public : charger depuis le fichier serveur publié
+      fetchServerData();
+    }
     // NOTE: GPX tracks and coworking markers are drawn by terrain-maps.js on initial load.
     // terrain-live.js only redraws them on cross-tab storage updates (see storage event below).
     // Attach error handlers to initial photo thumbnails (CSP-safe)
@@ -388,8 +410,9 @@
     map._cwMarkers = [];
     try {
       const raw = localStorage.getItem('op-terrain-coworking');
-      if (!raw) return;
-      const cwList = JSON.parse(raw);
+      // Priorité : localStorage ; fallback : données serveur (visiteurs publics)
+      const cwList = raw ? JSON.parse(raw) : (globalThis._serverCoworking || null);
+      if (!cwList) return;
       cwList.forEach(function(cw) {
         if (!cw.visible || !cw.lat || !cw.lng) return;
         const flagIcon = L.divIcon({

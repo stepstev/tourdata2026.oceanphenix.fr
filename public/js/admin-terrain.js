@@ -253,6 +253,10 @@
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(STORAGE_GPX_KEY);
     localStorage.removeItem('op-terrain-coworking');
+    localStorage.removeItem('op-radar-entreprises');
+    localStorage.removeItem('op-radar-salons');
+    localStorage.removeItem('op-radar-events');
+    localStorage.removeItem('op-radar-liens');
     showToast('\u2705 Cache local réinitialisé — les données viennent maintenant du build');
     setTimeout(function() { globalThis.location.reload(); }, 1200);
   }
@@ -400,6 +404,8 @@
       if (tab.dataset.tab === 'gpx' && !gpxMap) initGpxMap();
       if (tab.dataset.tab === 'villes' && !villesRendered) renderVilles('');
       if (tab.dataset.tab === 'coworking') renderCoworking();
+      if (tab.dataset.tab === 'radar-pro') renderRadarProTab();
+      if (tab.dataset.tab === 'liens-utiles') renderLiensUtiles();
     });
   });
 
@@ -704,7 +710,8 @@
         exportJson(id === 'export-deploy-btn');
       });
     });
-    document.getElementById('journal-export-btn').addEventListener('click', function() {
+    var journalExportBtn = document.getElementById('journal-export-btn');
+    if (journalExportBtn) journalExportBtn.addEventListener('click', function() {
       exportJournalJson();
     });
     document.getElementById('admin-import-btn').addEventListener('click', function() {
@@ -1341,5 +1348,561 @@
     toggleVisibility();
   });
   updateVisibilityBtn();
+
+  // ═══════════════════════════════════════════════════════════
+  // TAB: Radar Pro — Entreprises / Salons / Événements
+  // ═══════════════════════════════════════════════════════════
+  var RP_ENT_KEY    = 'op-radar-entreprises';
+  var RP_SALONS_KEY = 'op-radar-salons';
+  var RP_EVT_KEY    = 'op-radar-events';
+
+  var rpEnts   = [];
+  var rpSalons = [];
+  var rpEvts   = [];
+
+  function loadRpData() {
+    try { rpEnts   = JSON.parse(localStorage.getItem(RP_ENT_KEY)    || '[]'); } catch(e) { rpEnts   = []; }
+    try { rpSalons = JSON.parse(localStorage.getItem(RP_SALONS_KEY) || '[]'); } catch(e) { rpSalons = []; }
+    try { rpEvts   = JSON.parse(localStorage.getItem(RP_EVT_KEY)    || '[]'); } catch(e) { rpEvts   = []; }
+  }
+
+  function saveRpKey(key, data, label) {
+    localStorage.setItem(key, JSON.stringify(data));
+    showToast(label + ' sauvegardé(s)');
+  }
+
+  function renderRadarProTab() {
+    loadRpData();
+    renderRpEnts();
+    renderRpSalons();
+    renderRpEvts();
+  }
+
+  // ── Entreprises ──────────────────────────────────────────
+  function renderRpEnts() {
+    var tbody = document.getElementById('rp-ent-tbody');
+    var count = document.getElementById('rp-ent-count');
+    if (!tbody) return;
+    var html = '';
+    rpEnts.forEach(function(e, idx) {
+      html += '<tr>';
+      html += '<td style="font-weight:600;">' + (e.nom || '') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (e.ville || '') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (e.secteur || '') + '</td>';
+      html += '<td style="text-align:center;white-space:nowrap;">';
+      html += '<button class="admin-btn admin-btn--sm" data-rp-ent-edit="' + idx + '" title="Modifier"><i class="fas fa-pen"></i></button> ';
+      html += '<button class="admin-btn admin-btn--sm admin-btn--danger" data-rp-ent-del="' + idx + '" title="Supprimer"><i class="fas fa-trash"></i></button>';
+      html += '</td></tr>';
+    });
+    if (!html) html = '<tr><td colspan="4" style="color:#666;padding:12px;text-align:center;">Aucune entreprise — cliquez sur Ajouter.</td></tr>';
+    tbody.innerHTML = html;
+    if (count) count.textContent = rpEnts.length + ' entreprise(s)';
+    tbody.querySelectorAll('[data-rp-ent-edit]').forEach(function(btn) {
+      btn.addEventListener('click', function() { openRpEntEditor(+btn.dataset.rpEntEdit); });
+    });
+    tbody.querySelectorAll('[data-rp-ent-del]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx2 = +btn.dataset.rpEntDel;
+        if (confirm('Supprimer "' + (rpEnts[idx2] ? rpEnts[idx2].nom : '') + '" ?')) {
+          rpEnts.splice(idx2, 1);
+          saveRpKey(RP_ENT_KEY, rpEnts, 'Entreprise supprimée');
+          renderRpEnts();
+        }
+      });
+    });
+  }
+
+  function openRpEntEditor(idx) {
+    var e = (idx >= 0 && idx < rpEnts.length) ? rpEnts[idx] : null;
+    document.getElementById('rp-ent-edit-idx').value  = idx;
+    document.getElementById('rp-ent-editor-title').textContent = e ? 'Modifier : ' + e.nom : 'Nouvelle entreprise';
+    document.getElementById('rp-ent-nom').value     = e ? (e.nom     || '') : '';
+    document.getElementById('rp-ent-ville').value   = e ? (e.ville   || '') : '';
+    document.getElementById('rp-ent-url').value     = e ? (e.url     || '') : '';
+    document.getElementById('rp-ent-secteur').value = e ? (e.secteur || 'data') : 'data';
+    var ed = document.getElementById('rp-ent-editor');
+    ed.style.display = 'block';
+    ed.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  (function() {
+    var addBtn    = document.getElementById('rp-ent-add-btn');
+    var saveBtn   = document.getElementById('rp-ent-save-btn');
+    var cancelBtn = document.getElementById('rp-ent-cancel-btn');
+    if (addBtn)    addBtn.addEventListener('click', function() { openRpEntEditor(-1); });
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { document.getElementById('rp-ent-editor').style.display = 'none'; });
+    if (saveBtn)   saveBtn.addEventListener('click', function() {
+      var idx = +document.getElementById('rp-ent-edit-idx').value;
+      var nom = document.getElementById('rp-ent-nom').value.trim();
+      if (!nom) { alert('Le nom est obligatoire'); return; }
+      var existing = (idx >= 0 && idx < rpEnts.length) ? rpEnts[idx] : null;
+      var obj = {
+        id:      existing ? existing.id : 'admin-ent-' + Date.now(),
+        nom:     nom,
+        ville:   document.getElementById('rp-ent-ville').value.trim(),
+        url:     document.getElementById('rp-ent-url').value.trim(),
+        secteur: document.getElementById('rp-ent-secteur').value,
+        source:  'Admin',
+        type:    'entreprise'
+      };
+      if (existing) { Object.assign(rpEnts[idx], obj); showToast('Entreprise modifiée'); }
+      else           { rpEnts.push(obj);                showToast('Entreprise ajoutée'); }
+      saveRpKey(RP_ENT_KEY, rpEnts, 'Entreprises');
+      document.getElementById('rp-ent-editor').style.display = 'none';
+      renderRpEnts();
+    });
+  })();
+
+  // ── Salons ───────────────────────────────────────────────
+  function renderRpSalons() {
+    var tbody = document.getElementById('rp-sal-tbody');
+    var count = document.getElementById('rp-sal-count');
+    if (!tbody) return;
+    var html = '';
+    rpSalons.forEach(function(s, idx) {
+      html += '<tr>';
+      html += '<td style="font-weight:600;">' + (s.nom || '') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (s.dateDebut || '—') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (s.adresse || '—') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (s.format || '—') + '</td>';
+      html += '<td style="text-align:center;white-space:nowrap;">';
+      html += '<button class="admin-btn admin-btn--sm" data-rp-sal-edit="' + idx + '" title="Modifier"><i class="fas fa-pen"></i></button> ';
+      html += '<button class="admin-btn admin-btn--sm admin-btn--danger" data-rp-sal-del="' + idx + '" title="Supprimer"><i class="fas fa-trash"></i></button>';
+      html += '</td></tr>';
+    });
+    if (!html) html = '<tr><td colspan="5" style="color:#666;padding:12px;text-align:center;">Aucun salon — cliquez sur Ajouter.</td></tr>';
+    tbody.innerHTML = html;
+    if (count) count.textContent = rpSalons.length + ' salon(s)';
+    tbody.querySelectorAll('[data-rp-sal-edit]').forEach(function(btn) {
+      btn.addEventListener('click', function() { openRpSalEditor(+btn.dataset.rpSalEdit); });
+    });
+    tbody.querySelectorAll('[data-rp-sal-del]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx2 = +btn.dataset.rpSalDel;
+        if (confirm('Supprimer "' + (rpSalons[idx2] ? rpSalons[idx2].nom : '') + '" ?')) {
+          rpSalons.splice(idx2, 1);
+          saveRpKey(RP_SALONS_KEY, rpSalons, 'Salon supprimé');
+          renderRpSalons();
+        }
+      });
+    });
+  }
+
+  function openRpSalEditor(idx) {
+    var s = (idx >= 0 && idx < rpSalons.length) ? rpSalons[idx] : null;
+    document.getElementById('rp-sal-edit-idx').value   = idx;
+    document.getElementById('rp-sal-editor-title').textContent = s ? 'Modifier : ' + s.nom : 'Nouveau salon';
+    document.getElementById('rp-sal-nom').value     = s ? (s.nom      || '') : '';
+    document.getElementById('rp-sal-date').value    = s ? (s.dateDebut || '') : '';
+    document.getElementById('rp-sal-adresse').value = s ? (s.adresse  || '') : '';
+    document.getElementById('rp-sal-url').value     = s ? (s.url      || '') : '';
+    document.getElementById('rp-sal-format').value  = s ? (s.format   || 'presentiel') : 'presentiel';
+    var doms = s ? (s.domaines || []) : [];
+    document.querySelectorAll('#rp-sal-domaines input[type=checkbox]').forEach(function(cb) {
+      cb.checked = doms.indexOf(cb.value) !== -1;
+    });
+    var ed = document.getElementById('rp-sal-editor');
+    ed.style.display = 'block';
+    ed.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  (function() {
+    var addBtn    = document.getElementById('rp-sal-add-btn');
+    var saveBtn   = document.getElementById('rp-sal-save-btn');
+    var cancelBtn = document.getElementById('rp-sal-cancel-btn');
+    if (addBtn)    addBtn.addEventListener('click', function() { openRpSalEditor(-1); });
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { document.getElementById('rp-sal-editor').style.display = 'none'; });
+    if (saveBtn)   saveBtn.addEventListener('click', function() {
+      var idx = +document.getElementById('rp-sal-edit-idx').value;
+      var nom = document.getElementById('rp-sal-nom').value.trim();
+      if (!nom) { alert('Le nom est obligatoire'); return; }
+      var doms = [];
+      document.querySelectorAll('#rp-sal-domaines input[type=checkbox]:checked').forEach(function(cb) { doms.push(cb.value); });
+      var existing = (idx >= 0 && idx < rpSalons.length) ? rpSalons[idx] : null;
+      var obj = {
+        id:        existing ? existing.id : 'admin-sal-' + Date.now(),
+        nom:       nom,
+        dateDebut: document.getElementById('rp-sal-date').value || null,
+        adresse:   document.getElementById('rp-sal-adresse').value.trim(),
+        url:       document.getElementById('rp-sal-url').value.trim(),
+        format:    document.getElementById('rp-sal-format').value,
+        domaines:  doms.length ? doms : ['data'],
+        source:    'Admin'
+      };
+      if (existing) { Object.assign(rpSalons[idx], obj); showToast('Salon modifié'); }
+      else           { rpSalons.push(obj);                showToast('Salon ajouté'); }
+      saveRpKey(RP_SALONS_KEY, rpSalons, 'Salons');
+      document.getElementById('rp-sal-editor').style.display = 'none';
+      renderRpSalons();
+    });
+  })();
+
+  // ── Événements ───────────────────────────────────────────
+  function renderRpEvts() {
+    var tbody = document.getElementById('rp-evt-tbody');
+    var count = document.getElementById('rp-evt-count');
+    if (!tbody) return;
+    var html = '';
+    rpEvts.forEach(function(e, idx) {
+      html += '<tr>';
+      html += '<td style="font-weight:600;">' + (e.nom || '') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (e.dateDebut || '—') + '</td>';
+      html += '<td style="color:#9ab0c4;">' + (e.adresse || '—') + '</td>';
+      html += '<td style="text-align:center;white-space:nowrap;">';
+      html += '<button class="admin-btn admin-btn--sm" data-rp-evt-edit="' + idx + '" title="Modifier"><i class="fas fa-pen"></i></button> ';
+      html += '<button class="admin-btn admin-btn--sm admin-btn--danger" data-rp-evt-del="' + idx + '" title="Supprimer"><i class="fas fa-trash"></i></button>';
+      html += '</td></tr>';
+    });
+    if (!html) html = '<tr><td colspan="4" style="color:#666;padding:12px;text-align:center;">Aucun événement — cliquez sur Ajouter.</td></tr>';
+    tbody.innerHTML = html;
+    if (count) count.textContent = rpEvts.length + ' événement(s)';
+    tbody.querySelectorAll('[data-rp-evt-edit]').forEach(function(btn) {
+      btn.addEventListener('click', function() { openRpEvtEditor(+btn.dataset.rpEvtEdit); });
+    });
+    tbody.querySelectorAll('[data-rp-evt-del]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx2 = +btn.dataset.rpEvtDel;
+        if (confirm('Supprimer "' + (rpEvts[idx2] ? rpEvts[idx2].nom : '') + '" ?')) {
+          rpEvts.splice(idx2, 1);
+          saveRpKey(RP_EVT_KEY, rpEvts, 'Événement supprimé');
+          renderRpEvts();
+        }
+      });
+    });
+  }
+
+  function openRpEvtEditor(idx) {
+    var e = (idx >= 0 && idx < rpEvts.length) ? rpEvts[idx] : null;
+    document.getElementById('rp-evt-edit-idx').value   = idx;
+    document.getElementById('rp-evt-editor-title').textContent = e ? 'Modifier : ' + e.nom : 'Nouvel événement';
+    document.getElementById('rp-evt-nom').value     = e ? (e.nom      || '') : '';
+    document.getElementById('rp-evt-date').value    = e ? (e.dateDebut || '') : '';
+    document.getElementById('rp-evt-adresse').value = e ? (e.adresse  || '') : '';
+    document.getElementById('rp-evt-url').value     = e ? (e.url      || '') : '';
+    var ed = document.getElementById('rp-evt-editor');
+    ed.style.display = 'block';
+    ed.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  (function() {
+    var addBtn    = document.getElementById('rp-evt-add-btn');
+    var saveBtn   = document.getElementById('rp-evt-save-btn');
+    var cancelBtn = document.getElementById('rp-evt-cancel-btn');
+    if (addBtn)    addBtn.addEventListener('click', function() { openRpEvtEditor(-1); });
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { document.getElementById('rp-evt-editor').style.display = 'none'; });
+    if (saveBtn)   saveBtn.addEventListener('click', function() {
+      var idx = +document.getElementById('rp-evt-edit-idx').value;
+      var nom = document.getElementById('rp-evt-nom').value.trim();
+      if (!nom) { alert('Le nom est obligatoire'); return; }
+      var existing = (idx >= 0 && idx < rpEvts.length) ? rpEvts[idx] : null;
+      var obj = {
+        id:        existing ? existing.id : 'admin-evt-' + Date.now(),
+        nom:       nom,
+        dateDebut: document.getElementById('rp-evt-date').value || null,
+        adresse:   document.getElementById('rp-evt-adresse').value.trim(),
+        url:       document.getElementById('rp-evt-url').value.trim(),
+        source:    'Admin',
+        type:      'evenement'
+      };
+      if (existing) { Object.assign(rpEvts[idx], obj); showToast('Événement modifié'); }
+      else           { rpEvts.push(obj);                showToast('Événement ajouté'); }
+      saveRpKey(RP_EVT_KEY, rpEvts, 'Événements');
+      document.getElementById('rp-evt-editor').style.display = 'none';
+      renderRpEvts();
+    });
+  })();
+
+  loadRpData();
+
+  // ═══════════════════════════════════════════════════════════
+  // TAB: Liens utiles — Sources, veille, agrégateurs
+  // ═══════════════════════════════════════════════════════════
+  var LIENS_KEY = 'op-radar-liens';
+  var rpLiens   = [];
+
+  var LIENS_DEFAULT = [
+    // Organisateurs officiels
+    { id: 'def-lnk-1',  categorie: 'officiel',    nom: 'Big Data & AI Paris',      date: '15\u201316 sept',  lieu: 'Paris Porte de Versailles',      url: 'https://bigdataparis.com',           interet: 'R\u00e9f\u00e9rence Big Data & IA en France' },
+    { id: 'def-lnk-2',  categorie: 'officiel',    nom: 'VivaTech',                 date: '17\u201320 juin',  lieu: 'Paris Porte de Versailles',      url: 'https://vivatech.com',               interet: 'Innovation, IA, Startup, Data, Recrutement' },
+    { id: 'def-lnk-3',  categorie: 'officiel',    nom: 'Salon de la Data & IA',    date: '22 sept',          lieu: 'Nantes Cit\u00e9 des Congr\u00e8s', url: 'https://salondata.fr',            interet: 'Salon d\u00e9di\u00e9 Data & IA \u00e0 Nantes' },
+    { id: 'def-lnk-4',  categorie: 'officiel',    nom: 'Data & AI Leaders Summit', date: '18\u201319 nov',   lieu: 'Paris',                          url: 'https://techshowparis.fr',           interet: 'Summit d\u00e9cideurs Data & IA' },
+    { id: 'def-lnk-5',  categorie: 'officiel',    nom: 'GenAI France',             date: 'R\u00e9gulier',    lieu: 'Paris, Lyon, Nantes, Bordeaux\u2026', url: 'https://generativeai.paris',    interet: 'Meetups GenAI r\u00e9guliers en France' },
+    { id: 'def-lnk-6',  categorie: 'officiel',    nom: 'Data Days Lille',          date: '\u00c0 confirmer', lieu: 'Lille',                          url: 'https://days.data-lille.fr/2026',    interet: 'Journ\u00e9es data Lille' },
+    { id: 'def-lnk-7',  categorie: 'officiel',    nom: 'World AI Cannes Festival', date: '12\u201313 f\u00e9v', lieu: 'Cannes',                     url: 'https://worldaicannes.com',          interet: 'Festival IA \u00e0 Cannes' },
+    // Plateformes de veille
+    { id: 'def-lnk-8',  categorie: 'veille',      nom: 'LinkedIn Events',          date: '',                 lieu: '',                               url: 'https://linkedin.com/events',        interet: '\u00c9v\u00e9nements pros data/IA \u2014 tr\u00e8s \u00e0 jour, les organisateurs publient ici en premier' },
+    { id: 'def-lnk-9',  categorie: 'veille',      nom: 'Meetup.com',               date: '',                 lieu: '',                               url: 'https://meetup.com',                 interet: 'Communaut\u00e9s locales data/IA par ville' },
+    { id: 'def-lnk-10', categorie: 'veille',      nom: 'Eventbrite',               date: '',                 lieu: '',                               url: 'https://eventbrite.fr',              interet: 'Billetterie officielle de nombreux \u00e9v\u00e9nements' },
+    { id: 'def-lnk-11', categorie: 'veille',      nom: 'ADN Ouest',                date: '',                 lieu: 'Nantes, Rennes, Bretagne',       url: 'https://adnouest.org/agenda',        interet: 'Grand Ouest num\u00e9rique \u2014 agenda complet' },
+    // Agrégateurs
+    { id: 'def-lnk-12', categorie: 'agregateur',  nom: 'AVISIA',                   date: '',                 lieu: '',                               url: 'https://avisia.fr/blog',             interet: 'Calendrier S1 + S2 2026' },
+    { id: 'def-lnk-13', categorie: 'agregateur',  nom: 'Datalogy',                 date: '',                 lieu: '',                               url: 'https://datalogy-agency.com',        interet: 'Liste 2026 France + Europe' },
+    { id: 'def-lnk-14', categorie: 'agregateur',  nom: 'Sylob Salons',             date: '',                 lieu: '',                               url: 'https://sylob.com/salons',           interet: 'IT + Industrie France 2026' },
+  ];
+
+  var LIEN_CAT_LABELS = { officiel: 'Officiel', veille: 'Veille', agregateur: 'Agr\u00e9gateur' };
+
+  function loadLiens() {
+    try { rpLiens = JSON.parse(localStorage.getItem(LIENS_KEY) || '[]'); } catch(e) { rpLiens = []; }
+  }
+
+  function renderLiensUtiles() {
+    loadLiens();
+    renderLiensTable();
+  }
+
+  function renderLiensTable() {
+    var tbody = document.getElementById('lien-tbody');
+    var count = document.getElementById('lien-count');
+    if (!tbody) return;
+    var html = '';
+    rpLiens.forEach(function(l, idx) {
+      var cat = LIEN_CAT_LABELS[l.categorie] || (l.categorie || '');
+      var urlShort = (l.url || '').replace(/^https?:\/\//, '');
+      html += '<tr>';
+      html += '<td style="font-weight:600;">' + (l.nom || '') + '</td>';
+      html += '<td><span class="lien-cat-pill">' + cat + '</span></td>';
+      html += '<td class="admin-cell-muted" style="font-size:0.82rem;">';
+      if (l.url) html += '<a href="' + l.url + '" target="_blank" rel="noopener" class="admin-table-link">' + urlShort + '</a>';
+      html += '</td>';
+      html += '<td class="admin-cell-muted" style="font-size:0.82rem;">' + (l.interet || '') + '</td>';
+      html += '<td style="text-align:center;white-space:nowrap;">';
+      html += '<button class="admin-btn admin-btn--sm" data-lien-edit="' + idx + '" title="Modifier"><i class="fas fa-pen"></i></button> ';
+      html += '<button class="admin-btn admin-btn--sm admin-btn--danger" data-lien-del="' + idx + '" title="Supprimer"><i class="fas fa-trash"></i></button>';
+      html += '</td></tr>';
+    });
+    if (!html) html = '<tr><td colspan="5" style="color:#666;padding:12px;text-align:center;">Aucun lien \u2014 cliquez sur Ajouter ou Charger donn\u00e9es 2026.</td></tr>';
+    tbody.innerHTML = html;
+    if (count) count.textContent = rpLiens.length + ' lien(s)';
+    tbody.querySelectorAll('[data-lien-edit]').forEach(function(btn) {
+      btn.addEventListener('click', function() { openLienEditor(+btn.dataset.lienEdit); });
+    });
+    tbody.querySelectorAll('[data-lien-del]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx2 = +btn.dataset.lienDel;
+        if (confirm('Supprimer "' + (rpLiens[idx2] ? rpLiens[idx2].nom : '') + '" ?')) {
+          rpLiens.splice(idx2, 1);
+          localStorage.setItem(LIENS_KEY, JSON.stringify(rpLiens));
+          showToast('Lien supprim\u00e9');
+          renderLiensTable();
+        }
+      });
+    });
+  }
+
+  function openLienEditor(idx) {
+    var l = (idx >= 0 && idx < rpLiens.length) ? rpLiens[idx] : null;
+    document.getElementById('lien-edit-idx').value   = idx;
+    document.getElementById('lien-editor-title').textContent = l ? 'Modifier : ' + l.nom : 'Nouveau lien';
+    document.getElementById('lien-nom').value       = l ? (l.nom       || '') : '';
+    document.getElementById('lien-categorie').value = l ? (l.categorie || 'officiel') : 'officiel';
+    document.getElementById('lien-date').value      = l ? (l.date      || '') : '';
+    document.getElementById('lien-lieu').value      = l ? (l.lieu      || '') : '';
+    document.getElementById('lien-url').value       = l ? (l.url       || '') : '';
+    document.getElementById('lien-interet').value   = l ? (l.interet   || '') : '';
+    var ed = document.getElementById('lien-editor');
+    ed.style.display = 'block';
+    ed.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  (function() {
+    var addBtn    = document.getElementById('lien-add-btn');
+    var saveBtn   = document.getElementById('lien-save-btn');
+    var cancelBtn = document.getElementById('lien-cancel-btn');
+    var defBtn    = document.getElementById('lien-load-defaults-btn');
+
+    if (addBtn)    addBtn.addEventListener('click', function() { openLienEditor(-1); });
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { document.getElementById('lien-editor').style.display = 'none'; });
+
+    if (saveBtn) saveBtn.addEventListener('click', function() {
+      var idx = +document.getElementById('lien-edit-idx').value;
+      var nom = document.getElementById('lien-nom').value.trim();
+      if (!nom) { alert('Le nom est obligatoire'); return; }
+      var existing = (idx >= 0 && idx < rpLiens.length) ? rpLiens[idx] : null;
+      var obj = {
+        id:        existing ? existing.id : 'lnk-' + Date.now(),
+        categorie: document.getElementById('lien-categorie').value,
+        nom:       nom,
+        date:      document.getElementById('lien-date').value.trim(),
+        lieu:      document.getElementById('lien-lieu').value.trim(),
+        url:       document.getElementById('lien-url').value.trim(),
+        interet:   document.getElementById('lien-interet').value.trim(),
+      };
+      if (existing) { Object.assign(rpLiens[idx], obj); showToast('Lien modifi\u00e9'); }
+      else          { rpLiens.push(obj);                 showToast('Lien ajout\u00e9'); }
+      localStorage.setItem(LIENS_KEY, JSON.stringify(rpLiens));
+      document.getElementById('lien-editor').style.display = 'none';
+      renderLiensTable();
+    });
+
+    if (defBtn) defBtn.addEventListener('click', function() {
+      var isEmpty = rpLiens.length === 0;
+      if (!isEmpty && !confirm('Des liens existent d\u00e9j\u00e0.\nVoulez-vous ajouter les donn\u00e9es 2026 en suppl\u00e9ment (sans \u00e9craser) ?')) return;
+      var added = 0;
+      LIENS_DEFAULT.forEach(function(l) {
+        if (!rpLiens.some(function(x) { return x.id === l.id; })) { rpLiens.push(Object.assign({}, l)); added++; }
+      });
+      localStorage.setItem(LIENS_KEY, JSON.stringify(rpLiens));
+      renderLiensTable();
+      showToast('\u2705 ' + added + ' lien(s) 2026 charg\u00e9(s)');
+    });
+  })();
+
+  loadLiens();
+
+  // ═══════════════════════════════════════════════════════════
+  // PUBLICATION UNIFIÉE — "Publier tout" → /api/admin-save.php
+  // ═══════════════════════════════════════════════════════════
+  var ADMIN_SECRET_LS = 'op-admin-secret';
+
+  function collectAllData() {
+    // Terrain
+    var terrain = null;
+    try { terrain = JSON.parse(localStorage.getItem('op-terrain-admin') || 'null'); } catch(e) { terrain = null; }
+    var terrainClean = terrain ? {
+      isPublic:         terrain.isPublic !== false,
+      dashboard:        terrain.dashboard        || {},
+      positionActuelle: terrain.positionActuelle || {},
+      projet:           terrain.projet           || {},
+      etapes:           terrain.etapes           || [],
+      journal:          terrain.journal          || []
+    } : {};
+
+    // Coworking
+    var coworking = [];
+    try { coworking = JSON.parse(localStorage.getItem('op-terrain-coworking') || '[]'); } catch(e) { coworking = []; }
+
+    return {
+      terrain:   terrainClean,
+      coworking: coworking,
+      radar: {
+        entreprises: rpEnts,
+        salons:      rpSalons,
+        events:      rpEvts,
+        liens:       rpLiens
+      }
+    };
+  }
+
+  function publishAll() {
+    var secret = localStorage.getItem(ADMIN_SECRET_LS) || '';
+    if (!secret) {
+      secret = prompt('Clé de publication (définie dans admin-save.php) :');
+      if (!secret) return;
+      localStorage.setItem(ADMIN_SECRET_LS, secret.trim());
+    }
+
+    var btn      = document.getElementById('admin-publish-btn');
+    var statusEl = document.getElementById('admin-publish-status');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication\u2026';
+    if (statusEl) { statusEl.style.display = ''; statusEl.className = 'admin-publish-status admin-publish-status--loading'; statusEl.textContent = 'Envoi\u2026'; }
+
+    var payload = collectAllData();
+    payload.secret = secret;
+
+    fetch('/api/admin-save.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.error) throw new Error(d.error);
+        var ts = d.updated_at ? new Date(d.updated_at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+        if (statusEl) {
+          statusEl.className = 'admin-publish-status admin-publish-status--ok';
+          statusEl.innerHTML = '\u2713 ' + ts + ' \u2014 ' + (d.summary || '');
+        }
+        // Persister la date pour la session suivante
+        if (d.updated_at) localStorage.setItem('op-last-published', d.updated_at);
+        var lpEl = document.getElementById('admin-last-published');
+        if (lpEl && ts) { lpEl.textContent = 'Publi\u00e9 : ' + ts; lpEl.style.display = ''; }
+        showToast('\u2705 Site publié sur O2Switch');
+      })
+      .catch(function (e) {
+        // Si clé incorrecte, effacer pour forcer re-saisie
+        if (e.message.includes('Clé') || e.message.includes('403')) localStorage.removeItem(ADMIN_SECRET_LS);
+        if (statusEl) {
+          statusEl.className = 'admin-publish-status admin-publish-status--err';
+          statusEl.innerHTML = '\u26a0 ' + e.message;
+        }
+        showToast('\u274c Publication échouée : ' + e.message);
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Publier tout';
+      });
+  }
+
+  (function () {
+    var btn = document.getElementById('admin-publish-btn');
+    if (btn) btn.addEventListener('click', publishAll);
+    // Restaurer la date de dernière publication depuis localStorage
+    var lp = localStorage.getItem('op-last-published');
+    if (lp) {
+      var lpTs = new Date(lp).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+      var lpEl = document.getElementById('admin-last-published');
+      if (lpEl) { lpEl.textContent = 'Publi\u00e9 : ' + lpTs; lpEl.style.display = ''; }
+    }
+  })();
+
+  // ── Publication Radar Pro (ancien bouton — maintenant délégue à publishAll) ──
+  var RP_SECRET_LS = 'op-radar-upload-secret';
+
+  (function () {
+    var secretInput = document.getElementById('rp-upload-secret');
+    var publishBtn  = document.getElementById('rp-publish-btn');
+    var resultEl    = document.getElementById('rp-publish-result');
+    if (!secretInput || !publishBtn) return;
+
+    // Restaurer la clé mémorisée
+    secretInput.value = localStorage.getItem(RP_SECRET_LS) || '';
+    secretInput.addEventListener('change', function () {
+      localStorage.setItem(RP_SECRET_LS, secretInput.value.trim());
+    });
+
+    publishBtn.addEventListener('click', function () {
+      var secret = secretInput.value.trim();
+      if (!secret) { alert('Entrez la clé d\'upload (définie dans radar-pro-save.php)'); return; }
+      localStorage.setItem(RP_SECRET_LS, secret);
+
+      publishBtn.disabled = true;
+      publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication\u2026';
+      resultEl.style.display = '';
+      resultEl.className = 'admin-strava-result info';
+      resultEl.textContent = 'Envoi en cours\u2026';
+
+      fetch('/api/radar-pro-save.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret:      secret,
+          entreprises: rpEnts,
+          salons:      rpSalons,
+          events:      rpEvts,
+        })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d.error) throw new Error(d.error);
+          resultEl.className = 'admin-strava-result ok';
+          resultEl.innerHTML = '<i class="fas fa-check-circle"></i> Publié \u2014 '
+            + d.counts.entreprises + ' entreprise(s), '
+            + d.counts.salons + ' salon(s), '
+            + d.counts.events + ' \u00e9v\u00e9nement(s)'
+            + ' \u2014 ' + new Date(d.updated_at).toLocaleString('fr-FR');
+        })
+        .catch(function (e) {
+          resultEl.className = 'admin-strava-result error';
+          resultEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ' + e.message;
+        })
+        .finally(function () {
+          publishBtn.disabled = false;
+          publishBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Publier Radar Pro';
+        });
+    });
+  })();
 
 })();

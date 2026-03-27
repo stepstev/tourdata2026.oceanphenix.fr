@@ -710,7 +710,7 @@
     width: 100%;
     max-width: 280px;
     justify-content: center;
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 1rem;
   }
 }
 
@@ -718,61 +718,51 @@
 .terrain-cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.6rem;
+  gap: 0.4rem;
+  padding: 0.42rem 1.05rem;
   border-radius: var(--radius-full);
-  font-size: var(--text-sm);
+  font-size: 0.78rem;
   font-weight: 600;
+  letter-spacing: 0.025em;
   text-decoration: none;
-  transition: var(--transition-medium);
   cursor: pointer;
-  border: none;
+  white-space: nowrap;
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
 }
 
+/* Solid — action principale */
 .terrain-cta--primary {
-  background: rgba(77, 184, 212, 0.15);
-  border: 1.5px solid rgba(77, 184, 212, 0.4);
-  color: var(--accent-cyan);
+  background: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  color: #0b1a2e;
 }
-
 .terrain-cta--primary:hover {
-  background: rgba(77, 184, 212, 0.25);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(77, 184, 212, 0.2);
+  background: var(--accent-light-cyan);
+  border-color: var(--accent-light-cyan);
+  box-shadow: 0 0 18px rgba(77, 184, 212, 0.28);
 }
 
-.terrain-cta--secondary {
-  background: rgba(150, 100, 55, 0.15);
-  border: 1.5px solid rgba(150, 100, 55, 0.4);
-  color: #d4915a; /* NOSONAR */
-}
-
-.terrain-cta--secondary:hover {
-  background: rgba(150, 100, 55, 0.25);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(150, 100, 55, 0.2);
-}
-
+/* Orange — actions secondaires */
+.terrain-cta--secondary,
 .terrain-cta--rdv {
-  background: rgba(77, 184, 212, 0.12);
-  border: 1.5px solid rgba(77, 184, 212, 0.4);
-  color: var(--accent-cyan);
+  background: var(--accent-copper);
+  border: 1px solid var(--accent-copper);
+  color: #fff;
 }
-
+.terrain-cta--secondary:hover,
 .terrain-cta--rdv:hover {
-  background: rgba(77, 184, 212, 0.22);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(77, 184, 212, 0.2);
+  background: var(--accent-copper-light);
+  border-color: var(--accent-copper-light);
+  box-shadow: 0 0 18px rgba(200, 122, 74, 0.45), 0 0 6px rgba(200, 122, 74, 0.3);
 }
 
 .terrain-cta--rdv-large {
-  padding: 0.8rem 2rem;
-  font-size: var(--text-base);
+  padding: 0.65rem 1.6rem;
+  font-size: var(--text-sm);
   font-weight: 700;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin-top: 1.5rem;
   align-self: flex-start;
-  letter-spacing: 0.01em;
 }
 
 /* ============================== */
@@ -1891,8 +1881,14 @@
   color: #fff;
 }
 
-[data-theme="light"] .terrain-cta--secondary {
-  color: #8a5530;
+[data-theme="light"] .terrain-cta--secondary,
+[data-theme="light"] .terrain-cta--rdv {
+  background: var(--accent-copper);
+  border-color: var(--accent-copper);
+  color: #fff;
+}
+[data-theme="light"] .terrain-cta--primary {
+  color: #fff;
 }
 
 [data-theme="light"] .terrain-status-badge--preparation {

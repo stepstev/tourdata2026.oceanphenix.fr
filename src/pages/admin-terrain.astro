@@ -43,49 +43,55 @@ import etapesData from '../data/terrain-etapes.json';
       <div class="admin-topbar">
         <div class="admin-topbar-left">
           <h1><i class="fas fa-cogs"></i> Admin — Terrain Data</h1>
-          <span id="admin-last-saved" class="admin-last-saved" style="display:none;"></span>
+          <div class="admin-topbar-meta">
+            <span id="admin-last-saved" class="admin-last-saved" style="display:none;"></span>
+            <span id="admin-last-published" class="admin-last-published" style="display:none;"></span>
+          </div>
         </div>
         <div class="admin-topbar-actions">
+          <!-- Action principale -->
+          <div class="admin-publish-wrap">
+            <button id="admin-publish-btn" class="admin-btn admin-btn--publish" title="Envoie toutes les données vers /data/site-data.json sur O2Switch">
+              <i class="fas fa-cloud-upload-alt"></i> Publier tout
+            </button>
+            <span id="admin-publish-status" class="admin-publish-status" style="display:none;"></span>
+          </div>
+          <button id="admin-save-btn" class="admin-btn" title="Sauvegarder dans la mémoire du navigateur">
+            <i class="fas fa-save"></i> Sauvegarder
+          </button>
+          <!-- Séparateur -->
+          <span class="admin-topbar-sep"></span>
           <button id="admin-visibility-btn" class="admin-visibility-btn" title="Basculer la visibilité de la page Terrain">
             <span class="vis-dot"></span>
             <span class="vis-label"></span>
           </button>
-          <button id="admin-save-btn" class="admin-btn">
-            <i class="fas fa-save"></i> Sauvegarder
+          <button id="admin-export-gpx-btn" class="admin-btn" title="Télécharger le fichier GPX">
+            <i class="fas fa-route"></i> GPX
           </button>
-          <button id="export-btn" class="admin-btn admin-btn--accent" onclick="exportJson(false)">
-            <i class="fas fa-file-export"></i> Exporter &amp; Build
+          <button id="admin-import-btn" class="admin-btn" title="Importer un fichier JSON de sauvegarde">
+            <i class="fas fa-upload"></i> Importer
           </button>
-          <button id="export-deploy-btn" class="admin-btn admin-btn--deploy" onclick="exportJson(true)">
-            <i class="fas fa-rocket"></i> Build + Deploy
-          </button>
-          <button id="admin-export-gpx-btn" class="admin-btn" title="Télécharger le fichier GPX depuis la mémoire admin → placez-le dans public/gpx/">
-            <i class="fas fa-route"></i> Exporter GPX
-          </button>
-          <button id="admin-import-btn" class="admin-btn">
-            <i class="fas fa-upload"></i> Importer JSON
-          </button>
-          <button id="admin-reset-cache-btn" class="admin-btn" title="Efface le localStorage et recharge les données du dernier build">
+          <button id="admin-reset-cache-btn" class="admin-btn admin-btn--danger-light" title="Efface le localStorage et recharge les données">
             <i class="fas fa-trash-alt"></i> Réinitialiser
           </button>
           <input type="file" id="admin-import-file" accept=".json" style="display:none" />
         </div>
       </div>
 
-      <!-- Workflow banner -->
-      <div class="admin-workflow-banner">
-        <i class="fas fa-code-branch wf-icon"></i>
-        <span class="wf-item"><span class="wf-n">1</span> Modifier</span>
+      <!-- Workflow one-line -->
+      <div class="admin-workflow-oneline">
+        <span class="wf-step"><span class="wf-n">1</span> Modifier dans les onglets</span>
         <span class="wf-arr">›</span>
-        <span class="wf-item"><span class="wf-n">2</span> Sauvegarder</span>
+        <span class="wf-step"><span class="wf-n">2</span> Sauvegarder</span>
         <span class="wf-arr">›</span>
-        <span class="wf-item wf-item--key"><span class="wf-n">3</span> Build + Deploy <small style="opacity:.7">(npm run api requis)</small></span>
+        <span class="wf-step wf-step--key"><span class="wf-n">3</span> Publier tout</span>
         <span class="wf-arr">›</span>
-        <span class="wf-item wf-item--reset"><span class="wf-n">4</span> Réinitialiser le cache</span>
+        <span class="wf-step" style="color:var(--text-muted);">Site mis à jour</span>
       </div>
 
       <!-- Tabs -->
       <div class="admin-tabs">
+        <!-- Contenu (publié via Publier tout) -->
         <button class="admin-tab admin-tab--active" data-tab="dashboard">
           <i class="fas fa-tachometer-alt"></i> Dashboard
         </button>
@@ -95,22 +101,31 @@ import etapesData from '../data/terrain-etapes.json';
         <button class="admin-tab" data-tab="journal">
           <i class="fas fa-book-open"></i> Journal
         </button>
-        <button class="admin-tab" data-tab="photos">
-          <i class="fas fa-images"></i> Photos
-        </button>
-        <button class="admin-tab" data-tab="gpx">
-          <i class="fas fa-route"></i> Parcours GPX
-        </button>
-        <button class="admin-tab" data-tab="preview">
-          <i class="fas fa-eye"></i> Aperçu
-        </button>
-        <button class="admin-tab" data-tab="villes">
-          <i class="fas fa-map-pin"></i> Villes France
-        </button>
         <button class="admin-tab" data-tab="coworking">
           <i class="fas fa-building"></i> Coworking
         </button>
-        <button class="admin-tab" data-tab="strava">
+        <button class="admin-tab" data-tab="radar-pro">
+          <i class="fas fa-crosshairs"></i> Radar Pro
+        </button>
+        <button class="admin-tab" data-tab="liens-utiles">
+          <i class="fas fa-link"></i> Liens utiles
+        </button>
+        <!-- Séparateur Contenu / Outils -->
+        <span class="admin-tabs-sep" aria-hidden="true" title="Outils">›</span>
+        <!-- Outils -->
+        <button class="admin-tab admin-tab--tool" data-tab="photos">
+          <i class="fas fa-images"></i> Photos
+        </button>
+        <button class="admin-tab admin-tab--tool" data-tab="gpx">
+          <i class="fas fa-route"></i> GPX
+        </button>
+        <button class="admin-tab admin-tab--tool" data-tab="preview">
+          <i class="fas fa-eye"></i> Aperçu
+        </button>
+        <button class="admin-tab admin-tab--tool" data-tab="villes">
+          <i class="fas fa-map-pin"></i> Villes
+        </button>
+        <button class="admin-tab admin-tab--tool" data-tab="strava">
           <i class="fab fa-strava"></i> Strava
         </button>
       </div>
@@ -119,6 +134,41 @@ import etapesData from '../data/terrain-etapes.json';
       <!-- TAB: Dashboard                 -->
       <!-- ============================== -->
       <div class="admin-tab-content admin-tab-content--active" id="tab-dashboard">
+
+        <!-- Guide rapide -->
+        <div class="admin-card admin-card--guide">
+          <div class="admin-update-flow" style="margin-bottom:0.75rem;">
+            <div class="auf-step">
+              <span class="auf-n">1</span>
+              <span>Modifier dans les onglets</span>
+            </div>
+            <span class="auf-arr">›</span>
+            <div class="auf-step">
+              <span class="auf-n">2</span>
+              <span>Cliquer <strong>Sauvegarder</strong></span>
+            </div>
+            <span class="auf-arr">›</span>
+            <div class="auf-step auf-step--key">
+              <span class="auf-n">3</span>
+              <span>Cliquer <strong>Publier tout</strong></span>
+            </div>
+            <span class="auf-arr">›</span>
+            <span style="font-size:0.78rem;color:var(--text-muted);">Site mis à jour</span>
+          </div>
+          <p class="admin-update-key"><i class="fas fa-key"></i> Clé 1er usage : <code>op-admin-save-2026-oceanphenix</code></p>
+
+          <!-- Prérequis FTP -->
+          <div class="admin-update-ftp" style="margin-top:0.75rem;">
+            <span class="admin-update-ftp-label"><i class="fas fa-server"></i> Prérequis FTP (une seule fois)</span>
+            <span class="admin-update-ftp-row">
+              <code>public/api/admin-save.php</code>
+              <span class="auf-arrow">→</span>
+              <code>public_html/api/admin-save.php</code>
+              <span class="admin-guide-status admin-guide-status--todo">À uploader</span>
+            </span>
+          </div>
+        </div>
+
         <div class="admin-card">
           <h2><i class="fas fa-tachometer-alt"></i> Données du dashboard</h2>
           <div class="admin-form-row">
@@ -350,20 +400,10 @@ import etapesData from '../data/terrain-etapes.json';
             <i class="fas fa-plus"></i> Ajouter au journal
           </button>
 
-          <div class="admin-export-journal-box">
-            <div class="admin-export-journal-info">
-              <i class="fas fa-info-circle"></i>
-              Les entrées du journal sont stockées dans votre navigateur. Cliquez le bouton ci-dessous — le journal est écrit dans le source et le build se lance automatiquement. Il ne reste plus qu'à uploader <code>dist/</code> sur O2switch.
-            </div>
-            <div class="admin-export-journal-steps">
-              <span><strong>1.</strong> Cliquez le bouton</span>
-              <span style="opacity:0.4">› • • • ›</span>
-              <span><strong>4.</strong> Uploadez <code>dist/</code> sur O2switch</span>
-            </div>
-            <button id="journal-export-btn" class="admin-btn admin-btn--export-journal">
-              <i class="fas fa-file-export"></i> Exporter Journal → terrain-etapes.json
-            </button>
-          </div>
+          <p class="admin-hint" style="margin-top:1.25rem;padding:0.75rem 1rem;border-left:3px solid rgba(77,184,212,0.3);background:rgba(77,184,212,0.04);">
+            <i class="fas fa-cloud-upload-alt" style="color:var(--accent-cyan);margin-right:0.4rem;"></i>
+            Les entrées du journal sont incluses dans <strong>Publier tout</strong> — aucune action supplémentaire.
+          </p>
         </div>
       </div>
 
@@ -587,6 +627,321 @@ import etapesData from '../data/terrain-etapes.json';
       </div>
 
       <!-- ============================== -->
+      <!-- TAB: Radar Pro                 -->
+      <!-- ============================== -->
+      <div class="admin-tab-content" id="tab-radar-pro">
+        <p class="admin-hint" style="margin-bottom:1.5rem;">
+          <i class="fas fa-info-circle"></i>
+          Les données saisies ici sont injectées dans la Vue Pro du Radar (onglets Entreprises, Salons, Événements), en plus des résultats API.
+        </p>
+
+        <!-- Section: Entreprises -->
+        <div class="admin-card">
+          <h2><i class="fas fa-building"></i> Entreprises</h2>
+          <div class="admin-form-actions" style="margin-bottom:1rem;">
+            <button id="rp-ent-add-btn" class="admin-btn admin-btn--accent">
+              <i class="fas fa-plus"></i> Ajouter une entreprise
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-etapes-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Ville</th>
+                  <th>Secteur</th>
+                  <th style="text-align:center;width:80px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rp-ent-tbody"></tbody>
+            </table>
+          </div>
+          <p id="rp-ent-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
+          <div id="rp-ent-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
+            <h3 id="rp-ent-editor-title">Nouvelle entreprise</h3>
+            <input type="hidden" id="rp-ent-edit-idx" value="-1" />
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Nom</label>
+                <input type="text" id="rp-ent-nom" placeholder="Nom de l'entreprise" />
+              </div>
+              <div class="admin-form-group">
+                <label>Ville</label>
+                <input type="text" id="rp-ent-ville" placeholder="Paris, Lyon…" />
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Site web</label>
+                <input type="url" id="rp-ent-url" placeholder="https://…" />
+              </div>
+              <div class="admin-form-group">
+                <label>Secteur</label>
+                <select id="rp-ent-secteur">
+                  <option value="data">Data</option>
+                  <option value="ia">IA</option>
+                  <option value="dev">Dev</option>
+                  <option value="tech">Tech</option>
+                  <option value="bi">BI</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button id="rp-ent-save-btn" class="admin-btn admin-btn--accent">
+                <i class="fas fa-check"></i> Valider
+              </button>
+              <button id="rp-ent-cancel-btn" class="admin-btn">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Salons -->
+        <div class="admin-card">
+          <h2><i class="fas fa-calendar-alt"></i> Salons</h2>
+          <div class="admin-form-actions" style="margin-bottom:1rem;">
+            <button id="rp-sal-add-btn" class="admin-btn admin-btn--accent">
+              <i class="fas fa-plus"></i> Ajouter un salon
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-etapes-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Date</th>
+                  <th>Lieu</th>
+                  <th>Format</th>
+                  <th style="text-align:center;width:80px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rp-sal-tbody"></tbody>
+            </table>
+          </div>
+          <p id="rp-sal-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
+          <div id="rp-sal-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
+            <h3 id="rp-sal-editor-title">Nouveau salon</h3>
+            <input type="hidden" id="rp-sal-edit-idx" value="-1" />
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Nom</label>
+                <input type="text" id="rp-sal-nom" placeholder="Nom du salon" />
+              </div>
+              <div class="admin-form-group">
+                <label>Date</label>
+                <input type="date" id="rp-sal-date" />
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Adresse / Lieu</label>
+                <input type="text" id="rp-sal-adresse" placeholder="Paris Expo, Porte de Versailles…" />
+              </div>
+              <div class="admin-form-group">
+                <label>Site web</label>
+                <input type="url" id="rp-sal-url" placeholder="https://…" />
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Format</label>
+                <select id="rp-sal-format">
+                  <option value="presentiel">Présentiel</option>
+                  <option value="hybride">Hybride</option>
+                  <option value="visio">Visio</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Domaines</label>
+                <div id="rp-sal-domaines" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">
+                  <label><input type="checkbox" value="emploi" /> Emploi</label>
+                  <label><input type="checkbox" value="data" /> Data</label>
+                  <label><input type="checkbox" value="ia" /> IA</label>
+                  <label><input type="checkbox" value="dev" /> Dev</label>
+                  <label><input type="checkbox" value="tech" /> Tech</label>
+                </div>
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button id="rp-sal-save-btn" class="admin-btn admin-btn--accent">
+                <i class="fas fa-check"></i> Valider
+              </button>
+              <button id="rp-sal-cancel-btn" class="admin-btn">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Événements -->
+        <div class="admin-card">
+          <h2><i class="fas fa-star"></i> Événements</h2>
+          <div class="admin-form-actions" style="margin-bottom:1rem;">
+            <button id="rp-evt-add-btn" class="admin-btn admin-btn--accent">
+              <i class="fas fa-plus"></i> Ajouter un événement
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-etapes-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Date</th>
+                  <th>Lieu</th>
+                  <th style="text-align:center;width:80px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rp-evt-tbody"></tbody>
+            </table>
+          </div>
+          <p id="rp-evt-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
+          <div id="rp-evt-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
+            <h3 id="rp-evt-editor-title">Nouvel événement</h3>
+            <input type="hidden" id="rp-evt-edit-idx" value="-1" />
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Nom</label>
+                <input type="text" id="rp-evt-nom" placeholder="Nom de l'événement" />
+              </div>
+              <div class="admin-form-group">
+                <label>Date</label>
+                <input type="date" id="rp-evt-date" />
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Adresse / Lieu</label>
+                <input type="text" id="rp-evt-adresse" placeholder="Lieu de l'événement" />
+              </div>
+              <div class="admin-form-group">
+                <label>Site web</label>
+                <input type="url" id="rp-evt-url" placeholder="https://…" />
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button id="rp-evt-save-btn" class="admin-btn admin-btn--accent">
+                <i class="fas fa-check"></i> Valider
+              </button>
+              <button id="rp-evt-cancel-btn" class="admin-btn">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note publication -->
+        <div class="admin-card" style="padding:1rem 1.25rem;">
+          <p style="margin:0;font-size:0.85rem;color:var(--text-muted);display:flex;align-items:center;gap:0.6rem;">
+            <i class="fas fa-cloud-upload-alt" style="color:var(--accent-cyan);"></i>
+            Les entreprises, salons et événements sont inclus dans <strong style="color:var(--text-light);">Publier tout</strong> (bouton en haut).
+            Aucune publication séparée nécessaire.
+          </p>
+          <!-- Anchor HTML conservé pour compatibilité JS — caché -->
+          <div style="display:none;">
+            <input id="rp-upload-secret" />
+            <button id="rp-publish-btn">
+                <i class="fas fa-cloud-upload-alt"></i> Publier Radar Pro
+              </button>
+            </div>
+          <div id="rp-publish-result" style="display:none;" class="admin-strava-result"></div>
+        </div>
+
+      </div>
+
+      <!-- ============================== -->
+      <!-- TAB: Liens utiles              -->
+      <!-- ============================== -->
+      <div class="admin-tab-content" id="tab-liens-utiles">
+        <p class="admin-hint" style="margin-bottom:1.5rem;">
+          <i class="fas fa-info-circle"></i>
+          Gérez ici les liens affichés dans l'onglet <strong>Liens utiles</strong> du Radar. Organisateurs officiels, plateformes de veille, agrégateurs — publiés via <strong>Publier tout</strong>.
+        </p>
+
+        <div class="admin-card">
+          <h2><i class="fas fa-link"></i> Liens &amp; Sources utiles</h2>
+          <div class="admin-form-actions" style="margin-bottom:1rem;">
+            <button id="lien-add-btn" class="admin-btn admin-btn--accent">
+              <i class="fas fa-plus"></i> Ajouter un lien
+            </button>
+            <button id="lien-load-defaults-btn" class="admin-btn" style="border-color:#4db8d4;color:#4db8d4;" title="Préremplir avec les sources officielles 2026">
+              <i class="fas fa-database"></i> Charger données 2026
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-etapes-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Catégorie</th>
+                  <th>URL</th>
+                  <th>Description</th>
+                  <th style="text-align:center;width:80px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="lien-tbody"></tbody>
+            </table>
+          </div>
+          <p id="lien-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
+
+          <div id="lien-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
+            <h3 id="lien-editor-title">Nouveau lien</h3>
+            <input type="hidden" id="lien-edit-idx" value="-1" />
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Nom</label>
+                <input type="text" id="lien-nom" placeholder="Ex: Big Data & AI Paris" />
+              </div>
+              <div class="admin-form-group">
+                <label>Catégorie</label>
+                <select id="lien-categorie">
+                  <option value="officiel">Organisateur officiel</option>
+                  <option value="veille">Plateforme de veille</option>
+                  <option value="agregateur">Agrégateur</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Date / Période</label>
+                <input type="text" id="lien-date" placeholder="Ex: 15–16 sept" />
+              </div>
+              <div class="admin-form-group">
+                <label>Lieu</label>
+                <input type="text" id="lien-lieu" placeholder="Paris Porte de Versailles" />
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>URL</label>
+                <input type="url" id="lien-url" placeholder="https://…" />
+              </div>
+              <div class="admin-form-group">
+                <label>Description / Intérêt</label>
+                <input type="text" id="lien-interet" placeholder="Événements pros data/IA, très à jour" />
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button id="lien-save-btn" class="admin-btn admin-btn--accent">
+                <i class="fas fa-check"></i> Valider
+              </button>
+              <button id="lien-cancel-btn" class="admin-btn">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card" style="padding:1rem 1.25rem;">
+          <p style="margin:0;font-size:0.85rem;color:var(--text-muted);display:flex;align-items:center;gap:0.6rem;">
+            <i class="fas fa-cloud-upload-alt" style="color:var(--accent-cyan);"></i>
+            Les liens sont inclus dans <strong style="color:var(--text-light);">Publier tout</strong> (bouton en haut) — ils apparaissent dans l'onglet <strong style="color:var(--text-light);">Liens utiles</strong> du Radar.
+          </p>
+        </div>
+      </div>
+
+      <!-- ============================== -->
       <!-- TAB: Strava                    -->
       <!-- ============================== -->
       <div class="admin-tab-content" id="tab-strava">
@@ -805,6 +1160,7 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
   }
 
   /* Topbar */
+  /* ── Workflow banner (mini strip — Radar Pro / Strava tabs) ── */
   .admin-workflow-banner {
     display: flex;
     align-items: center;
@@ -818,38 +1174,243 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     font-size: 0.82rem;
   }
   .wf-icon { color: var(--accent-cyan); font-size: 0.75rem; margin-right: 0.2rem; }
-  .wf-arr { color: rgba(77,184,212,0.5); font-size: 1.1rem; line-height: 1; }
-  .wf-item {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-    font-weight: 500;
-  }
-  .wf-item--key { color: var(--accent-cyan); font-weight: 700; }
+  .wf-arr  { color: rgba(77,184,212,0.5); font-size: 1.1rem; line-height: 1; }
+  .wf-item { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); white-space: nowrap; font-weight: 500; }
+  .wf-item--key   { color: var(--accent-cyan); font-weight: 700; }
   .wf-item--reset { color: #f87171; font-weight: 700; }
   .wf-n {
-    background: rgba(77,184,212,0.18);
-    color: var(--accent-cyan);
-    font-weight: 800;
-    font-size: 0.6rem;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    background: rgba(77,184,212,0.18); color: var(--accent-cyan);
+    font-weight: 800; font-size: 0.6rem;
+    width: 15px; height: 15px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .wf-item--reset .wf-n { background: rgba(248,113,113,0.18); color: #f87171; }
-  .admin-workflow-banner code {
-    background: rgba(77,184,212,0.12);
+  .admin-workflow-banner code { background: rgba(77,184,212,0.12); padding: 1px 5px; border-radius: 3px; font-size: 0.72rem; color: #6ec5d6; }
+
+  /* ── Workflow one-line (sous toolbar) ─────────────────────── */
+  .admin-workflow-oneline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+    padding: 0.5rem 1rem;
+    border-left: 3px solid rgba(77,184,212,0.35);
+    background: rgba(255,255,255,0.02);
+    border-radius: 0 5px 5px 0;
+    font-size: 0.8rem;
+  }
+  .wf-step { display: flex; align-items: center; gap: 0.25rem; color: var(--text-muted); white-space: nowrap; }
+  .wf-step--key { color: var(--accent-cyan); font-weight: 700; }
+
+  /* ── Guide Dashboard ─────────────────────────────────────── */
+  .admin-card--guide { border-left: 3px solid rgba(77,184,212,0.3); }
+
+  .admin-update-cases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0 0.75rem;
+  }
+  @media (max-width: 700px) { .admin-update-cases { grid-template-columns: 1fr; } }
+
+  .admin-update-case {
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.025);
+    padding: 0.9rem 1rem;
+  }
+
+  .admin-update-case-head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--accent-cyan);
+  }
+  .admin-update-case-head em {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .admin-update-flow {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    margin-bottom: 0.6rem;
+  }
+  .auf-step {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .auf-step--key { color: var(--text-light); font-weight: 700; }
+  .auf-step--key .auf-n { background: rgba(77,184,212,0.25); }
+  .auf-n {
+    min-width: 17px; height: 17px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: var(--accent-cyan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 800; flex-shrink: 0;
+  }
+  .auf-arr { color: rgba(255,255,255,0.2); font-size: 1rem; }
+  .auf-arrow { color: rgba(255,255,255,0.25); }
+
+  .admin-update-note {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0 0 0.4rem;
+  }
+  .admin-update-key {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .admin-update-key code {
+    background: rgba(77,184,212,0.1);
     padding: 1px 5px;
     border-radius: 3px;
-    font-size: 0.72rem;
-    color: #6ec5d6;
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    user-select: all;
   }
+
+  .admin-update-ftp {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.65rem 0.9rem;
+    background: rgba(255,255,255,0.015);
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.06);
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+  }
+  .admin-update-ftp-label {
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .admin-update-ftp-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    color: var(--text-muted);
+  }
+  .admin-update-ftp-row code {
+    background: rgba(255,255,255,0.06);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--text-light);
+    font-size: 0.7rem;
+  }
+
+  .admin-guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  @media (max-width: 800px) { .admin-guide-grid { grid-template-columns: 1fr; } }
+
+  .admin-guide-bloc {
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.02);
+    padding: 0.9rem 1rem;
+  }
+  .admin-guide-bloc--wide { grid-column: 1 / -1; }
+
+  .admin-guide-bloc-head {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem;
+    color: var(--accent-cyan);
+  }
+  .admin-guide-tag {
+    font-size: 0.62rem; font-weight: 400;
+    color: var(--text-muted); margin-left: 2px;
+  }
+
+  .admin-guide-steps {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 0.45rem;
+    font-size: 0.8rem; color: var(--text-light);
+    counter-reset: guide-step;
+  }
+  .admin-guide-steps li {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    counter-increment: guide-step;
+  }
+  .admin-guide-steps li::before {
+    content: counter(guide-step);
+    min-width: 17px; height: 17px;
+    border-radius: 50%;
+    background: rgba(77,184,212,0.15);
+    color: var(--accent-cyan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 800; flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .admin-guide-note {
+    margin-top: 0.65rem; font-size: 0.75rem;
+    color: var(--text-muted); font-style: italic;
+  }
+
+  .admin-guide-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.78rem; margin-top: 0.25rem;
+  }
+  .admin-guide-table th {
+    text-align: left; padding: 5px 10px;
+    font-size: 0.63rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .admin-guide-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-light);
+  }
+  .admin-guide-table tr:last-child td { border-bottom: none; }
+
+  .admin-guide-status {
+    font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;
+  }
+  .admin-guide-status--todo { background: rgba(255,255,255,0.08); color: #fbbf24; }
+  .admin-guide-status--done { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+
+  .admin-guide-ftp-note {
+    margin-top: 0.75rem; font-size: 0.75rem;
+    color: var(--text-muted); line-height: 1.5;
+  }
+
+  /* Séparateur toolbar */
+  .admin-topbar-sep {
+    width: 1px; height: 20px; background: rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+
+  /* Bouton Réinitialiser discret */
+  .admin-btn--danger-light {
+    color: #9ca3af;
+    border-color: rgba(255,255,255,0.1);
+  }
+  .admin-btn--danger-light:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
 
   .admin-topbar {
     display: flex;
@@ -880,6 +1441,19 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  .admin-topbar-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .admin-last-published {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
   }
 
   .admin-topbar-actions {
@@ -976,6 +1550,23 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
   .admin-tab--active {
     color: var(--accent-cyan);
     border-bottom-color: var(--accent-cyan);
+  }
+  .admin-tab--tool {
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
+  .admin-tab--tool.admin-tab--active { opacity: 1; }
+
+  /* Séparateur Contenu / Outils dans la barre d'onglets */
+  .admin-tabs-sep {
+    display: flex;
+    align-items: center;
+    padding: 0 0.4rem;
+    color: rgba(255,255,255,0.15);
+    font-size: 1.1rem;
+    user-select: none;
+    cursor: default;
+    flex-shrink: 0;
   }
 
   .admin-tab-content {
@@ -1113,6 +1704,28 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
   .admin-etapes-table tbody tr:hover {
     background: rgba(77, 184, 212, 0.06);
   }
+
+  .admin-cell-muted { color: var(--text-muted); }
+
+  .lien-cat-pill {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    border: 1px solid rgba(77, 184, 212, 0.2);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .admin-table-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    opacity: 0.85;
+  }
+  .admin-table-link:hover { opacity: 1; text-decoration: underline; }
 
 
 
@@ -1252,6 +1865,32 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     color: #fc4c02;
   }
   .admin-btn--deploy:hover { background: rgba(252, 76, 2, 0.22); }
+
+  /* Publier tout */
+  .admin-publish-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .admin-btn--publish {
+    background: rgba(77, 184, 212, 0.12);
+    border: 1.5px solid rgba(77, 184, 212, 0.5);
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+  .admin-btn--publish:hover { background: rgba(77, 184, 212, 0.22); }
+  .admin-btn--publish:disabled { opacity: 0.5; cursor: wait; }
+  .admin-publish-status {
+    font-size: 0.65rem;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .admin-publish-status--loading { color: #9ab0c4; }
+  .admin-publish-status--ok  { color: var(--accent-cyan); }
+  .admin-publish-status--err { color: #ef4444; }
 
   .admin-btn--export-journal {
     background: rgba(77, 184, 212, 0.15);
@@ -1553,6 +2192,8 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     line-height: 1.7;
     white-space: pre;
     overflow-x: auto;
+    max-width: 100%;
+    box-sizing: border-box;
     margin-bottom: 0.75rem;
   }
 

@@ -65,7 +65,7 @@ import OceanBackground from '../components/OceanBackground.astro';
         <!-- Météo actuelle -->
         <div class="mt-current">
           <div class="mt-current-main">
-            <img id="mt-icon" class="mt-weather-icon" src="" alt="" />
+            <span id="mt-icon" class="mt-weather-emoji" aria-hidden="true">🌤</span>
             <div class="mt-temp-wrap">
               <span id="mt-temp" class="mt-temp">—</span>
               <span class="mt-temp-unit">°C</span>
@@ -148,19 +148,47 @@ import OceanBackground from '../components/OceanBackground.astro';
   <CopyrightBar />
 
   <!-- ══════════════════════════════════════════════════════════
-       JAVASCRIPT — OpenWeather API
+       JAVASCRIPT — Open-Meteo API (gratuit · sans clé API)
+       https://open-meteo.com
   ══════════════════════════════════════════════════════════ -->
   <script is:inline>
   (function () {
     'use strict';
 
-    // ── CONFIG ────────────────────────────────────────────────────────────────
-    // Clé gratuite OpenWeather (1 000 appels/jour) :
-    // 1. Créez un compte sur https://openweathermap.org/api
-    // 2. Copiez votre clé API et remplacez la chaîne vide ci-dessous
-    const OWM_KEY = '';  // ← votre clé ici
+    // ── Open-Meteo — aucune clé requise ──────────────────────────────────────
+    const OM = 'https://api.open-meteo.com/v1/forecast';
+    const NOM = 'https://nominatim.openstreetmap.org/reverse'; // géocodage inverse
 
-    // Étapes Tour Data 2026
+    // ── WMO weather codes ─────────────────────────────────────────────────────
+    const WMO = {
+      0:  { emoji: '☀️',  label: 'Ciel dégagé' },
+      1:  { emoji: '🌤',  label: 'Principalement ensoleillé' },
+      2:  { emoji: '⛅',  label: 'Partiellement nuageux' },
+      3:  { emoji: '☁️',  label: 'Couvert' },
+      45: { emoji: '🌫',  label: 'Brouillard' },
+      48: { emoji: '🌫',  label: 'Brouillard givrant' },
+      51: { emoji: '🌦',  label: 'Bruine légère' },
+      53: { emoji: '🌦',  label: 'Bruine modérée' },
+      55: { emoji: '🌧',  label: 'Bruine dense' },
+      61: { emoji: '🌧',  label: 'Pluie légère' },
+      63: { emoji: '🌧',  label: 'Pluie modérée' },
+      65: { emoji: '🌧',  label: 'Pluie forte' },
+      71: { emoji: '🌨',  label: 'Neige légère' },
+      73: { emoji: '❄️',  label: 'Neige modérée' },
+      75: { emoji: '❄️',  label: 'Neige intense' },
+      77: { emoji: '🌨',  label: 'Grains de neige' },
+      80: { emoji: '🌦',  label: 'Averses légères' },
+      81: { emoji: '🌧',  label: 'Averses modérées' },
+      82: { emoji: '⛈',   label: 'Averses violentes' },
+      85: { emoji: '🌨',  label: 'Averses de neige' },
+      86: { emoji: '🌨',  label: 'Averses de neige intenses' },
+      95: { emoji: '⛈',   label: 'Orage' },
+      96: { emoji: '⛈',   label: 'Orage avec grêle' },
+      99: { emoji: '⛈',   label: 'Orage avec grêle forte' },
+    };
+    function wmo(code) { return WMO[code] ?? { emoji: '🌤', label: 'Inconnu' }; }
+
+    // ── Étapes Tour Data 2026 ─────────────────────────────────────────────────
     const ETAPES = [
       { name: 'Paris',           lat: 48.856, lon:  2.352 },
       { name: 'Fontenay-lès-B.', lat: 48.638, lon:  2.094 },
@@ -185,92 +213,118 @@ import OceanBackground from '../components/OceanBackground.astro';
 
     // ── Utilitaires ───────────────────────────────────────────────────────────
     function windDirLabel(deg) {
-      const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
-      return dirs[Math.round(deg / 45) % 8];
+      const dirs = ['N','NE','E','SE','S','SO','O','NO'];
+      return dirs[Math.round((deg ?? 0) / 45) % 8];
     }
 
-    function cyclingScore(data) {
+    function cyclingScore(temp, windKmh, rain) {
       let score = 10;
-      const wind = data.wind?.speed ?? 0;
-      const temp = data.main?.temp ?? 15;
-      const rain = data.rain?.['1h'] ?? data.rain?.['3h'] ?? 0;
-      if (wind > 10) score -= 1;
-      if (wind > 20) score -= 2;
-      if (wind > 30) score -= 2;
-      if (temp < 5)  score -= 1;
-      if (temp < 0)  score -= 2;
-      if (temp > 35) score -= 2;
-      if (rain > 0)  score -= 2;
-      if (rain > 2)  score -= 1;
+      if (windKmh > 20) score -= 1;
+      if (windKmh > 35) score -= 2;
+      if (windKmh > 50) score -= 2;
+      if (temp < 5)     score -= 1;
+      if (temp < 0)     score -= 2;
+      if (temp > 35)    score -= 2;
+      if (rain > 0)     score -= 2;
+      if (rain > 2)     score -= 1;
       score = Math.max(0, Math.min(10, score));
       const comments = {
-        10: '🏆 Parfait pour le vélo !',
-        9:  '✅ Excellentes conditions',
-        8:  '👍 Très bonnes conditions',
-        7:  '🟢 Bonnes conditions',
-        6:  '🟡 Conditions correctes',
-        5:  '⚠️ Conditions moyennes',
-        4:  '⚠️ Peu favorable',
-        3:  '🔴 Difficile à vélo',
-        2:  '🔴 Très difficile',
-        1:  '🚫 Déconseillé',
-        0:  '🚫 Conditions extrêmes',
+        10:'🏆 Parfait pour le vélo !', 9:'✅ Excellentes conditions',
+        8:'👍 Très bonnes conditions',  7:'🟢 Bonnes conditions',
+        6:'🟡 Conditions correctes',    5:'⚠️ Conditions moyennes',
+        4:'⚠️ Peu favorable',           3:'🔴 Difficile à vélo',
+        2:'🔴 Très difficile',          1:'🚫 Déconseillé',
+        0:'🚫 Conditions extrêmes',
       };
       return { score, comment: comments[score] ?? '' };
     }
 
-    function scoreColor(score) {
-      return score >= 7 ? '#22c55e' : score >= 5 ? '#f59e0b' : '#ef4444';
-    }
+    function scoreColor(s) { return s >= 7 ? '#22c55e' : s >= 5 ? '#f59e0b' : '#ef4444'; }
 
-    // ── Appel API ─────────────────────────────────────────────────────────────
-    async function owmFetch(endpoint, lat, lon) {
-      if (!OWM_KEY) throw new Error('NO_KEY');
-      const url = `https://api.openweathermap.org/data/2.5/${endpoint}?lat=${lat}&lon=${lon}&appid=${OWM_KEY}&units=metric&lang=fr`;
+    // ── Appel Open-Meteo ──────────────────────────────────────────────────────
+    async function omFetch(lat, lon, extra = '') {
+      const url = `${OM}?latitude=${lat}&longitude=${lon}`
+        + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,`
+        + `precipitation,rain,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,visibility`
+        + `&hourly=temperature_2m,precipitation_probability,weather_code,wind_speed_10m`
+        + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,`
+        + `wind_speed_10m_max,wind_direction_10m_dominant,precipitation_probability_max`
+        + `&wind_speed_unit=kmh&forecast_days=6&timezone=auto${extra}`;
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`OWM ${res.status}`);
+      if (!res.ok) throw new Error(`OM ${res.status}`);
       return res.json();
     }
 
+    async function omFetchCurrent(lat, lon) {
+      const url = `${OM}?latitude=${lat}&longitude=${lon}`
+        + `&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,precipitation`
+        + `&wind_speed_unit=kmh&forecast_days=1&timezone=auto`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`OM ${res.status}`);
+      return res.json();
+    }
+
+    async function reverseGeocode(lat, lon) {
+      try {
+        const res = await fetch(
+          `${NOM}?lat=${lat}&lon=${lon}&format=json&accept-language=fr`,
+          { headers: { 'Accept-Language': 'fr' } }
+        );
+        if (!res.ok) return null;
+        const d = await res.json();
+        return d.address?.city ?? d.address?.town ?? d.address?.village ?? d.address?.county ?? null;
+      } catch { return null; }
+    }
+
     // ── Affichage météo actuelle ──────────────────────────────────────────────
-    function displayCurrent(data) {
-      const w = data.weather?.[0] ?? {};
-      const m = data.main ?? {};
-      const wind = data.wind ?? {};
-      document.getElementById('mt-temp').textContent       = Math.round(m.temp ?? 0);
-      document.getElementById('mt-feels').textContent      = `${Math.round(m.feels_like ?? 0)}°C`;
-      document.getElementById('mt-humidity').textContent   = `${m.humidity ?? '—'}%`;
-      document.getElementById('mt-wind').textContent       = `${Math.round((wind.speed ?? 0) * 3.6)} km/h`;
-      document.getElementById('mt-wind-dir').textContent   = windDirLabel(wind.deg ?? 0);
-      document.getElementById('mt-pressure').textContent   = `${m.pressure ?? '—'} hPa`;
-      document.getElementById('mt-desc').textContent       = w.description ?? '—';
-      document.getElementById('mt-city').innerHTML         = `<i class="fas fa-location-dot"></i> ${data.name ?? ''}`;
-      const vis = data.visibility != null ? `${(data.visibility / 1000).toFixed(1)} km` : '—';
+    function displayCurrent(data, cityName) {
+      const c    = data.current ?? {};
+      const temp = Math.round(c.temperature_2m ?? 0);
+      const wind = Math.round(c.wind_speed_10m ?? 0);
+      const rain = c.precipitation ?? 0;
+      const info = wmo(c.weather_code);
+
+      document.getElementById('mt-icon').textContent       = info.emoji;
+      document.getElementById('mt-temp').textContent       = temp;
+      document.getElementById('mt-feels').textContent      = `${Math.round(c.apparent_temperature ?? 0)}°C`;
+      document.getElementById('mt-humidity').textContent   = `${c.relative_humidity_2m ?? '—'}%`;
+      document.getElementById('mt-wind').textContent       = `${wind} km/h`;
+      document.getElementById('mt-wind-dir').textContent   = windDirLabel(c.wind_direction_10m);
+      document.getElementById('mt-pressure').textContent   = `${Math.round(c.surface_pressure ?? 0)} hPa`;
+      document.getElementById('mt-desc').textContent       = info.label;
+      const vis = c.visibility != null ? `${(c.visibility / 1000).toFixed(1)} km` : '—';
       document.getElementById('mt-visibility').textContent = vis;
-      if (w.icon) {
-        const img = document.getElementById('mt-icon');
-        img.src = `https://openweathermap.org/img/wn/${w.icon}@2x.png`;
-        img.alt = w.description ?? '';
-      }
-      const { score, comment } = cyclingScore(data);
+      if (cityName) document.getElementById('mt-city').innerHTML = `<i class="fas fa-location-dot"></i> ${cityName}`;
+
+      const { score, comment } = cyclingScore(temp, wind, rain);
       const cls = score >= 7 ? 'mt-score--good' : score >= 5 ? 'mt-score--ok' : 'mt-score--bad';
-      document.getElementById('mt-score-val').textContent  = score;
-      document.getElementById('mt-score-desc').textContent = comment;
+      document.getElementById('mt-score-val').textContent   = score;
+      document.getElementById('mt-score-desc').textContent  = comment;
       document.getElementById('mt-cycling-score').className = `mt-cycling-score ${cls}`;
     }
 
-    // ── Bande horaire ─────────────────────────────────────────────────────────
-    function displayHourly(forecastData) {
-      const items = (forecastData.list ?? []).slice(0, 8);
-      document.getElementById('mt-hourly').innerHTML = items.map(item => {
-        const h    = new Date(item.dt * 1000).getHours().toString().padStart(2, '0');
-        const w    = item.weather?.[0] ?? {};
-        const temp = Math.round(item.main?.temp ?? 0);
-        const wind = Math.round((item.wind?.speed ?? 0) * 3.6);
-        const pop  = Math.round((item.pop ?? 0) * 100);
+    // ── Bande horaire (12 prochaines heures) ─────────────────────────────────
+    function displayHourly(data) {
+      const now   = new Date();
+      const hours = data.hourly?.time ?? [];
+      const temps = data.hourly?.temperature_2m ?? [];
+      const winds = data.hourly?.wind_speed_10m ?? [];
+      const codes = data.hourly?.weather_code ?? [];
+      const pops  = data.hourly?.precipitation_probability ?? [];
+
+      const startIdx = hours.findIndex(t => new Date(t) >= now);
+      const items = hours.slice(startIdx, startIdx + 12);
+
+      document.getElementById('mt-hourly').innerHTML = items.map((t, i) => {
+        const idx  = startIdx + i;
+        const h    = new Date(t).getHours().toString().padStart(2, '0');
+        const info = wmo(codes[idx]);
+        const temp = Math.round(temps[idx] ?? 0);
+        const wind = Math.round(winds[idx] ?? 0);
+        const pop  = pops[idx] ?? 0;
         return `<div class="mt-hour-card">
           <span class="mt-hour-time">${h}h</span>
-          <img class="mt-hour-icon" src="https://openweathermap.org/img/wn/${w.icon}.png" alt="${w.description ?? ''}">
+          <span class="mt-hour-emoji">${info.emoji}</span>
           <span class="mt-hour-temp">${temp}°</span>
           <span class="mt-hour-wind"><i class="fas fa-wind"></i> ${wind}</span>
           ${pop > 10 ? `<span class="mt-hour-rain"><i class="fas fa-droplet"></i> ${pop}%</span>` : ''}
@@ -279,28 +333,24 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     // ── Prévisions 5 jours ────────────────────────────────────────────────────
-    function displayForecast(forecastData) {
-      const days = {};
-      (forecastData.list ?? []).forEach(item => {
-        const key = new Date(item.dt * 1000).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'short' });
-        if (!days[key]) days[key] = [];
-        days[key].push(item);
-      });
-      document.getElementById('mt-forecast-grid').innerHTML = Object.entries(days).map(([day, items]) => {
-        const temps   = items.map(i => i.main?.temp ?? 0);
-        const minT    = Math.round(Math.min(...temps));
-        const maxT    = Math.round(Math.max(...temps));
-        const maxWind = Math.round(Math.max(...items.map(i => (i.wind?.speed ?? 0) * 3.6)));
-        const pop     = Math.round(Math.max(...items.map(i => (i.pop ?? 0) * 100)));
-        const mid     = items[Math.floor(items.length / 2)];
-        const icon    = mid.weather?.[0]?.icon ?? '01d';
-        const desc    = mid.weather?.[0]?.description ?? '';
-        const rain    = items.reduce((s, i) => s + (i.rain?.['3h'] ?? 0), 0).toFixed(1);
-        const { score } = cyclingScore(mid);
+    function displayForecast(data) {
+      const daily = data.daily ?? {};
+      const days  = daily.time ?? [];
+
+      document.getElementById('mt-forecast-grid').innerHTML = days.map((t, i) => {
+        const date    = new Date(t);
+        const label   = date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'short' });
+        const info    = wmo(daily.weather_code?.[i]);
+        const maxT    = Math.round(daily.temperature_2m_max?.[i] ?? 0);
+        const minT    = Math.round(daily.temperature_2m_min?.[i] ?? 0);
+        const maxWind = Math.round(daily.wind_speed_10m_max?.[i] ?? 0);
+        const pop     = daily.precipitation_probability_max?.[i] ?? 0;
+        const precip  = (daily.precipitation_sum?.[i] ?? 0).toFixed(1);
+        const { score } = cyclingScore(maxT, maxWind, parseFloat(precip));
         return `<div class="mt-forecast-card">
-          <div class="mt-fc-day">${day}</div>
-          <img class="mt-fc-icon" src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${desc}">
-          <div class="mt-fc-desc">${desc}</div>
+          <div class="mt-fc-day">${label}</div>
+          <span class="mt-fc-emoji">${info.emoji}</span>
+          <div class="mt-fc-desc">${info.label}</div>
           <div class="mt-fc-temps">
             <span class="mt-fc-max">${maxT}°</span>
             <span class="mt-fc-sep">/</span>
@@ -308,8 +358,8 @@ import OceanBackground from '../components/OceanBackground.astro';
           </div>
           <div class="mt-fc-stats">
             <span><i class="fas fa-wind"></i> ${maxWind} km/h</span>
-            ${pop > 5 ? `<span><i class="fas fa-droplet"></i> ${pop}%</span>` : ''}
-            ${parseFloat(rain) > 0 ? `<span><i class="fas fa-cloud-rain"></i> ${rain} mm</span>` : ''}
+            ${pop > 5  ? `<span><i class="fas fa-droplet"></i> ${pop}%</span>` : ''}
+            ${parseFloat(precip) > 0 ? `<span><i class="fas fa-cloud-rain"></i> ${precip} mm</span>` : ''}
           </div>
           <div class="mt-fc-score" style="color:${scoreColor(score)}">🚴 ${score}/10</div>
         </div>`;
@@ -318,24 +368,24 @@ import OceanBackground from '../components/OceanBackground.astro';
 
     // ── Météo étapes Tour ─────────────────────────────────────────────────────
     async function loadEtapes() {
-      if (!OWM_KEY) { showKeyWarning('mt-etapes'); return; }
       const grid = document.getElementById('mt-etapes-grid');
       grid.innerHTML = '<div class="mt-loading"><i class="fas fa-spinner fa-spin"></i> Chargement des étapes…</div>';
       const results = await Promise.allSettled(
-        ETAPES.map(e => owmFetch('weather', e.lat, e.lon).then(d => ({ ...d, _nom: e.name })))
+        ETAPES.map(e => omFetchCurrent(e.lat, e.lon).then(d => ({ ...d, _nom: e.name })))
       );
       grid.innerHTML = results.map((r, i) => {
-        if (r.status === 'rejected') return `<div class="mt-etape-card mt-etape-card--error">${ETAPES[i].name}</div>`;
+        if (r.status === 'rejected') return `<div class="mt-etape-card mt-etape-card--error">${ETAPES[i].name}<br><small>Erreur</small></div>`;
         const d    = r.value;
-        const w    = d.weather?.[0] ?? {};
-        const temp = Math.round(d.main?.temp ?? 0);
-        const wind = Math.round((d.wind?.speed ?? 0) * 3.6);
-        const { score } = cyclingScore(d);
+        const c    = d.current ?? {};
+        const info = wmo(c.weather_code);
+        const temp = Math.round(c.temperature_2m ?? 0);
+        const wind = Math.round(c.wind_speed_10m ?? 0);
+        const { score } = cyclingScore(temp, wind, c.precipitation ?? 0);
         return `<div class="mt-etape-card">
           <div class="mt-etape-name">${d._nom}</div>
-          <img class="mt-etape-icon" src="https://openweathermap.org/img/wn/${w.icon}@2x.png" alt="${w.description ?? ''}">
+          <span class="mt-etape-emoji">${info.emoji}</span>
           <div class="mt-etape-temp">${temp}°C</div>
-          <div class="mt-etape-desc">${w.description ?? ''}</div>
+          <div class="mt-etape-desc">${info.label}</div>
           <div class="mt-etape-wind"><i class="fas fa-wind"></i> ${wind} km/h</div>
           <div class="mt-etape-score" style="color:${scoreColor(score)}">🚴 ${score}/10</div>
         </div>`;
@@ -343,7 +393,7 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     // ── Tabs ──────────────────────────────────────────────────────────────────
-    let etapesLoaded = false;
+    let etapesLoaded   = false;
     let forecastLoaded = false;
 
     function switchTab(tab) {
@@ -354,24 +404,22 @@ import OceanBackground from '../components/OceanBackground.astro';
       document.querySelectorAll('.mt-section').forEach(s =>
         s.classList.toggle('mt-section--active', s.id === `mt-${tab}`)
       );
-      if (tab === 'etapes' && !etapesLoaded) { etapesLoaded = true; loadEtapes(); }
-      if (tab === 'previsions' && !forecastLoaded && !OWM_KEY) showKeyWarning('mt-previsions');
+      if (tab === 'etapes'    && !etapesLoaded)   { etapesLoaded   = true; loadEtapes(); }
     }
 
-    // ── Géolocalisation ───────────────────────────────────────────────────────
+    // ── Chargement par coordonnées ────────────────────────────────────────────
     async function loadByCoords(lat, lon) {
-      if (!OWM_KEY) { showKeyWarning('mt-position'); return; }
       try {
-        const [current, forecast] = await Promise.all([
-          owmFetch('weather', lat, lon),
-          owmFetch('forecast', lat, lon),
+        const [data, city] = await Promise.all([
+          omFetch(lat, lon),
+          reverseGeocode(lat, lon),
         ]);
-        displayCurrent(current);
-        displayHourly(forecast);
+        displayCurrent(data, city);
+        displayHourly(data);
+        displayForecast(data);
         forecastLoaded = true;
-        displayForecast(forecast);
       } catch (e) {
-        console.error('OWM error', e);
+        console.error('Open-Meteo error', e);
       }
     }
 
@@ -379,22 +427,8 @@ import OceanBackground from '../components/OceanBackground.astro';
       if (!navigator.geolocation) { loadByCoords(48.856, 2.352); return; }
       navigator.geolocation.getCurrentPosition(
         pos => loadByCoords(pos.coords.latitude, pos.coords.longitude),
-        ()  => loadByCoords(48.856, 2.352)
+        ()   => loadByCoords(48.856, 2.352)
       );
-    }
-
-    function showKeyWarning(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (!section || section.querySelector('.mt-key-warn')) return;
-      section.insertAdjacentHTML('afterbegin', `
-        <div class="mt-key-warn">
-          <i class="fas fa-key"></i>
-          <strong>Clé API OpenWeather requise</strong><br>
-          Le plan gratuit offre <strong>1 000 appels/jour</strong>.
-          Créez votre compte sur <a href="https://openweathermap.org/api" target="_blank" rel="noopener">openweathermap.org</a>,
-          copiez votre clé et renseignez la constante <code>OWM_KEY</code>
-          dans <code>src/pages/meteo.astro</code>.
-        </div>`);
     }
 
     // ── Init ──────────────────────────────────────────────────────────────────
@@ -404,11 +438,9 @@ import OceanBackground from '../components/OceanBackground.astro';
       );
       document.getElementById('mt-locate-btn').addEventListener('click', locateAndLoad);
 
-      // Détection hash URL (#position, #etapes, #previsions)
       const hash = location.hash.replace('#', '');
       if (['position', 'etapes', 'previsions'].includes(hash)) switchTab(hash);
 
-      // Chargement auto dès l'arrivée
       locateAndLoad();
     });
 
@@ -482,7 +514,11 @@ import OceanBackground from '../components/OceanBackground.astro';
     margin-bottom: 1rem;
   }
   .mt-current-main { display: flex; align-items: center; gap: 1rem; flex: 1 1 260px; }
-  .mt-weather-icon { width: 80px; height: 80px; filter: drop-shadow(0 0 12px rgba(77,184,212,0.3)); }
+  .mt-weather-emoji {
+    font-size: 4.5rem; line-height: 1;
+    filter: drop-shadow(0 0 14px rgba(77,184,212,0.25));
+    flex-shrink: 0;
+  }
   .mt-temp-wrap { display: flex; align-items: flex-start; }
   .mt-temp { font-size: 4rem; font-weight: 900; color: var(--text-light); line-height: 1; }
   .mt-temp-unit { font-size: 1.5rem; color: var(--text-muted); margin-top: 0.3rem; }
@@ -539,10 +575,10 @@ import OceanBackground from '../components/OceanBackground.astro';
     display: flex; flex-direction: column; align-items: center; gap: 3px;
     font-size: 0.7rem; color: var(--text-muted);
   }
-  .mt-hour-time { font-weight: 700; color: var(--accent-cyan); }
-  .mt-hour-icon { width: 32px; height: 32px; }
-  .mt-hour-temp { font-size: 1rem; font-weight: 700; color: var(--text-light); }
-  .mt-hour-rain { color: #60a5fa; }
+  .mt-hour-time  { font-weight: 700; color: var(--accent-cyan); }
+  .mt-hour-emoji { font-size: 1.6rem; line-height: 1; }
+  .mt-hour-temp  { font-size: 1rem; font-weight: 700; color: var(--text-light); }
+  .mt-hour-rain  { color: #60a5fa; }
 
   /* ── PRÉVISIONS 5J ────────────────────────────────────── */
   .mt-forecast-grid {
@@ -556,9 +592,9 @@ import OceanBackground from '../components/OceanBackground.astro';
     display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
     text-align: center;
   }
-  .mt-fc-day  { font-size: 0.68rem; text-transform: capitalize; color: var(--accent-cyan); font-weight: 700; }
-  .mt-fc-icon { width: 52px; height: 52px; }
-  .mt-fc-desc { font-size: 0.65rem; color: var(--text-muted); text-transform: capitalize; }
+  .mt-fc-day    { font-size: 0.68rem; text-transform: capitalize; color: var(--accent-cyan); font-weight: 700; }
+  .mt-fc-emoji  { font-size: 2.6rem; line-height: 1; }
+  .mt-fc-desc   { font-size: 0.65rem; color: var(--text-muted); text-transform: capitalize; }
   .mt-fc-temps { display: flex; align-items: baseline; gap: 4px; }
   .mt-fc-max  { font-size: 1.25rem; font-weight: 800; color: var(--text-light); }
   .mt-fc-sep  { color: var(--text-muted); }
@@ -579,9 +615,9 @@ import OceanBackground from '../components/OceanBackground.astro';
     display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
     text-align: center;
   }
-  .mt-etape-name  { font-size: 0.72rem; font-weight: 700; color: var(--accent-cyan); }
-  .mt-etape-icon  { width: 44px; height: 44px; }
-  .mt-etape-temp  { font-size: 1.35rem; font-weight: 800; color: var(--text-light); }
+  .mt-etape-name   { font-size: 0.72rem; font-weight: 700; color: var(--accent-cyan); }
+  .mt-etape-emoji  { font-size: 2.2rem; line-height: 1; }
+  .mt-etape-temp   { font-size: 1.35rem; font-weight: 800; color: var(--text-light); }
   .mt-etape-desc  { font-size: 0.62rem; color: var(--text-muted); text-transform: capitalize; }
   .mt-etape-wind  { font-size: 0.65rem; color: var(--text-muted); }
   .mt-etape-score { font-size: 0.7rem; font-weight: 700; }

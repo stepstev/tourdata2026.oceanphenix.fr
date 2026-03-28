@@ -64,6 +64,15 @@ function proxyFetchCached(string $url, string $cacheKey, int $ttl = 300): void {
     if ($body === false) {
         jsonError('Erreur lors de la requête vers la source externe', 502);
     }
+    // Détecter une réponse HTML/XML d'erreur
+    $trimmed = ltrim($body);
+    if ($trimmed !== '' && $trimmed[0] === '<') {
+        jsonError('Source externe a renvoyé une réponse non-JSON (HTML/XML)', 502);
+    }
+    // Vérifier JSON valide
+    if (json_decode($body) === null) {
+        jsonError('Source externe a renvoyé un JSON invalide', 502);
+    }
     cacheSet($cacheKey, $body);
     echo $body;
     exit;
@@ -148,10 +157,18 @@ switch ($type) {
         if ($lat === null || $lon === null) jsonError('lat/lon requis');
         $mode    = in_array($_GET['mode'] ?? '', ['pro', 'cyclo']) ? $_GET['mode'] : 'cyclo';
         $radiusM = $radius * 1000;
+
+        // Garder seulement ce bloc — le second case overpass plus bas est la version correcte
+        $cacheKey2 = "overpass_{$mode}_{$lat}_{$lon}_{$radius}";
+        $cached2   = cacheGet($cacheKey2, 600);
+        if ($cached2 !== null) { echo $cached2; exit; }
+
         if ($mode === 'pro') {
             $query = "[out:json][timeout:20];"
                    . "(node[amenity=coworking_space](around:{$radiusM},{$lat},{$lon});"
-                   . "way[amenity=coworking_space](around:{$radiusM},{$lat},{$lon}););"
+                   . "way[amenity=coworking_space](around:{$radiusM},{$lat},{$lon});"
+                   . "node[office=coworking](around:{$radiusM},{$lat},{$lon});"
+                   . "way[office=coworking](around:{$radiusM},{$lat},{$lon}););"
                    . "out center tags;";
         } else {
             $query = "[out:json][timeout:25];("
@@ -167,8 +184,15 @@ switch ($type) {
                    . "node[tourism=alpine_hut](around:{$radiusM},{$lat},{$lon});"
                    . ");out center tags;";
         }
-        $url = 'https://overpass-api.de/api/interpreter?data=' . urlencode($query);
-        proxyFetchCached($url, "overpass_{$mode}_{$lat}_{$lon}_{$radius}", 600);
+        $data = httpPost('https://overpass-api.de/api/interpreter', ['data' => $query], 25);
+        if ($data === false) jsonError('Erreur Overpass API', 502);
+        // Détecter une réponse XML d'erreur (Overpass timeout, quota…)
+        if (ltrim($data)[0] === '<') jsonError('Overpass API indisponible (réponse XML)', 503);
+        // Vérifier JSON valide
+        $decoded = json_decode($data, true);
+        if ($decoded === null) jsonError('Overpass API : réponse JSON invalide', 502);
+        cacheSet($cacheKey2, $data);
+        echo $data;
         break;
 
     case 'events':
@@ -205,43 +229,6 @@ switch ($type) {
             urlencode(date('Y-m-d'))
         );
         proxyFetchCached($url, 'salons-nationaux', 3600); // Cache 1h
-        break;
-
-    case 'overpass':
-        if ($lat === null || $lon === null) jsonError('lat/lon requis');
-        $mode    = preg_replace('/[^a-z]/', '', strtolower($_GET['mode'] ?? 'pro'));
-        $radiusM = $radius * 1000;
-        $cacheKey = "overpass_{$mode}_{$lat}_{$lon}_{$radius}";
-        $cached = cacheGet($cacheKey, 600); // Cache 10 min
-        if ($cached !== null) { echo $cached; exit; }
-
-        if ($mode === 'cyclo') {
-            $query = "[out:json][timeout:25];\n(\n"
-                . "  node[\"tourism\"=\"camp_site\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  way[\"tourism\"=\"camp_site\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"amenity\"=\"shower\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"amenity\"=\"drinking_water\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"man_made\"=\"water_tap\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"leisure\"=\"swimming_pool\"][\"access\"!=\"private\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  way[\"leisure\"=\"swimming_pool\"][\"access\"!=\"private\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"amenity\"=\"shelter\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"tourism\"=\"wilderness_hut\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"tourism\"=\"alpine_hut\"](around:{$radiusM},{$lat},{$lon});\n"
-                . ");\nout center tags;";
-        } else {
-            // mode pro : coworkings
-            $query = "[out:json][timeout:25];\n(\n"
-                . "  node[\"amenity\"=\"coworking_space\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  way[\"amenity\"=\"coworking_space\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  node[\"office\"=\"coworking\"](around:{$radiusM},{$lat},{$lon});\n"
-                . "  way[\"office\"=\"coworking\"](around:{$radiusM},{$lat},{$lon});\n"
-                . ");\nout center tags;";
-        }
-
-        $data = httpPost('https://overpass-api.de/api/interpreter', ['data' => $query], 25);
-        if ($data === false) jsonError('Erreur Overpass API', 502);
-        cacheSet($cacheKey, $data);
-        echo $data;
         break;
 
     default:

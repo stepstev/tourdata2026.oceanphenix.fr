@@ -21,8 +21,14 @@ Thumbs.db
 public/api/strava-env.php
 public/api/strava-cache.json
 
-# Admin secret override — upload manuel sur serveur, jamais dans le repo
-public/api/admin-env.php
+# Proxy radar — contient la clé OpenAgenda en dur, upload manuel sur serveur
+public/api/radar-proxy.php
+
+# Endpoint upload Radar Pro — contient le secret, upload manuel sur serveur
+public/api/radar-pro-save.php
+
+# Endpoint admin unifié — contient le secret, upload manuel sur serveur
+public/api/admin-save.php
 
 # Deploy archive
 dist-deploy.zip

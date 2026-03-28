@@ -1,17 +1,12 @@
-# Bloquer l'accès direct aux fichiers sensibles
+# Bloquer l'accès direct aux fichiers sensibles de l'API Strava
 # strava-env.php : credentials (jamais dans le repo — upload manuel)
 # strava-cache.json : cache serveur auto-généré par strava.php
-# admin-env.php : surcharge de la clé admin (jamais dans le repo)
 
 <Files "strava-env.php">
     Require all denied
 </Files>
 
 <Files "strava-cache.json">
-    Require all denied
-</Files>
-
-<Files "admin-env.php">
     Require all denied
 </Files>
 

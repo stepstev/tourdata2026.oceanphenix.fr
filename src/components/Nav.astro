@@ -79,36 +79,60 @@
       })();
     </script>
 
-    <!-- Dropdown toggle : click sur mobile / touch -->
+    <!-- Dropdown toggle : mouseenter/leave desktop + click mobile -->
     <script is:inline>
       (function () {
-        document.addEventListener('DOMContentLoaded', function () {
-          var triggers = document.querySelectorAll('.nav-has-dropdown .nav-dropdown-trigger');
-          triggers.forEach(function (trigger) {
-            trigger.addEventListener('click', function (e) {
-              var hamburger = document.getElementById('nav-hamburger');
-              var mobileMode = window.getComputedStyle(hamburger).display !== 'none';
-              if (mobileMode) {
-                e.preventDefault();
-                var li = trigger.closest('.nav-has-dropdown');
-                var wasOpen = li.classList.contains('is-open');
-                // Fermer tous les autres
-                document.querySelectorAll('.nav-has-dropdown').forEach(function (other) {
-                  other.classList.remove('is-open');
-                });
-                if (!wasOpen) li.classList.add('is-open');
-              }
+        function initDropdowns() {
+          var hamburger = document.getElementById('nav-hamburger');
+          function isMobile() {
+            return window.getComputedStyle(hamburger).display !== 'none';
+          }
+          function closeAll() {
+            document.querySelectorAll('.nav-has-dropdown').forEach(function (el) {
+              el.classList.remove('is-open');
             });
-          });
-          // Fermer en cliquant ailleurs
-          document.addEventListener('click', function (e) {
-            if (!e.target.closest('.nav-has-dropdown')) {
-              document.querySelectorAll('.nav-has-dropdown').forEach(function (li) {
-                li.classList.remove('is-open');
+          }
+
+          document.querySelectorAll('.nav-has-dropdown').forEach(function (item) {
+            var leaveTimer = null;
+
+            /* ── Desktop : survol avec délai de fermeture ── */
+            item.addEventListener('mouseenter', function () {
+              if (isMobile()) return;
+              clearTimeout(leaveTimer);
+              item.classList.add('is-open');
+            });
+            item.addEventListener('mouseleave', function () {
+              if (isMobile()) return;
+              leaveTimer = setTimeout(function () {
+                item.classList.remove('is-open');
+              }, 150);
+            });
+
+            /* ── Mobile : clic sur le trigger ── */
+            var trigger = item.querySelector('.nav-dropdown-trigger');
+            if (trigger) {
+              trigger.addEventListener('click', function (e) {
+                if (!isMobile()) return;
+                e.preventDefault();
+                var wasOpen = item.classList.contains('is-open');
+                closeAll();
+                if (!wasOpen) item.classList.add('is-open');
               });
             }
           });
-        });
+
+          /* Fermer en cliquant à l'extérieur */
+          document.addEventListener('click', function (e) {
+            if (!e.target.closest('.nav-has-dropdown')) closeAll();
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initDropdowns);
+        } else {
+          initDropdowns();
+        }
       }());
     </script>
 

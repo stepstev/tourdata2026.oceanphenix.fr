@@ -51,30 +51,39 @@ import etapesData from '../data/terrain-etapes.json';
         <div class="admin-topbar-actions">
           <!-- Action principale -->
           <div class="admin-publish-wrap">
-            <button id="admin-publish-btn" class="admin-btn admin-btn--publish" title="Envoie toutes les données vers /data/site-data.json sur O2Switch">
+            <button id="admin-publish-btn" class="admin-btn admin-btn--publish"
+              data-tip="Publie toutes les données modifiées&#10;vers /data/site-data.json sur O2Switch.&#10;Nécessite la clé admin. Met le site&#10;à jour immédiatement pour les visiteurs.">
               <i class="fas fa-cloud-upload-alt"></i> Publier tout
             </button>
             <span id="admin-publish-status" class="admin-publish-status" style="display:none;"></span>
           </div>
-          <button id="admin-save-btn" class="admin-btn" title="Sauvegarder dans la mémoire du navigateur">
+          <button id="admin-save-btn" class="admin-btn"
+            data-tip="Enregistre l'état actuel dans la mémoire&#10;du navigateur (localStorage).&#10;N'affecte pas le site en ligne.&#10;Permet de reprendre plus tard.">
             <i class="fas fa-save"></i> Sauvegarder
           </button>
           <!-- Séparateur -->
           <span class="admin-topbar-sep"></span>
-          <button id="admin-visibility-btn" class="admin-visibility-btn" title="Basculer la visibilité de la page Terrain">
+          <button id="admin-visibility-btn" class="admin-visibility-btn"
+            data-tip="Contrôle si la page Terrain est visible&#10;par tous les visiteurs ou accessible&#10;seulement depuis l'interface admin.">
             <span class="vis-dot"></span>
             <span class="vis-label"></span>
           </button>
-          <button id="admin-export-gpx-btn" class="admin-btn" title="Télécharger le fichier GPX">
+          <button id="admin-export-gpx-btn" class="admin-btn"
+            data-tip="Télécharge le fichier de tracé GPX&#10;du parcours terrain actuel.">
             <i class="fas fa-route"></i> GPX
           </button>
-          <button id="admin-import-btn" class="admin-btn" title="Importer un fichier JSON de sauvegarde">
+          <button id="admin-import-btn" class="admin-btn"
+            data-tip="Restaure un état depuis un fichier JSON&#10;exporté précédemment (sauvegarde locale).&#10;Écrase les données actuelles du navigateur.">
             <i class="fas fa-upload"></i> Importer
           </button>
-          <button id="admin-reset-cache-btn" class="admin-btn admin-btn--danger-light" title="Efface le localStorage et recharge les données">
+          <button id="admin-reset-cache-btn" class="admin-btn admin-btn--danger-light"
+            data-tip-align="right"
+            data-tip="⚠ Efface toutes les données du navigateur&#10;(localStorage). Irréversible.&#10;Faire d'abord un export JSON !">
             <i class="fas fa-trash-alt"></i> Réinitialiser
           </button>
-          <button id="admin-purge-radar-btn" class="admin-btn admin-btn--danger-light" title="Vide le cache serveur PHP (Overpass, campings, commune…) — utile après une réponse XML corrompue">
+          <button id="admin-purge-radar-btn" class="admin-btn admin-btn--danger-light"
+            data-tip-align="right"
+            data-tip="⚠ Vide le cache serveur PHP&#10;(Overpass, campings, commune…).&#10;Utile après une réponse XML corrompue.&#10;La prochaine recherche ira chercher&#10;des données fraîches sur OSM / data.gouv.fr.">
             <i class="fas fa-server"></i> Cache Radar
           </button>
           <input type="file" id="admin-import-file" accept=".json" style="display:none" />
@@ -1503,6 +1512,73 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
   }
   .admin-btn:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); }
   .admin-btn i { opacity: 0.7; font-size: 0.8rem; }
+
+  /* ── Tooltips boutons ─────────────────────────────────────── */
+  [data-tip] {
+    position: relative;
+  }
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(6, 12, 24, 0.97);
+    color: #e2e8f0;
+    font-size: 0.71rem;
+    font-weight: 400;
+    line-height: 1.55;
+    white-space: pre;
+    padding: 0.55rem 0.8rem;
+    border-radius: 7px;
+    border: 1px solid rgba(77, 184, 212, 0.25);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    transform: translateX(-50%) translateY(-4px);
+    z-index: 9999;
+    min-width: 180px;
+    max-width: 270px;
+    text-align: left;
+  }
+  [data-tip]:hover::after,
+  [data-tip]:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  [data-tip]::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 3px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-bottom-color: rgba(6, 12, 24, 0.97);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    z-index: 9999;
+  }
+  [data-tip]:hover::before,
+  [data-tip]:focus-visible::before {
+    opacity: 1;
+  }
+  /* Alignement droit pour les boutons en bord droit */
+  [data-tip-align="right"]::after {
+    left: auto;
+    right: 0;
+    transform: translateY(-4px);
+  }
+  [data-tip-align="right"]:hover::after,
+  [data-tip-align="right"]:focus-visible::after {
+    transform: translateY(0);
+  }
+  [data-tip-align="right"]::before {
+    left: auto;
+    right: 1.1rem;
+    transform: none;
+  }
 
   .admin-btn--accent {
     border-color: rgba(77,184,212,0.45);

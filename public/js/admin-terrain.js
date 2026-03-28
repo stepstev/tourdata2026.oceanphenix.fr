@@ -248,6 +248,40 @@
     });
   }
 
+  function purgeRadarCache() {
+    if (!confirm('Vider le cache serveur Radar ?\n\nSupprime tous les fichiers tmp/radar_*.json côté serveur (PHP/O2switch).\nLa prochaine recherche ira chercher des données fraîches.')) return;
+    var secret = localStorage.getItem(ADMIN_SECRET_LS) || '';
+    if (!secret) {
+      secret = prompt('Clé d\'administration (même que pour Publier) :');
+      if (!secret) return;
+      localStorage.setItem(ADMIN_SECRET_LS, secret.trim());
+    }
+    var btn = document.getElementById('admin-purge-radar-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Purge…';
+    fetch('/api/radar-proxy.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'purge-cache', secret: secret })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-server"></i> Cache Radar';
+      if (data.ok) {
+        showToast('✅ Cache Radar vidé — ' + data.deleted + ' fichier(s) supprimé(s)');
+      } else {
+        if (data.error && data.error.includes('refusé')) localStorage.removeItem(ADMIN_SECRET_LS);
+        showToast('❌ Erreur : ' + (data.error || 'réponse inattendue'));
+      }
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-server"></i> Cache Radar';
+      showToast('❌ Erreur réseau : ' + err.message);
+    });
+  }
+
   function resetCache() {
     if (!confirm('Réinitialiser le cache local ?\n\nCela efface toutes les modifications non exportées de ce navigateur.\nUtilisez cette action APRÈS avoir exporté le JSON et fait un build.')) return;
     localStorage.removeItem(STORAGE_KEY);
@@ -1338,6 +1372,10 @@
 
   document.getElementById('admin-reset-cache-btn').addEventListener('click', function() {
     resetCache();
+  });
+
+  document.getElementById('admin-purge-radar-btn').addEventListener('click', function() {
+    purgeRadarCache();
   });
 
   document.getElementById('admin-export-gpx-btn').addEventListener('click', function() {

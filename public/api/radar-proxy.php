@@ -25,7 +25,7 @@ $allowed = (
 if ($allowed) {
     header("Access-Control-Allow-Origin: $origin");
 }
-header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
@@ -76,6 +76,28 @@ function proxyFetchCached(string $url, string $cacheKey, int $ttl = 300): void {
     cacheSet($cacheKey, $body);
     echo $body;
     exit;
+}
+
+// ── Purge cache (POST sécurisé, même secret que admin-save.php) ─────────────
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $raw  = file_get_contents('php://input');
+    $body = json_decode($raw, true);
+    if (($body['action'] ?? '') === 'purge-cache') {
+        $envFile = __DIR__ . '/admin-env.php';
+        if (file_exists($envFile)) { require_once $envFile; }
+        if (!defined('ADMIN_SECRET')) { define('ADMIN_SECRET', 'op-admin-save-2026-oceanphenix'); }
+        if (!hash_equals(ADMIN_SECRET, trim($body['secret'] ?? ''))) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Accès refusé']);
+            exit;
+        }
+        $files   = glob(sys_get_temp_dir() . '/radar_*.json') ?: [];
+        $deleted = 0;
+        foreach ($files as $f) { if (@unlink($f)) $deleted++; }
+        echo json_encode(['ok' => true, 'deleted' => $deleted]);
+        exit;
+    }
+    jsonError('Action POST inconnue', 400);
 }
 
 // ── Routage ───────────────────────────────────────────────────────────────────

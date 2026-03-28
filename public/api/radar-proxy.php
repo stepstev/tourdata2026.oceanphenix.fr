@@ -164,6 +164,22 @@ switch ($type) {
         proxyFetchCached($url, "events_{$lat}_{$lon}", 3600); // Cache 1h
         break;
 
+    case 'salons-nationaux':
+        $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
+        if (empty($openagendaKey)) {
+            echo json_encode(['total' => 0, 'events' => [], '_info' => 'Configurez OPENAGENDA_KEY sur le serveur.'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+        $keywords = 'data informatique intelligence-artificielle emploi numérique BI tech développeur recrutement salon forum';
+        $url = sprintf(
+            'https://api.openagenda.com/v2/events?key=%s&keyword=%s&size=50&monolingual=fr&timings[gte]=%s&sort=timings.asc',
+            urlencode($openagendaKey),
+            urlencode($keywords),
+            urlencode(date('Y-m-d'))
+        );
+        proxyFetchCached($url, 'salons-nationaux', 3600); // Cache 1h
+        break;
+
     case 'overpass':
         if ($lat === null || $lon === null) jsonError('lat/lon requis');
         $mode    = preg_replace('/[^a-z]/', '', strtolower($_GET['mode'] ?? 'pro'));

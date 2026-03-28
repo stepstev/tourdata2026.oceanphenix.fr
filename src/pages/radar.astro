@@ -37,6 +37,13 @@ import OceanBackground from '../components/OceanBackground.astro';
     <!-- CONTRÔLES — toolbar compacte                          -->
     <!-- ══════════════════════════════════════════════════════ -->
     <div class="rd-header">
+      <div class="rd-steps-guide">
+        <span class="rd-step"><span class="rd-step-num">1</span>Choisissez une position</span>
+        <span class="rd-step-arrow">→</span>
+        <span class="rd-step"><span class="rd-step-num">2</span>Sélectionnez le mode</span>
+        <span class="rd-step-arrow">→</span>
+        <span class="rd-step"><span class="rd-step-num">3</span>Consultez les résultats</span>
+      </div>
       <div class="rd-toolbar">
         <!-- Dropdown custom villes Data/IA -->
         <div class="rd-city-dropdown" id="city-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="city-panel">
@@ -142,17 +149,21 @@ import OceanBackground from '../components/OceanBackground.astro';
         <button class="rd-mode-btn rd-mode-btn--active" id="btn-mode-pro" data-mode="pro" type="button">
           <i class="fas fa-briefcase rd-mode-btn-icon"></i>
           <div class="rd-mode-btn-body">
-            <span class="rd-mode-btn-title">Pro</span>
+            <span class="rd-mode-btn-title"><span class="rd-mode-badge">2a</span> Pro</span>
             <span class="rd-mode-btn-sub">Coworkings · Entreprises · Salons</span>
           </div>
         </button>
         <button class="rd-mode-btn" id="btn-mode-cyclo" data-mode="cyclo" type="button">
           <i class="fas fa-bicycle rd-mode-btn-icon"></i>
           <div class="rd-mode-btn-body">
-            <span class="rd-mode-btn-title">Cyclo</span>
-            <span class="rd-mode-btn-sub">Campings · Hébergements</span>
+            <span class="rd-mode-btn-title"><span class="rd-mode-badge">2b</span> Cyclo</span>
+            <span class="rd-mode-btn-sub">Campings · Eau · Abris · Piscines</span>
           </div>
         </button>
+      </div>
+      <div class="rd-mode-hint" id="rd-mode-hint">
+        <i class="fas fa-briefcase fa-fw"></i>
+        <span id="rd-mode-hint-text">Mode <strong>Pro</strong> — coworkings et espaces de travail, entreprises data/IT du département, salons &amp; forums emploi à venir.</span>
       </div>
 
       <div class="rd-modebar-sep" aria-hidden="true"></div>
@@ -1757,7 +1768,20 @@ import OceanBackground from '../components/OceanBackground.astro';
 
         updateCatLabel();
 
-        // 6. Si le tab actif n'est plus disponible dans ce mode → retour sur Carte
+        // 6. Hint strip mode
+        const hintIcon = document.querySelector('#rd-mode-hint .fa-fw');
+        const hintText = document.getElementById('rd-mode-hint-text');
+        if (hintIcon && hintText) {
+          if (mode === 'cyclo') {
+            hintIcon.className = 'fas fa-bicycle fa-fw';
+            hintText.innerHTML = 'Mode <strong>Cyclo</strong> — campings, points d\'eau, douches, piscines publiques et abris à proximité de votre position.';
+          } else {
+            hintIcon.className = 'fas fa-briefcase fa-fw';
+            hintText.innerHTML = 'Mode <strong>Pro</strong> — coworkings et espaces de travail, entreprises data/IT du département, salons &amp; forums emploi à venir.';
+          }
+        }
+
+        // 7. Si le tab actif n'est plus disponible dans ce mode → retour sur Carte
         const currentTab = document.querySelector('.rd-tab--active');
         if (currentTab) {
           const modes = (currentTab.dataset.modes || '').split(',');
@@ -2956,6 +2980,86 @@ import OceanBackground from '../components/OceanBackground.astro';
     align-items: center;
     gap: 6px;
     font-style: italic;
+  }
+
+  /* ── Steps guide (①②③) ──────────────────────────────────── */
+  .rd-steps-guide {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+  .rd-step {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .rd-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent, #1a7fa0);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rd-step-arrow {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.7rem;
+  }
+  [data-theme="light"] .rd-steps-guide {
+    background: rgba(0,0,0,0.03);
+    border-bottom-color: rgba(0,0,0,0.07);
+  }
+  [data-theme="light"] .rd-step-arrow { color: rgba(0,0,0,0.2); }
+
+  /* ── Mode badge (2a / 2b) ───────────────────────────────── */
+  .rd-mode-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.58rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rd-mode-btn--active .rd-mode-badge {
+    background: var(--accent, #1a7fa0);
+    color: #fff;
+  }
+  [data-theme="light"] .rd-mode-badge { background: rgba(0,0,0,0.08); color: #4a6275; }
+  [data-theme="light"] .rd-mode-btn--active .rd-mode-badge { background: var(--accent, #1a7fa0); color: #fff; }
+
+  /* ── Mode hint strip ────────────────────────────────────── */
+  .rd-mode-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+    transition: color 0.2s;
+  }
+  .rd-mode-hint .fa-fw { color: var(--accent, #1a7fa0); flex-shrink: 0; }
+  [data-theme="light"] .rd-mode-hint {
+    background: rgba(0,0,0,0.02);
+    border-top-color: rgba(0,0,0,0.06);
   }
 
   /* Tab caché par mode */

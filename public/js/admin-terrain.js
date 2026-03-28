@@ -187,7 +187,7 @@
           const synced = JSON.parse(json);
           synced._lastSaved = new Date().toISOString();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(synced));
-        } catch(e) { console.error('localStorage sync failed:', e); }
+        } catch(_) {}
         const msg = result.deployed
           ? '\u2705 Build + deploy termin\u00e9 \u2014 tous les navigateurs sont synchronis\u00e9s \u2714'
           : '\u2705 Build termin\u00e9 \u2014 localStorage synchronis\u00e9 \u2714 \u2014 uploadez dist/ pour d\u00e9ployer';
@@ -231,7 +231,7 @@
           const synced = JSON.parse(json);
           synced._lastSaved = new Date().toISOString();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(synced));
-        } catch(e) { console.error('localStorage sync failed:', e); }
+        } catch(_) {}
         showToast('\u2705 ' + nbJournal + ' entr\u00e9e(s) + build termin\u00e9 \u2014 localStorage synchronis\u00e9 \u2714');
       } else {
         showToast('\u26a0\ufe0f Erreur build : ' + result.error);
@@ -1807,15 +1807,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-      .then(function (r) {
-        var ct = r.headers.get('Content-Type') || '';
-        if (!ct.includes('application/json')) {
-          // Le serveur a renvoyé du HTML (404 Astro dev, PHP non actif, etc.)
-          if (r.status === 404) throw new Error('admin-save.php introuvable sur le serveur — uploadez-le via FTP dans le dossier api/ de votre sous-domaine (ex: goal.oceanphenix.fr/api/). En dev local, PHP ne tourne pas.');
-          throw new Error('Réponse inattendue du serveur (HTTP ' + r.status + ') — vérifiez que admin-save.php est bien uploadé sur o2switch.');
-        }
-        return r.json();
-      })
+      .then(function (r) { return r.json(); })
       .then(function (d) {
         if (d.error) throw new Error(d.error);
         var ts = d.updated_at ? new Date(d.updated_at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';

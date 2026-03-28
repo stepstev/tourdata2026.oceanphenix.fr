@@ -114,6 +114,9 @@ import OceanBackground from '../components/OceanBackground.astro';
         <button id="btn-locate" class="rd-btn rd-btn--primary" aria-label="Géolocaliser ma position">
           <i class="fas fa-location-dot"></i> Je suis ici
         </button>
+        <button id="btn-refresh" class="rd-btn rd-btn--secondary" aria-label="Actualiser les résultats" disabled>
+          <i class="fas fa-rotate-right"></i> Actualiser
+        </button>
         <div class="rd-toolbar-sep" aria-hidden="true"></div>
         <div class="rd-radius-inline">
           <span class="rd-radius-label"><i class="fas fa-circle-dot"></i> <strong id="radius-val">10</strong> km</span>
@@ -777,6 +780,7 @@ import OceanBackground from '../components/OceanBackground.astro';
         pos => {
           currentLat = pos.coords.latitude;
           currentLon = pos.coords.longitude;
+          document.getElementById('btn-refresh').disabled = false;
           showMapInfo('✅', `Position : ${currentLat.toFixed(4)}, ${currentLon.toFixed(4)}`, 'success', 3000);
           search();
         },
@@ -1576,6 +1580,15 @@ import OceanBackground from '../components/OceanBackground.astro';
       // Bouton géolocalisation
       document.getElementById('btn-locate').addEventListener('click', locateMe);
 
+      // Bouton actualiser — bypass du throttle cache
+      document.getElementById('btn-refresh').addEventListener('click', () => {
+        if (currentLat === null || currentLon === null) return;
+        const cacheKey = `${currentLat.toFixed(2)},${currentLon.toFixed(2)},${currentRadius},${currentMode}`;
+        searchCache.delete(cacheKey);
+        lastSearchTime = 0;
+        search();
+      });
+
 
 
       // Filtres domaine salons
@@ -1621,6 +1634,7 @@ import OceanBackground from '../components/OceanBackground.astro';
           const label = btn.textContent.trim();
           currentLat = lat;
           currentLon = lon;
+          document.getElementById('btn-refresh').disabled = false;
           cityLabel.textContent = label;
           cityDropdown.setAttribute('aria-expanded', 'false');
           cityPanel.classList.remove('rd-city-panel--open');

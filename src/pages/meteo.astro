@@ -1,0 +1,632 @@
+---
+// src/pages/meteo.astro — Météo Cycliste automatique (OpenWeather API gratuite)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+---
+
+<BaseLayout
+  title="Météo Cycliste — TourData 2026 | OceanPhenix"
+  description="Météo automatique en temps réel pour le Tour Data 2026 — conditions cyclistes, prévisions 5 jours, vent et précipitations sur les étapes."
+  lastModified="28/03/2026 12:00"
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="meteo-page main-content">
+
+    <!-- ══════════════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════════════ -->
+    <section class="mt-hero">
+      <div class="mt-hero-inner">
+        <div class="mt-hero-icon-wrap">
+          <i class="fas fa-cloud-sun-rain mt-hero-icon"></i>
+        </div>
+        <div class="mt-hero-text">
+          <h1 class="mt-hero-title">Météo Cycliste</h1>
+          <p class="mt-hero-sub">Conditions en temps réel &middot; Tour Data 2026</p>
+        </div>
+        <div class="mt-hero-locate">
+          <button id="mt-locate-btn" class="mt-btn mt-btn--primary">
+            <i class="fas fa-location-dot"></i> Ma position
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SOUS-NAVIGATION
+    ══════════════════════════════════════════════════════ -->
+    <div class="mt-subnav-outer">
+      <nav class="mt-subnav" role="tablist" aria-label="Sections météo">
+        <button class="mt-tab mt-tab--active" data-tab="position" role="tab" aria-selected="true">
+          <i class="fas fa-location-dot"></i> Ma position
+        </button>
+        <button class="mt-tab" data-tab="etapes" role="tab" aria-selected="false">
+          <i class="fas fa-route"></i> Étapes Tour
+        </button>
+        <button class="mt-tab" data-tab="previsions" role="tab" aria-selected="false">
+          <i class="fas fa-calendar-week"></i> Prévisions 5j
+        </button>
+      </nav>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         CONTENU PRINCIPAL
+    ══════════════════════════════════════════════════════ -->
+    <div class="mt-container">
+
+      <!-- ── Section MA POSITION ── -->
+      <section id="mt-position" class="mt-section mt-section--active">
+
+        <!-- Météo actuelle -->
+        <div class="mt-current">
+          <div class="mt-current-main">
+            <img id="mt-icon" class="mt-weather-icon" src="" alt="" />
+            <div class="mt-temp-wrap">
+              <span id="mt-temp" class="mt-temp">—</span>
+              <span class="mt-temp-unit">°C</span>
+            </div>
+            <div class="mt-desc-wrap">
+              <span id="mt-desc" class="mt-desc">Chargement…</span>
+              <span id="mt-city" class="mt-city"><i class="fas fa-location-dot"></i> —</span>
+            </div>
+          </div>
+
+          <div class="mt-current-stats">
+            <div class="mt-stat">
+              <i class="fas fa-temperature-half mt-stat-icon"></i>
+              <span class="mt-stat-label">Ressenti</span>
+              <span id="mt-feels" class="mt-stat-val">—</span>
+            </div>
+            <div class="mt-stat">
+              <i class="fas fa-droplet mt-stat-icon"></i>
+              <span class="mt-stat-label">Humidité</span>
+              <span id="mt-humidity" class="mt-stat-val">—</span>
+            </div>
+            <div class="mt-stat">
+              <i class="fas fa-wind mt-stat-icon"></i>
+              <span class="mt-stat-label">Vent</span>
+              <span id="mt-wind" class="mt-stat-val">—</span>
+            </div>
+            <div class="mt-stat">
+              <i class="fas fa-compass mt-stat-icon"></i>
+              <span class="mt-stat-label">Direction</span>
+              <span id="mt-wind-dir" class="mt-stat-val">—</span>
+            </div>
+            <div class="mt-stat">
+              <i class="fas fa-gauge-high mt-stat-icon"></i>
+              <span class="mt-stat-label">Pression</span>
+              <span id="mt-pressure" class="mt-stat-val">—</span>
+            </div>
+            <div class="mt-stat">
+              <i class="fas fa-eye mt-stat-icon"></i>
+              <span class="mt-stat-label">Visibilité</span>
+              <span id="mt-visibility" class="mt-stat-val">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score cyclisme -->
+        <div id="mt-cycling-score" class="mt-cycling-score hidden">
+          <div class="mt-score-inner">
+            <div class="mt-score-label">Score vélo</div>
+            <div class="mt-score-dial">
+              <span id="mt-score-val" class="mt-score-num">—</span>
+              <span class="mt-score-max">/10</span>
+            </div>
+            <div id="mt-score-desc" class="mt-score-comment"></div>
+          </div>
+        </div>
+
+        <!-- Bande horaire -->
+        <div class="mt-hourly-wrap">
+          <h3 class="mt-section-title"><i class="fas fa-clock"></i> Prochaines heures</h3>
+          <div id="mt-hourly" class="mt-hourly"></div>
+        </div>
+
+      </section>
+
+      <!-- ── Section ÉTAPES TOUR ── -->
+      <section id="mt-etapes" class="mt-section">
+        <div class="mt-etapes-grid" id="mt-etapes-grid"></div>
+      </section>
+
+      <!-- ── Section PRÉVISIONS 5J ── -->
+      <section id="mt-previsions" class="mt-section">
+        <div class="mt-forecast-grid" id="mt-forecast-grid"></div>
+      </section>
+
+    </div><!-- /.mt-container -->
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+
+  <!-- ══════════════════════════════════════════════════════════
+       JAVASCRIPT — OpenWeather API
+  ══════════════════════════════════════════════════════════ -->
+  <script is:inline>
+  (function () {
+    'use strict';
+
+    // ── CONFIG ────────────────────────────────────────────────────────────────
+    // Clé gratuite OpenWeather (1 000 appels/jour) :
+    // 1. Créez un compte sur https://openweathermap.org/api
+    // 2. Copiez votre clé API et remplacez la chaîne vide ci-dessous
+    const OWM_KEY = '';  // ← votre clé ici
+
+    // Étapes Tour Data 2026
+    const ETAPES = [
+      { name: 'Paris',           lat: 48.856, lon:  2.352 },
+      { name: 'Fontenay-lès-B.', lat: 48.638, lon:  2.094 },
+      { name: 'Orléans',         lat: 47.902, lon:  1.909 },
+      { name: 'Tours',           lat: 47.394, lon:  0.691 },
+      { name: 'Le Mans',         lat: 47.995, lon:  0.192 },
+      { name: 'Nantes',          lat: 47.218, lon: -1.553 },
+      { name: 'Rennes',          lat: 48.117, lon: -1.677 },
+      { name: 'Caen',            lat: 49.183, lon: -0.357 },
+      { name: 'Rouen',           lat: 49.443, lon:  1.099 },
+      { name: 'Lille',           lat: 50.629, lon:  3.057 },
+      { name: 'Strasbourg',      lat: 48.573, lon:  7.752 },
+      { name: 'Dijon',           lat: 47.322, lon:  5.041 },
+      { name: 'Lyon',            lat: 45.748, lon:  4.847 },
+      { name: 'Grenoble',        lat: 45.188, lon:  5.724 },
+      { name: 'Bordeaux',        lat: 44.837, lon: -0.579 },
+      { name: 'Toulouse',        lat: 43.605, lon:  1.444 },
+      { name: 'Montpellier',     lat: 43.611, lon:  3.877 },
+      { name: 'Marseille',       lat: 43.296, lon:  5.381 },
+      { name: 'Nice',            lat: 43.710, lon:  7.262 },
+    ];
+
+    // ── Utilitaires ───────────────────────────────────────────────────────────
+    function windDirLabel(deg) {
+      const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+      return dirs[Math.round(deg / 45) % 8];
+    }
+
+    function cyclingScore(data) {
+      let score = 10;
+      const wind = data.wind?.speed ?? 0;
+      const temp = data.main?.temp ?? 15;
+      const rain = data.rain?.['1h'] ?? data.rain?.['3h'] ?? 0;
+      if (wind > 10) score -= 1;
+      if (wind > 20) score -= 2;
+      if (wind > 30) score -= 2;
+      if (temp < 5)  score -= 1;
+      if (temp < 0)  score -= 2;
+      if (temp > 35) score -= 2;
+      if (rain > 0)  score -= 2;
+      if (rain > 2)  score -= 1;
+      score = Math.max(0, Math.min(10, score));
+      const comments = {
+        10: '🏆 Parfait pour le vélo !',
+        9:  '✅ Excellentes conditions',
+        8:  '👍 Très bonnes conditions',
+        7:  '🟢 Bonnes conditions',
+        6:  '🟡 Conditions correctes',
+        5:  '⚠️ Conditions moyennes',
+        4:  '⚠️ Peu favorable',
+        3:  '🔴 Difficile à vélo',
+        2:  '🔴 Très difficile',
+        1:  '🚫 Déconseillé',
+        0:  '🚫 Conditions extrêmes',
+      };
+      return { score, comment: comments[score] ?? '' };
+    }
+
+    function scoreColor(score) {
+      return score >= 7 ? '#22c55e' : score >= 5 ? '#f59e0b' : '#ef4444';
+    }
+
+    // ── Appel API ─────────────────────────────────────────────────────────────
+    async function owmFetch(endpoint, lat, lon) {
+      if (!OWM_KEY) throw new Error('NO_KEY');
+      const url = `https://api.openweathermap.org/data/2.5/${endpoint}?lat=${lat}&lon=${lon}&appid=${OWM_KEY}&units=metric&lang=fr`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`OWM ${res.status}`);
+      return res.json();
+    }
+
+    // ── Affichage météo actuelle ──────────────────────────────────────────────
+    function displayCurrent(data) {
+      const w = data.weather?.[0] ?? {};
+      const m = data.main ?? {};
+      const wind = data.wind ?? {};
+      document.getElementById('mt-temp').textContent       = Math.round(m.temp ?? 0);
+      document.getElementById('mt-feels').textContent      = `${Math.round(m.feels_like ?? 0)}°C`;
+      document.getElementById('mt-humidity').textContent   = `${m.humidity ?? '—'}%`;
+      document.getElementById('mt-wind').textContent       = `${Math.round((wind.speed ?? 0) * 3.6)} km/h`;
+      document.getElementById('mt-wind-dir').textContent   = windDirLabel(wind.deg ?? 0);
+      document.getElementById('mt-pressure').textContent   = `${m.pressure ?? '—'} hPa`;
+      document.getElementById('mt-desc').textContent       = w.description ?? '—';
+      document.getElementById('mt-city').innerHTML         = `<i class="fas fa-location-dot"></i> ${data.name ?? ''}`;
+      const vis = data.visibility != null ? `${(data.visibility / 1000).toFixed(1)} km` : '—';
+      document.getElementById('mt-visibility').textContent = vis;
+      if (w.icon) {
+        const img = document.getElementById('mt-icon');
+        img.src = `https://openweathermap.org/img/wn/${w.icon}@2x.png`;
+        img.alt = w.description ?? '';
+      }
+      const { score, comment } = cyclingScore(data);
+      const cls = score >= 7 ? 'mt-score--good' : score >= 5 ? 'mt-score--ok' : 'mt-score--bad';
+      document.getElementById('mt-score-val').textContent  = score;
+      document.getElementById('mt-score-desc').textContent = comment;
+      document.getElementById('mt-cycling-score').className = `mt-cycling-score ${cls}`;
+    }
+
+    // ── Bande horaire ─────────────────────────────────────────────────────────
+    function displayHourly(forecastData) {
+      const items = (forecastData.list ?? []).slice(0, 8);
+      document.getElementById('mt-hourly').innerHTML = items.map(item => {
+        const h    = new Date(item.dt * 1000).getHours().toString().padStart(2, '0');
+        const w    = item.weather?.[0] ?? {};
+        const temp = Math.round(item.main?.temp ?? 0);
+        const wind = Math.round((item.wind?.speed ?? 0) * 3.6);
+        const pop  = Math.round((item.pop ?? 0) * 100);
+        return `<div class="mt-hour-card">
+          <span class="mt-hour-time">${h}h</span>
+          <img class="mt-hour-icon" src="https://openweathermap.org/img/wn/${w.icon}.png" alt="${w.description ?? ''}">
+          <span class="mt-hour-temp">${temp}°</span>
+          <span class="mt-hour-wind"><i class="fas fa-wind"></i> ${wind}</span>
+          ${pop > 10 ? `<span class="mt-hour-rain"><i class="fas fa-droplet"></i> ${pop}%</span>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    // ── Prévisions 5 jours ────────────────────────────────────────────────────
+    function displayForecast(forecastData) {
+      const days = {};
+      (forecastData.list ?? []).forEach(item => {
+        const key = new Date(item.dt * 1000).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'short' });
+        if (!days[key]) days[key] = [];
+        days[key].push(item);
+      });
+      document.getElementById('mt-forecast-grid').innerHTML = Object.entries(days).map(([day, items]) => {
+        const temps   = items.map(i => i.main?.temp ?? 0);
+        const minT    = Math.round(Math.min(...temps));
+        const maxT    = Math.round(Math.max(...temps));
+        const maxWind = Math.round(Math.max(...items.map(i => (i.wind?.speed ?? 0) * 3.6)));
+        const pop     = Math.round(Math.max(...items.map(i => (i.pop ?? 0) * 100)));
+        const mid     = items[Math.floor(items.length / 2)];
+        const icon    = mid.weather?.[0]?.icon ?? '01d';
+        const desc    = mid.weather?.[0]?.description ?? '';
+        const rain    = items.reduce((s, i) => s + (i.rain?.['3h'] ?? 0), 0).toFixed(1);
+        const { score } = cyclingScore(mid);
+        return `<div class="mt-forecast-card">
+          <div class="mt-fc-day">${day}</div>
+          <img class="mt-fc-icon" src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${desc}">
+          <div class="mt-fc-desc">${desc}</div>
+          <div class="mt-fc-temps">
+            <span class="mt-fc-max">${maxT}°</span>
+            <span class="mt-fc-sep">/</span>
+            <span class="mt-fc-min">${minT}°</span>
+          </div>
+          <div class="mt-fc-stats">
+            <span><i class="fas fa-wind"></i> ${maxWind} km/h</span>
+            ${pop > 5 ? `<span><i class="fas fa-droplet"></i> ${pop}%</span>` : ''}
+            ${parseFloat(rain) > 0 ? `<span><i class="fas fa-cloud-rain"></i> ${rain} mm</span>` : ''}
+          </div>
+          <div class="mt-fc-score" style="color:${scoreColor(score)}">🚴 ${score}/10</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Météo étapes Tour ─────────────────────────────────────────────────────
+    async function loadEtapes() {
+      if (!OWM_KEY) { showKeyWarning('mt-etapes'); return; }
+      const grid = document.getElementById('mt-etapes-grid');
+      grid.innerHTML = '<div class="mt-loading"><i class="fas fa-spinner fa-spin"></i> Chargement des étapes…</div>';
+      const results = await Promise.allSettled(
+        ETAPES.map(e => owmFetch('weather', e.lat, e.lon).then(d => ({ ...d, _nom: e.name })))
+      );
+      grid.innerHTML = results.map((r, i) => {
+        if (r.status === 'rejected') return `<div class="mt-etape-card mt-etape-card--error">${ETAPES[i].name}</div>`;
+        const d    = r.value;
+        const w    = d.weather?.[0] ?? {};
+        const temp = Math.round(d.main?.temp ?? 0);
+        const wind = Math.round((d.wind?.speed ?? 0) * 3.6);
+        const { score } = cyclingScore(d);
+        return `<div class="mt-etape-card">
+          <div class="mt-etape-name">${d._nom}</div>
+          <img class="mt-etape-icon" src="https://openweathermap.org/img/wn/${w.icon}@2x.png" alt="${w.description ?? ''}">
+          <div class="mt-etape-temp">${temp}°C</div>
+          <div class="mt-etape-desc">${w.description ?? ''}</div>
+          <div class="mt-etape-wind"><i class="fas fa-wind"></i> ${wind} km/h</div>
+          <div class="mt-etape-score" style="color:${scoreColor(score)}">🚴 ${score}/10</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Tabs ──────────────────────────────────────────────────────────────────
+    let etapesLoaded = false;
+    let forecastLoaded = false;
+
+    function switchTab(tab) {
+      document.querySelectorAll('.mt-tab').forEach(b => {
+        b.classList.toggle('mt-tab--active', b.dataset.tab === tab);
+        b.setAttribute('aria-selected', b.dataset.tab === tab ? 'true' : 'false');
+      });
+      document.querySelectorAll('.mt-section').forEach(s =>
+        s.classList.toggle('mt-section--active', s.id === `mt-${tab}`)
+      );
+      if (tab === 'etapes' && !etapesLoaded) { etapesLoaded = true; loadEtapes(); }
+      if (tab === 'previsions' && !forecastLoaded && !OWM_KEY) showKeyWarning('mt-previsions');
+    }
+
+    // ── Géolocalisation ───────────────────────────────────────────────────────
+    async function loadByCoords(lat, lon) {
+      if (!OWM_KEY) { showKeyWarning('mt-position'); return; }
+      try {
+        const [current, forecast] = await Promise.all([
+          owmFetch('weather', lat, lon),
+          owmFetch('forecast', lat, lon),
+        ]);
+        displayCurrent(current);
+        displayHourly(forecast);
+        forecastLoaded = true;
+        displayForecast(forecast);
+      } catch (e) {
+        console.error('OWM error', e);
+      }
+    }
+
+    function locateAndLoad() {
+      if (!navigator.geolocation) { loadByCoords(48.856, 2.352); return; }
+      navigator.geolocation.getCurrentPosition(
+        pos => loadByCoords(pos.coords.latitude, pos.coords.longitude),
+        ()  => loadByCoords(48.856, 2.352)
+      );
+    }
+
+    function showKeyWarning(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section || section.querySelector('.mt-key-warn')) return;
+      section.insertAdjacentHTML('afterbegin', `
+        <div class="mt-key-warn">
+          <i class="fas fa-key"></i>
+          <strong>Clé API OpenWeather requise</strong><br>
+          Le plan gratuit offre <strong>1 000 appels/jour</strong>.
+          Créez votre compte sur <a href="https://openweathermap.org/api" target="_blank" rel="noopener">openweathermap.org</a>,
+          copiez votre clé et renseignez la constante <code>OWM_KEY</code>
+          dans <code>src/pages/meteo.astro</code>.
+        </div>`);
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.mt-tab').forEach(btn =>
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab))
+      );
+      document.getElementById('mt-locate-btn').addEventListener('click', locateAndLoad);
+
+      // Détection hash URL (#position, #etapes, #previsions)
+      const hash = location.hash.replace('#', '');
+      if (['position', 'etapes', 'previsions'].includes(hash)) switchTab(hash);
+
+      // Chargement auto dès l'arrivée
+      locateAndLoad();
+    });
+
+  })();
+  </script>
+
+  <style is:global>
+  /* ═══════════════════════════════════════════════════════
+     PAGE MÉTÉO — src/pages/meteo.astro
+  ═══════════════════════════════════════════════════════ */
+
+  .meteo-page { min-height: 100vh; padding-bottom: var(--spacing-xl); }
+
+  /* ── HERO ─────────────────────────────────────────────── */
+  .mt-hero {
+    background: linear-gradient(135deg, rgba(11,26,46,0.97), rgba(26,51,82,0.97));
+    border-bottom: 1px solid rgba(77,184,212,0.14);
+    padding: 2rem var(--spacing-sm);
+  }
+  .mt-hero-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1.25rem;
+  }
+  .mt-hero-icon-wrap { font-size: 2.4rem; color: var(--accent-cyan); flex-shrink: 0; }
+  .mt-hero-title { font-size: 1.55rem; font-weight: 800; color: var(--text-light); margin: 0; }
+  .mt-hero-sub   { font-size: 0.78rem; color: var(--text-muted); margin: 0.15rem 0 0; }
+  .mt-hero-locate { margin-left: auto; }
+  .mt-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.5rem 1.1rem; border-radius: var(--radius-full);
+    border: none; cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: var(--transition-fast);
+  }
+  .mt-btn--primary { background: var(--accent-gradient); color: #fff; }
+  .mt-btn--primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ── SOUS-NAVIGATION ─────────────────────────────────── */
+  .mt-subnav-outer { max-width: 1200px; margin: 0 auto; padding: 0 var(--spacing-sm); }
+  .mt-subnav {
+    display: flex; gap: 4px;
+    background: rgba(7,13,24,0.88);
+    border: 1px solid rgba(77,184,212,0.1); border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 6px 12px; margin-bottom: 0;
+  }
+  .mt-tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0.35rem 0.9rem; border-radius: var(--radius-full);
+    border: none; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+    color: var(--text-muted); background: transparent;
+    transition: var(--transition-fast);
+  }
+  .mt-tab:hover     { color: var(--accent-cyan); background: rgba(77,184,212,0.07); }
+  .mt-tab--active   { color: var(--accent-cyan); background: rgba(77,184,212,0.13); }
+  .mt-tab i { font-size: 0.7rem; }
+
+  /* ── CONTAINER ───────────────────────────────────────── */
+  .mt-container { max-width: 1200px; margin: 1.25rem auto 0; padding: 0 var(--spacing-sm); }
+
+  /* ── SECTIONS ─────────────────────────────────────────── */
+  .mt-section { display: none; }
+  .mt-section--active { display: block; }
+
+  /* ── MÉTÉO ACTUELLE ───────────────────────────────────── */
+  .mt-current {
+    background: rgba(10,24,44,0.92);
+    border: 1px solid rgba(77,184,212,0.14);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .mt-current-main { display: flex; align-items: center; gap: 1rem; flex: 1 1 260px; }
+  .mt-weather-icon { width: 80px; height: 80px; filter: drop-shadow(0 0 12px rgba(77,184,212,0.3)); }
+  .mt-temp-wrap { display: flex; align-items: flex-start; }
+  .mt-temp { font-size: 4rem; font-weight: 900; color: var(--text-light); line-height: 1; }
+  .mt-temp-unit { font-size: 1.5rem; color: var(--text-muted); margin-top: 0.3rem; }
+  .mt-desc-wrap { display: flex; flex-direction: column; gap: 0.3rem; }
+  .mt-desc { font-size: 1rem; color: var(--accent-cyan); text-transform: capitalize; font-weight: 600; }
+  .mt-city { font-size: 0.75rem; color: var(--text-muted); }
+  .mt-city i { color: var(--accent-cyan); margin-right: 3px; }
+  .mt-current-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; flex: 1 1 260px;
+  }
+  .mt-stat {
+    background: rgba(77,184,212,0.05);
+    border: 1px solid rgba(77,184,212,0.1);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.75rem;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .mt-stat-icon  { color: var(--accent-cyan); font-size: 0.85rem; }
+  .mt-stat-label { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+  .mt-stat-val   { font-size: 0.9rem; font-weight: 700; color: var(--text-light); }
+
+  /* ── SCORE CYCLISME ───────────────────────────────────── */
+  .mt-cycling-score {
+    border-radius: var(--radius-md); padding: 0.9rem 1.4rem;
+    display: flex; align-items: center; margin-bottom: 1rem;
+    border: 1px solid transparent;
+  }
+  .mt-cycling-score.hidden { display: none; }
+  .mt-score--good { background: rgba(34,197,94,0.08);   border-color: rgba(34,197,94,0.2); }
+  .mt-score--ok   { background: rgba(245,158,11,0.08);  border-color: rgba(245,158,11,0.2); }
+  .mt-score--bad  { background: rgba(239,68,68,0.08);   border-color: rgba(239,68,68,0.2); }
+  .mt-score-inner  { display: flex; align-items: center; gap: 1.25rem; }
+  .mt-score-label  { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+  .mt-score-dial   { display: flex; align-items: baseline; gap: 2px; }
+  .mt-score-num    { font-size: 2.4rem; font-weight: 900; color: var(--text-light); }
+  .mt-score-max    { font-size: 1rem; color: var(--text-muted); }
+  .mt-score-comment { font-size: 0.88rem; color: var(--text-light); }
+
+  /* ── BANDE HORAIRE ────────────────────────────────────── */
+  .mt-hourly-wrap  { margin-bottom: 1.5rem; }
+  .mt-section-title {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin: 0 0 0.7rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mt-section-title i { color: var(--accent-cyan); }
+  .mt-hourly { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+  .mt-hour-card {
+    flex-shrink: 0; min-width: 62px;
+    background: rgba(10,24,44,0.85);
+    border: 1px solid rgba(77,184,212,0.1);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.4rem;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 0.7rem; color: var(--text-muted);
+  }
+  .mt-hour-time { font-weight: 700; color: var(--accent-cyan); }
+  .mt-hour-icon { width: 32px; height: 32px; }
+  .mt-hour-temp { font-size: 1rem; font-weight: 700; color: var(--text-light); }
+  .mt-hour-rain { color: #60a5fa; }
+
+  /* ── PRÉVISIONS 5J ────────────────────────────────────── */
+  .mt-forecast-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 1rem;
+  }
+  .mt-forecast-card {
+    background: rgba(10,24,44,0.92);
+    border: 1px solid rgba(77,184,212,0.12);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+    text-align: center;
+  }
+  .mt-fc-day  { font-size: 0.68rem; text-transform: capitalize; color: var(--accent-cyan); font-weight: 700; }
+  .mt-fc-icon { width: 52px; height: 52px; }
+  .mt-fc-desc { font-size: 0.65rem; color: var(--text-muted); text-transform: capitalize; }
+  .mt-fc-temps { display: flex; align-items: baseline; gap: 4px; }
+  .mt-fc-max  { font-size: 1.25rem; font-weight: 800; color: var(--text-light); }
+  .mt-fc-sep  { color: var(--text-muted); }
+  .mt-fc-min  { font-size: 0.88rem; color: var(--text-muted); }
+  .mt-fc-stats { display: flex; flex-direction: column; gap: 3px; font-size: 0.68rem; color: var(--text-muted); }
+  .mt-fc-stats i { color: var(--accent-cyan); margin-right: 2px; }
+  .mt-fc-score { font-size: 0.7rem; font-weight: 700; }
+
+  /* ── ÉTAPES GRID ──────────────────────────────────────── */
+  .mt-etapes-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 0.7rem;
+  }
+  .mt-etape-card {
+    background: rgba(10,24,44,0.92);
+    border: 1px solid rgba(77,184,212,0.12);
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    text-align: center;
+  }
+  .mt-etape-name  { font-size: 0.72rem; font-weight: 700; color: var(--accent-cyan); }
+  .mt-etape-icon  { width: 44px; height: 44px; }
+  .mt-etape-temp  { font-size: 1.35rem; font-weight: 800; color: var(--text-light); }
+  .mt-etape-desc  { font-size: 0.62rem; color: var(--text-muted); text-transform: capitalize; }
+  .mt-etape-wind  { font-size: 0.65rem; color: var(--text-muted); }
+  .mt-etape-score { font-size: 0.7rem; font-weight: 700; }
+  .mt-etape-card--error { color: var(--text-muted); font-size: 0.72rem; }
+
+  /* ── ÉTATS ─────────────────────────────────────────────── */
+  .mt-loading { padding: 3rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+  .mt-key-warn {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1.5rem; font-size: 0.83rem;
+    color: var(--text-light); margin-bottom: 1.5rem; line-height: 1.6;
+  }
+  .mt-key-warn a    { color: var(--accent-cyan); }
+  .mt-key-warn code { background: rgba(0,0,0,0.3); padding: 1px 6px; border-radius: 4px; font-size: 0.78rem; }
+  .mt-key-warn i    { color: #f59e0b; margin-right: 6px; }
+
+  /* ── LIGHT THEME ──────────────────────────────────────── */
+  [data-theme="light"] .mt-hero       { background: rgba(221,232,244,0.97); border-color: rgba(26,127,160,0.15); }
+  [data-theme="light"] .mt-hero-title { color: #1a334c; }
+  [data-theme="light"] .mt-hero-sub   { color: #4a6275; }
+  [data-theme="light"] .mt-subnav     { background: rgba(221,232,244,0.96); border-color: rgba(26,127,160,0.15); }
+  [data-theme="light"] .mt-tab        { color: #4a6275; }
+  [data-theme="light"] .mt-tab--active { color: var(--accent-blue); background: rgba(26,127,160,0.1); }
+  [data-theme="light"] .mt-current,
+  [data-theme="light"] .mt-forecast-card,
+  [data-theme="light"] .mt-etape-card,
+  [data-theme="light"] .mt-hour-card   { background: rgba(240,247,254,0.97); border-color: rgba(26,127,160,0.16); }
+  [data-theme="light"] .mt-temp,
+  [data-theme="light"] .mt-fc-max,
+  [data-theme="light"] .mt-etape-temp  { color: #1a334c; }
+  [data-theme="light"] .mt-stat-val    { color: #1a334c; }
+  [data-theme="light"] .mt-stat        { background: rgba(26,127,160,0.05); border-color: rgba(26,127,160,0.14); }
+
+  /* ── RESPONSIVE ───────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .mt-hero-inner      { flex-wrap: wrap; }
+    .mt-hero-locate     { margin-left: 0; width: 100%; }
+    .mt-current         { flex-direction: column; }
+    .mt-current-stats   { grid-template-columns: repeat(2, 1fr); }
+    .mt-forecast-grid   { grid-template-columns: repeat(2, 1fr); }
+    .mt-etapes-grid     { grid-template-columns: repeat(2, 1fr); }
+    .mt-score-inner     { flex-wrap: wrap; }
+  }
+  </style>
+
+</BaseLayout>

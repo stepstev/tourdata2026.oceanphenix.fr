@@ -164,11 +164,65 @@ switch ($type) {
         proxyFetchCached($url, "events_{$lat}_{$lon}", 3600); // Cache 1h
         break;
 
+    case 'overpass':
+        if ($lat === null || $lon === null) jsonError('lat/lon requis');
+        $mode    = preg_replace('/[^a-z]/', '', strtolower($_GET['mode'] ?? 'pro'));
+        $radiusM = $radius * 1000;
+        $cacheKey = "overpass_{$mode}_{$lat}_{$lon}_{$radius}";
+        $cached = cacheGet($cacheKey, 600); // Cache 10 min
+        if ($cached !== null) { echo $cached; exit; }
+
+        if ($mode === 'cyclo') {
+            $query = "[out:json][timeout:25];\n(\n"
+                . "  node[\"tourism\"=\"camp_site\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  way[\"tourism\"=\"camp_site\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"amenity\"=\"shower\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"amenity\"=\"drinking_water\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"man_made\"=\"water_tap\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"leisure\"=\"swimming_pool\"][\"access\"!=\"private\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  way[\"leisure\"=\"swimming_pool\"][\"access\"!=\"private\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"amenity\"=\"shelter\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"tourism\"=\"wilderness_hut\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"tourism\"=\"alpine_hut\"](around:{$radiusM},{$lat},{$lon});\n"
+                . ");\nout center tags;";
+        } else {
+            // mode pro : coworkings
+            $query = "[out:json][timeout:25];\n(\n"
+                . "  node[\"amenity\"=\"coworking_space\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  way[\"amenity\"=\"coworking_space\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  node[\"office\"=\"coworking\"](around:{$radiusM},{$lat},{$lon});\n"
+                . "  way[\"office\"=\"coworking\"](around:{$radiusM},{$lat},{$lon});\n"
+                . ");\nout center tags;";
+        }
+
+        $data = httpPost('https://overpass-api.de/api/interpreter', ['data' => $query], 25);
+        if ($data === false) jsonError('Erreur Overpass API', 502);
+        cacheSet($cacheKey, $data);
+        echo $data;
+        break;
+
     default:
-        jsonError("Type inconnu : $type. Valeurs acceptées : campings, entreprises, commune");
+        jsonError("Type inconnu : $type. Valeurs acceptées : campings, entreprises, commune, overpass, events");
 }
 
 // ── Fonctions utilitaires ─────────────────────────────────────────────────────
+
+function httpPost(string $url, array $params, int $timeout = 10): string|false {
+    $body = http_build_query($params);
+    $ctx = stream_context_create([
+        'http' => [
+            'method'     => 'POST',
+            'header'     => "Content-Type: application/x-www-form-urlencoded\r\nContent-Length: " . strlen($body),
+            'content'    => $body,
+            'timeout'    => $timeout,
+            'user_agent' => 'OceanPhenix-TourData2026/1.0 (tourdata2026.oceanphenix.fr)',
+            'ignore_errors'   => true,
+            'follow_location' => true,
+        ],
+        'ssl' => ['verify_peer' => true],
+    ]);
+    return @file_get_contents($url, false, $ctx);
+}
 
 function httpGet(string $url, int $timeout = 10): string|false {
     $ctx = stream_context_create([

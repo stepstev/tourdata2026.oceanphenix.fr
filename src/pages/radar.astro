@@ -34,207 +34,254 @@ import OceanBackground from '../components/OceanBackground.astro';
     </section>
 
     <!-- ══════════════════════════════════════════════════════ -->
-    <!-- CONTRÔLES — toolbar compacte                          -->
+    <!-- PANNEAUX DE CONTRÔLE — wrapper centré                 -->
     <!-- ══════════════════════════════════════════════════════ -->
-    <div class="rd-header">
-      <div class="rd-toolbar">
-        <!-- Dropdown custom villes Data/IA -->
-        <div class="rd-city-dropdown" id="city-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="city-panel">
-          <button class="rd-city-trigger" id="city-trigger" type="button" aria-label="Choisir une ville Data / IA">
-            <i class="fas fa-map-location-dot rd-city-trigger-icon"></i>
-            <span id="city-trigger-label">Ville Data / IA</span>
-            <i class="fas fa-chevron-down rd-city-chevron"></i>
-          </button>
-          <div class="rd-city-panel" id="city-panel" role="listbox">
+    <div class="rd-panels-outer">
 
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Île-de-France</div>
-              <button class="rd-city-item" data-lat="48.856" data-lon="2.352"><i class="fas fa-location-dot"></i> Paris</button>
-              <button class="rd-city-item" data-lat="48.897" data-lon="2.088"><i class="fas fa-location-dot"></i> La Défense</button>
-              <button class="rd-city-item" data-lat="48.759" data-lon="2.208"><i class="fas fa-location-dot"></i> Saclay / Paris-Sud</button>
-              <button class="rd-city-item" data-lat="48.638" data-lon="2.094"><i class="fas fa-location-dot"></i> Fontenay-lès-Briis</button>
+    <!-- ZONE 1 — RECHERCHE : position ① · rayon ② · mode ③   -->
+    <div class="rd-controls-panel rd-panel--search">
+      <div class="rd-ctrl-row">
+
+        <!-- ① Position : ville ou GPS -->
+        <div class="rd-ctrl-group">
+          <span class="rd-ctrl-label">
+            <span class="rd-step-badge">①</span> Position
+            <span class="rd-ctrl-hint">Ville cible ou GPS</span>
+          </span>
+          <div class="rd-ctrl-body">
+            <div class="rd-city-dropdown" id="city-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="city-panel">
+              <button class="rd-city-trigger" id="city-trigger" type="button" aria-label="Choisir une ville Data / IA">
+                <i class="fas fa-map-location-dot rd-city-trigger-icon"></i>
+                <span id="city-trigger-label">Ville Data / IA</span>
+                <i class="fas fa-chevron-down rd-city-chevron"></i>
+              </button>
+              <div class="rd-city-panel" id="city-panel" role="listbox">
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Île-de-France</div>
+                  <button class="rd-city-item" data-lat="48.856" data-lon="2.352"><i class="fas fa-location-dot"></i> Paris</button>
+                  <button class="rd-city-item" data-lat="48.897" data-lon="2.088"><i class="fas fa-location-dot"></i> La Défense</button>
+                  <button class="rd-city-item" data-lat="48.759" data-lon="2.208"><i class="fas fa-location-dot"></i> Saclay / Paris-Sud</button>
+                  <button class="rd-city-item" data-lat="48.638" data-lon="2.094"><i class="fas fa-location-dot"></i> Fontenay-lès-Briis</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Auvergne-Rhône-Alpes</div>
+                  <button class="rd-city-item" data-lat="45.748" data-lon="4.847"><i class="fas fa-location-dot"></i> Lyon</button>
+                  <button class="rd-city-item" data-lat="45.188" data-lon="5.724"><i class="fas fa-location-dot"></i> Grenoble</button>
+                  <button class="rd-city-item" data-lat="45.439" data-lon="4.387"><i class="fas fa-location-dot"></i> Saint-Étienne</button>
+                  <button class="rd-city-item" data-lat="46.151" data-lon="6.867"><i class="fas fa-location-dot"></i> Annecy</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Occitanie</div>
+                  <button class="rd-city-item" data-lat="43.605" data-lon="1.444"><i class="fas fa-location-dot"></i> Toulouse</button>
+                  <button class="rd-city-item" data-lat="43.611" data-lon="3.877"><i class="fas fa-location-dot"></i> Montpellier</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Nouvelle-Aquitaine</div>
+                  <button class="rd-city-item" data-lat="44.837" data-lon="-0.579"><i class="fas fa-location-dot"></i> Bordeaux</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">PACA</div>
+                  <button class="rd-city-item" data-lat="43.296" data-lon="5.381"><i class="fas fa-location-dot"></i> Marseille</button>
+                  <button class="rd-city-item" data-lat="43.430" data-lon="5.215"><i class="fas fa-location-dot"></i> Aix-en-Provence</button>
+                  <button class="rd-city-item" data-lat="43.710" data-lon="7.262"><i class="fas fa-location-dot"></i> Nice / Sophia Antipolis</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Pays de la Loire / Bretagne</div>
+                  <button class="rd-city-item" data-lat="47.218" data-lon="-1.553"><i class="fas fa-location-dot"></i> Nantes</button>
+                  <button class="rd-city-item" data-lat="48.117" data-lon="-1.677"><i class="fas fa-location-dot"></i> Rennes</button>
+                  <button class="rd-city-item" data-lat="48.390" data-lon="-4.486"><i class="fas fa-location-dot"></i> Brest</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Normandie</div>
+                  <button class="rd-city-item" data-lat="49.183" data-lon="-0.357"><i class="fas fa-location-dot"></i> Caen</button>
+                  <button class="rd-city-item" data-lat="49.443" data-lon="1.099"><i class="fas fa-location-dot"></i> Rouen</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Grand Est / Hauts-de-France</div>
+                  <button class="rd-city-item" data-lat="50.629" data-lon="3.057"><i class="fas fa-location-dot"></i> Lille</button>
+                  <button class="rd-city-item" data-lat="48.573" data-lon="7.752"><i class="fas fa-location-dot"></i> Strasbourg</button>
+                  <button class="rd-city-item" data-lat="49.119" data-lon="6.176"><i class="fas fa-location-dot"></i> Metz</button>
+                  <button class="rd-city-item" data-lat="48.692" data-lon="6.184"><i class="fas fa-location-dot"></i> Nancy</button>
+                </div>
+
+                <div class="rd-city-group">
+                  <div class="rd-city-group-label">Bourgogne / Centre-Val</div>
+                  <button class="rd-city-item" data-lat="47.322" data-lon="5.041"><i class="fas fa-location-dot"></i> Dijon</button>
+                  <button class="rd-city-item" data-lat="47.902" data-lon="1.909"><i class="fas fa-location-dot"></i> Orléans</button>
+                  <button class="rd-city-item" data-lat="47.394" data-lon="0.691"><i class="fas fa-location-dot"></i> Tours</button>
+                </div>
+
+              </div>
+            </div>
+            <button id="btn-locate" class="rd-btn rd-btn--primary" aria-label="Géolocaliser ma position">
+              <i class="fas fa-location-dot"></i> Je suis ici
+            </button>
+          </div>
+        </div>
+
+        <div class="rd-ctrl-vsep" aria-hidden="true"></div>
+
+        <!-- ② Rayon de recherche -->
+        <div class="rd-ctrl-group">
+          <span class="rd-ctrl-label">
+            <span class="rd-step-badge">②</span> Rayon
+            <span class="rd-ctrl-hint">2 à 25 km</span>
+          </span>
+          <div class="rd-ctrl-body">
+            <div class="rd-radius-inline">
+              <span class="rd-radius-label"><i class="fas fa-circle-dot"></i> <strong id="radius-val">10</strong> km</span>
+              <input type="range" id="radius-slider" min="2" max="25" value="10" step="1"
+                aria-label="Rayon de recherche" />
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-ctrl-vsep" aria-hidden="true"></div>
+
+        <!-- ③ Mode Pro / Cyclo -->
+        <div class="rd-ctrl-group">
+          <span class="rd-ctrl-label">
+            <span class="rd-step-badge">③</span> Mode
+            <span class="rd-ctrl-hint">Type de résultats</span>
+          </span>
+          <div class="rd-ctrl-body">
+            <div class="rd-mode-toggle" role="group" aria-label="Mode de vue">
+              <button class="rd-mode-btn rd-mode-btn--active" id="btn-mode-pro" data-mode="pro" type="button">
+                <i class="fas fa-briefcase rd-mode-btn-icon"></i>
+                <div class="rd-mode-btn-body">
+                  <span class="rd-mode-btn-title">Pro</span>
+                  <span class="rd-mode-btn-sub">Coworkings · Entreprises · Salons</span>
+                </div>
+              </button>
+              <button class="rd-mode-btn" id="btn-mode-cyclo" data-mode="cyclo" type="button">
+                <i class="fas fa-bicycle rd-mode-btn-icon"></i>
+                <div class="rd-mode-btn-body">
+                  <span class="rd-mode-btn-title">Cyclo</span>
+                  <span class="rd-mode-btn-sub">Campings · Hébergements</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-ctrl-vsep" aria-hidden="true"></div>
+
+        <!-- ④ Catégories contextuelles -->
+        <div class="rd-ctrl-group">
+          <span class="rd-ctrl-label">
+            <span class="rd-step-badge">④</span> Catégories
+          </span>
+          <div class="rd-ctrl-body">
+
+            <!-- Catégories Pro -->
+            <div class="rd-mode-controls" id="mode-ctrl-pro">
+              <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
+                <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+                  <i class="fas fa-layer-group rd-cat-icon"></i>
+                  <span class="rd-cat-trigger-label">3 catégories</span>
+                  <i class="fas fa-chevron-down rd-cat-chevron"></i>
+                </button>
+                <div class="rd-cat-panel" id="cat-panel" role="listbox">
+                  <div class="rd-cat-panel-header">Catégories Pro</div>
+                  <label class="rd-cat-item rd-cat-item--all">
+                    <input type="checkbox" class="rd-cat-cb-all" checked>
+                    <i class="fas fa-check-double"></i>
+                    <span>Toutes les catégories</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
+                    <i class="fas fa-laptop"></i>
+                    <span>Coworkings</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="entreprise" checked>
+                    <i class="fas fa-microchip"></i>
+                    <span>Entreprises Data / IT</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="evenement" checked>
+                    <i class="fas fa-calendar-days"></i>
+                    <span>Événements IT / Emploi</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Auvergne-Rhône-Alpes</div>
-              <button class="rd-city-item" data-lat="45.748" data-lon="4.847"><i class="fas fa-location-dot"></i> Lyon</button>
-              <button class="rd-city-item" data-lat="45.188" data-lon="5.724"><i class="fas fa-location-dot"></i> Grenoble</button>
-              <button class="rd-city-item" data-lat="45.439" data-lon="4.387"><i class="fas fa-location-dot"></i> Saint-Étienne</button>
-              <button class="rd-city-item" data-lat="46.151" data-lon="6.867"><i class="fas fa-location-dot"></i> Annecy</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Occitanie</div>
-              <button class="rd-city-item" data-lat="43.605" data-lon="1.444"><i class="fas fa-location-dot"></i> Toulouse</button>
-              <button class="rd-city-item" data-lat="43.611" data-lon="3.877"><i class="fas fa-location-dot"></i> Montpellier</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Nouvelle-Aquitaine</div>
-              <button class="rd-city-item" data-lat="44.837" data-lon="-0.579"><i class="fas fa-location-dot"></i> Bordeaux</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">PACA</div>
-              <button class="rd-city-item" data-lat="43.296" data-lon="5.381"><i class="fas fa-location-dot"></i> Marseille</button>
-              <button class="rd-city-item" data-lat="43.430" data-lon="5.215"><i class="fas fa-location-dot"></i> Aix-en-Provence</button>
-              <button class="rd-city-item" data-lat="43.710" data-lon="7.262"><i class="fas fa-location-dot"></i> Nice / Sophia Antipolis</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Pays de la Loire / Bretagne</div>
-              <button class="rd-city-item" data-lat="47.218" data-lon="-1.553"><i class="fas fa-location-dot"></i> Nantes</button>
-              <button class="rd-city-item" data-lat="48.117" data-lon="-1.677"><i class="fas fa-location-dot"></i> Rennes</button>
-              <button class="rd-city-item" data-lat="48.390" data-lon="-4.486"><i class="fas fa-location-dot"></i> Brest</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Normandie</div>
-              <button class="rd-city-item" data-lat="49.183" data-lon="-0.357"><i class="fas fa-location-dot"></i> Caen</button>
-              <button class="rd-city-item" data-lat="49.443" data-lon="1.099"><i class="fas fa-location-dot"></i> Rouen</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Grand Est / Hauts-de-France</div>
-              <button class="rd-city-item" data-lat="50.629" data-lon="3.057"><i class="fas fa-location-dot"></i> Lille</button>
-              <button class="rd-city-item" data-lat="48.573" data-lon="7.752"><i class="fas fa-location-dot"></i> Strasbourg</button>
-              <button class="rd-city-item" data-lat="49.119" data-lon="6.176"><i class="fas fa-location-dot"></i> Metz</button>
-              <button class="rd-city-item" data-lat="48.692" data-lon="6.184"><i class="fas fa-location-dot"></i> Nancy</button>
-            </div>
-
-            <div class="rd-city-group">
-              <div class="rd-city-group-label">Bourgogne / Centre-Val</div>
-              <button class="rd-city-item" data-lat="47.322" data-lon="5.041"><i class="fas fa-location-dot"></i> Dijon</button>
-              <button class="rd-city-item" data-lat="47.902" data-lon="1.909"><i class="fas fa-location-dot"></i> Orléans</button>
-              <button class="rd-city-item" data-lat="47.394" data-lon="0.691"><i class="fas fa-location-dot"></i> Tours</button>
+            <!-- Catégories Cyclo -->
+            <div class="rd-mode-controls rd-mode-controls--hidden" id="mode-ctrl-cyclo">
+              <div class="rd-cat-dropdown" id="cat-dropdown-cyclo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel-cyclo">
+                <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+                  <i class="fas fa-layer-group rd-cat-icon"></i>
+                  <span class="rd-cat-trigger-label">5 catégories</span>
+                  <i class="fas fa-chevron-down rd-cat-chevron"></i>
+                </button>
+                <div class="rd-cat-panel" id="cat-panel-cyclo" role="listbox">
+                  <div class="rd-cat-panel-header">Catégories Cyclo</div>
+                  <label class="rd-cat-item rd-cat-item--all">
+                    <input type="checkbox" class="rd-cat-cb-all" checked>
+                    <i class="fas fa-check-double"></i>
+                    <span>Toutes les catégories</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="camping" checked>
+                    <i class="fas fa-campground"></i>
+                    <span>Campings</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="piscine" checked>
+                    <i class="fas fa-person-swimming"></i>
+                    <span>Piscines / Baignade</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="fontaine" checked>
+                    <i class="fas fa-droplet"></i>
+                    <span>Points d'eau</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="douche" checked>
+                    <i class="fas fa-shower"></i>
+                    <span>Douches publiques</span>
+                  </label>
+                  <label class="rd-cat-item">
+                    <input type="checkbox" class="rd-cat-cb" data-type="abri" checked>
+                    <i class="fas fa-house-chimney"></i>
+                    <span>Abris / Refuges</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
           </div>
         </div>
-        <button id="btn-locate" class="rd-btn rd-btn--primary" aria-label="Géolocaliser ma position">
-          <i class="fas fa-location-dot"></i> Je suis ici
-        </button>
-        <div class="rd-toolbar-sep" aria-hidden="true"></div>
-        <div class="rd-radius-inline">
-          <span class="rd-radius-label"><i class="fas fa-circle-dot"></i> <strong id="radius-val">10</strong> km</span>
-          <input type="range" id="radius-slider" min="2" max="25" value="10" step="1"
-            aria-label="Rayon de recherche" />
-        </div>
-        <div class="rd-status">
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- ZONE 2 — STATUT & ACTUALISATION                       -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <div class="rd-controls-panel rd-panel--filters">
+      <div class="rd-filters-bottom">
+        <div class="rd-filters-info">
           <span class="rd-dot" id="rd-dot"></span>
           <span id="loading-indicator" class="rd-status-label hidden" aria-live="polite">Chargement…</span>
           <span id="results-count" class="rd-status-label rd-status-idle">Sélectionnez une étape</span>
         </div>
-
+        <button id="btn-refresh" class="rd-btn rd-btn--ghost" disabled aria-label="Relancer la recherche">
+          <i class="fas fa-rotate-right"></i> Actualiser
+        </button>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- MODEBAR — Sélecteur de mode + contrôles contextuels   -->
-    <!-- ══════════════════════════════════════════════════════ -->
-    <div class="rd-modebar">
-
-      <!-- Sélecteur PRO / CYCLO -->
-      <div class="rd-mode-toggle" role="group" aria-label="Mode de vue">
-        <button class="rd-mode-btn rd-mode-btn--active" id="btn-mode-pro" data-mode="pro" type="button">
-          <i class="fas fa-briefcase rd-mode-btn-icon"></i>
-          <div class="rd-mode-btn-body">
-            <span class="rd-mode-btn-title">Pro</span>
-            <span class="rd-mode-btn-sub">Coworkings · Entreprises · Salons</span>
-          </div>
-        </button>
-        <button class="rd-mode-btn" id="btn-mode-cyclo" data-mode="cyclo" type="button">
-          <i class="fas fa-bicycle rd-mode-btn-icon"></i>
-          <div class="rd-mode-btn-body">
-            <span class="rd-mode-btn-title">Cyclo</span>
-            <span class="rd-mode-btn-sub">Campings · Hébergements</span>
-          </div>
-        </button>
-      </div>
-
-      <div class="rd-modebar-sep" aria-hidden="true"></div>
-
-      <!-- Contrôles contextuels PRO -->
-      <div class="rd-mode-controls" id="mode-ctrl-pro">
-        <!-- Combobox catégories Pro -->
-        <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
-          <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
-            <i class="fas fa-layer-group rd-cat-icon"></i>
-            <span class="rd-cat-trigger-label">3 catégories</span>
-            <i class="fas fa-chevron-down rd-cat-chevron"></i>
-          </button>
-          <div class="rd-cat-panel" id="cat-panel" role="listbox">
-            <div class="rd-cat-panel-header">Catégories Pro</div>
-            <label class="rd-cat-item rd-cat-item--all">
-              <input type="checkbox" class="rd-cat-cb-all" checked>
-              <i class="fas fa-check-double"></i>
-              <span>Toutes les catégories</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
-              <i class="fas fa-laptop"></i>
-              <span>Coworkings</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="entreprise" checked>
-              <i class="fas fa-microchip"></i>
-              <span>Entreprises Data / IT</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="evenement" checked>
-              <i class="fas fa-calendar-days"></i>
-              <span>Événements IT / Emploi</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Contrôles contextuels CYCLO -->
-      <div class="rd-mode-controls rd-mode-controls--hidden" id="mode-ctrl-cyclo">
-        <!-- Combobox catégories Cyclo -->
-        <div class="rd-cat-dropdown" id="cat-dropdown-cyclo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel-cyclo">
-          <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
-            <i class="fas fa-layer-group rd-cat-icon"></i>
-            <span class="rd-cat-trigger-label">5 catégories</span>
-            <i class="fas fa-chevron-down rd-cat-chevron"></i>
-          </button>
-          <div class="rd-cat-panel" id="cat-panel-cyclo" role="listbox">
-            <div class="rd-cat-panel-header">Catégories Cyclo</div>
-            <label class="rd-cat-item rd-cat-item--all">
-              <input type="checkbox" class="rd-cat-cb-all" checked>
-              <i class="fas fa-check-double"></i>
-              <span>Toutes les catégories</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="camping" checked>
-              <i class="fas fa-campground"></i>
-              <span>Campings</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="piscine" checked>
-              <i class="fas fa-person-swimming"></i>
-              <span>Piscines / Baignade</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="fontaine" checked>
-              <i class="fas fa-droplet"></i>
-              <span>Points d'eau</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="douche" checked>
-              <i class="fas fa-shower"></i>
-              <span>Douches publiques</span>
-            </label>
-            <label class="rd-cat-item">
-              <input type="checkbox" class="rd-cat-cb" data-type="abri" checked>
-              <i class="fas fa-house-chimney"></i>
-              <span>Abris / Refuges</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </div><!-- /.rd-panels-outer -->
 
     <!-- ══════════════════════════════════════════════════════ -->
     <!-- CONTENU PRINCIPAL — container admin-style              -->
@@ -1227,6 +1274,10 @@ import OceanBackground from '../components/OceanBackground.astro';
     async function search() {
       if (currentLat === null || currentLon === null) return;
 
+      // Active le bouton Actualiser dès qu'une position est disponible
+      const btnRefresh = document.getElementById('btn-refresh');
+      if (btnRefresh) btnRefresh.disabled = false;
+
       // Clé de cache : position arrondie 2 décimales (~1 km) + rayon + mode
       const cacheKey = `${currentLat.toFixed(2)},${currentLon.toFixed(2)},${currentRadius},${currentMode}`;
       const now = Date.now();
@@ -1521,11 +1572,19 @@ import OceanBackground from '../components/OceanBackground.astro';
       ).join('');
     }
 
-    function hintHTML() {
+    function hintHTML(mode) {
+      const m = mode || currentMode || 'pro';
+      const modeDesc = m === 'cyclo'
+        ? '<strong>Cyclo</strong> — Campings · Piscines · Points d\'eau · Abris'
+        : '<strong>Pro</strong> — Coworkings · Entreprises Data/IT · Événements';
       return `<li class="rd-hint">
         <i class="fas fa-crosshairs"></i>
         <strong>Radar Terrain</strong>
-        <span>Sélectionnez une étape dans le menu ou cliquez sur<br><em>📍 Je suis ici</em> pour lancer la recherche</span>
+        <ol class="rd-hint-steps">
+          <li><span class="rd-hint-num">①</span> <strong>Position</strong> — Choisissez une ville dans le menu ou cliquez sur <em>📍 Je suis ici</em></li>
+          <li><span class="rd-hint-num">②</span> <strong>Mode</strong> — ${modeDesc}</li>
+          <li><span class="rd-hint-num">③</span> <strong>Filtres</strong> — Affinez par catégorie via le menu <em>Catégories</em> ou les chips sur la carte</li>
+        </ol>
       </li>`;
     }
 
@@ -1575,6 +1634,14 @@ import OceanBackground from '../components/OceanBackground.astro';
 
       // Bouton géolocalisation
       document.getElementById('btn-locate').addEventListener('click', locateMe);
+
+      // Bouton Actualiser — force un rechargement réseau (bypass cache)
+      document.getElementById('btn-refresh').addEventListener('click', () => {
+        if (currentLat === null || currentLon === null) return;
+        lastSearchKey  = null; // invalide le cache pour forcer un appel réseau
+        lastSearchTime = 0;
+        search();
+      });
 
 
 
@@ -1743,7 +1810,13 @@ import OceanBackground from '../components/OceanBackground.astro';
 
         updateCatLabel();
 
-        // 6. Si le tab actif n'est plus disponible dans ce mode → retour sur Carte
+        // 6. Hint dynamique — met à jour le guide ①②③ si aucune recherche n'a encore eu lieu
+        const resultsList = document.getElementById('results-list');
+        if (resultsList && resultsList.querySelector('.rd-hint')) {
+          resultsList.innerHTML = hintHTML(mode);
+        }
+
+        // 7. Si le tab actif n'est plus disponible dans ce mode → retour sur Carte
         const currentTab = document.querySelector('.rd-tab--active');
         if (currentTab) {
           const modes = (currentTab.dataset.modes || '').split(',');
@@ -1854,6 +1927,216 @@ import OceanBackground from '../components/OceanBackground.astro';
     transition: border-color var(--transition-fast);
   }
   .rd-select:focus { outline: none; border-color: var(--accent-cyan); }
+
+  /* ══════════════════════════════════════════════════════════
+     PANNEAU DE CONTRÔLE ①②③④ — rd-controls-panel
+  ══════════════════════════════════════════════════════════ */
+
+  .rd-controls-panel {
+    flex-shrink: 0;
+    background: rgba(10, 18, 32, 0.96);
+    border: 1px solid rgba(45, 130, 170, 0.18);
+    border-bottom: 2px solid rgba(45, 130, 170, 0.22);
+    padding: 10px 16px;
+    max-width: 1200px;
+    margin: 0 auto 0.5rem;
+    width: 100%;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  /* Ligne principale — flex row avec séparateurs */
+  .rd-ctrl-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  /* Séparateur vertical entre groupes */
+  .rd-ctrl-vsep {
+    width: 1px;
+    background: rgba(77, 184, 212, 0.12);
+    flex-shrink: 0;
+    align-self: stretch;
+    margin: 0 14px;
+  }
+
+  /* Un groupe de contrôle (①②③④) */
+  .rd-ctrl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 3px 0;
+    min-width: 0;
+  }
+
+  /* Ligne label : badge + texte + hint */
+  .rd-ctrl-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  /* Badge numéroté ①②③④ */
+  .rd-step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: rgba(77, 184, 212, 0.12);
+    border: 1px solid rgba(77, 184, 212, 0.28);
+    border-radius: 50%;
+    color: var(--accent-cyan);
+    font-size: 0.68rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* Hint (description courte du groupe) */
+  .rd-ctrl-hint {
+    font-size: 0.58rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgba(143, 163, 184, 0.5);
+    font-style: italic;
+  }
+
+  /* Corps du groupe — aligne les contrôles sur une ligne */
+  .rd-ctrl-body {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  /* Statut au repos */
+  .rd-status-idle { color: var(--text-muted); }
+
+  /* Light mode */
+  [data-theme="light"] .rd-controls-panel {
+    background: rgba(234, 241, 247, 0.98);
+    border-color: rgba(26, 127, 160, 0.2);
+    border-bottom-color: rgba(26, 127, 160, 0.35);
+  }
+  [data-theme="light"] .rd-ctrl-vsep { background: rgba(26, 127, 160, 0.15); }
+  [data-theme="light"] .rd-ctrl-label { color: #4a6275; }
+  [data-theme="light"] .rd-step-badge {
+    background: rgba(26, 127, 160, 0.1);
+    border-color: rgba(26, 127, 160, 0.28);
+    color: #0e7fa8;
+  }
+  [data-theme="light"] .rd-ctrl-hint { color: rgba(74, 98, 117, 0.6); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .rd-ctrl-vsep { margin: 0 8px; }
+  }
+  @media (max-width: 640px) {
+    .rd-controls-panel { padding: 8px 10px; margin: 0 8px 0.5rem; }
+    .rd-ctrl-vsep { display: none; }
+    .rd-ctrl-row { gap: 8px; row-gap: 6px; }
+    .rd-ctrl-group { padding: 2px 0; }
+    .rd-ctrl-body { flex-wrap: wrap; }
+    .rd-ctrl-hint { display: none; }
+  }
+
+  /* ── Variantes panels : recherche & filtres ────────────── */
+  /* Wrapper centré identique au rd-container */
+  .rd-panels-outer {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .rd-panel--search {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-bottom: 1px solid rgba(45, 130, 170, 0.08);
+    margin-bottom: 0;
+    /* centrage géré par rd-panels-outer */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .rd-panel--filters {
+    padding: 6px 16px;
+    background: rgba(7, 13, 24, 0.93);
+    border: 1px solid rgba(45, 130, 170, 0.14);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    margin: 0 0 1rem;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.22);
+  }
+
+  /* Barre statut + bouton Actualiser */
+  .rd-filters-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 5px;
+    border-top: 1px solid rgba(77, 184, 212, 0.1);
+  }
+  .rd-filters-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* Libellé « Catégories » */
+  .rd-filter-zone-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-right: 10px;
+    border-right: 1px solid rgba(77, 184, 212, 0.14);
+    margin-right: 4px;
+  }
+  .rd-filter-zone-title i { font-size: 0.68rem; color: rgba(77, 184, 212, 0.42); }
+
+  /* Light mode */
+  [data-theme="light"] .rd-panel--search {
+    border-bottom-color: rgba(26, 127, 160, 0.1);
+  }
+  [data-theme="light"] .rd-panel--filters {
+    background: rgba(221, 232, 244, 0.96);
+    border-color: rgba(26, 127, 160, 0.16);
+    border-top: none;
+  }
+  [data-theme="light"] .rd-filters-bottom {
+    border-top-color: rgba(26, 127, 160, 0.12);
+  }
+  [data-theme="light"] .rd-filter-zone-title { color: #4a6275; }
+  [data-theme="light"] .rd-filter-zone-title i { color: rgba(26, 127, 160, 0.38); }
+  [data-theme="light"] .rd-filters-info { color: #4a6275; }
+
+  @media (max-width: 640px) {
+    .rd-panels-outer { padding: 0 0.5rem; }
+    .rd-panel--filters { padding: 6px 10px; margin-bottom: 0.75rem; }
+    .rd-container { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .rd-filter-zone-title { display: none; }
+    .rd-filters-bottom { flex-wrap: wrap; gap: 4px; }
+  }
 
   /* ── Dropdown villes Data/IA ──────────────────────────── */
   .rd-city-dropdown {
@@ -2591,6 +2874,32 @@ import OceanBackground from '../components/OceanBackground.astro';
   }
   .rd-hint i { font-size: 2rem; opacity: .25; }
   .rd-hint strong { color: var(--accent-cyan); font-size: var(--text-base); }
+  .rd-hint-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+    max-width: 360px;
+  }
+  .rd-hint-steps li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .rd-hint-steps li strong { color: var(--accent-cyan); font-size: inherit; }
+  .rd-hint-steps li em { color: var(--text-light); font-style: normal; }
+  .rd-hint-num {
+    font-size: 1rem;
+    color: var(--accent-cyan);
+    opacity: .7;
+    flex-shrink: 0;
+  }
 
   .skeleton-item {
     padding: 12px 14px;

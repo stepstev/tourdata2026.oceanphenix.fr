@@ -144,6 +144,33 @@ switch ($type) {
         proxyFetchCached($url, "commune_{$lat}_{$lon}", 3600);
         break;
 
+    case 'overpass':
+        if ($lat === null || $lon === null) jsonError('lat/lon requis');
+        $mode    = in_array($_GET['mode'] ?? '', ['pro', 'cyclo']) ? $_GET['mode'] : 'cyclo';
+        $radiusM = $radius * 1000;
+        if ($mode === 'pro') {
+            $query = "[out:json][timeout:20];"
+                   . "(node[amenity=coworking_space](around:{$radiusM},{$lat},{$lon});"
+                   . "way[amenity=coworking_space](around:{$radiusM},{$lat},{$lon}););"
+                   . "out center tags;";
+        } else {
+            $query = "[out:json][timeout:25];("
+                   . "node[tourism=camp_site](around:{$radiusM},{$lat},{$lon});"
+                   . "way[tourism=camp_site](around:{$radiusM},{$lat},{$lon});"
+                   . "node[leisure=swimming_pool][access!=private](around:{$radiusM},{$lat},{$lon});"
+                   . "node[sport=swimming](around:{$radiusM},{$lat},{$lon});"
+                   . "node[amenity=drinking_water](around:{$radiusM},{$lat},{$lon});"
+                   . "node[man_made=water_tap](around:{$radiusM},{$lat},{$lon});"
+                   . "node[amenity=shower](around:{$radiusM},{$lat},{$lon});"
+                   . "node[amenity=shelter](around:{$radiusM},{$lat},{$lon});"
+                   . "node[tourism=wilderness_hut](around:{$radiusM},{$lat},{$lon});"
+                   . "node[tourism=alpine_hut](around:{$radiusM},{$lat},{$lon});"
+                   . ");out center tags;";
+        }
+        $url = 'https://overpass-api.de/api/interpreter?data=' . urlencode($query);
+        proxyFetchCached($url, "overpass_{$mode}_{$lat}_{$lon}_{$radius}", 600);
+        break;
+
     case 'events':
         if ($lat === null || $lon === null) jsonError('lat/lon requis');
         $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
@@ -164,8 +191,24 @@ switch ($type) {
         proxyFetchCached($url, "events_{$lat}_{$lon}", 3600); // Cache 1h
         break;
 
+    case 'salons-nationaux':
+        $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
+        if (empty($openagendaKey)) {
+            echo json_encode(['total' => 0, 'events' => [], '_info' => 'Configurez OPENAGENDA_KEY.'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+        $keywords = 'data intelligence-artificielle emploi numérique tech salon forum recrutement';
+        $url = sprintf(
+            'https://api.openagenda.com/v2/events?key=%s&keyword=%s&size=30&monolingual=fr&timings[gte]=%s',
+            urlencode($openagendaKey),
+            urlencode($keywords),
+            urlencode(date('Y-m-d'))
+        );
+        proxyFetchCached($url, 'salons-nationaux', 3600); // Cache 1h
+        break;
+
     default:
-        jsonError("Type inconnu : $type. Valeurs acceptées : campings, entreprises, commune");
+        jsonError("Type inconnu : $type. Valeurs acceptées : overpass, campings, entreprises, commune, events, salons-nationaux");
 }
 
 // ── Fonctions utilitaires ─────────────────────────────────────────────────────

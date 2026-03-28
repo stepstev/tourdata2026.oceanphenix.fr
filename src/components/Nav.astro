@@ -79,6 +79,39 @@
       })();
     </script>
 
+    <!-- Dropdown toggle : click sur mobile / touch -->
+    <script is:inline>
+      (function () {
+        document.addEventListener('DOMContentLoaded', function () {
+          var triggers = document.querySelectorAll('.nav-has-dropdown .nav-dropdown-trigger');
+          triggers.forEach(function (trigger) {
+            trigger.addEventListener('click', function (e) {
+              var hamburger = document.getElementById('nav-hamburger');
+              var mobileMode = window.getComputedStyle(hamburger).display !== 'none';
+              if (mobileMode) {
+                e.preventDefault();
+                var li = trigger.closest('.nav-has-dropdown');
+                var wasOpen = li.classList.contains('is-open');
+                // Fermer tous les autres
+                document.querySelectorAll('.nav-has-dropdown').forEach(function (other) {
+                  other.classList.remove('is-open');
+                });
+                if (!wasOpen) li.classList.add('is-open');
+              }
+            });
+          });
+          // Fermer en cliquant ailleurs
+          document.addEventListener('click', function (e) {
+            if (!e.target.closest('.nav-has-dropdown')) {
+              document.querySelectorAll('.nav-has-dropdown').forEach(function (li) {
+                li.classList.remove('is-open');
+              });
+            }
+          });
+        });
+      }());
+    </script>
+
     <!-- Right controls: theme toggle + hamburger -->
     <div class="nav-controls">
       <!-- Theme toggle: moon (dark) / sun (light) -->

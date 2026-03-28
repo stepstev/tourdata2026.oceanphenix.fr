@@ -417,7 +417,6 @@
             position: absolute;
             top: calc(100% + 8px);
             left: 50%;
-            transform: translateX(-50%);
             min-width: 180px;
             background: rgba(8,18,36,0.97);
             border: 1px solid rgba(77,184,212,0.18);
@@ -432,8 +431,18 @@
             transform: translateX(-50%) translateY(-4px);
             z-index: 200;
         }
+        /* Pont invisible pour ne pas perdre le :hover dans la lacune de 8px */
+        .nav-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+        }
         .nav-has-dropdown:hover .nav-dropdown,
-        .nav-has-dropdown:focus-within .nav-dropdown {
+        .nav-has-dropdown:focus-within .nav-dropdown,
+        .nav-has-dropdown.is-open .nav-dropdown {
             opacity: 1;
             pointer-events: auto;
             transform: translateX(-50%) translateY(0);
@@ -462,6 +471,37 @@
         }
         [data-theme="light"] .nav-dropdown a       { color: #4a6275 !important; }
         [data-theme="light"] .nav-dropdown a:hover { color: var(--accent-blue) !important; background: rgba(26,127,160,0.08) !important; }
+
+        /* Mobile : dropdown inline dans le panneau hamburger */
+        @media (max-width: 768px) {
+            .nav-has-dropdown .nav-dropdown {
+                position: static;
+                opacity: 0;
+                pointer-events: none;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-left: 2px solid rgba(77,184,212,0.2);
+                background: transparent;
+                padding: 0 0 0 0.75rem;
+                margin: 0.15rem 0 0.15rem 0.5rem;
+                min-width: unset;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.25s ease, opacity 0.2s ease;
+            }
+            .nav-has-dropdown.is-open .nav-dropdown {
+                opacity: 1;
+                pointer-events: auto;
+                max-height: 250px;
+            }
+            .nav-has-dropdown::before { display: none; }
+            .nav-dropdown-trigger {
+                width: 100% !important;
+                justify-content: space-between !important;
+            }
+            .nav-has-dropdown.is-open .nav-dd-chevron { transform: rotate(180deg); }
+        }
 
 
 

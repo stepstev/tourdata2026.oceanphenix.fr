@@ -655,6 +655,8 @@ import OceanBackground from '../components/OceanBackground.astro';
     // ── État — Salons nationaux ────────────────────────────────
     let salonsData        = [];
     let salonsLoaded      = false;
+    let eventsNoKey       = false; // true si OPENAGENDA_KEY absent côté serveur
+    let salonsNoKey       = false;
     let salonDomains      = new Set(['emploi', 'data', 'ia', 'dev', 'tech']);
     let salonFormats      = new Set(['presentiel', 'hybride', 'visio', 'autre']);
 
@@ -868,7 +870,7 @@ import OceanBackground from '../components/OceanBackground.astro';
         const tags = el.tags || {};
         let type = 'autre';
         if (tags.tourism === 'camp_site')                                                  type = 'camping';
-        else if (tags.amenity === 'coworking_space')                                       type = 'coworking';
+        else if (tags.amenity === 'coworking_space' || tags.office === 'coworking')        type = 'coworking';
         else if (tags.amenity === 'shower')                                                type = 'douche';
         else if (tags.amenity === 'drinking_water' || tags.man_made === 'water_tap')       type = 'fontaine';
         else if (tags.leisure === 'swimming_pool' || tags.sport === 'swimming')            type = 'piscine';
@@ -1000,6 +1002,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       const resp = await fetch(url, { signal: signal ?? AbortSignal.timeout(15000) });
       if (!resp.ok) throw new Error(`Events HTTP ${resp.status}`);
       const data = await resp.json();
+      if (data._nokey) { eventsNoKey = true; return []; }
       if (data.error || data._error || !data.events) return [];
       return (data.events || []).map(e => {
         const loc = e.location || {};
@@ -1089,6 +1092,28 @@ import OceanBackground from '../components/OceanBackground.astro';
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
 
+        if (data._nokey) {
+          salonsNoKey = true;
+          // Afficher les salons admin uniquement (publiés via Admin)
+          const adminOnly = adminProData.salons.map(s => ({
+            ...s,
+            domaines: s.domaines && s.domaines.length ? s.domaines : ['data'],
+            format: s.format || 'autre',
+          }));
+          salonsData = adminOnly;
+          salonsLoaded = true;
+          if (adminOnly.length === 0 && listEl) {
+            listEl.innerHTML = `<li class="no-results lt-nokey">
+              <i class="fas fa-key"></i> <strong>Clé OpenAgenda non configurée</strong>&nbsp;—
+              Ajoutez vos salons via <strong>Admin → Radar Pro → Salons</strong>, puis publiez.
+            </li>`;
+          } else {
+            renderSalons();
+          }
+          if (countEl) countEl.textContent = adminOnly.length || '!';
+          return;
+        }
+
         salonsData = (data.events || []).map(e => {
           const loc   = e.location || {};
           const title = e.title?.fr || e.title?.en || 'Événement';
@@ -1141,7 +1166,15 @@ import OceanBackground from '../components/OceanBackground.astro';
       const wrap = document.getElementById('list-evenement');
       if (!wrap) return;
       if (items.length === 0) {
-        wrap.innerHTML = '<p class="lt-empty"><i class="fas fa-calendar-xmark"></i> Aucun événement dans ce rayon.</p>';
+        if (eventsNoKey) {
+          wrap.innerHTML = `<p class="lt-empty lt-nokey">
+            <i class="fas fa-key"></i> <strong>Clé OpenAgenda non configurée</strong><br>
+            Les événements API sont indisponibles. Ajoutez vos événements manuellement via
+            <strong>Admin → Radar Pro → Événements</strong>, puis publiez.
+          </p>`;
+        } else {
+          wrap.innerHTML = '<p class="lt-empty"><i class="fas fa-calendar-xmark"></i> Aucun événement dans ce rayon.</p>';
+        }
         return;
       }
       const rows = items.map(e => {
@@ -3499,6 +3532,22 @@ import OceanBackground from '../components/OceanBackground.astro';
     gap: 8px;
   }
   .lt-empty i { opacity: 0.5; }
+
+  /* Message "clé API manquante" */
+  .lt-nokey {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    background: rgba(245, 158, 11, 0.07);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    color: #d4a843;
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .lt-nokey i { opacity: 1; color: #f59e0b; }
+  li.lt-nokey { list-style: none; }
 
   /* ── Liens utiles sections ───────────────────────────── */
   .lu-section { margin-bottom: 1.75rem; }

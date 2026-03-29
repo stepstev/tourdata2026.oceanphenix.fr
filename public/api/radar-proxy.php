@@ -122,11 +122,16 @@ switch ($type) {
 
         $nafs = ['6311Z', '6202A', '7022Z', '6201Z', '5829A'];
         $results = [];
-        $debug  = [];
+        $debug   = [];
+        $tBudget = microtime(true); // budget temps total : 22s max pour 5 NAFs
         foreach ($nafs as $naf) {
+            if ((microtime(true) - $tBudget) > 22) {
+                $debug[] = "$naf: skip (budget temps épuisé)";
+                continue;
+            }
             $url = "https://recherche-entreprises.api.gouv.fr/search"
                  . "?activite_principale={$naf}&departement={$dept}&per_page=10&page=1";
-            $raw = httpGet($url, 12);
+            $raw = httpGet($url, 5); // 5s par NAF — évite le timeout PHP global
             if ($raw === false) {
                 $debug[] = "$naf: timeout/erreur réseau";
                 continue;
@@ -221,8 +226,7 @@ switch ($type) {
         if ($lat === null || $lon === null) jsonError('lat/lon requis');
         $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
         if (empty($openagendaKey)) {
-            // Clé non configurée — retourner tableau vide proprement
-            echo json_encode(['total' => 0, 'events' => [], '_info' => 'Configurez OPENAGENDA_KEY en variable d\'environnement sur le serveur.'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['total' => 0, 'events' => [], '_nokey' => true, '_info' => 'Configurez OPENAGENDA_KEY en variable d\'environnement sur le serveur.'], JSON_UNESCAPED_UNICODE);
             exit;
         }
         $keywords = 'data informatique intelligence-artificielle emploi numérique BI tech développeur recrutement';
@@ -240,7 +244,7 @@ switch ($type) {
     case 'salons-nationaux':
         $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
         if (empty($openagendaKey)) {
-            echo json_encode(['total' => 0, 'events' => [], '_info' => 'Configurez OPENAGENDA_KEY sur le serveur.'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['total' => 0, 'events' => [], '_nokey' => true, '_info' => 'Configurez OPENAGENDA_KEY sur le serveur.'], JSON_UNESCAPED_UNICODE);
             exit;
         }
         $keywords = 'data informatique intelligence-artificielle emploi numérique BI tech développeur recrutement salon forum';

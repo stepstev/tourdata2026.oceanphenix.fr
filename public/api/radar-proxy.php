@@ -10,6 +10,10 @@
  *   /api/radar-proxy.php?type=campings&lat=48.63&lon=2.09&radius=10
  *   /api/radar-proxy.php?type=entreprises&dept=91
  *   /api/radar-proxy.php?type=commune&lat=48.63&lon=2.09
+ *
+ * SETUP clé OpenAgenda : créer public/api/radar-env.php sur le serveur (jamais dans le repo) :
+ * <?php
+ * $OPENAGENDA_KEY = 'votre_cle_publique_openagenda';
  */
 
 header('Content-Type: application/json; charset=utf-8');
@@ -28,6 +32,12 @@ if ($allowed) {
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
+
+// ── Credentials API (radar-env.php, jamais dans le repo) ─────────────────────
+$_radarEnvFile = __DIR__ . '/radar-env.php';
+if (file_exists($_radarEnvFile)) require_once $_radarEnvFile;
+$OPENAGENDA_KEY = $OPENAGENDA_KEY ?? getenv('OPENAGENDA_KEY') ?: '';
+unset($_radarEnvFile);
 
 // ── Paramètres ────────────────────────────────────────────────────────────────
 $type   = $_GET['type']   ?? '';
@@ -224,7 +234,7 @@ switch ($type) {
 
     case 'events':
         if ($lat === null || $lon === null) jsonError('lat/lon requis');
-        $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
+        $openagendaKey = $OPENAGENDA_KEY;
         if (empty($openagendaKey)) {
             echo json_encode(['total' => 0, 'events' => [], '_nokey' => true, '_info' => 'Configurez OPENAGENDA_KEY en variable d\'environnement sur le serveur.'], JSON_UNESCAPED_UNICODE);
             exit;
@@ -242,7 +252,7 @@ switch ($type) {
         break;
 
     case 'salons-nationaux':
-        $openagendaKey = getenv('OPENAGENDA_KEY') ?: '';
+        $openagendaKey = $OPENAGENDA_KEY;
         if (empty($openagendaKey)) {
             echo json_encode(['total' => 0, 'events' => [], '_nokey' => true, '_info' => 'Configurez OPENAGENDA_KEY sur le serveur.'], JSON_UNESCAPED_UNICODE);
             exit;

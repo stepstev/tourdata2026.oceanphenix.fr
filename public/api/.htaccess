@@ -10,5 +10,11 @@
     Require all denied
 </Files>
 
+# Bloquer l'accès direct à la clé OpenAgenda
+# radar-env.php : credentials (jamais dans le repo — upload manuel)
+<Files "radar-env.php">
+    Require all denied
+</Files>
+
 # Pas d'index directory listing
 Options -Indexes

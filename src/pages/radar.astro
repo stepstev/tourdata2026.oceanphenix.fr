@@ -1683,10 +1683,13 @@ import OceanBackground from '../components/OceanBackground.astro';
     .rd-ctrl-vsep      { display: none; }
     .rd-panel-zone-label { display: none; }
 
-    /* ── Zone 1 : ① pleine largeur, ② et ③ côte à côte ── */
-    .rd-ctrl-row  { flex-wrap: wrap; gap: 0; row-gap: 8px; }
+    /* ── Zone 1 : ① pleine largeur · ② + ③ côte à côte sur ligne 2 ── */
+    .rd-ctrl-row  { flex-wrap: wrap; gap: 0; row-gap: 8px; align-items: center; }
     .rd-ctrl-hint { display: none; }
     .rd-ctrl-group { padding: 0; }
+
+    /* Masquer les labels ② ③ sur mobile : icônes et curseur suffisent */
+    .rd-ctrl-group:not(.rd-ctrl-group--pos) .rd-ctrl-label { display: none; }
 
     /* ① Position : pleine largeur */
     .rd-ctrl-group--pos { flex: 0 0 100%; }
@@ -1695,12 +1698,17 @@ import OceanBackground from '../components/OceanBackground.astro';
     .rd-ctrl-group--pos .rd-city-trigger  { width: 100%; min-width: 0; }
     #btn-locate { flex: 0 0 36px; width: 36px; padding: 0; justify-content: center; }
 
-    /* ② Rayon : prend l'espace restant, slider s'étire */
-    .rd-ctrl-group:not(.rd-ctrl-group--pos):not(.rd-ctrl-group--mode) { flex: 1; min-width: 0; }
-    .rd-radius-inline { flex-shrink: 1; width: 100%; box-sizing: border-box; }
-    #radius-slider    { flex: 1; min-width: 0; width: 100%; }
+    /* ② Rayon : flex:1, slider occupe tout l'espace */
+    .rd-ctrl-group:not(.rd-ctrl-group--pos):not(.rd-ctrl-group--mode) {
+      flex: 1 1 0; min-width: 0;
+    }
+    .rd-ctrl-group:not(.rd-ctrl-group--pos):not(.rd-ctrl-group--mode) .rd-ctrl-body {
+      width: 100%;
+    }
+    .rd-radius-inline { width: 100%; flex-shrink: 1; box-sizing: border-box; }
+    #radius-slider    { flex: 1 1 0; min-width: 0; }
 
-    /* ③ Mode : largeur naturelle (2 boutons icône) */
+    /* ③ Mode : largeur fixe (2 × 34px + gap) */
     .rd-ctrl-group--mode { flex: 0 0 auto; }
     .rd-mode-toggle { gap: 5px; }
     .rd-mode-btn    { width: 34px; height: 34px; }

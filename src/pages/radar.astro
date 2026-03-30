@@ -173,110 +173,105 @@ import OceanBackground from '../components/OceanBackground.astro';
           </div>
         </div>
 
-        <div class="rd-ctrl-vsep" aria-hidden="true"></div>
-
-        <!-- ④ Catégories contextuelles -->
-        <div class="rd-ctrl-group">
-          <span class="rd-ctrl-label">
-            <span class="rd-step-badge">④</span> Catégories
-            <span class="rd-ctrl-hint">Filtrer les types affichés</span>
-          </span>
-          <div class="rd-ctrl-body">
-
-            <!-- Catégories Pro -->
-            <div class="rd-mode-controls" id="mode-ctrl-pro">
-              <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
-                <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
-                  <i class="fas fa-layer-group rd-cat-icon"></i>
-                  <span class="rd-cat-trigger-label">3 catégories</span>
-                  <i class="fas fa-chevron-down rd-cat-chevron"></i>
-                </button>
-                <div class="rd-cat-panel" id="cat-panel" role="listbox">
-                  <div class="rd-cat-panel-header">Catégories Pro</div>
-                  <label class="rd-cat-item rd-cat-item--all">
-                    <input type="checkbox" class="rd-cat-cb-all" checked>
-                    <i class="fas fa-check-double"></i>
-                    <span>Toutes les catégories</span>
-                  </label>
-                  <label class="rd-cat-item">
-                    <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
-                    <i class="fas fa-laptop"></i>
-                    <span>Coworkings</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Catégories Cyclo -->
-            <div class="rd-mode-controls rd-mode-controls--hidden" id="mode-ctrl-cyclo">
-              <div class="rd-cat-dropdown" id="cat-dropdown-cyclo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel-cyclo">
-                <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
-                  <i class="fas fa-layer-group rd-cat-icon"></i>
-                  <span class="rd-cat-trigger-label">5 catégories</span>
-                  <i class="fas fa-chevron-down rd-cat-chevron"></i>
-                </button>
-                <div class="rd-cat-panel" id="cat-panel-cyclo" role="listbox">
-                  <div class="rd-cat-panel-header">Catégories Cyclo</div>
-                  <label class="rd-cat-item rd-cat-item--all">
-                    <input type="checkbox" class="rd-cat-cb-all" checked>
-                    <i class="fas fa-check-double"></i>
-                    <span>Toutes les catégories</span>
-                  </label>
-                  <label class="rd-cat-item">
-                    <input type="checkbox" class="rd-cat-cb" data-type="camping" checked>
-                    <i class="fas fa-campground"></i>
-                    <span>Campings</span>
-                  </label>
-                  <label class="rd-cat-item">
-                    <input type="checkbox" class="rd-cat-cb" data-type="piscine" checked>
-                    <i class="fas fa-person-swimming"></i>
-                    <span>Piscines / Baignade</span>
-                  </label>
-                  <label class="rd-cat-item">
-                    <input type="checkbox" class="rd-cat-cb" data-type="fontaine" checked>
-                    <i class="fas fa-droplet"></i>
-                    <span>Points d'eau</span>
-                  </label>
-                  <label class="rd-cat-item">
-                    <input type="checkbox" class="rd-cat-cb" data-type="douche" checked>
-                    <i class="fas fa-shower"></i>
-                    <span>Douches publiques</span>
-                  </label>
-                  <label class="rd-cat-item">
-                    <input type="checkbox" class="rd-cat-cb" data-type="abri" checked>
-                    <i class="fas fa-house-chimney"></i>
-                    <span>Abris / Refuges</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
       </div>
-    </div>
 
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- ZONE 2 — STATUT & ACTUALISATION                       -->
-    <!-- ══════════════════════════════════════════════════════ -->
-    <div class="rd-controls-panel rd-panel--filters">
-      <div class="rd-filters-bottom">
+      <!-- ── Barre basse : statut · ④ catégories · légende · actions ── -->
+      <div class="rd-panel-bottom" id="rd-panel-bottom">
+
+        <!-- Statut -->
         <div class="rd-filters-info">
           <span class="rd-dot" id="rd-dot"></span>
           <span id="loading-indicator" class="rd-status-label hidden" aria-live="polite">Chargement…</span>
           <span id="results-count" class="rd-status-label rd-status-idle">Sélectionnez une étape</span>
         </div>
-        <button id="btn-refresh" class="rd-btn rd-btn--ghost" disabled aria-label="Relancer la recherche"
-          title="Relance la recherche sans cache serveur — utile si les résultats sont incomplets">
-          <i class="fas fa-rotate-right"></i> Actualiser
-        </button>
-        <button id="btn-clear-cache" class="rd-btn rd-btn--warn" disabled aria-label="Vider le cache et relancer"
-          title="Vide le cache serveur et relance toutes les requêtes API depuis zéro">
-          <i class="fas fa-trash-can-arrow-up"></i> Vider cache
-        </button>
+
+        <div class="rd-bottom-vsep" aria-hidden="true"></div>
+
+        <!-- ④ Catégories (inline dans la barre) -->
+        <div class="rd-bottom-cats">
+          <span class="rd-bottom-cat-label"><span class="rd-step-badge">④</span> Filtres</span>
+
+          <!-- Pro -->
+          <div class="rd-mode-controls" id="mode-ctrl-pro">
+            <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
+              <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+                <i class="fas fa-layer-group rd-cat-icon"></i>
+                <span class="rd-cat-trigger-label">3 catégories</span>
+                <i class="fas fa-chevron-down rd-cat-chevron"></i>
+              </button>
+              <div class="rd-cat-panel rd-cat-panel--up" id="cat-panel" role="listbox">
+                <div class="rd-cat-panel-header">Catégories Pro</div>
+                <label class="rd-cat-item rd-cat-item--all">
+                  <input type="checkbox" class="rd-cat-cb-all" checked>
+                  <i class="fas fa-check-double"></i><span>Toutes</span>
+                </label>
+                <label class="rd-cat-item">
+                  <input type="checkbox" class="rd-cat-cb" data-type="coworking" checked>
+                  <i class="fas fa-laptop"></i><span>Coworkings</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cyclo -->
+          <div class="rd-mode-controls rd-mode-controls--hidden" id="mode-ctrl-cyclo">
+            <div class="rd-cat-dropdown" id="cat-dropdown-cyclo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel-cyclo">
+              <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+                <i class="fas fa-layer-group rd-cat-icon"></i>
+                <span class="rd-cat-trigger-label">5 catégories</span>
+                <i class="fas fa-chevron-down rd-cat-chevron"></i>
+              </button>
+              <div class="rd-cat-panel rd-cat-panel--up" id="cat-panel-cyclo" role="listbox">
+                <div class="rd-cat-panel-header">Catégories Cyclo</div>
+                <label class="rd-cat-item rd-cat-item--all">
+                  <input type="checkbox" class="rd-cat-cb-all" checked>
+                  <i class="fas fa-check-double"></i><span>Toutes</span>
+                </label>
+                <label class="rd-cat-item">
+                  <input type="checkbox" class="rd-cat-cb" data-type="camping" checked>
+                  <i class="fas fa-campground"></i><span>Campings</span>
+                </label>
+                <label class="rd-cat-item">
+                  <input type="checkbox" class="rd-cat-cb" data-type="piscine" checked>
+                  <i class="fas fa-person-swimming"></i><span>Piscines</span>
+                </label>
+                <label class="rd-cat-item">
+                  <input type="checkbox" class="rd-cat-cb" data-type="fontaine" checked>
+                  <i class="fas fa-droplet"></i><span>Points d'eau</span>
+                </label>
+                <label class="rd-cat-item">
+                  <input type="checkbox" class="rd-cat-cb" data-type="douche" checked>
+                  <i class="fas fa-shower"></i><span>Douches</span>
+                </label>
+                <label class="rd-cat-item">
+                  <input type="checkbox" class="rd-cat-cb" data-type="abri" checked>
+                  <i class="fas fa-house-chimney"></i><span>Abris</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Légende boutons -->
+        <div class="rd-legend" aria-label="Légende des boutons">
+          <i class="fas fa-circle-info rd-legend-icon"></i>
+          <span><strong>Actualiser</strong> relance la recherche &nbsp;·&nbsp; <strong>Vider cache</strong> force un appel API direct</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="rd-panel-actions">
+          <button id="btn-refresh" class="rd-btn rd-btn--ghost" disabled aria-label="Relancer la recherche"
+            title="Relance sans le cache mémoire JS">
+            <i class="fas fa-rotate-right"></i> Actualiser
+          </button>
+          <button id="btn-clear-cache" class="rd-btn rd-btn--warn" disabled aria-label="Vider le cache et relancer"
+            title="Vide le cache PHP serveur et relance les APIs depuis zéro">
+            <i class="fas fa-trash-can-arrow-up"></i> Vider cache
+          </button>
+        </div>
+
       </div>
-    </div>
+    </div><!-- /.rd-controls-panel -->
 
     </div><!-- /.rd-panels-outer -->
 
@@ -1025,8 +1020,8 @@ import OceanBackground from '../components/OceanBackground.astro';
         banner = document.createElement('div');
         banner.id = 'rd-api-error-banner';
         banner.className = 'rd-api-error-banner';
-        const panel = document.querySelector('.rd-panel--filters .rd-filters-bottom');
-        if (panel) panel.insertAdjacentElement('afterend', banner);
+        const panel = document.getElementById('rd-panel-bottom');
+        if (panel) panel.insertAdjacentElement('beforebegin', banner);
       }
       banner.innerHTML = `<i class="fas fa-triangle-exclamation"></i> ${msg}`;
       banner.classList.remove('rd-api-error-banner--hidden');
@@ -1575,13 +1570,12 @@ import OceanBackground from '../components/OceanBackground.astro';
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
 
-  /* Ligne principale — flex row avec séparateurs */
+  /* Ligne principale — flex row avec séparateurs, pas de wrap */
   .rd-ctrl-row {
     display: flex;
     align-items: stretch;
     gap: 0;
-    flex-wrap: wrap;
-    row-gap: 8px;
+    flex-wrap: nowrap;
   }
 
   /* Séparateur vertical entre groupes */
@@ -1668,22 +1662,29 @@ import OceanBackground from '../components/OceanBackground.astro';
     color: #0e7fa8;
   }
   [data-theme="light"] .rd-ctrl-hint { color: rgba(74, 98, 117, 0.6); }
+  [data-theme="light"] .rd-bottom-cat-label { color: #4a6275; }
+  [data-theme="light"] .rd-panel-bottom { border-top-color: rgba(26, 127, 160, 0.12); }
 
   /* Responsive */
   @media (max-width: 900px) {
     .rd-ctrl-vsep { margin: 0 8px; }
+    .rd-legend { display: none; } /* Masquer la légende sur tablette/mobile */
   }
   @media (max-width: 640px) {
-    .rd-controls-panel { padding: 8px 10px; margin: 0 8px 0.5rem; }
+    .rd-controls-panel { padding: 8px 10px; margin: 0 8px 0.75rem; }
     .rd-ctrl-vsep { display: none; }
-    .rd-ctrl-row { gap: 8px; row-gap: 6px; }
-    .rd-ctrl-group { padding: 2px 0; }
-    .rd-ctrl-body { flex-wrap: wrap; }
+    .rd-ctrl-row { gap: 6px; overflow-x: auto; }
+    .rd-ctrl-group { padding: 2px 0; flex-shrink: 0; }
+    .rd-ctrl-body { flex-wrap: nowrap; }
     .rd-ctrl-hint { display: none; }
+    .rd-panel-bottom { gap: 6px; padding-top: 6px; margin-top: 6px; }
+    .rd-bottom-vsep { display: none; }
+    .rd-bottom-cat-label { display: none; }
+    .rd-panel-actions { gap: 4px; }
+    .rd-panel-actions .rd-btn { padding: 0 10px; font-size: 0.72rem; }
   }
 
-  /* ── Variantes panels : recherche & filtres ────────────── */
-  /* Wrapper centré identique au rd-container */
+  /* ── Wrapper centré ────────────────────────────────────── */
   .rd-panels-outer {
     max-width: 1200px;
     margin: 0 auto;
@@ -1691,33 +1692,83 @@ import OceanBackground from '../components/OceanBackground.astro';
     padding: 0 var(--spacing-sm);
   }
 
+  /* Panneau unique : bords arrondis complets */
   .rd-panel--search {
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    border-bottom: 1px solid rgba(45, 130, 170, 0.08);
-    margin-bottom: 0;
-    /* centrage géré par rd-panels-outer */
-    margin-left: 0;
-    margin-right: 0;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
   }
 
-  .rd-panel--filters {
-    padding: 6px 16px;
-    background: rgba(7, 13, 24, 0.93);
-    border: 1px solid rgba(45, 130, 170, 0.14);
-    border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    margin: 0 0 1rem;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.22);
-  }
-
-  /* Barre statut + bouton Actualiser */
-  .rd-filters-bottom {
+  /* Barre basse : statut · filtres · légende · actions */
+  .rd-panel-bottom {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-top: 5px;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-top: 7px;
+    margin-top: 7px;
     border-top: 1px solid rgba(77, 184, 212, 0.1);
   }
+
+  .rd-bottom-vsep {
+    width: 1px;
+    height: 22px;
+    background: rgba(77, 184, 212, 0.15);
+    flex-shrink: 0;
+  }
+
+  .rd-bottom-cats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .rd-bottom-cat-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .rd-legend {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    min-width: 0;
+    font-size: 0.68rem;
+    color: rgba(143, 163, 184, 0.55);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rd-legend strong { color: rgba(143, 163, 184, 0.8); font-style: normal; }
+  .rd-legend-icon { color: rgba(77, 184, 212, 0.45); font-size: 0.7rem; flex-shrink: 0; }
+  [data-theme="light"] .rd-legend { color: rgba(74, 98, 117, 0.55); }
+  [data-theme="light"] .rd-legend strong { color: rgba(74, 98, 117, 0.8); }
+  [data-theme="light"] .rd-legend-icon { color: rgba(14, 127, 168, 0.4); }
+  [data-theme="light"] .rd-bottom-vsep { background: rgba(26, 127, 160, 0.15); }
+
+  .rd-panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  /* Panel dropdown catégories ouvert vers le haut */
+  .rd-cat-panel--up {
+    top: auto !important;
+    bottom: calc(100% + 6px) !important;
+  }
+
+  /* Barre statut */
   .rd-filters-info {
     display: flex;
     align-items: center;

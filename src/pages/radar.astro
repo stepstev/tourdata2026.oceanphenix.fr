@@ -43,7 +43,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       <div class="rd-ctrl-row">
 
         <!-- ① Position : ville ou GPS -->
-        <div class="rd-ctrl-group">
+        <div class="rd-ctrl-group rd-ctrl-group--pos">
           <span class="rd-ctrl-label">
             <span class="rd-step-badge">①</span> Position
             <span class="rd-ctrl-hint">Choisissez une ville ou utilisez votre GPS</span>
@@ -1665,23 +1665,55 @@ import OceanBackground from '../components/OceanBackground.astro';
   [data-theme="light"] .rd-bottom-cat-label { color: #4a6275; }
   [data-theme="light"] .rd-panel-bottom { border-top-color: rgba(26, 127, 160, 0.12); }
 
-  /* Responsive */
+  /* ── Responsive ─────────────────────────────────────── */
   @media (max-width: 900px) {
     .rd-ctrl-vsep { margin: 0 8px; }
-    .rd-legend { display: none; } /* Masquer la légende sur tablette/mobile */
+    .rd-legend { display: none; }
   }
+
   @media (max-width: 640px) {
-    .rd-controls-panel { padding: 8px 10px; margin: 0 8px 0.75rem; }
+    /* Panneau */
+    .rd-controls-panel { padding: 10px 10px 8px; margin: 0 4px 0.75rem; }
     .rd-ctrl-vsep { display: none; }
-    .rd-ctrl-row { gap: 6px; overflow-x: auto; }
-    .rd-ctrl-group { padding: 2px 0; flex-shrink: 0; }
-    .rd-ctrl-body { flex-wrap: nowrap; }
+
+    /* Ligne contrôles : wrap en 2 lignes */
+    .rd-ctrl-row { flex-wrap: wrap; gap: 0; row-gap: 8px; }
     .rd-ctrl-hint { display: none; }
-    .rd-panel-bottom { gap: 6px; padding-top: 6px; margin-top: 6px; }
-    .rd-bottom-vsep { display: none; }
+    .rd-ctrl-group { padding: 2px 0; }
+
+    /* ① Position — pleine largeur, city trigger flexible */
+    .rd-ctrl-group--pos { flex: 0 0 100%; }
+    .rd-ctrl-group--pos .rd-ctrl-body { width: 100%; }
+    .rd-ctrl-group--pos .rd-city-dropdown { flex: 1; min-width: 0; }
+    .rd-ctrl-group--pos .rd-city-trigger  { width: 100%; min-width: 0; }
+    #btn-locate { flex-shrink: 0; padding: 0 12px; }
+
+    /* ② Rayon + ③ Mode — côte à côte sur la 2e ligne */
+    .rd-ctrl-group:not(.rd-ctrl-group--pos) { flex: 1; min-width: 120px; }
+
+    /* Mode : masquer sous-texte, boutons compacts */
+    .rd-mode-btn { padding: 6px 10px; gap: 6px; }
+    .rd-mode-btn-sub { display: none; }
+    .rd-mode-btn-icon { font-size: 0.9rem; }
+
+    /* Barre basse : 2 lignes sur très petit écran */
+    .rd-panel-bottom { flex-wrap: wrap; gap: 6px; padding-top: 8px; margin-top: 8px; }
+    .rd-bottom-vsep  { display: none; }
     .rd-bottom-cat-label { display: none; }
-    .rd-panel-actions { gap: 4px; }
-    .rd-panel-actions .rd-btn { padding: 0 10px; font-size: 0.72rem; }
+    .rd-legend       { display: none; }
+
+    /* Statut sur toute la largeur, actions en dessous si nécessaire */
+    .rd-filters-info { flex: 1 0 auto; min-width: 0; }
+    .rd-bottom-cats  { flex-shrink: 0; }
+    .rd-panel-actions { flex-shrink: 0; gap: 4px; margin-left: auto; }
+    .rd-panel-actions .rd-btn { height: 30px; padding: 0 10px; font-size: 0.72rem; }
+  }
+
+  @media (max-width: 380px) {
+    /* Très petits écrans : actions sur leur propre ligne */
+    .rd-filters-info { flex: 0 0 100%; }
+    .rd-bottom-cats  { flex: 1; }
+    .rd-panel-actions { flex: 0 0 auto; margin-left: 0; }
   }
 
   /* ── Wrapper centré ────────────────────────────────────── */
@@ -2069,6 +2101,9 @@ import OceanBackground from '../components/OceanBackground.astro';
   .rd-radius-label strong { color: var(--accent-cyan); font-weight: 700; }
   #radius-slider {
     width: 80px;
+    min-width: 60px;
+    max-width: 120px;
+    flex: 1;
     accent-color: var(--accent-cyan);
     cursor: pointer;
   }

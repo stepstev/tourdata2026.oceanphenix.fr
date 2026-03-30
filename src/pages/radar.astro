@@ -268,8 +268,12 @@ import OceanBackground from '../components/OceanBackground.astro';
           <span id="results-count" class="rd-status-label rd-status-idle">Sélectionnez une étape</span>
         </div>
         <button id="btn-refresh" class="rd-btn rd-btn--ghost" disabled aria-label="Relancer la recherche"
-          title="Relance la recherche et ignore le cache — utile si les résultats semblent obsolètes">
+          title="Relance la recherche sans cache serveur — utile si les résultats sont incomplets">
           <i class="fas fa-rotate-right"></i> Actualiser
+        </button>
+        <button id="btn-clear-cache" class="rd-btn rd-btn--warn" disabled aria-label="Vider le cache et relancer"
+          title="Vide le cache serveur et relance toutes les requêtes API depuis zéro">
+          <i class="fas fa-trash-can-arrow-up"></i> Vider cache
         </button>
       </div>
     </div>
@@ -716,9 +720,10 @@ import OceanBackground from '../components/OceanBackground.astro';
 
     // ── Sources de données ────────────────────────────────────
 
-    async function fetchOverpass(lat, lon, radiusM, signal) {
+    async function fetchOverpass(lat, lon, radiusM, signal, nocache = false) {
       const radiusKm = Math.round(radiusM / 1000);
-      const url = `/api/radar-proxy.php?type=overpass&lat=${lat}&lon=${lon}&radius=${radiusKm}&mode=${currentMode}`;
+      const nc = nocache ? '&nocache=1' : '';
+      const url = `/api/radar-proxy.php?type=overpass&lat=${lat}&lon=${lon}&radius=${radiusKm}&mode=${currentMode}${nc}`;
       const resp = await fetch(url, { signal: signal ?? AbortSignal.timeout(25000) });
       if (!resp.ok) {
         const err = new Error(`Overpass HTTP ${resp.status}`);
@@ -771,8 +776,9 @@ import OceanBackground from '../components/OceanBackground.astro';
       }).filter(r => r.type !== 'autre');
     }
 
-    async function fetchCampingsGouv(lat, lon, radiusKm, signal) {
-      const url = `/api/radar-proxy.php?type=campings&lat=${lat}&lon=${lon}&radius=${radiusKm}`;
+    async function fetchCampingsGouv(lat, lon, radiusKm, signal, nocache = false) {
+      const nc = nocache ? '&nocache=1' : '';
+      const url = `/api/radar-proxy.php?type=campings&lat=${lat}&lon=${lon}&radius=${radiusKm}${nc}`;
       const resp = await fetch(url, { signal: signal ?? AbortSignal.timeout(15000) });
       if (!resp.ok) throw new Error(`Campings proxy HTTP ${resp.status}`);
       const data = await resp.json();
@@ -876,19 +882,28 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     // ── Recherche principale ──────────────────────────────────
-    async function search() {
+    async function search(forceRefresh = false) {
       if (currentLat === null || currentLon === null) return;
 
-      // Active le bouton Actualiser dès qu'une position est disponible
-      const btnRefresh = document.getElementById('btn-refresh');
-      if (btnRefresh) btnRefresh.disabled = false;
+      // Active les boutons dès qu'une position est disponible
+      const btnRefresh   = document.getElementById('btn-refresh');
+      const btnClearCache = document.getElementById('btn-clear-cache');
+      if (btnRefresh)    btnRefresh.disabled = false;
+      if (btnClearCache) btnClearCache.disabled = false;
 
       // Clé de cache : position arrondie 2 décimales (~1 km) + rayon + mode
       const cacheKey = `${currentLat.toFixed(2)},${currentLon.toFixed(2)},${currentRadius},${currentMode}`;
       const now = Date.now();
 
+      // forceRefresh : vide l'entrée mémoire pour cette clé + passera nocache=1 au PHP
+      if (forceRefresh) {
+        searchCache.delete(cacheKey);
+        lastSearchKey  = null;
+        lastSearchTime = 0;
+      }
+
       // Throttle — même recherche < 20 s : servir le cache mémoire sans appel réseau
-      if (cacheKey === lastSearchKey && (now - lastSearchTime) < SEARCH_THROTTLE_MS && searchCache.has(cacheKey)) {
+      if (!forceRefresh && cacheKey === lastSearchKey && (now - lastSearchTime) < SEARCH_THROTTLE_MS && searchCache.has(cacheKey)) {
         allResults = searchCache.get(cacheKey);
         renderResults();
         renderMapMarkers();
@@ -929,8 +944,8 @@ import OceanBackground from '../components/OceanBackground.astro';
 
       // Appels conditionnels selon le mode — évite les timeouts inutiles
       const promises = [
-        fetchOverpass(currentLat, currentLon, radiusM, signal),
-        isCyclo ? fetchCampingsGouv(currentLat, currentLon, currentRadius, signal) : Promise.resolve([]),
+        fetchOverpass(currentLat, currentLon, radiusM, signal, forceRefresh),
+        isCyclo ? fetchCampingsGouv(currentLat, currentLon, currentRadius, signal, forceRefresh) : Promise.resolve([]),
         isCyclo ? Promise.resolve([]) : Promise.resolve(getCoworkingsNearby(currentLat, currentLon, currentRadius)),
       ];
 
@@ -986,11 +1001,40 @@ import OceanBackground from '../components/OceanBackground.astro';
       showLoading(false);
 
       const n = allResults.filter(r => activeFilters.has(r.type)).length;
-      if (overpassFailed) {
-        showMapInfo('⚠️', 'Données OSM indisponibles — résultats partiels', 'warn', 5000);
+      const hadAnyError = overpassFailed || campingsFailed;
+
+      if (hadAnyError) {
+        const msg = overpassFailed && campingsFailed
+          ? 'Sources indisponibles — résultats partiels. Cliquez sur "Vider cache" pour réessayer.'
+          : overpassFailed
+            ? 'OSM indisponible — résultats partiels. Cliquez sur "Vider cache" pour réessayer.'
+            : 'Atout France indisponible — campings partiels.';
+        showMapInfo('⚠️', msg, 'warn', 0); // 0 = persistent jusqu'à prochaine action
+        showApiErrorBanner(msg);
       } else {
+        hideApiErrorBanner();
         showMapInfo('🎯', `${n} lieu${n !== 1 ? 'x' : ''} trouvé${n !== 1 ? 's' : ''} — rayon ${currentRadius} km`, 'success', 3500);
+        if (forceRefresh) showMapInfo('✅', 'Cache vidé — données fraîches chargées', 'success', 3000);
       }
+    }
+
+    // ── Banner erreur API ─────────────────────────────────────
+    function showApiErrorBanner(msg) {
+      let banner = document.getElementById('rd-api-error-banner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'rd-api-error-banner';
+        banner.className = 'rd-api-error-banner';
+        const panel = document.querySelector('.rd-panel--filters .rd-filters-bottom');
+        if (panel) panel.insertAdjacentElement('afterend', banner);
+      }
+      banner.innerHTML = `<i class="fas fa-triangle-exclamation"></i> ${msg}`;
+      banner.classList.remove('rd-api-error-banner--hidden');
+    }
+
+    function hideApiErrorBanner() {
+      const banner = document.getElementById('rd-api-error-banner');
+      if (banner) banner.classList.add('rd-api-error-banner--hidden');
     }
 
     // ── Rendu résultats ───────────────────────────────────────
@@ -1223,12 +1267,27 @@ import OceanBackground from '../components/OceanBackground.astro';
       // Bouton géolocalisation
       document.getElementById('btn-locate').addEventListener('click', locateMe);
 
-      // Bouton Actualiser — force un rechargement réseau (bypass cache)
+      // Bouton Actualiser — vide cache JS + relance (conserve cache PHP)
       document.getElementById('btn-refresh').addEventListener('click', () => {
         if (currentLat === null || currentLon === null) return;
-        lastSearchKey  = null; // invalide le cache pour forcer un appel réseau
+        search(false); // bypass JS cache via throttle reset mais pas PHP cache
+      });
+
+      // Bouton Vider cache — vide cache JS + cache PHP + relance depuis zéro
+      document.getElementById('btn-clear-cache').addEventListener('click', async () => {
+        if (currentLat === null || currentLon === null) return;
+        const btn = document.getElementById('btn-clear-cache');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Purge…';
+        hideApiErrorBanner();
+        // Vide le cache JS complet
+        searchCache.clear();
+        lastSearchKey  = null;
         lastSearchTime = 0;
-        search();
+        // Relance avec nocache=1 → bypass PHP cache fichier
+        await search(true);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash-can-arrow-up"></i> Vider cache';
       });
 
 
@@ -1855,6 +1914,39 @@ import OceanBackground from '../components/OceanBackground.astro';
   }
   .rd-btn--ghost:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
   .rd-btn--ghost:disabled { opacity: .35; cursor: not-allowed; }
+
+  .rd-btn--warn {
+    background: rgba(212, 132, 90, 0.12);
+    color: #d4845a;
+    border-color: rgba(212, 132, 90, 0.35);
+  }
+  .rd-btn--warn:hover:not(:disabled) {
+    background: rgba(212, 132, 90, 0.22);
+    border-color: rgba(212, 132, 90, 0.65);
+    color: #e09a70;
+  }
+  .rd-btn--warn:disabled { opacity: .35; cursor: not-allowed; }
+
+  .rd-api-error-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    margin: 0 0 0.5rem;
+    background: rgba(212, 132, 90, 0.1);
+    border: 1px solid rgba(212, 132, 90, 0.35);
+    border-radius: var(--radius-sm);
+    color: #d4845a;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .rd-api-error-banner--hidden { display: none; }
+  [data-theme="light"] .rd-api-error-banner {
+    background: rgba(176, 104, 48, 0.08);
+    border-color: rgba(176, 104, 48, 0.3);
+    color: #b06830;
+  }
+
   .rd-btn--full { width: 100%; justify-content: center; }
 
   /* ── Toggle vue PRO / CYCLO ──────────────────────────────── */

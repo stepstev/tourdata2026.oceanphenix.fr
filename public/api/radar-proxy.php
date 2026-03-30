@@ -35,10 +35,11 @@ header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
 // ── Paramètres ────────────────────────────────────────────────────────────────
-$type   = $_GET['type']   ?? '';
-$lat    = isset($_GET['lat'])    ? (float)$_GET['lat']    : null;
-$lon    = isset($_GET['lon'])    ? (float)$_GET['lon']    : null;
-$radius = isset($_GET['radius']) ? (int)$_GET['radius']   : 10;
+$type    = $_GET['type']   ?? '';
+$lat     = isset($_GET['lat'])    ? (float)$_GET['lat']    : null;
+$lon     = isset($_GET['lon'])    ? (float)$_GET['lon']    : null;
+$radius  = isset($_GET['radius']) ? (int)$_GET['radius']   : 10;
+$nocache = ($_GET['nocache'] ?? '') === '1'; // Bypass lecture cache fichier
 
 // ── Validation ────────────────────────────────────────────────────────────────
 $radius = max(1, min(50, $radius));
@@ -71,10 +72,13 @@ function cacheSet(string $key, string $data): void {
 /**
  * Fetch une URL avec cache. Sur erreur réseau, sert le cache périmé si disponible
  * plutôt que de retourner 502 (résilience O2Switch).
+ * $nocache = true : ignore la lecture du cache mais continue à écrire.
  */
-function proxyFetchCached(string $url, string $cacheKey, int $ttl = 300): void {
-    $cached = cacheGet($cacheKey, $ttl);
-    if ($cached !== null) { echo $cached; exit; }
+function proxyFetchCached(string $url, string $cacheKey, int $ttl = 300, bool $nocache = false): void {
+    if (!$nocache) {
+        $cached = cacheGet($cacheKey, $ttl);
+        if ($cached !== null) { echo $cached; exit; }
+    }
 
     $body = httpGet($url, 12);
 
@@ -139,7 +143,7 @@ switch ($type) {
             . '?where=%s&limit=20&select=nom_commercial,adresse,code_postal,commune,coordonnees_geo,classement,nombre_emplacements',
             urlencode("distance(coordonnees_geo, geom'POINT($lon $lat)', {$radius}km) AND type_hebergement = \"Camping\"")
         );
-        proxyFetchCached($url, "campings_{$lat}_{$lon}_{$radius}", 600);
+        proxyFetchCached($url, "campings_{$lat}_{$lon}_{$radius}", 600, $nocache);
         break;
 
     // ── Points d'intérêt OSM via Overpass ─────────────────────────────────────
@@ -149,8 +153,10 @@ switch ($type) {
         $radiusM = $radius * 1000;
 
         $cacheKey = "overpass_{$mode}_{$lat}_{$lon}_{$radius}";
-        $cached   = cacheGet($cacheKey, 600);
-        if ($cached !== null) { echo $cached; exit; }
+        if (!$nocache) {
+            $cached = cacheGet($cacheKey, 600);
+            if ($cached !== null) { echo $cached; exit; }
+        }
 
         // Timeout OQL calé sur le timeout PHP POST (marge de 2s)
         if ($mode === 'pro') {

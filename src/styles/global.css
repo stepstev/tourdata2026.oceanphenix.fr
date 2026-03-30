@@ -446,10 +446,8 @@
             align-items: center;
             gap: 8px;
             font-size: 0.93rem !important;
-            color: #94b4cc !important;
-            padding: 0.45rem 1rem !important;
-            font-size: 0.78rem !important;
             color: var(--text-muted) !important;
+            padding: 0.45rem 1rem !important;
             white-space: nowrap;
             border-radius: 0 !important;
             background: transparent !important;

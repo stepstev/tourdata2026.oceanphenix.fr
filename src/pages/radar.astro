@@ -30,7 +30,6 @@ import OceanBackground from '../components/OceanBackground.astro';
       </div>
       <h2 class="page-title"><i class="fas fa-crosshairs page-title-icon"></i> Radar Terrain</h2>
       <p class="page-sub">Localisez en temps réel : coworkings et liens utiles Data/IT autour de votre position — TourData 2026</p>
-      <p class="rd-wip-notice"><i class="fas fa-triangle-exclamation"></i> En développement actif — données partielles</p>
     </section>
 
     <!-- ══════════════════════════════════════════════════════ -->
@@ -38,8 +37,9 @@ import OceanBackground from '../components/OceanBackground.astro';
     <!-- ══════════════════════════════════════════════════════ -->
     <div class="rd-panels-outer">
 
-    <!-- ZONE 1 — RECHERCHE : position ① · rayon ② · mode ③   -->
+    <!-- ZONE 1 — Paramètres de recherche : position ① · rayon ② · mode ③ -->
     <div class="rd-controls-panel rd-panel--search">
+      <div class="rd-panel-zone-label"><i class="fas fa-sliders"></i> Paramètres</div>
       <div class="rd-ctrl-row">
 
         <!-- ① Position : ville ou GPS -->
@@ -122,8 +122,8 @@ import OceanBackground from '../components/OceanBackground.astro';
               </div>
             </div>
             <button id="btn-locate" class="rd-btn rd-btn--primary" aria-label="Géolocaliser ma position"
-              title="Utilise le GPS pour centrer la recherche sur votre position exacte">
-              <i class="fas fa-location-dot"></i> Je suis ici
+              data-tooltip="Utiliser le GPS pour centrer la recherche sur ma position exacte">
+              <i class="fas fa-location-dot"></i>
             </button>
           </div>
         </div>
@@ -155,28 +155,28 @@ import OceanBackground from '../components/OceanBackground.astro';
           </span>
           <div class="rd-ctrl-body">
             <div class="rd-mode-toggle" role="group" aria-label="Mode de vue">
-              <button class="rd-mode-btn rd-mode-btn--active" id="btn-mode-pro" data-mode="pro" type="button">
+              <button class="rd-mode-btn rd-mode-btn--active" id="btn-mode-pro" data-mode="pro" type="button"
+                aria-label="Mode Pro"
+                data-tooltip="Mode Pro — Coworkings & liens utiles Data/IT">
                 <i class="fas fa-briefcase rd-mode-btn-icon"></i>
-                <div class="rd-mode-btn-body">
-                  <span class="rd-mode-btn-title">Pro</span>
-                  <span class="rd-mode-btn-sub">Coworkings · Liens utiles</span>
-                </div>
               </button>
-              <button class="rd-mode-btn" id="btn-mode-cyclo" data-mode="cyclo" type="button">
+              <button class="rd-mode-btn" id="btn-mode-cyclo" data-mode="cyclo" type="button"
+                aria-label="Mode Cyclo"
+                data-tooltip="Mode Cyclo — Campings, eau, abris & hébergements">
                 <i class="fas fa-bicycle rd-mode-btn-icon"></i>
-                <div class="rd-mode-btn-body">
-                  <span class="rd-mode-btn-title">Cyclo</span>
-                  <span class="rd-mode-btn-sub">Campings · Hébergements</span>
-                </div>
               </button>
             </div>
           </div>
         </div>
 
       </div>
+    </div><!-- /.rd-panel--search (Zone 1) -->
 
-      <!-- ── Barre basse : statut · ④ catégories · légende · actions ── -->
-      <div class="rd-panel-bottom" id="rd-panel-bottom">
+    <!-- ZONE 2 — Résultats · Filtres ④ · Actions -->
+    <div class="rd-controls-panel rd-panel--bottom-zone" id="rd-panel-bottom">
+      <div class="rd-panel-zone-label"><i class="fas fa-crosshairs"></i> Résultats &amp; Actions</div>
+
+      <div class="rd-panel-bottom-inner">
 
         <!-- Statut -->
         <div class="rd-filters-info">
@@ -270,8 +270,8 @@ import OceanBackground from '../components/OceanBackground.astro';
           </button>
         </div>
 
-      </div>
-    </div><!-- /.rd-controls-panel -->
+      </div><!-- /.rd-panel-bottom-inner -->
+    </div><!-- /.rd-panel--bottom-zone (Zone 2) -->
 
     </div><!-- /.rd-panels-outer -->
 
@@ -1663,7 +1663,11 @@ import OceanBackground from '../components/OceanBackground.astro';
   }
   [data-theme="light"] .rd-ctrl-hint { color: rgba(74, 98, 117, 0.6); }
   [data-theme="light"] .rd-bottom-cat-label { color: #4a6275; }
-  [data-theme="light"] .rd-panel-bottom { border-top-color: rgba(26, 127, 160, 0.12); }
+  [data-theme="light"] .rd-panel--bottom-zone {
+    background: rgba(218, 232, 241, 0.98);
+    border-top-color: rgba(26, 127, 160, 0.3);
+  }
+  [data-theme="light"] .rd-panel-zone-label { color: rgba(26, 127, 160, 0.6); }
 
   /* ── Responsive ─────────────────────────────────────── */
   @media (max-width: 900px) {
@@ -1672,48 +1676,51 @@ import OceanBackground from '../components/OceanBackground.astro';
   }
 
   @media (max-width: 640px) {
-    /* Panneau */
-    .rd-controls-panel { padding: 10px 10px 8px; margin: 0 4px 0.75rem; }
-    .rd-ctrl-vsep { display: none; }
+    /* Panneaux */
+    .rd-controls-panel { padding: 8px 10px; }
+    .rd-panel--search  { margin-bottom: 0; }
+    .rd-panel--bottom-zone { margin-bottom: 0.75rem; }
+    .rd-ctrl-vsep      { display: none; }
+    .rd-panel-zone-label { display: none; }
 
-    /* Ligne contrôles : wrap en 2 lignes */
-    .rd-ctrl-row { flex-wrap: wrap; gap: 0; row-gap: 8px; }
+    /* ── Zone 1 : empilement vertical ①②③ sans chevauchement ── */
+    .rd-ctrl-row  { flex-direction: column; gap: 6px; }
     .rd-ctrl-hint { display: none; }
-    .rd-ctrl-group { padding: 2px 0; }
+    .rd-ctrl-group { padding: 0; flex: none; width: 100%; }
 
-    /* ① Position — pleine largeur, city trigger flexible */
-    .rd-ctrl-group--pos { flex: 0 0 100%; }
-    .rd-ctrl-group--pos .rd-ctrl-body { width: 100%; }
+    /* ① Position : city trigger full-width + GPS compact */
+    .rd-ctrl-group--pos .rd-ctrl-body { display: flex; width: 100%; gap: 6px; }
     .rd-ctrl-group--pos .rd-city-dropdown { flex: 1; min-width: 0; }
     .rd-ctrl-group--pos .rd-city-trigger  { width: 100%; min-width: 0; }
-    #btn-locate { flex-shrink: 0; padding: 0 12px; }
+    #btn-locate { flex: 0 0 36px; width: 36px; padding: 0; justify-content: center; }
 
-    /* ② Rayon + ③ Mode — côte à côte sur la 2e ligne */
-    .rd-ctrl-group:not(.rd-ctrl-group--pos) { flex: 1; min-width: 120px; }
+    /* ② Rayon : slider pleine largeur, supprime le flex-shrink:0 */
+    .rd-radius-inline { flex-shrink: 1; width: 100%; box-sizing: border-box; }
+    #radius-slider    { flex: 1; min-width: 0; width: 100%; }
 
-    /* Mode : masquer sous-texte, boutons compacts */
-    .rd-mode-btn { padding: 6px 10px; gap: 6px; }
-    .rd-mode-btn-sub { display: none; }
-    .rd-mode-btn-icon { font-size: 0.9rem; }
+    /* ③ Mode : label + deux boutons icône */
+    .rd-mode-toggle { gap: 5px; }
+    .rd-mode-btn    { width: 34px; height: 34px; }
 
-    /* Barre basse : 2 lignes sur très petit écran */
-    .rd-panel-bottom { flex-wrap: wrap; gap: 6px; padding-top: 8px; margin-top: 8px; }
-    .rd-bottom-vsep  { display: none; }
+    /* ── Zone 2 : statut pleine largeur (ligne 1) · cats+actions (ligne 2) ── */
+    .rd-panel-bottom-inner { flex-wrap: wrap; gap: 0; row-gap: 6px; align-items: center; }
+
+    /* Statut : occupe toute la ligne 1 */
+    .rd-filters-info {
+      flex: 0 0 100%;
+      overflow: hidden;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(77, 184, 212, 0.08);
+    }
+    .rd-status-label { max-width: 100%; }
+
+    /* Ligne 2 : cats à gauche, actions à droite */
+    .rd-bottom-vsep      { display: none; }
     .rd-bottom-cat-label { display: none; }
-    .rd-legend       { display: none; }
-
-    /* Statut sur toute la largeur, actions en dessous si nécessaire */
-    .rd-filters-info { flex: 1 0 auto; min-width: 0; }
-    .rd-bottom-cats  { flex-shrink: 0; }
-    .rd-panel-actions { flex-shrink: 0; gap: 4px; margin-left: auto; }
+    .rd-legend           { display: none; }
+    .rd-bottom-cats      { flex: 0 0 auto; }
+    .rd-panel-actions    { flex: 0 0 auto; margin-left: auto; gap: 4px; }
     .rd-panel-actions .rd-btn { height: 30px; padding: 0 10px; font-size: 0.72rem; }
-  }
-
-  @media (max-width: 380px) {
-    /* Très petits écrans : actions sur leur propre ligne */
-    .rd-filters-info { flex: 0 0 100%; }
-    .rd-bottom-cats  { flex: 1; }
-    .rd-panel-actions { flex: 0 0 auto; margin-left: 0; }
   }
 
   /* ── Wrapper centré ────────────────────────────────────── */
@@ -1724,21 +1731,43 @@ import OceanBackground from '../components/OceanBackground.astro';
     padding: 0 var(--spacing-sm);
   }
 
-  /* Panneau unique : bords arrondis complets */
+  /* ── Zone label — petite étiquette en tête de chaque zone ── */
+  .rd-panel-zone-label {
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(77, 184, 212, 0.55);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .rd-panel-zone-label i { font-size: 0.62rem; opacity: 0.7; }
+
+  /* Zone 1 — Paramètres ①②③ */
   .rd-panel--search {
-    border-radius: var(--radius-md);
-    margin-bottom: 1rem;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-bottom: none;
+    margin-bottom: 0;
   }
 
-  /* Barre basse : statut · filtres · légende · actions */
-  .rd-panel-bottom {
+  /* Zone 2 — Résultats & Actions */
+  .rd-panel--bottom-zone {
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: 2px solid rgba(45, 130, 170, 0.28);
+    background: rgba(7, 13, 24, 0.98);
+    margin-bottom: 1rem;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+  /* Ligne interne Zone 2 : flex row */
+  .rd-panel-bottom-inner {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    padding-top: 7px;
-    margin-top: 7px;
-    border-top: 1px solid rgba(77, 184, 212, 0.1);
   }
 
   .rd-bottom-vsep {
@@ -1958,6 +1987,35 @@ import OceanBackground from '../components/OceanBackground.astro';
   [data-theme="light"] .rd-city-item { color: #1a2535; }
   [data-theme="light"] .rd-city-item:hover { background: rgba(26,101,128,0.07); color: #1a6580; }
   [data-theme="light"] .rd-city-group { border-bottom-color: rgba(26,101,128,0.08); }
+
+  /* ── Tooltip générique [data-tooltip] ─────────────────── */
+  [data-tooltip] { position: relative; }
+  [data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(6, 14, 28, 0.96);
+    color: #b8d4e8;
+    font-size: 0.71rem;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(77, 184, 212, 0.22);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 600;
+  }
+  [data-tooltip]:hover::after { opacity: 1; }
+  [data-theme="light"] [data-tooltip]::after {
+    background: rgba(234, 241, 247, 0.98);
+    color: #1a3a55;
+    border-color: rgba(26, 127, 160, 0.25);
+  }
 
   .rd-btn {
     display: inline-flex;
@@ -2868,23 +2926,6 @@ import OceanBackground from '../components/OceanBackground.astro';
   [data-theme="light"] .rd-footer-copy-row { color: #5a7285; }
   [data-theme="light"] .rd-hero-badge { background: rgba(26,127,160,.07); border-color: rgba(26,127,160,.22); }
 
-  .rd-wip-notice {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    margin-top: 0.85rem;
-    padding: 0.5rem 1.1rem;
-    background: rgba(234, 88, 12, 0.12);
-    border: 1.5px solid rgba(234, 88, 12, 0.55);
-    border-radius: 999px;
-    font-size: 0.83rem;
-    font-weight: 700;
-    color: #ea580c;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    box-shadow: 0 0 12px rgba(234, 88, 12, 0.15);
-  }
-  .rd-wip-notice i { font-size: 0.8rem; }
   [data-theme="light"] .skeleton-item { background: rgba(200,215,230,.55); border-color: rgba(26,127,160,.08); }
   [data-theme="light"] .skel-line     { background: linear-gradient(90deg, rgba(26,127,160,.1) 25%, rgba(26,127,160,.22) 50%, rgba(26,127,160,.1) 75%); background-size: 200% 100%; }
   [data-theme="light"] .result-dist   { color: var(--accent-cyan); background: rgba(26,127,160,.08); border-color: rgba(26,127,160,.18); }
@@ -2928,66 +2969,39 @@ import OceanBackground from '../components/OceanBackground.astro';
     flex-shrink: 0;
   }
 
+  /* Mode Pro / Cyclo — bouton icône seule, carré */
   .rd-mode-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px 13px;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     background: rgba(20, 40, 68, 0.7);
     border: 1px solid rgba(45, 130, 170, 0.2);
     border-radius: var(--radius-sm);
     cursor: pointer;
-    text-align: left;
     font-family: var(--font-primary);
     transition: border-color .2s, background .2s;
+    flex-shrink: 0;
   }
   .rd-mode-btn:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
   }
-
   .rd-mode-btn-icon {
     font-size: 1rem;
     color: var(--text-muted);
     transition: color .2s;
-    flex-shrink: 0;
-    width: 16px;
-    text-align: center;
   }
+  .rd-mode-btn:hover .rd-mode-btn-icon { color: var(--text-light); }
 
-  .rd-mode-btn-body {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-
-  .rd-mode-btn-title {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--text-light);
-    letter-spacing: 0.02em;
-    transition: color .2s;
-    line-height: 1.2;
-  }
-
-  .rd-mode-btn-sub {
-    font-size: 0.68rem;
-    color: rgba(160, 180, 200, 0.8);
-    font-weight: 400;
-    white-space: nowrap;
-    line-height: 1.2;
-  }
-
-  .rd-mode-btn:hover .rd-mode-btn-icon,
-  .rd-mode-btn:hover .rd-mode-btn-title { color: var(--text-light); }
-
-  /* Actif — style unifié Pro & Cyclo */
+  /* Actif */
   .rd-mode-btn--active {
-    border-color: rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(77, 184, 212, 0.45);
+    background: rgba(77, 184, 212, 0.1);
   }
-  .rd-mode-btn--active .rd-mode-btn-icon,
-  .rd-mode-btn--active .rd-mode-btn-title { color: var(--text-light); }
+  .rd-mode-btn--active .rd-mode-btn-icon { color: var(--accent-cyan); }
   .rd-mode-btn--active .rd-mode-btn-sub   { color: rgba(200, 215, 230, 0.9); }
 
   /* Panneaux contrôles contextuels */

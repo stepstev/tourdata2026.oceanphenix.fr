@@ -124,13 +124,18 @@
 
           document.querySelectorAll('.nav-has-dropdown').forEach(function (item) {
             var leaveTimer = null;
+            var trigger = item.querySelector('.nav-dropdown-trigger');
 
-            /* ── Desktop : survol avec délai de fermeture ── */
-            item.addEventListener('mouseenter', function () {
-              if (isMobile()) return;
-              clearTimeout(leaveTimer);
-              item.classList.add('is-open');
-            });
+            /* ── Desktop : survol du TRIGGER uniquement (évite l'ouverture
+                 depuis la zone de padding sous le lien) ── */
+            if (trigger) {
+              trigger.addEventListener('mouseenter', function () {
+                if (isMobile()) return;
+                clearTimeout(leaveTimer);
+                item.classList.add('is-open');
+              });
+            }
+            /* Fermeture : toujours sur le li entier (couvre trigger + dropdown) */
             item.addEventListener('mouseleave', function () {
               if (isMobile()) return;
               leaveTimer = setTimeout(function () {
@@ -139,7 +144,6 @@
             });
 
             /* ── Mobile : clic sur le trigger ── */
-            var trigger = item.querySelector('.nav-dropdown-trigger');
             if (trigger) {
               trigger.addEventListener('click', function (e) {
                 if (!isMobile()) return;

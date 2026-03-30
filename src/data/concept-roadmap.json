@@ -1,0 +1,39 @@
+{
+  "jalons": [
+    {
+      "id": "ideation",
+      "date": "Fév 2026",
+      "titre": "Idéation",
+      "sous": "Problème · Vision · Périmètre · Stack",
+      "statut": "done"
+    },
+    {
+      "id": "mvp",
+      "date": "Fév–Mar 2026",
+      "titre": "MVP Terrain",
+      "sous": "Astro · Nav · Étapes · Journal",
+      "statut": "done"
+    },
+    {
+      "id": "modules",
+      "date": "Mar 2026 — en cours",
+      "titre": "Modules Data",
+      "sous": "Radar · Météo · Strava · APIs",
+      "statut": "active"
+    },
+    {
+      "id": "tour",
+      "date": "Avr–Juil 2026",
+      "titre": "Tour Terrain",
+      "sous": "2 500 km · 12 régions · Live",
+      "statut": "future"
+    },
+    {
+      "id": "posttour",
+      "date": "Juil+ 2026",
+      "titre": "Post-Tour IA",
+      "sous": "Rapport · RAG · Matrice data",
+      "statut": "future"
+    }
+  ]
+}

@@ -52,7 +52,7 @@ style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.clou
 font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; \
 img-src 'self' data: https:; \
 frame-src https://www.youtube.com https://www.youtube-nocookie.com https://giscus.app; \
-connect-src 'self' http://localhost:4399 https://api.open-meteo.com https://nominatim.openstreetmap.org https://*.tile.openstreetmap.org https://*.cyclosm.openstreetmap.fr https://tile.waymarkedtrails.org https://overpass-api.de https://public.opendatasoft.com https://geo.api.gouv.fr https://recherche-entreprises.api.gouv.fr; \
+connect-src 'self' http://localhost:4399 https://api.open-meteo.com https://nominatim.openstreetmap.org https://*.tile.openstreetmap.org https://*.cyclosm.openstreetmap.fr https://tile.waymarkedtrails.org; \
 media-src 'self'"
 
   # Autres headers de sécurité
@@ -67,6 +67,14 @@ media-src 'self'"
   Header always unset X-Powered-By
   Header always unset Server
 
+</IfModule>
+
+# ── PHP : limite d'exécution étendue pour les appels API radar ──────────────
+# O2Switch (mod_php) : augmente max_execution_time à 60s
+# Pour CGI/FastCGI : utiliser public/.user.ini à la place
+<IfModule mod_php.c>
+  php_value max_execution_time 60
+  php_value default_socket_timeout 30
 </IfModule>
 
 # ── HTTPS redirect ───────────────────────────────────────────

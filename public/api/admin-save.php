@@ -86,6 +86,7 @@ $document  = [
     'terrain'    => $payload['terrain']   ?? [],
     'coworking'  => $payload['coworking'] ?? [],
     'radar'      => $payload['radar']     ?? [],
+    'roadmap'    => $payload['roadmap']   ?? [],
 ];
 
 $json = json_encode($document, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -114,11 +115,10 @@ $terrain   = $document['terrain'];
 $nbEtapes  = count($terrain['etapes']  ?? []);
 $nbJournal = count($terrain['journal'] ?? []);
 $nbCo      = count($document['coworking']);
-$nbRadar   = count($document['radar']['entreprises'] ?? [])
-           + count($document['radar']['salons']      ?? [])
-           + count($document['radar']['events']      ?? []);
+$nbLiens   = count($document['radar']['liens'] ?? []);
 
-$summary = "{$nbEtapes} étapes · {$nbJournal} entrées journal · {$nbCo} coworking · {$nbRadar} radar";
+$nbJalons  = count($document['roadmap']['jalons'] ?? []);
+$summary = "{$nbEtapes} étapes · {$nbJournal} journal · {$nbCo} coworking · {$nbLiens} liens · {$nbJalons} jalons";
 
 echo json_encode([
     'ok'         => true,

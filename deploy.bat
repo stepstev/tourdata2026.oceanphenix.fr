@@ -75,11 +75,19 @@ echo  ════════════════════════�
 :: Script WinSCP inline (heredoc via temp file)
 set "TMP_SCRIPT=%TEMP%\winscp_deploy_%RANDOM%.txt"
 
+:: Fichiers EXCLUS de la synchro (présents sur le serveur, absents en local)
+:: Ces fichiers sont uploadés manuellement UNE SEULE FOIS via FTP :
+::   api/strava-env.php     — credentials Strava OAuth2
+::   api/admin-env.php      — clé secrète Admin
+::   api/strava-cache.json  — cache Strava auto-généré
+::   data/site-data.json    — données publiées via l'Admin
+set "FILEMASK=| strava-env.php; admin-env.php; strava-cache.json; site-data.json"
+
 (
   echo option batch abort
   echo option confirm off
   echo open ftp://!FTP_USER!:!FTP_PASS!@!FTP_HOST!/ -passive=on -explicittls=on
-  echo synchronize remote -delete -criteria=either "!DIST!" "!FTP_REMOTE!"
+  echo synchronize remote -delete -criteria=either -filemask="!FILEMASK!" "!DIST!" "!FTP_REMOTE!"
   echo exit
 ) > "!TMP_SCRIPT!"
 

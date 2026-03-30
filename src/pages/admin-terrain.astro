@@ -105,11 +105,11 @@ import etapesData from '../data/terrain-etapes.json';
         <button class="admin-tab" data-tab="coworking">
           <i class="fas fa-building"></i> Coworking
         </button>
-        <button class="admin-tab" data-tab="radar-pro">
-          <i class="fas fa-crosshairs"></i> Radar Pro
-        </button>
         <button class="admin-tab" data-tab="liens-utiles">
           <i class="fas fa-link"></i> Liens utiles
+        </button>
+        <button class="admin-tab" data-tab="roadmap">
+          <i class="fas fa-route"></i> Roadmap
         </button>
         <!-- Séparateur Contenu / Outils -->
         <span class="admin-tabs-sep" aria-hidden="true" title="Outils">›</span>
@@ -628,230 +628,6 @@ import etapesData from '../data/terrain-etapes.json';
       </div>
 
       <!-- ============================== -->
-      <!-- TAB: Radar Pro                 -->
-      <!-- ============================== -->
-      <div class="admin-tab-content" id="tab-radar-pro">
-        <p class="admin-hint" style="margin-bottom:1.5rem;">
-          <i class="fas fa-info-circle"></i>
-          Les données saisies ici sont injectées dans la Vue Pro du Radar (onglets Entreprises, Salons, Événements), en plus des résultats API.
-        </p>
-
-        <!-- Section: Entreprises -->
-        <div class="admin-card">
-          <h2><i class="fas fa-building"></i> Entreprises</h2>
-          <div class="admin-form-actions" style="margin-bottom:1rem;">
-            <button id="rp-ent-add-btn" class="admin-btn admin-btn--accent">
-              <i class="fas fa-plus"></i> Ajouter une entreprise
-            </button>
-          </div>
-          <div style="overflow-x:auto;">
-            <table class="admin-etapes-table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Ville</th>
-                  <th>Secteur</th>
-                  <th style="text-align:center;width:80px;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="rp-ent-tbody"></tbody>
-            </table>
-          </div>
-          <p id="rp-ent-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
-          <div id="rp-ent-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
-            <h3 id="rp-ent-editor-title">Nouvelle entreprise</h3>
-            <input type="hidden" id="rp-ent-edit-idx" value="-1" />
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Nom</label>
-                <input type="text" id="rp-ent-nom" placeholder="Nom de l'entreprise" />
-              </div>
-              <div class="admin-form-group">
-                <label>Ville</label>
-                <input type="text" id="rp-ent-ville" placeholder="Paris, Lyon…" />
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Site web</label>
-                <input type="url" id="rp-ent-url" placeholder="https://…" />
-              </div>
-              <div class="admin-form-group">
-                <label>Secteur</label>
-                <select id="rp-ent-secteur">
-                  <option value="data">Data</option>
-                  <option value="ia">IA</option>
-                  <option value="dev">Dev</option>
-                  <option value="tech">Tech</option>
-                  <option value="bi">BI</option>
-                </select>
-              </div>
-            </div>
-            <div class="admin-form-actions">
-              <button id="rp-ent-save-btn" class="admin-btn admin-btn--accent">
-                <i class="fas fa-check"></i> Valider
-              </button>
-              <button id="rp-ent-cancel-btn" class="admin-btn">
-                <i class="fas fa-times"></i> Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section: Salons -->
-        <div class="admin-card">
-          <h2><i class="fas fa-calendar-alt"></i> Salons</h2>
-          <div class="admin-form-actions" style="margin-bottom:1rem;">
-            <button id="rp-sal-add-btn" class="admin-btn admin-btn--accent">
-              <i class="fas fa-plus"></i> Ajouter un salon
-            </button>
-          </div>
-          <div style="overflow-x:auto;">
-            <table class="admin-etapes-table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Date</th>
-                  <th>Lieu</th>
-                  <th>Format</th>
-                  <th style="text-align:center;width:80px;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="rp-sal-tbody"></tbody>
-            </table>
-          </div>
-          <p id="rp-sal-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
-          <div id="rp-sal-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
-            <h3 id="rp-sal-editor-title">Nouveau salon</h3>
-            <input type="hidden" id="rp-sal-edit-idx" value="-1" />
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Nom</label>
-                <input type="text" id="rp-sal-nom" placeholder="Nom du salon" />
-              </div>
-              <div class="admin-form-group">
-                <label>Date</label>
-                <input type="date" id="rp-sal-date" />
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Adresse / Lieu</label>
-                <input type="text" id="rp-sal-adresse" placeholder="Paris Expo, Porte de Versailles…" />
-              </div>
-              <div class="admin-form-group">
-                <label>Site web</label>
-                <input type="url" id="rp-sal-url" placeholder="https://…" />
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Format</label>
-                <select id="rp-sal-format">
-                  <option value="presentiel">Présentiel</option>
-                  <option value="hybride">Hybride</option>
-                  <option value="visio">Visio</option>
-                  <option value="autre">Autre</option>
-                </select>
-              </div>
-              <div class="admin-form-group">
-                <label>Domaines</label>
-                <div id="rp-sal-domaines" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">
-                  <label><input type="checkbox" value="emploi" /> Emploi</label>
-                  <label><input type="checkbox" value="data" /> Data</label>
-                  <label><input type="checkbox" value="ia" /> IA</label>
-                  <label><input type="checkbox" value="dev" /> Dev</label>
-                  <label><input type="checkbox" value="tech" /> Tech</label>
-                </div>
-              </div>
-            </div>
-            <div class="admin-form-actions">
-              <button id="rp-sal-save-btn" class="admin-btn admin-btn--accent">
-                <i class="fas fa-check"></i> Valider
-              </button>
-              <button id="rp-sal-cancel-btn" class="admin-btn">
-                <i class="fas fa-times"></i> Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section: Événements -->
-        <div class="admin-card">
-          <h2><i class="fas fa-star"></i> Événements</h2>
-          <div class="admin-form-actions" style="margin-bottom:1rem;">
-            <button id="rp-evt-add-btn" class="admin-btn admin-btn--accent">
-              <i class="fas fa-plus"></i> Ajouter un événement
-            </button>
-          </div>
-          <div style="overflow-x:auto;">
-            <table class="admin-etapes-table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Date</th>
-                  <th>Lieu</th>
-                  <th style="text-align:center;width:80px;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="rp-evt-tbody"></tbody>
-            </table>
-          </div>
-          <p id="rp-evt-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
-          <div id="rp-evt-editor" style="display:none;margin-top:1rem;" class="admin-etape-editor">
-            <h3 id="rp-evt-editor-title">Nouvel événement</h3>
-            <input type="hidden" id="rp-evt-edit-idx" value="-1" />
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Nom</label>
-                <input type="text" id="rp-evt-nom" placeholder="Nom de l'événement" />
-              </div>
-              <div class="admin-form-group">
-                <label>Date</label>
-                <input type="date" id="rp-evt-date" />
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label>Adresse / Lieu</label>
-                <input type="text" id="rp-evt-adresse" placeholder="Lieu de l'événement" />
-              </div>
-              <div class="admin-form-group">
-                <label>Site web</label>
-                <input type="url" id="rp-evt-url" placeholder="https://…" />
-              </div>
-            </div>
-            <div class="admin-form-actions">
-              <button id="rp-evt-save-btn" class="admin-btn admin-btn--accent">
-                <i class="fas fa-check"></i> Valider
-              </button>
-              <button id="rp-evt-cancel-btn" class="admin-btn">
-                <i class="fas fa-times"></i> Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Note publication -->
-        <div class="admin-card" style="padding:1rem 1.25rem;">
-          <p style="margin:0;font-size:0.85rem;color:var(--text-muted);display:flex;align-items:center;gap:0.6rem;">
-            <i class="fas fa-cloud-upload-alt" style="color:var(--accent-cyan);"></i>
-            Les entreprises, salons et événements sont inclus dans <strong style="color:var(--text-light);">Publier tout</strong> (bouton en haut).
-            Aucune publication séparée nécessaire.
-          </p>
-          <!-- Anchor HTML conservé pour compatibilité JS — caché -->
-          <div style="display:none;">
-            <input id="rp-upload-secret" />
-            <button id="rp-publish-btn">
-                <i class="fas fa-cloud-upload-alt"></i> Publier Radar Pro
-              </button>
-            </div>
-          <div id="rp-publish-result" style="display:none;" class="admin-strava-result"></div>
-        </div>
-
-      </div>
-
-      <!-- ============================== -->
       <!-- TAB: Liens utiles              -->
       <!-- ============================== -->
       <div class="admin-tab-content" id="tab-liens-utiles">
@@ -1014,6 +790,88 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
 
       </div><!-- /tab-strava -->
 
+      <!-- ============================== -->
+      <!-- TAB: Roadmap                   -->
+      <!-- ============================== -->
+      <div class="admin-tab-content" id="tab-roadmap">
+        <p class="admin-hint" style="margin-bottom:1.5rem;">
+          <i class="fas fa-info-circle"></i>
+          Gérez les jalons de la Vision Produit affichés sur la page <strong>/concept</strong>.
+          Publiés via <strong>Publier tout</strong> — visibles immédiatement sans rebuild.
+        </p>
+
+        <div class="admin-card">
+          <h2><i class="fas fa-route"></i> Jalons &amp; Vision Produit</h2>
+          <div class="admin-form-actions" style="margin-bottom:1rem;">
+            <button id="rm-add-btn" class="admin-btn admin-btn--accent">
+              <i class="fas fa-plus"></i> Ajouter un jalon
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-etapes-table">
+              <thead>
+                <tr>
+                  <th style="width:40px;">#</th>
+                  <th>Date</th>
+                  <th>Titre</th>
+                  <th>Sous-titre</th>
+                  <th>Statut</th>
+                  <th style="text-align:center;width:90px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rm-tbody"></tbody>
+            </table>
+          </div>
+          <p id="rm-count" style="margin-top:12px;color:#888;font-size:0.85rem;"></p>
+
+          <!-- Éditeur inline -->
+          <div id="rm-editor" style="display:none;margin-top:1.5rem;" class="admin-etape-editor">
+            <h3 id="rm-editor-title">Nouveau jalon</h3>
+            <input type="hidden" id="rm-edit-idx" value="-1" />
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label>Date / Période</label>
+                <input type="text" id="rm-date" placeholder="Ex : Avr–Juil 2026" />
+              </div>
+              <div class="admin-form-group">
+                <label>Titre</label>
+                <input type="text" id="rm-titre" placeholder="Ex : Tour Terrain" />
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group" style="flex:2;">
+                <label>Sous-titre</label>
+                <input type="text" id="rm-sous" placeholder="Ex : 2 500 km · 12 régions · Live" />
+              </div>
+              <div class="admin-form-group">
+                <label>Statut</label>
+                <select id="rm-statut">
+                  <option value="done">Terminé</option>
+                  <option value="active">En cours</option>
+                  <option value="future">À venir</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button id="rm-save-btn" class="admin-btn admin-btn--accent">
+                <i class="fas fa-check"></i> Valider
+              </button>
+              <button id="rm-cancel-btn" class="admin-btn">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card" style="padding:1rem 1.25rem;">
+          <p style="margin:0;font-size:0.85rem;color:var(--text-muted);display:flex;align-items:center;gap:0.6rem;">
+            <i class="fas fa-cloud-upload-alt" style="color:var(--accent-cyan);"></i>
+            Les jalons sont inclus dans <strong style="color:var(--text-light);">Publier tout</strong> —
+            la page <strong style="color:var(--text-light);">/concept</strong> se met à jour en temps réel sans rebuild.
+          </p>
+        </div>
+      </div><!-- /tab-roadmap -->
+
     </div>
   </main>
 
@@ -1087,6 +945,135 @@ $STRAVA_CRON_SECRET   = 'op-cron-strava-2026-oceanphenix';</pre>
     });
   })();
   </script>
+
+  <!-- Roadmap tab JS -->
+  <script type="application/json" id="roadmap-default" set:html={JSON.stringify(
+    (await import('../data/concept-roadmap.json')).default
+  )}></script>
+  <script is:inline>
+  (function () {
+    var RM_KEY = 'op-concept-roadmap';
+
+    function onReady(fn) {
+      if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn);
+    }
+
+    // ── Persistence ─────────────────────────────────────────────
+    function loadRoadmap() {
+      var saved = localStorage.getItem(RM_KEY);
+      if (saved) { try { return JSON.parse(saved); } catch(e) {} }
+      // Fallback : données build (concept-roadmap.json)
+      var el = document.getElementById('roadmap-default');
+      if (el) { try { return JSON.parse(el.textContent).jalons || []; } catch(e) {} }
+      return [];
+    }
+
+    function saveRoadmap(jalons) {
+      localStorage.setItem(RM_KEY, JSON.stringify(jalons));
+    }
+
+    // ── Rendu tableau ────────────────────────────────────────────
+    var rmData = [];
+    var STATUT_LABELS = { done: 'Terminé', active: 'En cours', future: 'À venir' };
+    var STATUT_COLORS = { done: '#4db8d4', active: '#d4845a', future: '#8fa3b8' };
+
+    function renderRm() {
+      var tbody = document.getElementById('rm-tbody');
+      var count = document.getElementById('rm-count');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      rmData.forEach(function (j, i) {
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td style="color:#8fa3b8;font-size:0.8rem;">' + (i + 1) + '</td>' +
+          '<td style="font-size:0.85rem;">' + (j.date || '') + '</td>' +
+          '<td style="font-weight:600;font-size:0.85rem;">' + (j.titre || '') + '</td>' +
+          '<td style="color:#8fa3b8;font-size:0.82rem;">' + (j.sous || '') + '</td>' +
+          '<td><span style="font-size:0.75rem;font-weight:600;color:' + (STATUT_COLORS[j.statut] || '#888') + ';">' + (STATUT_LABELS[j.statut] || j.statut) + '</span></td>' +
+          '<td style="text-align:center;">' +
+            '<button class="admin-btn rm-edit-btn" data-i="' + i + '" style="padding:0.2rem 0.5rem;font-size:0.75rem;margin-right:4px;" title="Modifier"><i class="fas fa-edit"></i></button>' +
+            '<button class="admin-btn rm-del-btn" data-i="' + i + '" style="padding:0.2rem 0.5rem;font-size:0.75rem;color:#ef4444;border-color:#ef4444;" title="Supprimer"><i class="fas fa-trash"></i></button>' +
+          '</td>';
+        tbody.appendChild(tr);
+      });
+      if (count) count.textContent = rmData.length + ' jalon(s)';
+      // Boutons edit/delete
+      tbody.querySelectorAll('.rm-edit-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { openEditor(parseInt(btn.dataset.i)); });
+      });
+      tbody.querySelectorAll('.rm-del-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var i = parseInt(btn.dataset.i);
+          if (confirm('Supprimer «' + (rmData[i].titre || 'ce jalon') + '» ?')) {
+            rmData.splice(i, 1);
+            saveRoadmap(rmData);
+            renderRm();
+          }
+        });
+      });
+    }
+
+    // ── Éditeur ──────────────────────────────────────────────────
+    function openEditor(idx) {
+      var editor = document.getElementById('rm-editor');
+      var j = (idx >= 0) ? rmData[idx] : { id: 'jalon-' + Date.now(), date: '', titre: '', sous: '', statut: 'future' };
+      document.getElementById('rm-edit-idx').value = idx;
+      document.getElementById('rm-editor-title').textContent = idx >= 0 ? 'Modifier : ' + j.titre : 'Nouveau jalon';
+      document.getElementById('rm-date').value   = j.date   || '';
+      document.getElementById('rm-titre').value  = j.titre  || '';
+      document.getElementById('rm-sous').value   = j.sous   || '';
+      document.getElementById('rm-statut').value = j.statut || 'future';
+      editor.style.display = '';
+      document.getElementById('rm-titre').focus();
+    }
+
+    function closeEditor() {
+      document.getElementById('rm-editor').style.display = 'none';
+      document.getElementById('rm-edit-idx').value = '-1';
+    }
+
+    onReady(function () {
+      var tab = document.querySelector('[data-tab="roadmap"]');
+      if (!tab) return;
+
+      // Init data
+      rmData = loadRoadmap();
+
+      // Render on tab click
+      tab.addEventListener('click', function () { renderRm(); });
+
+      // Add
+      var addBtn = document.getElementById('rm-add-btn');
+      if (addBtn) addBtn.addEventListener('click', function () { openEditor(-1); });
+
+      // Save editor
+      var saveBtn = document.getElementById('rm-save-btn');
+      if (saveBtn) saveBtn.addEventListener('click', function () {
+        var idx = parseInt(document.getElementById('rm-edit-idx').value);
+        var j = {
+          id:     (idx >= 0 ? (rmData[idx].id || 'jalon-' + idx) : 'jalon-' + Date.now()),
+          date:   document.getElementById('rm-date').value.trim(),
+          titre:  document.getElementById('rm-titre').value.trim(),
+          sous:   document.getElementById('rm-sous').value.trim(),
+          statut: document.getElementById('rm-statut').value
+        };
+        if (!j.titre) { alert('Le titre est requis.'); return; }
+        if (idx >= 0) { rmData[idx] = j; } else { rmData.push(j); }
+        saveRoadmap(rmData);
+        renderRm();
+        closeEditor();
+      });
+
+      // Cancel editor
+      var cancelBtn = document.getElementById('rm-cancel-btn');
+      if (cancelBtn) cancelBtn.addEventListener('click', closeEditor);
+
+      // Expose pour collectAllData() dans admin-terrain.js
+      window._getRoadmapJalons = function () { return rmData; };
+    });
+  }());
+  </script>
+
 </BaseLayout>
 
 <style>

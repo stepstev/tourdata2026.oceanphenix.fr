@@ -10,9 +10,9 @@
     Require all denied
 </Files>
 
-# Bloquer l'accès direct à la clé OpenAgenda
-# radar-env.php : credentials (jamais dans le repo — upload manuel)
-<Files "radar-env.php">
+# Bloquer l'accès direct au secret admin
+# admin-env.php : clé ADMIN_SECRET (jamais dans le repo — upload manuel)
+<Files "admin-env.php">
     Require all denied
 </Files>
 

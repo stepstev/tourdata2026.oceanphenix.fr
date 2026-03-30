@@ -387,6 +387,8 @@ document.querySelectorAll('.platform-card[href]').forEach(card => {
         overlay.addEventListener('click', closeMenu);
 
         navLinks.querySelectorAll('a').forEach(function (link) {
+            // Le trigger du sous-menu gère son propre clic — ne pas fermer le panneau
+            if (link.classList.contains('nav-dropdown-trigger')) return;
             link.addEventListener('click', closeMenu);
         });
 

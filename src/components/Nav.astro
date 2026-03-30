@@ -21,31 +21,60 @@
     </a>
 
     <ul class="nav-links" id="nav-links">
-      <li id="nav-terrain"><a href="/terrain"><i class="fas fa-bicycle"></i> TourData</a></li>
-      <li><a href="/tourdata"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-      <li><a href="/strava"><i class="fab fa-strava"></i> Strava</a></li>
-      <li><a href="/radar"><i class="fas fa-crosshairs"></i> Radar</a></li>
-      <!-- Sous-menu Météo -->
-      <li class="nav-has-dropdown">
-        <a href="/meteo" class="nav-dropdown-trigger">
-          <i class="fas fa-cloud-sun"></i> Météo
+
+      <!-- ── TourData2026 ▾ ────────────────────────── -->
+      <li class="nav-has-dropdown" id="nav-terrain">
+        <a href="/terrain" class="nav-dropdown-trigger">
+          <i class="fas fa-bicycle"></i> TourData2026
           <i class="fas fa-chevron-down nav-dd-chevron"></i>
         </a>
         <ul class="nav-dropdown" role="menu">
-          <li role="none"><a href="/meteo#position" role="menuitem"><i class="fas fa-location-dot"></i> Ma position</a></li>
-          <li role="none"><a href="/meteo#etapes" role="menuitem"><i class="fas fa-route"></i> Étapes Tour</a></li>
-          <li role="none"><a href="/meteo#previsions" role="menuitem"><i class="fas fa-calendar-week"></i> Prévisions 5j</a></li>
+          <li role="none"><a href="/terrain"  role="menuitem"><i class="fas fa-map-marked-alt"></i> Parcours</a></li>
+          <li role="none"><a href="/concept"  role="menuitem"><i class="fas fa-layer-group nav-icon--orange"></i> Concept</a></li>
+          <li role="none" class="nav-dd-sep" aria-hidden="true"></li>
+          <li role="none"><a href="/tourdata" role="menuitem"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+          <li role="none"><a href="/strava"   role="menuitem"><i class="fab fa-strava"></i> Activités</a></li>
         </ul>
       </li>
-<li><a href="/index.html#home"><i class="fas fa-home"></i> Solutions</a></li>
-      <li><a href="/expertises"><i class="fas fa-briefcase"></i> Expertises</a></li>
-      <li><a href="#" id="about-link" aria-label="À propos"><i class="fas fa-circle-info"></i></a></li>
-      <li><a href="/admin-terrain" class="nav-admin-link" title="Administration"><i class="fas fa-cog"></i> Admin</a></li>
-      <li>
-        <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener">
-          <i class="fab fa-linkedin"></i> LinkedIn
+
+      <!-- ── Data-Kpi ▾ ─────────────────────────────── -->
+      <li class="nav-has-dropdown">
+        <a href="#" class="nav-dropdown-trigger nav-trigger--nolink">
+          <i class="fas fa-database"></i> Data-API
+          <i class="fas fa-chevron-down nav-dd-chevron"></i>
         </a>
+        <ul class="nav-dropdown" role="menu">
+          <li role="none"><a href="/radar" role="menuitem"><i class="fas fa-crosshairs"></i> Radar</a></li>
+          <li role="none" class="nav-dd-sep" aria-hidden="true"></li>
+          <li role="none"><a href="/meteo" role="menuitem"><i class="fas fa-cloud-sun"></i> Météo</a></li>
+          <li role="none" class="nav-dd-sub"><a href="/meteo#position"   role="menuitem"><i class="fas fa-location-dot"></i> Position</a></li>
+          <li role="none" class="nav-dd-sub"><a href="/meteo#etapes"     role="menuitem"><i class="fas fa-route"></i> Étapes</a></li>
+          <li role="none" class="nav-dd-sub"><a href="/meteo#previsions" role="menuitem"><i class="fas fa-calendar-week"></i> Prévisions</a></li>
+        </ul>
       </li>
+
+      <!-- ── Profil ▾ ───────────────────────────────── -->
+      <li class="nav-has-dropdown">
+        <a href="#" class="nav-dropdown-trigger nav-trigger--nolink">
+          <i class="fas fa-user-tie"></i> Profil
+          <i class="fas fa-chevron-down nav-dd-chevron"></i>
+        </a>
+        <ul class="nav-dropdown" role="menu">
+          <li role="none"><a href="/index.html#home" role="menuitem"><i class="fas fa-home"></i> Solutions</a></li>
+          <li role="none"><a href="/expertises"      role="menuitem"><i class="fas fa-briefcase"></i> Expertises</a></li>
+          <li role="none" class="nav-dd-sep" aria-hidden="true"></li>
+          <li role="none">
+            <a href="https://www.linkedin.com/in/stephane-celton" target="_blank" rel="noopener" role="menuitem">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- ── Icônes fixes ───────────────────────────── -->
+      <li><a href="#" id="about-link" aria-label="À propos"><i class="fas fa-circle-info"></i> À propos</a></li>
+      <li><a href="/admin-terrain" class="nav-admin-link" title="Administration"><i class="fas fa-cog"></i> Admin</a></li>
+
     </ul>
 
     <!-- Lien Terrain : visible par défaut (mode public ON au 1er démarrage).
@@ -120,6 +149,11 @@
                 if (!wasOpen) item.classList.add('is-open');
               });
             }
+          });
+
+          /* Empêcher la navigation sur les triggers sans page cible (href="#") */
+          document.querySelectorAll('.nav-trigger--nolink').forEach(function (a) {
+            a.addEventListener('click', function (e) { e.preventDefault(); });
           });
 
           /* Fermer en cliquant à l'extérieur */

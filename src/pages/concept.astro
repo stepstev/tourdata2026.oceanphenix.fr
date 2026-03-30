@@ -1,0 +1,648 @@
+---
+// src/pages/concept.astro — Architecture & Conception Produit
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+import '../styles/concept.css';
+import roadmapData from '../data/concept-roadmap.json';
+
+const jalons = roadmapData.jalons;
+---
+
+<BaseLayout
+  title="Conception & Architecture — TourData 2026 | OceanPhenix"
+  description="Architecture technique, idéation et modélisation du projet TourData 2026 — approche Data Product Manager, stack Astro + PHP + APIs, diagrammes UML vulgarisés."
+  lastModified="30/03/2026 12:00"
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="concept-page main-content">
+
+    <!-- ============================================= -->
+    <!-- ============================================= -->
+    <!-- 1. GENÈSE & IDÉATION                          -->
+    <!-- ============================================= -->
+    <section class="cp-section cp-section--alt" id="ideation">
+      <div class="cp-container--wide">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-lightbulb"></i> Constat &middot; Fév 2026
+          </div>
+          <h2 class="cp-section-title">Le Problème Structurel du Marché Freelance IT en 2026</h2>
+          <p class="cp-section-desc">
+            Ce projet n'est pas né d'une idée — il est né d'un dysfonctionnement de marché documenté,
+            vécu et observable. Quatre signaux convergents ont déclenché la conception du Tour de la Data.
+          </p>
+        </div>
+
+        <!-- 4 constats en grille 2×2 -->
+        <div class="cp-cards cp-cards--2col">
+          <div class="cp-card">
+            <div class="cp-card-icon"><i class="fas fa-filter-circle-xmark"></i></div>
+            <div class="cp-card-label">Constat 1</div>
+            <h3 class="cp-card-title">Trop d'intermédiaires, trop peu de signal</h3>
+            <p class="cp-card-text">
+              Les clients sont inondés de CV — plusieurs ESN proposent le même consultant pour
+              une seule offre, sans retour, même pour des profils à 25 ans d'expérience data.
+              Le pipeline <strong>ESN → plateforme → client</strong> génère un bruit énorme
+              qui noie les bons profils.
+            </p>
+          </div>
+          <div class="cp-card">
+            <div class="cp-card-icon"><i class="fas fa-chart-line-down"></i></div>
+            <div class="cp-card-label">Constat 2</div>
+            <h3 class="cp-card-title">Les ESN et agences traditionnelles en recul</h3>
+            <p class="cp-card-text">
+              Les acteurs traditionnels de l'intermédiation sont en perte de vitesse.
+              Le marché se tourne vers la <strong>flexibilité, l'expertise ciblée et la réactivité</strong> —
+              des critères mieux adressés par des modèles directs que par les structures ESN classiques.
+            </p>
+          </div>
+          <div class="cp-card">
+            <div class="cp-card-icon"><i class="fas fa-city"></i></div>
+            <div class="cp-card-label">Constat 3</div>
+            <h3 class="cp-card-title">Un marché IDF sous tension, les régions sous-adressées</h3>
+            <p class="cp-card-text">
+              Le marché francilien ralentit : grands projets en pause, ESN en contraction,
+              afflux de candidats du conseil. Les entreprises sont plus sélectives.
+              Pendant ce temps, les PME et ETI régionales — souvent plus matures qu'on ne le croit —
+              <strong>n'ont pas accès aux bons profils</strong>.
+            </p>
+          </div>
+          <div class="cp-card">
+            <div class="cp-card-icon"><i class="fas fa-link-slash"></i></div>
+            <div class="cp-card-label">Constat 4</div>
+            <h3 class="cp-card-title">La demande existe — mais le matching est cassé</h3>
+            <p class="cp-card-text">
+              Les grandes entreprises recourent de plus en plus à des freelances hautement spécialisés
+              pour combler un déficit de compétences internes. Mais le <strong>contact direct reste rare</strong> :
+              les algorithmes et les intermédiaires absorbent le signal avant qu'il n'atteigne
+              le bon profil.
+            </p>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 2. STACK TECHNOLOGIQUE                        -->
+    <!-- ============================================= -->
+    <section class="cp-section" id="stack">
+      <div class="cp-container">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-microchip"></i> Stack
+          </div>
+          <h2 class="cp-section-title">Technologies Utilisées</h2>
+          <p class="cp-section-desc">
+            Choix techniques orientés performance, maintenabilité et zéro dépendance superflue.
+            Chaque couche a une responsabilité claire.
+          </p>
+        </div>
+        <div class="cp-stack">
+          <div class="cp-stack-row">
+            <div class="cp-stack-layer"><i class="fas fa-desktop"></i>Présentation</div>
+            <div class="cp-stack-tags">
+              <span class="cp-tag">Astro 4</span>
+              <span class="cp-tag">CSS Custom Properties</span>
+              <span class="cp-tag">Vanilla JS</span>
+              <span class="cp-tag">Inter (Google Fonts)</span>
+              <span class="cp-tag">Font Awesome 6</span>
+            </div>
+          </div>
+          <div class="cp-stack-row">
+            <div class="cp-stack-layer"><i class="fas fa-map"></i>Cartographie</div>
+            <div class="cp-stack-tags">
+              <span class="cp-tag">Leaflet.js</span>
+              <span class="cp-tag">MarkerCluster</span>
+              <span class="cp-tag">OSM Overpass API</span>
+              <span class="cp-tag">GeoJSON</span>
+              <span class="cp-tag">GPX</span>
+            </div>
+          </div>
+          <div class="cp-stack-row">
+            <div class="cp-stack-layer"><i class="fas fa-plug"></i>APIs</div>
+            <div class="cp-stack-tags">
+              <span class="cp-tag cp-tag--orange">Strava API v3</span>
+              <span class="cp-tag cp-tag--orange">OpenAgenda</span>
+              <span class="cp-tag cp-tag--orange">Entreprises.gouv.fr</span>
+              <span class="cp-tag cp-tag--orange">OpenWeather</span>
+            </div>
+          </div>
+          <div class="cp-stack-row">
+            <div class="cp-stack-layer"><i class="fas fa-server"></i>Backend</div>
+            <div class="cp-stack-tags">
+              <span class="cp-tag cp-tag--green">PHP 8</span>
+              <span class="cp-tag cp-tag--green">Proxy CORS</span>
+              <span class="cp-tag cp-tag--green">Cache fichier</span>
+              <span class="cp-tag cp-tag--green">.htaccess</span>
+              <span class="cp-tag cp-tag--green">JSON store</span>
+            </div>
+          </div>
+          <div class="cp-stack-row">
+            <div class="cp-stack-layer"><i class="fas fa-rocket"></i>Déploiement</div>
+            <div class="cp-stack-tags">
+              <span class="cp-tag">O2Switch</span>
+              <span class="cp-tag">WinSCP FTP</span>
+              <span class="cp-tag">deploy.bat</span>
+              <span class="cp-tag">Astro SSG build</span>
+              <span class="cp-tag">Git</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 3. DÉCISIONS DE CONCEPTION                    -->
+    <!-- ============================================= -->
+    <section class="cp-section cp-section--alt" id="decisions">
+      <div class="cp-container">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-chess"></i> Arbitrages Produit
+          </div>
+          <h2 class="cp-section-title">Décisions de Conception</h2>
+          <p class="cp-section-desc">
+            Chaque choix technique répond à une contrainte produit. Voici les quatre arbitrages structurants.
+          </p>
+        </div>
+        <div class="cp-decisions">
+          <div class="cp-decision">
+            <div class="cp-decision-head">
+              <i class="fas fa-bolt"></i>
+              <span class="cp-decision-title">Rendu statique plutôt que SPA</span>
+            </div>
+            <span class="cp-decision-choice">Astro SSG &rarr; pas de framework JS</span>
+            <p class="cp-decision-why">
+              Chargement instantané sur connexion mobile terrain. Aucun JavaScript obligatoire
+              côté client — chaque page est un fichier HTML servi directement par Apache.
+            </p>
+          </div>
+          <div class="cp-decision">
+            <div class="cp-decision-head">
+              <i class="fas fa-shield-halved"></i>
+              <span class="cp-decision-title">Proxy PHP centralisé</span>
+            </div>
+            <span class="cp-decision-choice">PHP proxy &rarr; clés API hors dépôt Git</span>
+            <p class="cp-decision-why">
+              Toutes les clés API sensibles restent côté serveur dans un fichier .env.
+              Le proxy gère aussi la mise en cache (TTL 5 min) pour ne pas saturer
+              les quotas gratuits des APIs.
+            </p>
+          </div>
+          <div class="cp-decision">
+            <div class="cp-decision-head">
+              <i class="fas fa-database"></i>
+              <span class="cp-decision-title">JSON comme datastore</span>
+            </div>
+            <span class="cp-decision-choice">Fichiers JSON &rarr; pas de base de données</span>
+            <p class="cp-decision-why">
+              Les données de parcours (étapes, journal, GPX) sont stockées en JSON versionné
+              dans Git. L'admin peut éditer en ligne, sans interface SQL.
+              Parfait pour un projet solo à durée limitée.
+            </p>
+          </div>
+          <div class="cp-decision">
+            <div class="cp-decision-head">
+              <i class="fas fa-palette"></i>
+              <span class="cp-decision-title">Design tokens centralisés</span>
+            </div>
+            <span class="cp-decision-choice">CSS custom properties &rarr; thème light/dark</span>
+            <p class="cp-decision-why">
+              Un seul fichier <code>tokens.css</code> définit couleurs, espacement, typographie.
+              Le basculement dark/light est géré par une seule surcharge de variables CSS
+              sur <code>html[data-theme="light"]</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 4. DIAGRAMME CAS D'USAGE (UML)                -->
+    <!-- ============================================= -->
+    <section class="cp-section" id="usecase">
+      <div class="cp-container--wide">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-diagram-project"></i> UML &middot; Cas d'usage
+          </div>
+          <h2 class="cp-section-title">Acteurs &amp; Cas d'Usage</h2>
+          <p class="cp-section-desc">
+            3 acteurs, 5 cas d'usage principaux. Le Cycliste utilise toutes les fonctionnalités ;
+            le Visiteur consulte ; l'Admin gère le contenu.
+          </p>
+        </div>
+        <div class="cp-diagram-wrap">
+          <svg viewBox="0 0 780 390" xmlns="http://www.w3.org/2000/svg"
+               role="img" aria-label="Diagramme de cas d'usage UML TourData 2026"
+               font-family="Inter, system-ui, sans-serif">
+            <defs>
+              <pattern id="uc-dot" width="22" height="22" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.7" fill="rgba(77,184,212,0.07)"/>
+              </pattern>
+            </defs>
+
+            <!-- Background -->
+            <rect width="780" height="390" fill="url(#uc-dot)" rx="10"/>
+
+            <!-- System boundary box -->
+            <rect x="192" y="32" width="396" height="326"
+                  fill="rgba(11,20,40,0.55)"
+                  stroke="rgba(77,184,212,0.42)" stroke-width="1.5" rx="7"/>
+            <text x="390" y="24" text-anchor="middle"
+                  font-size="10" fill="rgba(77,184,212,0.6)" font-style="italic" letter-spacing="0.06em">«system»</text>
+            <text x="390" y="55" text-anchor="middle"
+                  font-size="14" font-weight="700" fill="#c8dde8" letter-spacing="-0.01em">TourData 2026</text>
+            <line x1="280" y1="62" x2="500" y2="62"
+                  stroke="rgba(77,184,212,0.18)" stroke-width="0.8"/>
+
+            <!-- UC1 — Terrain & Journal -->
+            <ellipse cx="390" cy="100" rx="113" ry="23"
+                     fill="rgba(77,184,212,0.07)" stroke="rgba(77,184,212,0.38)" stroke-width="1.2"/>
+            <text x="390" y="105" text-anchor="middle" font-size="12" font-weight="500" fill="#d0e8f5">Terrain &amp; Journal</text>
+
+            <!-- UC2 — Radar Entreprises -->
+            <ellipse cx="390" cy="158" rx="113" ry="23"
+                     fill="rgba(77,184,212,0.07)" stroke="rgba(77,184,212,0.38)" stroke-width="1.2"/>
+            <text x="390" y="163" text-anchor="middle" font-size="12" font-weight="500" fill="#d0e8f5">Radar Entreprises</text>
+
+            <!-- UC3 — Météo Étapes -->
+            <ellipse cx="390" cy="216" rx="113" ry="23"
+                     fill="rgba(77,184,212,0.07)" stroke="rgba(77,184,212,0.38)" stroke-width="1.2"/>
+            <text x="390" y="221" text-anchor="middle" font-size="12" font-weight="500" fill="#d0e8f5">Météo Étapes</text>
+
+            <!-- UC4 — Dashboard Strava -->
+            <ellipse cx="390" cy="274" rx="113" ry="23"
+                     fill="rgba(77,184,212,0.07)" stroke="rgba(77,184,212,0.38)" stroke-width="1.2"/>
+            <text x="390" y="279" text-anchor="middle" font-size="12" font-weight="500" fill="#d0e8f5">Dashboard Strava</text>
+
+            <!-- UC5 — Administration (accent copper) -->
+            <ellipse cx="390" cy="332" rx="113" ry="23"
+                     fill="rgba(200,122,74,0.07)" stroke="rgba(200,122,74,0.32)" stroke-width="1.2"/>
+            <text x="390" y="337" text-anchor="middle" font-size="12" font-weight="500" fill="#d4a07a">Administration</text>
+
+            <!-- ── Acteur : Cycliste (gauche) ─────────── -->
+            <circle cx="72" cy="165" r="18" fill="rgba(10,18,34,0.8)" stroke="rgba(77,184,212,0.72)" stroke-width="1.8"/>
+            <line x1="72" y1="183" x2="72" y2="220" stroke="rgba(77,184,212,0.72)" stroke-width="1.8"/>
+            <line x1="72" y1="195" x2="54"  y2="207" stroke="rgba(77,184,212,0.72)" stroke-width="1.8"/>
+            <line x1="72" y1="195" x2="90"  y2="207" stroke="rgba(77,184,212,0.72)" stroke-width="1.8"/>
+            <line x1="72" y1="220" x2="57"  y2="239" stroke="rgba(77,184,212,0.72)" stroke-width="1.8"/>
+            <line x1="72" y1="220" x2="87"  y2="239" stroke="rgba(77,184,212,0.72)" stroke-width="1.8"/>
+            <text x="72" y="256" text-anchor="middle" font-size="12" font-weight="600" fill="#8fa3b8">Cycliste</text>
+
+            <!-- Connections : Cycliste → UC1,2,3,4 -->
+            <line x1="90"  y1="172" x2="277" y2="100" stroke="rgba(77,184,212,0.22)" stroke-width="1.1"/>
+            <line x1="90"  y1="180" x2="277" y2="158" stroke="rgba(77,184,212,0.22)" stroke-width="1.1"/>
+            <line x1="90"  y1="190" x2="277" y2="216" stroke="rgba(77,184,212,0.22)" stroke-width="1.1"/>
+            <line x1="90"  y1="200" x2="277" y2="274" stroke="rgba(77,184,212,0.22)" stroke-width="1.1"/>
+
+            <!-- ── Acteur : Visiteur / Entreprise (droite haut) ── -->
+            <circle cx="708" cy="130" r="18" fill="rgba(10,18,34,0.8)" stroke="rgba(77,184,212,0.5)" stroke-width="1.8"/>
+            <line x1="708" y1="148" x2="708" y2="185" stroke="rgba(77,184,212,0.5)" stroke-width="1.8"/>
+            <line x1="708" y1="160" x2="690" y2="172" stroke="rgba(77,184,212,0.5)" stroke-width="1.8"/>
+            <line x1="708" y1="160" x2="726" y2="172" stroke="rgba(77,184,212,0.5)" stroke-width="1.8"/>
+            <line x1="708" y1="185" x2="693" y2="204" stroke="rgba(77,184,212,0.5)" stroke-width="1.8"/>
+            <line x1="708" y1="185" x2="723" y2="204" stroke="rgba(77,184,212,0.5)" stroke-width="1.8"/>
+            <text x="708" y="220" text-anchor="middle" font-size="12" font-weight="600" fill="#8fa3b8">Visiteur</text>
+            <text x="708" y="233" text-anchor="middle" font-size="10" fill="rgba(143,163,184,0.55)">/&nbsp;Entreprise</text>
+
+            <!-- Connections : Visiteur → UC1,2,3 -->
+            <line x1="690" y1="138" x2="503" y2="100" stroke="rgba(77,184,212,0.18)" stroke-width="1.1"/>
+            <line x1="690" y1="148" x2="503" y2="158" stroke="rgba(77,184,212,0.18)" stroke-width="1.1"/>
+            <line x1="690" y1="160" x2="503" y2="216" stroke="rgba(77,184,212,0.18)" stroke-width="1.1"/>
+
+            <!-- ── Acteur : Admin (droite bas) ────────── -->
+            <circle cx="708" cy="296" r="18" fill="rgba(10,18,34,0.8)" stroke="rgba(200,122,74,0.62)" stroke-width="1.8"/>
+            <line x1="708" y1="314" x2="708" y2="351" stroke="rgba(200,122,74,0.62)" stroke-width="1.8"/>
+            <line x1="708" y1="326" x2="690" y2="338" stroke="rgba(200,122,74,0.62)" stroke-width="1.8"/>
+            <line x1="708" y1="326" x2="726" y2="338" stroke="rgba(200,122,74,0.62)" stroke-width="1.8"/>
+            <line x1="708" y1="351" x2="693" y2="370" stroke="rgba(200,122,74,0.62)" stroke-width="1.8"/>
+            <line x1="708" y1="351" x2="723" y2="370" stroke="rgba(200,122,74,0.62)" stroke-width="1.8"/>
+            <text x="708" y="384" text-anchor="middle" font-size="12" font-weight="600" fill="#8fa3b8">Admin</text>
+
+            <!-- Connection : Admin → UC5 -->
+            <line x1="690" y1="309" x2="503" y2="332" stroke="rgba(200,122,74,0.28)" stroke-width="1.1"/>
+          </svg>
+          <p class="cp-diagram-caption">Fig. 1 — Diagramme de cas d'usage UML &middot; TourData 2026</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 5. FLUX DE DONNÉES                            -->
+    <!-- ============================================= -->
+    <section class="cp-section cp-section--alt" id="dataflow">
+      <div class="cp-container--wide">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-arrows-turn-right"></i> Flux de données
+          </div>
+          <h2 class="cp-section-title">Architecture du Flux</h2>
+          <p class="cp-section-desc">
+            Les données transitent de quatre sources externes vers le navigateur via
+            un proxy PHP sécurisé et un build statique Astro.
+          </p>
+        </div>
+        <div class="cp-diagram-wrap">
+          <svg viewBox="0 0 780 222" xmlns="http://www.w3.org/2000/svg"
+               role="img" aria-label="Diagramme de flux de données TourData 2026"
+               font-family="Inter, system-ui, sans-serif">
+            <defs>
+              <pattern id="df-dot" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.7" fill="rgba(77,184,212,0.06)"/>
+              </pattern>
+              <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="rgba(77,184,212,0.65)"/>
+              </marker>
+            </defs>
+
+            <rect width="780" height="222" fill="url(#df-dot)" rx="10"/>
+
+            <!-- Label zone Sources -->
+            <text x="78" y="18" text-anchor="middle" font-size="9" fill="rgba(77,184,212,0.5)"
+                  font-weight="600" letter-spacing="0.1em">SOURCES EXTERNES</text>
+
+            <!-- API boxes -->
+            <rect x="13" y="26" width="130" height="34" rx="5"
+                  fill="rgba(252,76,2,0.09)" stroke="rgba(252,76,2,0.28)" stroke-width="1"/>
+            <text x="78" y="48" text-anchor="middle" font-size="11" font-weight="600" fill="#e0885a">Strava API v3</text>
+
+            <rect x="13" y="68" width="130" height="34" rx="5"
+                  fill="rgba(11,20,40,0.65)" stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+            <text x="78" y="90" text-anchor="middle" font-size="11" fill="#8fa3b8">OpenAgenda</text>
+
+            <rect x="13" y="110" width="130" height="34" rx="5"
+                  fill="rgba(11,20,40,0.65)" stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+            <text x="78" y="132" text-anchor="middle" font-size="11" fill="#8fa3b8">Entreprises.gouv</text>
+
+            <rect x="13" y="152" width="130" height="34" rx="5"
+                  fill="rgba(11,20,40,0.65)" stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+            <text x="78" y="174" text-anchor="middle" font-size="11" fill="#8fa3b8">OpenWeather API</text>
+
+            <!-- Fan-in lines → Proxy -->
+            <line x1="143" y1="43"  x2="184" y2="98"  stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+            <line x1="143" y1="85"  x2="184" y2="106" stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+            <line x1="143" y1="127" x2="184" y2="114" stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+            <line x1="143" y1="169" x2="184" y2="122" stroke="rgba(77,184,212,0.18)" stroke-width="1"/>
+
+            <!-- PHP Proxy box -->
+            <text x="260" y="72" text-anchor="middle" font-size="9" fill="rgba(77,184,212,0.52)"
+                  font-weight="600" letter-spacing="0.1em">PROXY SÉCURISÉ</text>
+            <rect x="186" y="78" width="148" height="72" rx="6"
+                  fill="rgba(11,20,40,0.75)" stroke="rgba(77,184,212,0.42)" stroke-width="1.5"/>
+            <text x="260" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#c8dde8">PHP 8 Proxy</text>
+            <line x1="206" y1="110" x2="314" y2="110" stroke="rgba(77,184,212,0.14)" stroke-width="0.8"/>
+            <text x="260" y="124" text-anchor="middle" font-size="10" fill="#5a7a90">Clés API &middot; Cache TTL</text>
+            <text x="260" y="138" text-anchor="middle" font-size="10" fill="#5a7a90">CORS &middot; Rate limit</text>
+
+            <!-- Sécurité note sous le proxy -->
+            <rect x="186" y="162" width="148" height="28" rx="4"
+                  fill="rgba(200,122,74,0.07)" stroke="rgba(200,122,74,0.22)" stroke-width="0.8"/>
+            <text x="260" y="180" text-anchor="middle" font-size="10" fill="rgba(200,122,74,0.85)">
+              .env &middot; hors dépôt Git
+            </text>
+
+            <!-- Arrow Proxy → Astro -->
+            <line x1="334" y1="114" x2="378" y2="114"
+                  stroke="rgba(77,184,212,0.55)" stroke-width="1.6" marker-end="url(#arr)"/>
+
+            <!-- Astro box -->
+            <text x="455" y="72" text-anchor="middle" font-size="9" fill="rgba(77,184,212,0.52)"
+                  font-weight="600" letter-spacing="0.1em">GÉNÉRATION</text>
+            <rect x="382" y="78" width="146" height="72" rx="6"
+                  fill="rgba(11,20,40,0.75)" stroke="rgba(77,184,212,0.35)" stroke-width="1.5"/>
+            <text x="455" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#c8dde8">Astro 4 SSG</text>
+            <line x1="402" y1="110" x2="508" y2="110" stroke="rgba(77,184,212,0.14)" stroke-width="0.8"/>
+            <text x="455" y="124" text-anchor="middle" font-size="10" fill="#5a7a90">Build statique</text>
+            <text x="455" y="138" text-anchor="middle" font-size="10" fill="#5a7a90">Pages &middot; Composants</text>
+
+            <!-- Arrow Astro → Client -->
+            <line x1="528" y1="114" x2="572" y2="114"
+                  stroke="rgba(77,184,212,0.55)" stroke-width="1.6" marker-end="url(#arr)"/>
+
+            <!-- Client box -->
+            <text x="650" y="72" text-anchor="middle" font-size="9" fill="rgba(77,184,212,0.52)"
+                  font-weight="600" letter-spacing="0.1em">NAVIGATEUR</text>
+            <rect x="576" y="78" width="148" height="72" rx="6"
+                  fill="rgba(11,20,40,0.75)" stroke="rgba(77,184,212,0.28)" stroke-width="1.5"/>
+            <text x="650" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#c8dde8">Client Web</text>
+            <line x1="596" y1="110" x2="704" y2="110" stroke="rgba(77,184,212,0.14)" stroke-width="0.8"/>
+            <text x="650" y="124" text-anchor="middle" font-size="10" fill="#5a7a90">Leaflet &middot; Vanilla JS</text>
+            <text x="650" y="138" text-anchor="middle" font-size="10" fill="#5a7a90">CSS Tokens &middot; HTML5</text>
+          </svg>
+          <p class="cp-diagram-caption">Fig. 2 — Flux de données : Sources externes &rarr; Proxy &rarr; Astro SSG &rarr; Navigateur</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 6. MODÈLE ENTITÉS                             -->
+    <!-- ============================================= -->
+    <section class="cp-section" id="entities">
+      <div class="cp-container--wide">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-circle-nodes"></i> Modèle de données
+          </div>
+          <h2 class="cp-section-title">Modèle Entités Simplifié</h2>
+          <p class="cp-section-desc">
+            L'<strong>Étape</strong> est l'entité centrale. Chaque étape agrège
+            des données météo, cartographiques, activité et journal.
+          </p>
+        </div>
+        <div class="cp-diagram-wrap">
+          <svg viewBox="0 0 780 360" xmlns="http://www.w3.org/2000/svg"
+               role="img" aria-label="Modèle entités TourData 2026"
+               font-family="Inter, system-ui, sans-serif">
+            <defs>
+              <pattern id="er-dot" width="22" height="22" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.7" fill="rgba(77,184,212,0.06)"/>
+              </pattern>
+            </defs>
+
+            <rect width="780" height="360" fill="url(#er-dot)" rx="10"/>
+
+            <!-- Association lines drawn first (behind boxes) -->
+            <!-- ÉTAPE → JOURNAL -->
+            <line x1="390" y1="178" x2="190" y2="90"
+                  stroke="rgba(77,184,212,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <!-- ÉTAPE → MÉTÉO -->
+            <line x1="390" y1="178" x2="590" y2="90"
+                  stroke="rgba(77,184,212,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <!-- ÉTAPE → ENTREPRISE -->
+            <line x1="390" y1="185" x2="642" y2="185"
+                  stroke="rgba(77,184,212,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <!-- ÉTAPE → CAMPING -->
+            <line x1="390" y1="196" x2="558" y2="298"
+                  stroke="rgba(77,184,212,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <!-- ÉTAPE → COWORKING -->
+            <line x1="390" y1="196" x2="222" y2="298"
+                  stroke="rgba(77,184,212,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+            <!-- Cardinality labels -->
+            <text x="360" y="160" font-size="11" fill="rgba(77,184,212,0.55)" font-weight="700">1</text>
+            <text x="258" y="120" font-size="11" fill="rgba(77,184,212,0.55)" font-weight="700">N</text>
+            <text x="513" y="120" font-size="11" fill="rgba(77,184,212,0.55)" font-weight="700">N</text>
+            <text x="530" y="175" font-size="11" fill="rgba(77,184,212,0.55)" font-weight="700">N</text>
+            <text x="490" y="258" font-size="11" fill="rgba(77,184,212,0.55)" font-weight="700">N</text>
+            <text x="286" y="258" font-size="11" fill="rgba(77,184,212,0.55)" font-weight="700">N</text>
+
+            <!-- ÉTAPE — entité centrale (accentuée) -->
+            <rect x="317" y="152" width="146" height="66" rx="6"
+                  fill="rgba(11,20,40,0.88)" stroke="rgba(77,184,212,0.65)" stroke-width="2"/>
+            <rect x="317" y="152" width="146" height="26" rx="6"
+                  fill="rgba(77,184,212,0.15)"/>
+            <rect x="317" y="172" width="146" height="6" rx="0"
+                  fill="rgba(77,184,212,0.15)"/>
+            <text x="390" y="169" text-anchor="middle" font-size="12" font-weight="700"
+                  fill="#ffffff" letter-spacing="0.04em">ÉTAPE</text>
+            <line x1="317" y1="178" x2="463" y2="178" stroke="rgba(77,184,212,0.3)" stroke-width="0.8"/>
+            <text x="390" y="193" text-anchor="middle" font-size="10" fill="#6ea8c0">id &middot; ville &middot; region</text>
+            <text x="390" y="208" text-anchor="middle" font-size="10" fill="#6ea8c0">km &middot; date &middot; statut</text>
+
+            <!-- JOURNAL -->
+            <rect x="118" y="55" width="144" height="70" rx="6"
+                  fill="rgba(11,20,40,0.82)" stroke="rgba(77,184,212,0.32)" stroke-width="1.3"/>
+            <rect x="118" y="55" width="144" height="26" rx="6"
+                  fill="rgba(77,184,212,0.09)"/>
+            <text x="190" y="72" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c8dde8">JOURNAL</text>
+            <line x1="118" y1="81" x2="262" y2="81" stroke="rgba(77,184,212,0.15)" stroke-width="0.8"/>
+            <text x="190" y="97"  text-anchor="middle" font-size="10" fill="#5a7a90">date &middot; titre</text>
+            <text x="190" y="113" text-anchor="middle" font-size="10" fill="#5a7a90">contenu &middot; km_parcourus</text>
+
+            <!-- MÉTÉO -->
+            <rect x="518" y="55" width="144" height="70" rx="6"
+                  fill="rgba(11,20,40,0.82)" stroke="rgba(77,184,212,0.32)" stroke-width="1.3"/>
+            <rect x="518" y="55" width="144" height="26" rx="6"
+                  fill="rgba(77,184,212,0.09)"/>
+            <text x="590" y="72" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c8dde8">MÉTÉO</text>
+            <line x1="518" y1="81" x2="662" y2="81" stroke="rgba(77,184,212,0.15)" stroke-width="0.8"/>
+            <text x="590" y="97"  text-anchor="middle" font-size="10" fill="#5a7a90">temp &middot; vent &middot; pluie</text>
+            <text x="590" y="113" text-anchor="middle" font-size="10" fill="#5a7a90">source: OpenWeather</text>
+
+            <!-- ENTREPRISE -->
+            <rect x="568" y="160" width="148" height="70" rx="6"
+                  fill="rgba(11,20,40,0.82)" stroke="rgba(200,122,74,0.3)" stroke-width="1.3"/>
+            <rect x="568" y="160" width="148" height="26" rx="6"
+                  fill="rgba(200,122,74,0.08)"/>
+            <text x="642" y="177" text-anchor="middle" font-size="11.5" font-weight="700" fill="#d4a07a">ENTREPRISE</text>
+            <line x1="568" y1="186" x2="716" y2="186" stroke="rgba(200,122,74,0.15)" stroke-width="0.8"/>
+            <text x="642" y="202" text-anchor="middle" font-size="10" fill="#8a6040">nom &middot; siren &middot; ville</text>
+            <text x="642" y="218" text-anchor="middle" font-size="10" fill="#8a6040">secteur &middot; statut contact</text>
+
+            <!-- CAMPING -->
+            <rect x="485" y="266" width="146" height="70" rx="6"
+                  fill="rgba(11,20,40,0.82)" stroke="rgba(77,184,212,0.25)" stroke-width="1.3"/>
+            <rect x="485" y="266" width="146" height="26" rx="6"
+                  fill="rgba(77,184,212,0.07)"/>
+            <text x="558" y="283" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c8dde8">CAMPING</text>
+            <line x1="485" y1="292" x2="631" y2="292" stroke="rgba(77,184,212,0.12)" stroke-width="0.8"/>
+            <text x="558" y="308" text-anchor="middle" font-size="10" fill="#5a7a90">nom &middot; coords</text>
+            <text x="558" y="324" text-anchor="middle" font-size="10" fill="#5a7a90">source: OSM Overpass</text>
+
+            <!-- COWORKING -->
+            <rect x="149" y="266" width="146" height="70" rx="6"
+                  fill="rgba(11,20,40,0.82)" stroke="rgba(77,184,212,0.25)" stroke-width="1.3"/>
+            <rect x="149" y="266" width="146" height="26" rx="6"
+                  fill="rgba(77,184,212,0.07)"/>
+            <text x="222" y="283" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c8dde8">COWORKING</text>
+            <line x1="149" y1="292" x2="295" y2="292" stroke="rgba(77,184,212,0.12)" stroke-width="0.8"/>
+            <text x="222" y="308" text-anchor="middle" font-size="10" fill="#5a7a90">nom &middot; coords</text>
+            <text x="222" y="324" text-anchor="middle" font-size="10" fill="#5a7a90">source: OSM Overpass</text>
+
+          </svg>
+          <p class="cp-diagram-caption">Fig. 3 — Modèle entités simplifié &middot; ÉTAPE comme agrégat central</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- 7. ROADMAP PRODUIT                            -->
+    <!-- ============================================= -->
+    <section class="cp-section cp-section--alt" id="roadmap">
+      <div class="cp-container">
+        <div class="cp-section-header">
+          <div class="cp-section-badge">
+            <i class="fas fa-route"></i> Roadmap
+          </div>
+          <h2 class="cp-section-title">Vision Produit &amp; Jalons</h2>
+          <p class="cp-section-desc">
+            Du concept à la livraison finale — 5 phases couvrant idéation, build, tour terrain et valorisation post-parcours.
+          </p>
+        </div>
+        <div class="cp-timeline" id="cp-timeline">
+          {jalons.map((j) => (
+            <div class="cp-tl-item" data-jalon-id={j.id}>
+              <div class={`cp-tl-node cp-tl-node--${j.statut}`}></div>
+              <div class="cp-tl-content">
+                <span class={`cp-tl-date${j.statut === 'active' ? ' cp-tl-date--active' : ''}`}>{j.date}</span>
+                <span class="cp-tl-title">{j.titre}</span>
+                <span class="cp-tl-sub">{j.sous}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Hydration runtime : remplace la timeline si site-data.json contient roadmap -->
+        <script is:inline>
+          (function () {
+            function renderTimeline(container, jalons) {
+              container.innerHTML = '';
+              jalons.forEach(function (j) {
+                var item = document.createElement('div');
+                item.className = 'cp-tl-item';
+                item.dataset.jalonId = j.id || '';
+
+                var node = document.createElement('div');
+                node.className = 'cp-tl-node cp-tl-node--' + (j.statut || 'future');
+
+                var content = document.createElement('div');
+                content.className = 'cp-tl-content';
+
+                var date = document.createElement('span');
+                date.className = 'cp-tl-date' + (j.statut === 'active' ? ' cp-tl-date--active' : '');
+                date.textContent = j.date || '';
+
+                var titre = document.createElement('span');
+                titre.className = 'cp-tl-title';
+                titre.textContent = j.titre || '';
+
+                var sous = document.createElement('span');
+                sous.className = 'cp-tl-sub';
+                sous.textContent = j.sous || '';
+
+                content.appendChild(date);
+                content.appendChild(titre);
+                content.appendChild(sous);
+                item.appendChild(node);
+                item.appendChild(content);
+                container.appendChild(item);
+              });
+            }
+
+            fetch('/data/site-data.json', { signal: AbortSignal.timeout(4000) })
+              .then(function (r) { return r.ok ? r.json() : null; })
+              .then(function (d) {
+                if (!d || !d.roadmap || !Array.isArray(d.roadmap.jalons) || d.roadmap.jalons.length === 0) return;
+                var container = document.getElementById('cp-timeline');
+                if (container) renderTimeline(container, d.roadmap.jalons);
+              })
+              .catch(function () { /* réseau indisponible — rendu build utilisé */ });
+          }());
+        </script>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+
+</BaseLayout>

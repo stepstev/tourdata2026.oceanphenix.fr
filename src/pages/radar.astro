@@ -148,7 +148,7 @@ import OceanBackground from '../components/OceanBackground.astro';
         <div class="rd-ctrl-vsep" aria-hidden="true"></div>
 
         <!-- ③ Mode Pro / Cyclo -->
-        <div class="rd-ctrl-group">
+        <div class="rd-ctrl-group rd-ctrl-group--mode">
           <span class="rd-ctrl-label">
             <span class="rd-step-badge">③</span> Mode
             <span class="rd-ctrl-hint">Bascule les sources de données</span>
@@ -1683,22 +1683,25 @@ import OceanBackground from '../components/OceanBackground.astro';
     .rd-ctrl-vsep      { display: none; }
     .rd-panel-zone-label { display: none; }
 
-    /* ── Zone 1 : empilement vertical ①②③ sans chevauchement ── */
-    .rd-ctrl-row  { flex-direction: column; gap: 6px; }
+    /* ── Zone 1 : ① pleine largeur, ② et ③ côte à côte ── */
+    .rd-ctrl-row  { flex-wrap: wrap; gap: 0; row-gap: 8px; }
     .rd-ctrl-hint { display: none; }
-    .rd-ctrl-group { padding: 0; flex: none; width: 100%; }
+    .rd-ctrl-group { padding: 0; }
 
-    /* ① Position : city trigger full-width + GPS compact */
+    /* ① Position : pleine largeur */
+    .rd-ctrl-group--pos { flex: 0 0 100%; }
     .rd-ctrl-group--pos .rd-ctrl-body { display: flex; width: 100%; gap: 6px; }
     .rd-ctrl-group--pos .rd-city-dropdown { flex: 1; min-width: 0; }
     .rd-ctrl-group--pos .rd-city-trigger  { width: 100%; min-width: 0; }
     #btn-locate { flex: 0 0 36px; width: 36px; padding: 0; justify-content: center; }
 
-    /* ② Rayon : slider pleine largeur, supprime le flex-shrink:0 */
+    /* ② Rayon : prend l'espace restant, slider s'étire */
+    .rd-ctrl-group:not(.rd-ctrl-group--pos):not(.rd-ctrl-group--mode) { flex: 1; min-width: 0; }
     .rd-radius-inline { flex-shrink: 1; width: 100%; box-sizing: border-box; }
     #radius-slider    { flex: 1; min-width: 0; width: 100%; }
 
-    /* ③ Mode : label + deux boutons icône */
+    /* ③ Mode : largeur naturelle (2 boutons icône) */
+    .rd-ctrl-group--mode { flex: 0 0 auto; }
     .rd-mode-toggle { gap: 5px; }
     .rd-mode-btn    { width: 34px; height: 34px; }
 

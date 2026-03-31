@@ -1,0 +1,1410 @@
+---
+// src/pages/audit-data.astro — DataMaturity Score™
+// Audit de maturité data — DAMA-DMBOK2 · EDM Council DCAM · CMMI-DMM · RGPD · DMA
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+---
+
+<BaseLayout
+  title="Audit Maturité Data — DataMaturity Score™ | TourData 2026"
+  description="Évaluez gratuitement la maturité data de votre organisation. Basé sur DAMA-DMBOK2, RGPD, DMA. Radar interactif, score /5 et plan d'action — par Stéphane Celton, OceanPhenix."
+  lastModified="31/03/2026 10:00"
+>
+
+  <OceanBackground />
+  <Nav />
+
+  <main class="ad-page main-content">
+
+    <!-- ══ HERO ═══════════════════════════════════════════════ -->
+    <section class="ad-hero">
+      <div class="ad-hero-badge"><i class="fas fa-database"></i> Outil Terrain — TourData 2026</div>
+      <h1 class="ad-hero-title"><i class="fas fa-chart-bar ad-cu"></i> DataMaturity Score™</h1>
+      <p class="ad-hero-sub">Évaluez la maturité data de votre organisation · 11 dimensions DAMA-DMBOK2 · Score /5 · Radar interactif · Plan d'action</p>
+      <div class="ad-hero-chips">
+        <span class="ad-chip">DAMA-DMBOK2</span><span class="ad-chip">EDM Council DCAM</span>
+        <span class="ad-chip">CMMI-DMM niveaux 0→5</span><span class="ad-chip">RGPD · DMA · NIS2</span>
+        <span class="ad-chip ad-chip--green">Gratuit · Anonyme · Local</span>
+      </div>
+    </section>
+
+    <!-- ══ PROFIL SELECTOR ════════════════════════════════════ -->
+    <div class="ad-profil-bar">
+      <span class="ad-profil-label"><i class="fas fa-building"></i> Votre organisation :</span>
+      <div class="ad-profil-btns">
+        <button class="ad-profil-btn is-active" data-p="pme"><i class="fas fa-store"></i> PME / TPE <em>&lt; 250 salariés</em></button>
+        <button class="ad-profil-btn" data-p="eti"><i class="fas fa-building-user"></i> ETI <em>250–5 000</em></button>
+        <button class="ad-profil-btn" data-p="gc"><i class="fas fa-city"></i> Grand Compte <em>&gt; 5 000</em></button>
+      </div>
+      <div class="ad-profil-info" id="ad-profil-info">
+        <i class="fas fa-circle-info"></i> <span id="ad-profil-info-txt">33 questions · 3 par dimension · ~6 min</span>
+      </div>
+    </div>
+
+    <!-- ══ LAYOUT PRINCIPAL : questionnaire + radar ═══════════ -->
+    <div class="ad-layout">
+
+      <!-- ── Colonne gauche : questionnaire ─────────────────── -->
+      <div class="ad-qcol" id="ad-qcol">
+        <!-- généré par JS -->
+      </div>
+
+      <!-- ── Colonne droite : radar sticky ──────────────────── -->
+      <div class="ad-rcol">
+        <div class="ad-radar-card" id="ad-radar-card">
+
+          <!-- Score global -->
+          <div class="ad-global-score" id="ad-global-score">
+            <div class="ad-gs-ring-wrap">
+              <svg viewBox="0 0 100 100" class="ad-gs-ring">
+                <circle class="ad-gs-bg" cx="50" cy="50" r="42" fill="none" stroke-width="8"/>
+                <circle class="ad-gs-arc" id="ad-gs-arc" cx="50" cy="50" r="42" fill="none" stroke-width="8"
+                  stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
+              </svg>
+              <div class="ad-gs-center">
+                <span class="ad-gs-val" id="ad-gs-val">—</span>
+                <span class="ad-gs-max">/5</span>
+              </div>
+            </div>
+            <div class="ad-gs-right">
+              <div class="ad-gs-level" id="ad-gs-level">Remplissez le questionnaire</div>
+              <div class="ad-gs-pct" id="ad-gs-pct"></div>
+              <div class="ad-gs-progress-wrap">
+                <div class="ad-gs-progress-bar" id="ad-gs-progress-bar" style="width:0%"></div>
+              </div>
+              <div class="ad-gs-answered" id="ad-gs-answered">0 / 11 dimensions répondues</div>
+            </div>
+          </div>
+
+          <!-- Radar -->
+          <div class="ad-radar-canvas-wrap">
+            <canvas id="ad-radar" width="420" height="380"></canvas>
+          </div>
+
+          <!-- Mini barres -->
+          <div class="ad-mini-bars" id="ad-mini-bars">
+            <!-- injecté par JS -->
+          </div>
+
+          <!-- CTA résultats -->
+          <button class="ad-btn ad-btn--primary ad-btn--full" id="ad-show-results-btn" onclick="showResults()" style="display:none">
+            <i class="fas fa-chart-bar"></i> Voir le rapport complet
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RÉFÉRENCES NORMATIVES ═══════════════════════════════ -->
+    <div class="ad-normrefs">
+      <h3 class="ad-normrefs-title"><i class="fas fa-book-open"></i> Références normatives &amp; cadres méthodologiques</h3>
+      <div class="ad-normrefs-grid">
+        <a class="ad-normref-card" href="https://www.dama.org/cpages/body-of-knowledge" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-database"></i></span>
+          <div>
+            <strong>DAMA-DMBOK v2</strong>
+            <span>Data Management Body of Knowledge — 11 Knowledge Areas</span>
+            <span class="ad-normref-tag">Gouvernance · Qualité · Architecture</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://edmcouncil.org/page/dcam" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-diagram-project"></i></span>
+          <div>
+            <strong>EDM Council DCAM v2</strong>
+            <span>Data Capability Assessment Model — 8 capacités data</span>
+            <span class="ad-normref-tag">Maturité · Capabilities</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=484574" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-layer-group"></i></span>
+          <div>
+            <strong>SEI CMMI-DMM</strong>
+            <span>Data Management Maturity — niveaux 0 → 5</span>
+            <span class="ad-normref-tag">CMU SEI · Niveaux maturité</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">
+          <span class="ad-normref-logo ad-normref-logo--red"><i class="fas fa-user-shield"></i></span>
+          <div>
+            <strong>RGPD 2016/679</strong>
+            <span>Règlement Général Protection des Données — Art. 5, 24, 30, 32, 35</span>
+            <span class="ad-normref-tag">Obligatoire · Sanction CNIL</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on" target="_blank" rel="noopener">
+          <span class="ad-normref-logo ad-normref-logo--red"><i class="fas fa-balance-scale"></i></span>
+          <div>
+            <strong>CNIL — Guide RGPD pratique</strong>
+            <span>Guides, outils, Q&amp;A pour la mise en conformité RGPD</span>
+            <span class="ad-normref-tag">cnil.fr</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022L2555" target="_blank" rel="noopener">
+          <span class="ad-normref-logo ad-normref-logo--red"><i class="fas fa-network-wired"></i></span>
+          <div>
+            <strong>NIS2 — 2022/2555</strong>
+            <span>Cybersécurité des systèmes d'information — directive européenne</span>
+            <span class="ad-normref-tag">Cybersécurité · SI critique</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022R1925" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-scale-balanced"></i></span>
+          <div>
+            <strong>DMA 2022/1925</strong>
+            <span>Digital Markets Act — interopérabilité &amp; accès aux données</span>
+            <span class="ad-normref-tag">Gatekeepers CA &gt; 75 M€</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://www.ssi.gouv.fr/guide/" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-shield"></i></span>
+          <div>
+            <strong>ANSSI — Guides sécurité SI</strong>
+            <span>Référentiels EBIOS RM, guides d'hygiène informatique, RGS</span>
+            <span class="ad-normref-tag">ssi.gouv.fr</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://www.iso.org/fr/standard/45086.html" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-circle-check"></i></span>
+          <div>
+            <strong>ISO 8000 — Qualité des données</strong>
+            <span>Norme internationale qualité données maîtresses &amp; de référence</span>
+            <span class="ad-normref-tag">Qualité · MDM</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://www.francenum.gouv.fr" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-flag"></i></span>
+          <div>
+            <strong>France Num</strong>
+            <span>Diagnostic maturité numérique officiel — Gouvernement français</span>
+            <span class="ad-normref-tag">francenum.gouv.fr</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://formulaire.observatoire-data-ia.fr/" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-chart-network"></i></span>
+          <div>
+            <strong>Observatoire Data &amp; IA</strong>
+            <span>Formulaire national d'évaluation Data/IA 2024–2026</span>
+            <span class="ad-normref-tag">État des lieux national</span>
+          </div>
+        </a>
+        <a class="ad-normref-card" href="https://www.cigref.fr/cigref_publications/" target="_blank" rel="noopener">
+          <span class="ad-normref-logo"><i class="fas fa-building"></i></span>
+          <div>
+            <strong>CIGREF</strong>
+            <span>Data Management pour les grandes entreprises — édition 2023</span>
+            <span class="ad-normref-tag">cigref.fr</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ══ RAPPORT COMPLET (affiché après completion) ═════════ -->
+    <div class="ad-report" id="ad-report" style="display:none">
+
+      <!-- Score général -->
+      <div class="ad-report-hero" id="ad-report-hero">
+        <!-- injecté -->
+      </div>
+
+      <!-- Recommandations -->
+      <div class="ad-report-section">
+        <h3 class="ad-report-h3"><i class="fas fa-route"></i> Plan d'action prioritaire</h3>
+        <div class="ad-reco-grid" id="ad-reco-grid"></div>
+      </div>
+
+      <!-- Conformité -->
+      <div class="ad-report-section">
+        <h3 class="ad-report-h3"><i class="fas fa-shield-halved"></i> Conformité réglementaire</h3>
+        <div class="ad-comp-grid" id="ad-comp-grid"></div>
+      </div>
+
+      <!-- Outils officiels -->
+      <div class="ad-report-section">
+        <h3 class="ad-report-h3"><i class="fas fa-building-columns"></i> Valider votre score — Outils officiels</h3>
+        <div class="ad-official-row">
+          <a class="ad-official-card" href="https://www.francenum.gouv.fr/guides-et-conseils/strategie-numerique/diagnostic-numerique/quel-est-le-niveau-de-maturite-de-votre" target="_blank" rel="noopener">
+            <i class="fas fa-flag ad-official-icon"></i>
+            <div><strong>Diagnostic France Num</strong><span>Référentiel officiel maturité numérique — Gouvernement français</span><span class="ad-official-url">francenum.gouv.fr</span></div>
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </a>
+          <a class="ad-official-card" href="https://formulaire.observatoire-data-ia.fr/" target="_blank" rel="noopener">
+            <i class="fas fa-chart-network ad-official-icon"></i>
+            <div><strong>Observatoire Data &amp; IA</strong><span>Formulaire national d'évaluation Data/IA 2024-2026</span><span class="ad-official-url">formulaire.observatoire-data-ia.fr</span></div>
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Sources -->
+      <div class="ad-report-section ad-sources">
+        <h3 class="ad-report-h3"><i class="fas fa-book-open"></i> Sources &amp; Méthodologie</h3>
+        <div class="ad-src-grid">
+          <a class="ad-src-item" href="https://www.dama.org/cpages/body-of-knowledge" target="_blank" rel="noopener"><i class="fas fa-database"></i><span><strong>DAMA-DMBOK v2</strong> — 11 Knowledge Areas</span></a>
+          <a class="ad-src-item" href="https://edmcouncil.org/page/dcam" target="_blank" rel="noopener"><i class="fas fa-diagram-project"></i><span><strong>EDM Council DCAM v2</strong> — 8 capabilities</span></a>
+          <a class="ad-src-item" href="https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=484574" target="_blank" rel="noopener"><i class="fas fa-layer-group"></i><span><strong>SEI CMMI-DMM</strong> — 5 niveaux maturité</span></a>
+          <a class="ad-src-item" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener"><i class="fas fa-user-shield"></i><span><strong>RGPD 2016/679</strong> — Art. 5, 24, 30, 32</span></a>
+          <a class="ad-src-item" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022R1925" target="_blank" rel="noopener"><i class="fas fa-scale-balanced"></i><span><strong>DMA 2022/1925</strong> — Digital Markets Act</span></a>
+          <a class="ad-src-item" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022L2555" target="_blank" rel="noopener"><i class="fas fa-network-wired"></i><span><strong>NIS2 2022/2555</strong> — Cybersécurité SI</span></a>
+          <a class="ad-src-item" href="https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on" target="_blank" rel="noopener"><i class="fas fa-balance-scale"></i><span><strong>CNIL</strong> — Guide RGPD pratique</span></a>
+          <a class="ad-src-item" href="https://www.ssi.gouv.fr/guide/" target="_blank" rel="noopener"><i class="fas fa-shield"></i><span><strong>ANSSI</strong> — Sécurité SI guides</span></a>
+          <a class="ad-src-item" href="https://www.francenum.gouv.fr" target="_blank" rel="noopener"><i class="fas fa-flag"></i><span><strong>France Num</strong> — Maturité numérique PME</span></a>
+          <a class="ad-src-item" href="https://formulaire.observatoire-data-ia.fr" target="_blank" rel="noopener"><i class="fas fa-chart-network"></i><span><strong>Observatoire Data &amp; IA</strong> — État des lieux national 2026</span></a>
+          <a class="ad-src-item" href="https://www.cigref.fr/cigref_publications/" target="_blank" rel="noopener"><i class="fas fa-building"></i><span><strong>CIGREF</strong> — Data Management GC 2023</span></a>
+          <a class="ad-src-item" href="https://lelab.bpifrance.fr" target="_blank" rel="noopener"><i class="fas fa-seedling"></i><span><strong>Bpifrance Le Lab</strong> — Data &amp; IA dans les PME 2024</span></a>
+        </div>
+      </div>
+
+      <div class="ad-report-actions">
+        <button class="ad-btn ad-btn--ghost" onclick="resetAudit()"><i class="fas fa-rotate-left"></i> Recommencer</button>
+        <button class="ad-btn ad-btn--copper" onclick="window.print()"><i class="fas fa-print"></i> Exporter PDF</button>
+        <a class="ad-btn ad-btn--primary" href="https://calendly.com/contact-oceanpconsulting/reserver-un-echange-strategique-data-bi" target="_blank" rel="noopener"><i class="fas fa-calendar-check"></i> En discuter avec Stéphane</a>
+      </div>
+
+    </div><!-- /ad-report -->
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+
+  <!-- ═══ Chart.js CDN ════════════════════════════════════════ -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- ═══ LOGIQUE AUDIT ════════════════════════════════════════ -->
+  <script is:inline>
+(function(){
+'use strict';
+
+/* ─── DATA ───────────────────────────────────────────────────── */
+var KA = [
+  { id:'DG',   icon:'fa-landmark',        label:'Data Governance',              short:'Gouvernance',  color:'#4db8d4',
+    ref:'DAMA KA01 · DCAM Cap.1',
+    desc:'Rôles, politiques et responsabilités autour de la donnée',
+    bench:{pme:1.8,eti:2.5,gc:3.2},
+    q:{
+      pme:[
+        {t:'Un responsable des données (Data Owner, DPO, CDO) est-il officiellement désigné ?',             h:'Rôle formel avec responsabilités écrites, même à temps partiel.'},
+        {t:'Une politique de gestion des données est-elle documentée et partagée ?',                        h:'Charte data, procédures accessibles à tous.'},
+        {t:'Les incidents et anomalies data sont-ils traités via un processus structuré ?',                 h:'Processus de déclaration, suivi et résolution tracés.'}
+      ],
+      extra:[
+        {t:'Un Data Council ou comité data se réunit-il régulièrement (≥ 4×/an) ?',                        h:'Instances formelles avec CR et décisions tracées.'},
+        {t:'La gouvernance est-elle auditée annuellement et alignée RGPD, DMA, NIS2 ?',                    h:'Audit externe ou interne formalisé.'}
+      ]
+    },
+    reco:{qw:'Nommer formellement un Data Owner avec fiche de mission — même à 20%.',
+          mt:'Rédiger une charte data couvrant classification, accès, rétention, qualité.',
+          lt:'Mettre en place un comité data mensuel avec représentant métier par domaine.'}
+  },
+  { id:'DA',   icon:'fa-diagram-project', label:'Data Architecture',             short:'Architecture', color:'#6ec5d6',
+    ref:'DAMA KA02',
+    desc:'Cartographie, structures de données et flux entre systèmes',
+    bench:{pme:1.4,eti:2.2,gc:2.8},
+    q:{
+      pme:[
+        {t:'Les systèmes sources de données sont-ils cartographiés et documentés ?',                       h:'Liste ou schéma des applications produisant ou consommant de la donnée.'},
+        {t:"L'architecture data est-elle revue lors de chaque projet majeur ?",                             h:'Validation architecturale intégrée dans le cycle projet.'},
+        {t:'Les flux de données entre systèmes sont-ils documentés (schémas, matrices) ?',                 h:'Diagrammes de flux mis à jour.'}
+      ],
+      extra:[
+        {t:'Une architecture data d\'entreprise formalisée (EDA) est-elle en place ?',                     h:'Référentiel d\'architecture, patterns définis et respectés.'},
+        {t:'Utilisez-vous des patterns modernes (Data Mesh, Lakehouse, Data Fabric) ?',                    h:'Architecture avec ownership distribué ou plateforme unifiée.'}
+      ]
+    },
+    reco:{qw:'Créer un inventaire des systèmes data en 1 journée avec un tableur partagé.',
+          mt:'Cartographier les 5 flux critiques avec un outil simple (draw.io, Miro).',
+          lt:'Définir une architecture cible sur 3 ans validée par un architecte data.'}
+  },
+  { id:'DMD',  icon:'fa-object-group',    label:'Data Modeling & Design',        short:'Modélisation', color:'#5bc4de',
+    ref:'DAMA KA03',
+    desc:'Modèles sémantiques, standards de nommage et conception des structures',
+    bench:{pme:1.2,eti:2.0,gc:2.4},
+    q:{
+      pme:[
+        {t:'Les modèles de données (MCD/MLD) sont-ils documentés et maintenus à jour ?',                   h:'Schémas Entity-Relationship ou UML à jour et accessibles.'},
+        {t:'Des standards de nommage et de typage des données sont-ils appliqués ?',                       h:'Conventions appliquées dans les bases et APIs.'},
+        {t:'Les modèles sont-ils compris par les équipes métier (glossaire partagé) ?',                    h:'Documentation accessible aux non-techniciens.'}
+      ],
+      extra:[
+        {t:'Un modèle sémantique ou ontologique est-il utilisé pour les données critiques ?',              h:'Ontologies, RDF, OWL ou modèle conceptuel formalisé.'},
+        {t:'Le modèle est-il exposé via un Data Catalog consultable ?',                                    h:'Catalog avec modèles navigables et annotations.'}
+      ]
+    },
+    reco:{qw:'Documenter le modèle des 3 entités les plus critiques (client, produit, commande).',
+          mt:'Mettre en place un glossaire métier partagé avec 50 termes clés (Notion, Confluence).',
+          lt:'Déployer un Data Catalog léger (Amundsen, OpenMetadata) pour exposer les modèles.'}
+  },
+  { id:'DSO',  icon:'fa-server',          label:'Data Storage & Operations',     short:'Stockage',     color:'#2d8bb5',
+    ref:'DAMA KA04',
+    desc:'Infrastructures de stockage, performance, disponibilité et rétention',
+    bench:{pme:2.8,eti:3.4,gc:3.8},
+    q:{
+      pme:[
+        {t:'Les données critiques sont-elles sauvegardées avec un PRA/PCA testé ?',                        h:'Sauvegardes testées, RTO et RPO définis et connus.'},
+        {t:'Les performances des stockages sont-elles monitorées proactivement ?',                         h:'Alertes sur saturation, lenteur, disponibilité des bases.'},
+        {t:'Une politique de rétention et d\'archivage des données est-elle appliquée ?',                   h:'Durées de conservation définies et respectées par type.'}
+      ],
+      extra:[
+        {t:'Utilisez-vous des plateformes modernes (DWH cloud, Lakehouse) ?',                              h:'Snowflake, BigQuery, Databricks, Delta Lake ou équivalent.'},
+        {t:'Les SLA (RTO/RPO, disponibilité) sont-ils formellement définis et suivis ?',                   h:'SLA documentés, mesurés et reportés à la direction.'}
+      ]
+    },
+    reco:{qw:'Tester la restauration des sauvegardes — si jamais testé, priorité absolue.',
+          mt:'Définir et documenter les SLA de disponibilité pour les 5 systèmes data critiques.',
+          lt:'Migrer vers une plateforme cloud managée pour réduire la charge opérationnelle.'}
+  },
+  { id:'DSP',  icon:'fa-shield-halved',   label:'Data Security & Privacy',       short:'Sécurité/RGPD',color:'#ef4444',
+    ref:'DAMA KA05 · RGPD Art.30/32 · NIS2',
+    desc:'Protection des données, conformité RGPD, contrôle des accès et cybersécurité',
+    bench:{pme:2.2,eti:2.8,gc:3.0},
+    q:{
+      pme:[
+        {t:'Un registre des traitements personnels (RGPD Art.30) est-il tenu à jour ?',                    h:'Registre formellement maintenu, accessible au DPO.'},
+        {t:'Les accès aux données sensibles sont-ils contrôlés et tracés (logs) ?',                        h:'Gestion des droits RBAC/ABAC, logs d\'accès aux données critiques.'},
+        {t:'Les employés reçoivent-ils une formation régulière protection des données ?',                   h:'Formation RGPD et cybersécurité au moins annuelle, traçabilité.'}
+      ],
+      extra:[
+        {t:'Une analyse d\'impact (AIPD/DPIA) est-elle réalisée pour les traitements à risque ?',          h:'DPIA selon Art.35 RGPD pour les traitements sensibles.'},
+        {t:'Le dispositif de sécurité data est-il conforme NIS2 et audité par un tiers ?',                 h:'Audit externe, certification ou test d\'intrusion récent.'}
+      ]
+    },
+    reco:{qw:'Mettre à jour le registre RGPD Art.30 — obligation légale non négociable.',
+          mt:'Déployer une politique de gestion des droits d\'accès basée sur les rôles (RBAC).',
+          lt:'Réaliser un audit RGPD complet et nommer un DPO (obligatoire selon traitements).'}
+  },
+  { id:'DII',  icon:'fa-shuffle',         label:'Data Integration',              short:'Intégration',  color:'#f59e0b',
+    ref:'DAMA KA06 · DMA Art.6',
+    desc:'Échanges de données entre systèmes, APIs, ETL et interopérabilité',
+    bench:{pme:1.5,eti:2.3,gc:2.6},
+    q:{
+      pme:[
+        {t:'Les échanges de données entre applications sont-ils automatisés (ETL/API) ?',                  h:'Pas de transfert manuel par email/CSV pour les flux récurrents.'},
+        {t:'Les interfaces et formats d\'échange sont-ils documentés ?',                                   h:'Spécifications API, formats JSON/XML documentés et versionnés.'},
+        {t:'Les erreurs d\'intégration sont-elles détectées et alertées automatiquement ?',                 h:'Monitoring des pipelines avec alertes sur échec ou anomalie.'}
+      ],
+      extra:[
+        {t:'Une plateforme d\'intégration centralisée (iPaaS, ESB, API Gateway) est-elle en place ?',      h:'Mulesoft, Azure API Management, Talend ou équivalent.'},
+        {t:'Les APIs respectent-elles des standards ouverts (OpenAPI 3.x, AsyncAPI) ?',                   h:'Contrats API formalisés, versionnés, documentation auto-générée.'}
+      ]
+    },
+    reco:{qw:'Identifier et automatiser le top 3 des flux manuels les plus coûteux en temps.',
+          mt:'Déployer un outil d\'intégration léger (n8n, Make) pour les flux simples.',
+          lt:'Construire une API Gateway centralisée pour contrôler tous les échanges.'}
+  },
+  { id:'RMD',  icon:'fa-database',        label:'Reference & Master Data',       short:'Référentiel',  color:'#8b5cf6',
+    ref:'DAMA KA07',
+    desc:'Données maîtresses et référentielles : clients, produits, tiers',
+    bench:{pme:1.0,eti:1.8,gc:2.2},
+    q:{
+      pme:[
+        {t:'Disposez-vous d\'un référentiel centralisé pour vos données clés (clients, produits) ?',       h:'Source unique de vérité — même partielle — pour les entités principales.'},
+        {t:'Des processus de déduplication et de consolidation des données existent-ils ?',                 h:'Procédures pour détecter et fusionner les doublons.'},
+        {t:'Les données de référence (listes de valeurs) sont-elles gérées centralement ?',                h:'Référentiels de listes partagés entre systèmes.'}
+      ],
+      extra:[
+        {t:'Un outil MDM (Master Data Management) est-il déployé et utilisé activement ?',                h:'Informatica MDM, Talend MDM, Reltio ou équivalent en production.'},
+        {t:'Les données maîtresses sont-elles synchronisées en temps réel entre systèmes ?',               h:'Propagation des mises à jour sans intervention manuelle.'}
+      ]
+    },
+    reco:{qw:'Créer un fichier maître client centralisé — même sous Excel — comme source unique.',
+          mt:'Mettre en place une procédure mensuelle de déduplication sur les entités critiques.',
+          lt:'Évaluer un MDM léger open source pour les entités client et produit.'}
+  },
+  { id:'DWBI', icon:'fa-chart-bar',       label:'Data Warehousing & BI',         short:'BI & Analytics',color:'#22c55e',
+    ref:'DAMA KA08',
+    desc:'Entrepôts de données, analytique décisionnelle et self-service BI',
+    bench:{pme:2.4,eti:3.0,gc:3.4},
+    q:{
+      pme:[
+        {t:'Les décisions stratégiques sont-elles appuyées sur des tableaux de bord actualisés ?',          h:'Dashboards mis à jour automatiquement, consultés par la direction.'},
+        {t:'Les utilisateurs métier accèdent-ils en autonomie à leurs rapports (self-service) ?',           h:'Pas besoin de l\'IT pour créer ou filtrer les rapports courants.'},
+        {t:"L'historique des données est-il conservé et exploitable pour des analyses temporelles ?",       h:'Au moins 3 ans d\'historique accessible pour les KPIs principaux.'}
+      ],
+      extra:[
+        {t:'Un Data Warehouse ou Lakehouse centralisé alimente-t-il les outils analytiques ?',             h:'Couche de données consolidée séparée des systèmes opérationnels.'},
+        {t:'Des modèles sémantiques sont-ils maintenus indépendamment des outils BI ?',                    h:'Power BI Semantic Model, dbt metrics layer, LookML ou équivalent.'}
+      ]
+    },
+    reco:{qw:'Identifier les 5 KPIs décisionnels clés et les automatiser en premier.',
+          mt:'Déployer Power BI ou Metabase avec des dashboards actualisés quotidiennement.',
+          lt:'Construire un Data Warehouse léger (DuckDB, BigQuery) pour les analyses historiques.'}
+  },
+  { id:'DCM',  icon:'fa-folder-open',     label:'Document & Content Mgmt',       short:'Documents',    color:'#64748b',
+    ref:'DAMA KA09',
+    desc:'Contenus non structurés, documents, classification et recherche',
+    bench:{pme:1.8,eti:2.4,gc:2.8},
+    q:{
+      pme:[
+        {t:'Les documents métier clés (contrats, procédures) sont-ils dans un système documentaire ?',     h:'GED, SharePoint, Confluence — pas uniquement des dossiers partagés.'},
+        {t:'Une politique de classification et de droits des documents est-elle en place ?',               h:'Niveaux de confidentialité définis et appliqués sur les documents sensibles.'},
+        {t:'La recherche full-text dans les documents est-elle disponible ?',                              h:'Moteur de recherche opérationnel sur le corpus documentaire.'}
+      ],
+      extra:[
+        {t:'Les données non structurées (emails, PDF) sont-elles exploitées analytiquement ?',             h:'OCR, NLP ou extraction automatisée sur les documents.'},
+        {t:'Une stratégie ECM (Enterprise Content Management) est-elle formalisée ?',                      h:'Politique de cycle de vie documentaire avec archivage, purge et conformité.'}
+      ]
+    },
+    reco:{qw:'Centraliser les documents sur une plateforme unique (SharePoint, Nextcloud).',
+          mt:'Définir 4 niveaux de classification : Public, Interne, Confidentiel, Restreint.',
+          lt:'Mettre en place un moteur de recherche documentaire (Elasticsearch, Typesense).'}
+  },
+  { id:'MM',   icon:'fa-tags',            label:'Metadata Management',           short:'Métadonnées',  color:'#ec4899',
+    ref:'DAMA KA10',
+    desc:'Métadonnées techniques et métier — Data Catalog et data lineage',
+    bench:{pme:0.9,eti:1.6,gc:2.0},
+    q:{
+      pme:[
+        {t:'La signification des données clés (définitions métier) est-elle documentée ?',                 h:'Glossaire métier avec au moins 30 termes définis et partagés.'},
+        {t:"L'origine et les transformations des données reportées sont-elles traçables ?",                h:'Capacité à répondre : d\'où vient ce chiffre ? Quelles transformations ?'},
+        {t:'Un inventaire même partiel des jeux de données disponibles existe-t-il ?',                     h:'Liste des tables, fichiers ou APIs disponibles avec description.'}
+      ],
+      extra:[
+        {t:'Un Data Catalog outil est-il déployé et activement maintenu ?',                               h:'Atlan, OpenMetadata, DataHub, Alation ou équivalent en production.'},
+        {t:'Le data lineage end-to-end est-il calculé et visualisable automatiquement ?',                  h:'Lineage automatique depuis les sources jusqu\'aux dashboards.'}
+      ]
+    },
+    reco:{qw:'Créer un glossaire de 30 termes métier clés dans un wiki partagé — 2h de travail.',
+          mt:'Documenter le lineage des 3 rapports les plus critiques pour la direction.',
+          lt:'Déployer OpenMetadata ou DataHub (open source) pour un catalog minimal.'}
+  },
+  { id:'DQ',   icon:'fa-circle-check',    label:'Data Quality',                  short:'Qualité',      color:'#10b981',
+    ref:'DAMA KA11 · ISO 8000',
+    desc:'Complétude, cohérence, exactitude et fraîcheur des données',
+    bench:{pme:2.0,eti:2.6,gc:3.0},
+    q:{
+      pme:[
+        {t:'Des indicateurs de qualité des données sont-ils mesurés et suivis régulièrement ?',            h:'KPIs qualité : complétude, cohérence, fraîcheur — même manuels.'},
+        {t:'Les équipes métier signalent-elles les problèmes de qualité via un processus défini ?',        h:'Canal de remontée clair — pas uniquement par email ou oral.'},
+        {t:'Des contrôles automatiques de cohérence sont-ils actifs sur les flux critiques ?',             h:'Règles de validation, alertes automatiques sur les anomalies data.'}
+      ],
+      extra:[
+        {t:'Une plateforme de Data Quality (Great Expectations, Soda) est-elle opérationnelle ?',          h:'Outil dédié avec règles versionnées et reporting centralisé.'},
+        {t:'Le niveau de qualité data fait-il partie des KPIs formels de la direction ?',                  h:'Reporté en comité de direction, avec objectifs et plans de remédiation.'}
+      ]
+    },
+    reco:{qw:'Définir 3 règles de qualité minimum sur les données clients (email, tel, adresse).',
+          mt:'Mettre en place un tableau de bord simple de suivi qualité data (5 métriques).',
+          lt:'Déployer Great Expectations ou Soda pour automatiser les contrôles de qualité.'}
+  }
+];
+
+var OPTS = [
+  {val:4, cls:'opt-y', icon:'<i class="fas fa-check"></i>',      lbl:'Oui — en place',    sub:'Formalisé &amp; opérationnel'},
+  {val:2, cls:'opt-p', icon:'<i class="fas fa-circle-half-stroke"></i>', lbl:'Partiellement', sub:'En cours / informel'},
+  {val:0, cls:'opt-n', icon:'<i class="fas fa-xmark"></i>',      lbl:'Non — absent',      sub:'Pas mis en place'},
+  {val:-1,cls:'opt-?', icon:'<i class="fas fa-question"></i>',   lbl:'Ne sait pas',       sub:'Angle mort'}
+];
+
+var LEVELS = [
+  {min:0,   max:0.8,  lbl:'Inexistant',    col:'#ef4444', desc:'Aucun processus data identifié.'},
+  {min:0.8, max:1.8,  lbl:'Initial',       col:'#f97316', desc:'Ad hoc, dépendant des individus.'},
+  {min:1.8, max:2.8,  lbl:'Reproductible', col:'#f59e0b', desc:'Processus définis localement, non généralisés.'},
+  {min:2.8, max:3.8,  lbl:'Défini',        col:'#4db8d4', desc:'Processus standardisés et documentés.'},
+  {min:3.8, max:4.5,  lbl:'Géré',          col:'#22c55e', desc:'Mesure et contrôle quantitatif.'},
+  {min:4.5, max:5.1,  lbl:'Optimisé',      col:'#10b981', desc:'Amélioration continue — data-driven culture.'}
+];
+
+/* ─── State ──────────────────────────────────────────────────── */
+var state = {profile:'pme', answers:{}, chart:null};
+
+function getLevel(s){return LEVELS.find(function(l){return s>=l.min&&s<l.max;})||LEVELS[0];}
+
+function getQuestions(ki){
+  var qs = KA[ki].q.pme.slice();
+  if(state.profile==='eti') qs.push(KA[ki].q.extra[0]);
+  if(state.profile==='gc')  qs=qs.concat(KA[ki].q.extra);
+  return qs;
+}
+
+function kaScore(ki){
+  var qs=getQuestions(ki), tot=0, cnt=0;
+  qs.forEach(function(_,qi){
+    var v=state.answers[ki+'_'+qi];
+    if(v!=null&&v>=0){tot+=v;cnt++;}
+  });
+  return cnt===0?0:parseFloat(((tot/(cnt*4))*5).toFixed(2));
+}
+
+function kaAnswered(ki){
+  return getQuestions(ki).every(function(_,qi){return state.answers[ki+'_'+qi]!=null;});
+}
+
+function countAnswered(){return KA.filter(function(_,i){return kaAnswered(i);}).length;}
+
+/* ─── Build questionnaire ────────────────────────────────────── */
+function buildQuestionnaire(){
+  var html='';
+  KA.forEach(function(ka,ki){
+    var qs=getQuestions(ki);
+    var isDone=kaAnswered(ki);
+    html+='<div class="ad-ka-block" id="ad-ka-'+ki+'">';
+    html+='<div class="ad-ka-head" onclick="toggleKA('+ki+')">';
+    html+='<div class="ad-ka-head-left">';
+    html+='<span class="ad-ka-num">'+String(ki+1).padStart(2,'0')+'</span>';
+    html+='<div class="ad-ka-head-info">';
+    html+='<span class="ad-ka-id"><i class="fas '+ka.icon+'" style="color:'+ka.color+'"></i> '+ka.id+'</span>';
+    html+='<span class="ad-ka-lbl">'+ka.label+'</span>';
+    html+='<span class="ad-ka-desc">'+ka.desc+'</span>';
+    html+='</div></div>';
+    html+='<div class="ad-ka-head-right">';
+    html+='<span class="ad-ka-score-badge" id="ad-ka-score-'+ki+'">—</span>';
+    html+='<span class="ad-ka-ref">'+ka.ref+'</span>';
+    html+='<i class="fas fa-chevron-down ad-ka-chevron" id="ad-ka-chev-'+ki+'"></i>';
+    html+='</div></div>';
+    // Body
+    html+='<div class="ad-ka-body" id="ad-ka-body-'+ki+'">';
+    qs.forEach(function(q,qi){
+      var isExtra=qi>=3;
+      html+='<div class="ad-question'+(isExtra?' ad-question--extra':'')+'">';
+      if(isExtra) html+='<div class="ad-extra-badge"><i class="fas fa-plus-circle"></i> '+state.profile.toUpperCase()+' only</div>';
+      html+='<p class="ad-q-n">Q'+(qi+1)+' / '+qs.length+'</p>';
+      html+='<p class="ad-q-t">'+q.t+'</p>';
+      html+='<p class="ad-q-h"><i class="fas fa-circle-info"></i> '+q.h+'</p>';
+      html+='<div class="ad-opts">';
+      OPTS.forEach(function(o,oi){
+        var sel=state.answers[ki+'_'+qi]===o.val;
+        html+='<label id="adl-'+ki+'-'+qi+'-'+oi+'" class="ad-opt'+(sel?' is-sel':'')+' '+o.cls+'"'+(sel?' style="background:rgba(240,130,20,0.22);border-color:#f0924a;box-shadow:0 0 0 2px rgba(240,140,40,0.3);"':'')+'>'; 
+        html+='<input type="radio" name="k'+ki+'q'+qi+'" value="'+o.val+'"'+(sel?' checked':'')+' onchange="setAnswer('+ki+','+qi+','+oi+')">';
+        html+='<span class="ad-opt-ic">'+o.icon+'</span>';
+        html+='<span class="ad-opt-lb">'+o.lbl+'</span>';
+        html+='<span class="ad-opt-sb">'+o.sub+'</span>';
+        html+='</label>';
+      });
+      html+='</div></div>';
+      if(qi<qs.length-1) html+='<hr class="ad-sep">';
+    });
+    html+='</div>';// /body
+    html+='</div>';// /block
+  });
+  document.getElementById('ad-qcol').innerHTML=html;
+  // Open first block
+  openKA(0);
+}
+
+window.toggleKA=function(ki){
+  var body=document.getElementById('ad-ka-body-'+ki);
+  var chev=document.getElementById('ad-ka-chev-'+ki);
+  var isOpen=body.style.display!=='none'&&body.style.display!=='';
+  // Close all
+  KA.forEach(function(_,i){
+    var b=document.getElementById('ad-ka-body-'+i);
+    var c=document.getElementById('ad-ka-chev-'+i);
+    if(b){b.style.display='none';}
+    if(c){c.style.transform='';}
+    document.getElementById('ad-ka-'+i).classList.remove('is-open');
+  });
+  if(!isOpen){
+    body.style.display='block';
+    chev.style.transform='rotate(180deg)';
+    document.getElementById('ad-ka-'+ki).classList.add('is-open');
+    // Scroll the opened block into view to prevent layout jump
+    setTimeout(function(){
+      var block=document.getElementById('ad-ka-'+ki);
+      if(block) block.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },50);
+  }
+};
+
+function openKA(ki){
+  var body=document.getElementById('ad-ka-body-'+ki);
+  var chev=document.getElementById('ad-ka-chev-'+ki);
+  if(!body) return;
+  KA.forEach(function(_,i){
+    var b=document.getElementById('ad-ka-body-'+i);
+    var c=document.getElementById('ad-ka-chev-'+i);
+    if(b) b.style.display='none';
+    if(c) c.style.transform='';
+    document.getElementById('ad-ka-'+i).classList.remove('is-open');
+  });
+  body.style.display='block';
+  chev.style.transform='rotate(180deg)';
+  document.getElementById('ad-ka-'+ki).classList.add('is-open');
+}
+
+/* ─── LocalStorage persistence ──────────────────────────────── */
+var LS_KEY='dms_audit_v1';
+function saveToStorage(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({profile:state.profile,answers:state.answers}));}catch(e){}
+}
+function loadFromStorage(){
+  try{
+    var raw=localStorage.getItem(LS_KEY);
+    if(!raw) return false;
+    var d=JSON.parse(raw);
+    if(d.profile) state.profile=d.profile;
+    if(d.answers) state.answers=d.answers;
+    return true;
+  }catch(e){return false;}
+}
+/* Restore orange highlight on all labels after buildQuestionnaire() */
+function restoreVisualStates(){
+  KA.forEach(function(_,ki){
+    var qs=getQuestions(ki);
+    qs.forEach(function(_,qi){
+      var saved=state.answers[ki+'_'+qi];
+      if(saved==null) return;
+      OPTS.forEach(function(o,oi){
+        var lbl=document.getElementById('adl-'+ki+'-'+qi+'-'+oi);
+        if(!lbl) return;
+        var sel=(o.val===saved);
+        lbl.classList.toggle('is-sel',sel);
+        lbl.style.background  = sel ? 'rgba(240,130,20,0.22)' : '';
+        lbl.style.borderColor = sel ? '#f0924a'                 : '';
+        lbl.style.boxShadow   = sel ? '0 0 0 2px rgba(240,140,40,0.30)' : '';
+      });
+    });
+  });
+}
+
+/* ─── Answer handler ─────────────────────────────────────────── */
+/* oi = index in OPTS array (0=yes/4, 1=partial/2, 2=no/0, 3=dunno/-1) */
+window.setAnswer=function(ki,qi,oi){
+  var val=OPTS[oi].val;
+  state.answers[ki+'_'+qi]=val;
+  // Update each option label directly by id — reliable regardless of CSS cascade
+  OPTS.forEach(function(_,i){
+    var lbl=document.getElementById('adl-'+ki+'-'+qi+'-'+i);
+    if(!lbl) return;
+    var sel=(i===oi);
+    lbl.classList.toggle('is-sel',sel);
+    lbl.style.background  = sel ? 'rgba(240,130,20,0.22)' : '';
+    lbl.style.borderColor = sel ? '#f0924a'                 : '';
+    lbl.style.boxShadow   = sel ? '0 0 0 2px rgba(240,140,40,0.3)' : '';
+  });
+  updateKAScoreBadge(ki);
+  saveToStorage();
+  updateRadar();
+  // Auto-advance to next KA
+  if(kaAnswered(ki)&&ki<10){
+    setTimeout(function(){openKA(ki+1);},400);
+  }
+};
+
+function updateKAScoreBadge(ki){
+  var el=document.getElementById('ad-ka-score-'+ki);
+  if(!el) return;
+  var s=kaScore(ki);
+  var qs=getQuestions(ki);
+  var answered=qs.filter(function(_,qi){return state.answers[ki+'_'+qi]!=null;}).length;
+  if(answered===0){el.textContent='—';el.style.background='';el.style.color='';el.style.borderColor='';return;}
+  var lv=getLevel(s);
+  el.textContent=s.toFixed(1)+'/5';
+  el.style.background=lv.col+'22';
+  el.style.color=lv.col;
+  el.style.borderColor=lv.col+'55';
+}
+
+/* ─── Radar update ───────────────────────────────────────────── */
+function getScores(){return KA.map(function(_,i){return kaScore(i);});}
+function getBench(){return KA.map(function(ka){return ka.bench[state.profile]||ka.bench.pme;});}
+
+function updateRadar(){
+  var scores=getScores();
+  var bench=getBench();
+  var isDark=document.documentElement.getAttribute('data-theme')!=='light';
+  var tc=isDark?'#8fa3b8':'#4a6275';
+  var gc=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.08)';
+  var lc=isDark?'#ccd8e0':'#1a2535';
+
+  if(!state.chart){
+    var canvas=document.getElementById('ad-radar');
+    if(!canvas||!window.Chart) return;
+    state.chart=new Chart(canvas,{
+      type:'radar',
+      data:{
+        labels:KA.map(function(k){return k.short;}),
+        datasets:[
+          {label:'Votre score',data:scores,
+           backgroundColor:'rgba(77,184,212,0.15)',borderColor:'#4db8d4',borderWidth:2.5,
+           pointBackgroundColor:'#4db8d4',pointRadius:4,pointHoverRadius:7,
+           fill:true},
+          {label:'Benchmark '+state.profile.toUpperCase(),data:bench,
+           backgroundColor:'rgba(200,122,74,0.08)',borderColor:'#c87a4a',borderWidth:1.5,
+           borderDash:[6,4],pointBackgroundColor:'#c87a4a',pointRadius:3,pointHoverRadius:5,
+           fill:true}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:true,
+        animation:{duration:500},
+        scales:{r:{min:0,max:5,ticks:{stepSize:1,color:tc,backdropColor:'transparent',font:{size:10}},
+          grid:{color:gc},angleLines:{color:gc},
+          pointLabels:{color:lc,font:{size:10,weight:'600'}}}},
+        plugins:{
+          legend:{position:'bottom',labels:{color:lc,boxWidth:12,padding:12,font:{size:11}}},
+          tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+' : '+c.raw.toFixed(1)+'/5';}}}
+        }
+      }
+    });
+  } else {
+    state.chart.data.datasets[0].data=scores;
+    state.chart.data.datasets[1].data=bench;
+    state.chart.data.datasets[1].label='Benchmark '+state.profile.toUpperCase();
+    state.chart.update('active');
+  }
+
+  // Global score
+  var filled=scores.filter(function(s){return s>0;}).length;
+  var avg=filled>0?parseFloat((scores.reduce(function(a,b){return a+b;},0)/11).toFixed(2)):0;
+  var lv=getLevel(avg);
+  var arc=document.getElementById('ad-gs-arc');
+  var valEl=document.getElementById('ad-gs-val');
+  var lvlEl=document.getElementById('ad-gs-level');
+  var pctEl=document.getElementById('ad-gs-pct');
+  var progEl=document.getElementById('ad-gs-progress-bar');
+  var ansEl=document.getElementById('ad-gs-answered');
+
+  if(filled>0){
+    valEl.textContent=avg.toFixed(1);
+    lvlEl.textContent=lv.lbl;
+    lvlEl.style.color=lv.col;
+    pctEl.textContent=Math.round((avg/5)*100)+'% de maturité globale';
+    arc.style.stroke=lv.col;
+    arc.style.strokeDashoffset=(263.9-(avg/5)*263.9).toString();
+  }
+  var done=countAnswered();
+  progEl.style.width=Math.round((done/11)*100)+'%';
+  ansEl.textContent=done+' / 11 dimensions répondues';
+
+  // Show CTA in radar card only at 11/11
+  var btn=document.getElementById('ad-show-results-btn');
+  if(btn) btn.style.display=done===11?'':'none';
+  // Validate bar: show from 1 answered dimension
+  var bar=document.getElementById('ad-validate-bar');
+  var barSpan=document.getElementById('ad-validate-bar-info');
+  var barBtn=document.getElementById('ad-validate-bar-btn');
+  if(bar){
+    bar.style.display=done>=1?'':'none';
+    if(barSpan){
+      if(done===11){
+        barSpan.innerHTML='<i class="fas fa-circle-check"></i> 11 / 11 dimensions complétées — rapport complet prêt';
+      } else {
+        barSpan.innerHTML='<i class="fas fa-floppy-disk"></i> '+done+' / 11 dimensions répondues — résultats enregistrés localement';
+      }
+    }
+    if(barBtn){
+      if(done===11){
+        barBtn.innerHTML='<i class="fas fa-chart-bar"></i> Générer mon rapport DataMaturity Score™ <i class="fas fa-arrow-right"></i>';
+        barBtn.style.opacity='1';
+      } else {
+        barBtn.innerHTML='<i class="fas fa-chart-bar"></i> Calculer mon score partiel ('+done+'/11) <i class="fas fa-arrow-right"></i>';
+        barBtn.style.opacity='.85';
+      }
+    }
+  }
+
+  // Mini bars
+  updateMiniBars(scores,bench);
+}
+
+function updateMiniBars(scores,bench){
+  var el=document.getElementById('ad-mini-bars');
+  if(!el) return;
+  el.innerHTML=KA.map(function(ka,i){
+    var s=scores[i];var lv=getLevel(s);var pct=(s/5)*100;var bp=(bench[i]/5)*100;
+    return '<div class="ad-mb-row">'+
+      '<span class="ad-mb-id"><i class="fas '+ka.icon+'" style="color:'+ka.color+'"></i> '+ka.id+'</span>'+
+      '<div class="ad-mb-track">'+
+        '<div class="ad-mb-fill" style="width:'+pct+'%;background:'+lv.col+'"></div>'+
+        '<div class="ad-mb-bench" style="left:'+bp+'%"></div>'+
+      '</div>'+
+      '<span class="ad-mb-val" style="color:'+lv.col+'">'+s.toFixed(1)+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+/* ─── Profile switch ─────────────────────────────────────────── */
+function initProfileBtns(){
+  document.querySelectorAll('[data-p]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      state.profile=this.dataset.p;
+      state.answers={};
+      saveToStorage();
+      document.querySelectorAll('[data-p]').forEach(function(b){b.classList.remove('is-active');});
+      this.classList.add('is-active');
+      var info={pme:'33 questions · 3 par dimension · ~6 min',
+                eti:'44 questions · jusqu\'à 4 par dimension · ~8 min',
+                gc:'55 questions · 5 par dimension · ~10 min'};
+      document.getElementById('ad-profil-info-txt').textContent=info[state.profile];
+      if(state.chart){state.chart.destroy();state.chart=null;}
+      buildQuestionnaire();
+      updateRadar();
+      document.getElementById('ad-report').style.display='none';
+    });
+  });
+}
+
+/* ─── Show full report ───────────────────────────────────────── */
+window.showResults=function(){
+  var scores=getScores();
+  var bench=getBench();
+  var avg=parseFloat((scores.reduce(function(a,b){return a+b;},0)/11).toFixed(2));
+  var lv=getLevel(avg);
+
+  // Hero report
+  var top3=scores.map(function(s,i){return{i:i,s:s};}).sort(function(a,b){return a.s-b.s;}).slice(0,3);
+  var heroHtml='<div class="ad-rh-score"><div class="ad-rh-ring-wrap">'+
+    '<svg viewBox="0 0 100 100" class="ad-rh-ring">'+
+    '<circle class="ad-rh-bg" cx="50" cy="50" r="42" fill="none" stroke-width="8"/>'+
+    '<circle cx="50" cy="50" r="42" fill="none" stroke-width="8" stroke="'+lv.col+'" stroke-linecap="round"'+
+    ' stroke-dasharray="263.9" stroke-dashoffset="'+(263.9-(avg/5)*263.9)+'" transform="rotate(-90 50 50)"/>'+
+    '</svg><div class="ad-rh-center"><span class="ad-rh-val">'+avg.toFixed(1)+'</span><span class="ad-rh-unit">/5</span></div></div>'+
+    '<div class="ad-rh-info"><div class="ad-rh-lv" style="color:'+lv.col+'">'+lv.lbl+'</div>'+
+    '<div class="ad-rh-desc">'+lv.desc+'</div>'+
+    '<div class="ad-rh-sub">Profil '+state.profile.toUpperCase()+' · '+new Date().toLocaleDateString('fr-FR')+'</div></div></div>'+
+    '<div class="ad-rh-angles"><div class="ad-rh-ang-title"><i class="fas fa-exclamation-triangle"></i> Angles morts prioritaires</div>'+
+    top3.map(function(x){var lvx=getLevel(x.s);return '<div class="ad-rh-ang-item"><i class="fas '+KA[x.i].icon+'" style="color:'+KA[x.i].color+'"></i>'+
+    ' <strong>'+KA[x.i].label+'</strong> — <span style="color:'+lvx.col+'">'+x.s.toFixed(1)+'/5 ('+lvx.lbl+')</span></div>';}).join('')+
+    '</div>';
+  document.getElementById('ad-report-hero').innerHTML=heroHtml;
+
+  // Recommendations
+  document.getElementById('ad-reco-grid').innerHTML=
+    '<div class="ad-reco-card ad-reco-qw">'+
+    '<div class="ad-reco-badge"><i class="fas fa-bolt"></i> Quick Wins — 0 à 3 mois</div><ul>'+
+    top3.map(function(x){return '<li><strong>'+KA[x.i].id+'</strong> — '+KA[x.i].reco.qw+'</li>';}).join('')+'</ul></div>'+
+    '<div class="ad-reco-card ad-reco-mt">'+
+    '<div class="ad-reco-badge"><i class="fas fa-road"></i> Moyen terme — 3 à 12 mois</div><ul>'+
+    top3.map(function(x){return '<li><strong>'+KA[x.i].id+'</strong> — '+KA[x.i].reco.mt+'</li>';}).join('')+'</ul></div>'+
+    '<div class="ad-reco-card ad-reco-lt">'+
+    '<div class="ad-reco-badge"><i class="fas fa-flag-checkered"></i> Long terme — 12 à 24 mois</div><ul>'+
+    top3.map(function(x){return '<li><strong>'+KA[x.i].id+'</strong> — '+KA[x.i].reco.lt+'</li>';}).join('')+'</ul></div>';
+
+  // Compliance
+  var dsp=scores[4];
+  function cst(s,ok,warn){
+    if(s>=ok) return {c:'ok',i:'✓',l:'Conforme'};
+    if(s>=warn) return {c:'warn',i:'⚠',l:'Partiel'};
+    return {c:'warn',i:'⚠',l:'À vérifier'};
+  }
+  var r=cst(dsp,3.0,1.5),n=cst(dsp,3.5,2.0),q=cst(scores[10],3.5,2);
+  document.getElementById('ad-comp-grid').innerHTML=
+    ['<div class="ad-comp-item"><strong>RGPD 2016/679</strong><span class="ad-comp-s ad-comp-'+r.c+'">'+r.i+' '+r.l+'</span><em>Registre Art.30, sécurité Art.32, DPIA Art.35</em></div>',
+     '<div class="ad-comp-item"><strong>NIS2 2022/2555</strong><span class="ad-comp-s ad-comp-'+n.c+'">'+n.i+' '+n.l+'</span><em>Cybersécurité selon secteur et taille</em></div>',
+     '<div class="ad-comp-item"><strong>DMA 2022/1925</strong><span class="ad-comp-s ad-comp-na">— '+(state.profile==='gc'?'À évaluer':'N/A')+'</span><em>Applicable gatekeepers CA &gt; 75 M€</em></div>',
+     '<div class="ad-comp-item"><strong>ISO 8000</strong><span class="ad-comp-s ad-comp-'+q.c+'">'+q.i+' '+q.l+'</span><em>Qualité des données maîtresses</em></div>'
+    ].join('');
+
+  document.getElementById('ad-report').style.display='';
+  setTimeout(function(){
+    document.getElementById('ad-report').scrollIntoView({behavior:'smooth',block:'start'});
+  },100);
+};
+
+window.resetAudit=function(){
+  state.answers={};
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  if(state.chart){state.chart.destroy();state.chart=null;}
+  document.getElementById('ad-report').style.display='none';
+  buildQuestionnaire();
+  updateRadar();
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+/* ─── Init ───────────────────────────────────────────────────── */
+function init(){
+  var hadSaved=loadFromStorage();
+  // Sync profil button active state
+  if(hadSaved){
+    document.querySelectorAll('[data-p]').forEach(function(b){
+      b.classList.toggle('is-active',b.dataset.p===state.profile);
+    });
+    var info={pme:'33 questions · 3 par dimension · ~6 min',
+              eti:'44 questions · jusqu\'à 4 par dimension · ~8 min',
+              gc:'55 questions · 5 par dimension · ~10 min'};
+    var infoEl=document.getElementById('ad-profil-info-txt');
+    if(infoEl) infoEl.textContent=info[state.profile]||info.pme;
+  }
+  buildQuestionnaire();
+  if(hadSaved) restoreVisualStates();
+  initProfileBtns();
+  // Wait for Chart.js to be available
+  var attempts=0;
+  function tryRadar(){
+    if(window.Chart){updateRadar();}
+    else if(++attempts<20){setTimeout(tryRadar,150);}
+  }
+  tryRadar();
+}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}
+else{init();}
+
+}());
+  </script>
+
+  <!-- ═══ BARRE DE VALIDATION FIXE ═══════════════════════════ -->
+  <div class="ad-validate-bar" id="ad-validate-bar" style="display:none" role="region" aria-label="Valider l'audit">
+    <div class="ad-validate-inner">
+      <div class="ad-validate-info" id="ad-validate-bar-info">
+        <i class="fas fa-floppy-disk"></i>
+        <span>Réponses enregistrées localement</span>
+      </div>
+      <button class="ad-btn-validate" id="ad-validate-bar-btn" onclick="showResults()">
+        <i class="fas fa-chart-bar"></i>
+        Calculer mon score
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ STYLES ══════════════════════════════════════════════ -->
+  <style is:global>
+/* ── Page ─────────────────────────────────────────────────── */
+.ad-page{position:relative;z-index:1;padding-top:80px;padding-bottom:120px;}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.ad-hero{text-align:center;padding:var(--spacing-xl) var(--spacing-md) var(--spacing-lg);max-width:820px;margin:0 auto;}
+.ad-hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.25);color:#7ecfe0;border-radius:var(--radius-full);padding:.35rem 1.1rem;font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--spacing-sm);}
+.ad-hero-title{font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:800;color:var(--heading-color);margin-bottom:.6rem;letter-spacing:-.03em;}
+.ad-cu{color:var(--accent-copper);margin-right:.4rem;}
+.ad-hero-sub{font-size:var(--text-base);color:#8fa3b8;line-height:1.7;margin-bottom:var(--spacing-md);}
+.ad-hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;}
+.ad-chip{font-size:var(--text-xs);padding:.25rem .75rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#8fa3b8;border-radius:var(--radius-full);}
+.ad-chip--green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);color:#4caf77;}
+
+/* ── Profil bar ───────────────────────────────────────────── */
+.ad-profil-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;max-width:1100px;margin:0 auto var(--spacing-lg);padding:.8rem var(--spacing-md);background:rgba(8,18,34,.85);border:1px solid rgba(77,184,212,.2);border-radius:var(--radius-lg);backdrop-filter:blur(16px);}
+.ad-profil-label{font-size:var(--text-sm);color:#b0c8dc;font-weight:600;display:flex;align-items:center;gap:.4rem;}
+.ad-profil-btns{display:flex;gap:.4rem;flex-wrap:wrap;}
+.ad-profil-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem 1rem;border-radius:var(--radius-sm);background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.16);color:#b0c8dc;font-size:var(--text-sm);cursor:pointer;transition:all var(--transition-fast);}
+.ad-profil-btn em{font-size:var(--text-xs);opacity:.65;}
+.ad-profil-btn:hover{border-color:rgba(77,184,212,.5);color:#dce8f4;background:rgba(77,184,212,.1);}
+.ad-profil-btn.is-active{background:rgba(77,184,212,.15);border-color:rgba(77,184,212,.6);color:#7ecfe0;font-weight:600;}
+.ad-profil-info{margin-left:auto;font-size:var(--text-xs);color:#8fa8bc;display:flex;align-items:center;gap:.4rem;}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.ad-layout{display:grid;grid-template-columns:1fr 360px;gap:var(--spacing-lg);max-width:1100px;margin:0 auto;padding:0 var(--spacing-md);align-items:start;}
+@media(max-width:900px){.ad-layout{grid-template-columns:1fr;}}
+
+/* ── KA blocks (colonne gauche) ───────────────────────────── */
+.ad-qcol{display:flex;flex-direction:column;gap:.5rem;background:rgba(6,14,28,.92);border:1px solid rgba(77,184,212,.2);border-radius:var(--radius-xl);padding:var(--spacing-md);backdrop-filter:blur(20px);box-shadow:0 4px 32px rgba(0,0,0,.5);position:relative;z-index:4;}
+
+.ad-ka-block{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius-md);overflow:hidden;transition:border-color var(--transition-fast);}
+.ad-ka-block.is-open{border-color:rgba(77,184,212,.4);background:rgba(8,20,42,.7);}
+
+.ad-ka-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.8rem var(--spacing-md);cursor:pointer;user-select:none;transition:background var(--transition-fast);}
+.ad-ka-head:hover{background:rgba(77,184,212,.07);}
+.ad-ka-block.is-open .ad-ka-head{background:rgba(77,184,212,.1);}
+
+.ad-ka-head-left{display:flex;align-items:center;gap:.75rem;flex:1;min-width:0;}
+.ad-ka-num{font-size:.75rem;font-weight:700;color:var(--accent-copper);font-variant-numeric:tabular-nums;flex-shrink:0;width:24px;opacity:.85;}
+.ad-ka-head-info{display:flex;flex-direction:column;gap:.15rem;min-width:0;}
+.ad-ka-id{font-size:var(--text-sm);font-weight:700;color:#dce8f4;display:flex;align-items:center;gap:.4rem;}
+.ad-ka-lbl{font-size:.72rem;color:#8fa8bc;font-weight:500;}
+.ad-ka-desc{font-size:.7rem;color:#8fa8bc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px;}
+
+.ad-ka-head-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+.ad-ka-score-badge{font-size:.7rem;font-weight:700;padding:.18rem .5rem;border-radius:var(--radius-full);border:1px solid transparent;transition:all .3s;background:rgba(255,255,255,.08);color:#8fa8bc;}
+.ad-ka-ref{font-size:.62rem;color:#6a8090;display:none;}
+@media(min-width:720px){.ad-ka-ref{display:block;}}
+.ad-ka-chevron{color:#6a8090;font-size:.7rem;transition:transform var(--transition-fast);}
+
+/* KA body */
+.ad-ka-body{display:none;padding:var(--spacing-md);border-top:1px solid rgba(77,184,212,.15);}
+.ad-question{padding-bottom:var(--spacing-md);}
+.ad-question--extra{background:rgba(200,122,74,.05);border-left:2px solid rgba(200,122,74,.3);padding-left:.85rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:.4rem;}
+.ad-extra-badge{font-size:.62rem;color:#c8946a;font-weight:700;letter-spacing:.05em;margin-bottom:.35rem;text-transform:uppercase;}
+.ad-q-n{font-size:.68rem;color:#c8946a;font-weight:700;letter-spacing:.04em;margin-bottom:.4rem;text-transform:uppercase;}
+.ad-q-t{font-size:.95rem;color:#e8f2fa;font-weight:600;line-height:1.65;margin-bottom:.5rem;}
+.ad-q-h{font-size:.8rem;color:#9ab8cc;margin-bottom:.85rem;display:flex;gap:.35rem;align-items:flex-start;line-height:1.55;}
+.ad-q-h i{flex-shrink:0;margin-top:.15rem;color:#6a90a8;}
+.ad-sep{border:none;border-top:1px solid rgba(255,255,255,.08);margin:.75rem 0;}
+
+/* Options — palette neutre, couleur uniquement sur l'icône */
+.ad-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;}
+@media(max-width:600px){.ad-opts{grid-template-columns:repeat(2,1fr);}}
+
+.ad-opt{display:flex;flex-direction:column;align-items:center;gap:.35rem;padding:.8rem .45rem;border-radius:var(--radius-sm);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);cursor:pointer;transition:all var(--transition-fast);text-align:center;}
+.ad-opt input{display:none;}
+.ad-opt:hover{border-color:rgba(77,184,212,.5);background:rgba(77,184,212,.12);}
+.ad-opt-ic{font-size:1.2rem;line-height:1;color:#6a90a8;transition:color .2s;}
+.ad-opt-lb{font-size:.78rem;font-weight:700;color:#c8dce8;line-height:1.35;}
+.ad-opt-sb{font-size:.68rem;color:#8aaabb;line-height:1.35;}
+
+/* Sélectionné dark mode — fond coloré semi-opaque + texte vif */
+.ad-opt.is-sel{border-color:rgba(240,140,40,.7);background:rgba(235,120,20,.28);box-shadow:0 0 0 2px rgba(240,140,30,.25);}
+.ad-opt.is-sel .ad-opt-ic{color:#f0a030;}
+.ad-opt.is-sel .ad-opt-lb{color:#fde8c0;font-weight:700;}
+.ad-opt.is-sel .ad-opt-sb{color:#f0b870;}
+
+/* ── Colonne droite — Radar card ──────────────────────────── */
+.ad-rcol{position:sticky;top:90px;z-index:5;}
+.ad-radar-card{background:rgba(8,18,34,.9);border:1px solid rgba(77,184,212,.18);border-radius:var(--radius-xl);padding:var(--spacing-md);backdrop-filter:blur(16px);}
+
+/* Score anneau */
+.ad-global-score{display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);padding-bottom:var(--spacing-sm);border-bottom:1px solid rgba(255,255,255,.07);}
+.ad-gs-ring-wrap{position:relative;width:76px;height:76px;flex-shrink:0;}
+.ad-gs-ring{width:100%;height:100%;}
+.ad-gs-bg{stroke:rgba(255,255,255,.07);}
+.ad-gs-arc{stroke:#4db8d4;stroke-linecap:round;transition:stroke-dashoffset 1s ease,stroke .4s;}
+.ad-gs-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:baseline;gap:.05rem;}
+.ad-gs-val{font-size:1.35rem;font-weight:800;color:#c8d8e4;line-height:1;}
+.ad-gs-max{font-size:.6rem;color:#4a6275;}
+.ad-gs-right{flex:1;min-width:0;}
+.ad-gs-level{font-size:.8rem;font-weight:700;margin-bottom:.2rem;transition:color .4s;color:#7ecfe0;}
+.ad-gs-pct{font-size:.68rem;color:#6a7f90;margin-bottom:.35rem;}
+.ad-gs-progress-wrap{height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin-bottom:.3rem;}
+.ad-gs-progress-bar{height:100%;background:linear-gradient(90deg,#4db8d4,#2d8bb5);transition:width .5s ease;}
+.ad-gs-answered{font-size:.62rem;color:#4a6275;}
+
+/* Radar */
+.ad-radar-canvas-wrap{margin:.4rem 0;}
+.ad-radar-canvas-wrap canvas{max-width:100%;height:auto;}
+
+/* Mini barres */
+.ad-mini-bars{display:flex;flex-direction:column;gap:.28rem;margin-top:.4rem;}
+.ad-mb-row{display:flex;align-items:center;gap:.4rem;}
+.ad-mb-id{width:64px;font-size:.62rem;color:#8fa8bc;display:flex;align-items:center;gap:.2rem;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ad-mb-track{flex:1;height:4px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;position:relative;}
+.ad-mb-fill{height:100%;border-radius:3px;transition:width .5s ease;}
+.ad-mb-bench{position:absolute;top:0;width:1.5px;height:100%;background:rgba(200,122,74,.5);}
+.ad-mb-val{width:30px;text-align:right;font-size:.62rem;font-weight:700;flex-shrink:0;}
+
+/* CTA dans le radar */
+.ad-btn--full{width:100%;justify-content:center;margin-top:var(--spacing-sm);}
+/* (le bouton radar .ad-btn--primary reste, masqué par JS) */
+
+/* ── Barre de validation fixe ─────────────────────────────── */
+.ad-validate-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,18,34,.97);border-top:1px solid rgba(77,184,212,.3);backdrop-filter:blur(16px);padding:.9rem var(--spacing-md);box-shadow:0 -8px 32px rgba(0,0,0,.35);}
+.ad-validate-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-md);flex-wrap:wrap;}
+.ad-validate-info{display:flex;align-items:center;gap:.6rem;font-size:var(--text-sm);color:#7ecfe0;font-weight:500;}
+.ad-validate-info i{font-size:1.1rem;}
+.ad-btn-validate{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 2rem;border-radius:var(--radius-full);background:linear-gradient(135deg,#4db8d4,#2d8bb5);color:#fff;font-size:var(--text-sm);font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 20px rgba(77,184,212,.35);transition:all var(--transition-fast);letter-spacing:.01em;}
+.ad-btn-validate:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(77,184,212,.5);}
+@media(max-width:600px){.ad-validate-info span{font-size:.75rem;}.ad-btn-validate{width:100%;justify-content:center;}}
+
+/* ── Boutons génériques ───────────────────────────────────── */
+.ad-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:all var(--transition-fast);border:none;text-decoration:none;}
+.ad-btn--primary{background:linear-gradient(135deg,#4db8d4,#2d8bb5);color:#fff;box-shadow:0 3px 12px rgba(77,184,212,.25);}
+.ad-btn--primary:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(77,184,212,.4);}
+.ad-btn--copper{background:linear-gradient(135deg,#b8784a,#9a6038);color:#e8d4c0;}
+.ad-btn--copper:hover{transform:translateY(-2px);}
+.ad-btn--ghost{background:transparent;border:1px solid rgba(255,255,255,.15);color:#8fa3b8;}
+.ad-btn--ghost:hover{border-color:rgba(77,184,212,.4);color:#c8d8e4;}
+
+/* ── Rapport complet ──────────────────────────────────────── */
+.ad-report{max-width:1100px;margin:var(--spacing-xl) auto 0;padding:0 var(--spacing-md);}
+.ad-report-section{padding:var(--spacing-lg) 0;border-top:1px solid rgba(255,255,255,.06);}
+.ad-report-h3{font-size:var(--text-base);color:#c8d8e4;font-weight:700;margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:.6rem;letter-spacing:.01em;}
+.ad-report-h3 i{color:#6a7f90;}
+
+/* Hero rapport */
+.ad-report-hero{display:flex;flex-wrap:wrap;gap:var(--spacing-lg);align-items:flex-start;background:rgba(8,18,34,.85);border:1px solid rgba(77,184,212,.2);border-radius:var(--radius-xl);padding:var(--spacing-lg);margin-bottom:var(--spacing-lg);backdrop-filter:blur(16px);}
+.ad-rh-score{display:flex;align-items:center;gap:var(--spacing-md);}
+.ad-rh-ring-wrap{position:relative;width:96px;height:96px;flex-shrink:0;}
+.ad-rh-ring{width:100%;height:100%;}
+.ad-rh-bg{stroke:rgba(255,255,255,.07);}
+.ad-rh-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;}
+.ad-rh-val{font-size:1.75rem;font-weight:800;color:#c8d8e4;line-height:1;}
+.ad-rh-unit{font-size:.65rem;color:#4a6275;}
+.ad-rh-lv{font-size:.95rem;font-weight:700;margin-bottom:.3rem;}
+.ad-rh-desc{font-size:.8rem;color:#6a7f90;margin-bottom:.35rem;line-height:1.5;}
+.ad-rh-sub{font-size:.7rem;color:#4a6275;}
+.ad-rh-angles{flex:1;min-width:200px;}
+.ad-rh-ang-title{font-size:.75rem;font-weight:700;color:#a07050;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;text-transform:uppercase;letter-spacing:.04em;}
+.ad-rh-ang-item{font-size:.8rem;color:#8fa3b8;margin-bottom:.35rem;display:flex;align-items:center;gap:.45rem;line-height:1.4;}
+
+/* Recommandations */
+.ad-reco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--spacing-md);}
+.ad-reco-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);padding:var(--spacing-md);}
+.ad-reco-qw{border-top:2px solid rgba(77,184,212,.5);}
+.ad-reco-mt{border-top:2px solid rgba(200,160,80,.5);}
+.ad-reco-lt{border-top:2px solid rgba(77,184,212,.25);}
+.ad-reco-badge{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.4rem;color:#6a7f90;}
+.ad-reco-qw .ad-reco-badge i{color:#7ecfe0;}
+.ad-reco-mt .ad-reco-badge i{color:#c8a050;}
+.ad-reco-lt .ad-reco-badge i{color:#4a6275;}
+.ad-reco-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;}
+.ad-reco-card li{font-size:.8rem;color:#b0c4d4;line-height:1.55;padding-left:1rem;position:relative;}
+.ad-reco-card li::before{content:'→';position:absolute;left:0;color:#4db8d4;font-weight:700;}
+.ad-reco-card li strong{color:#dce8f4;}
+
+/* Conformité */
+.ad-comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;}
+.ad-comp-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-md);padding:.8rem var(--spacing-sm);display:flex;flex-direction:column;gap:.25rem;}
+.ad-comp-item strong{font-size:.72rem;font-weight:700;letter-spacing:.04em;color:#dce8f4;}
+.ad-comp-item em{font-size:.65rem;color:#8fa8bc;font-style:normal;line-height:1.5;}
+.ad-comp-s{font-size:.8rem;font-weight:700;}
+.ad-comp-ok{color:#4caf77;}.ad-comp-warn{color:#c8a050;}.ad-comp-na{color:#4a6275;}
+
+/* Outils officiels */
+.ad-official-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--spacing-md);}
+.ad-official-card{display:flex;align-items:flex-start;gap:var(--spacing-sm);background:rgba(77,184,212,.04);border:1px solid rgba(77,184,212,.15);border-radius:var(--radius-lg);padding:var(--spacing-md);text-decoration:none;transition:all var(--transition-fast);}
+.ad-official-card:hover{border-color:rgba(77,184,212,.35);background:rgba(77,184,212,.08);transform:translateY(-2px);}
+.ad-official-icon{font-size:1.3rem;color:#4db8d4;flex-shrink:0;margin-top:.1rem;opacity:.85;}
+.ad-official-card div{flex:1;}
+.ad-official-card strong{display:block;font-size:.8rem;color:#b0c0cc;margin-bottom:.2rem;font-weight:700;}
+.ad-official-card span{display:block;font-size:.72rem;color:#6a7f90;line-height:1.5;}
+.ad-official-url{color:#4db8d4!important;font-weight:500;margin-top:.25rem;opacity:.8;}
+
+/* Sources */
+.ad-src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.4rem;}
+.ad-src-item{display:flex;gap:.55rem;align-items:flex-start;padding:.6rem .75rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-md);text-decoration:none;transition:border-color var(--transition-fast);}
+.ad-src-item:hover{border-color:rgba(77,184,212,.3);background:rgba(77,184,212,.08);}
+.ad-src-item>i{color:#8a6a50;font-size:.9rem;flex-shrink:0;margin-top:.15rem;}
+.ad-src-item span{font-size:.72rem;color:#8fa8bc;line-height:1.5;}
+.ad-src-item strong{color:#b8d0e4;}
+
+/* ── Références normatives ───────────────────────────────── */
+.ad-normrefs{max-width:1100px;margin:var(--spacing-xl) auto var(--spacing-lg);padding:0 var(--spacing-md);}
+.ad-normrefs-title{font-size:var(--text-base);color:#c8d8e4;font-weight:700;margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:.6rem;letter-spacing:.01em;padding-bottom:.6rem;border-bottom:1px solid rgba(77,184,212,.2);}
+.ad-normrefs-title i{color:#4db8d4;}
+.ad-normrefs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.65rem;}
+.ad-normref-card{display:flex;align-items:flex-start;gap:.85rem;padding:.9rem var(--spacing-sm);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);text-decoration:none;transition:all var(--transition-fast);}
+.ad-normref-card:hover{border-color:rgba(77,184,212,.4);background:rgba(77,184,212,.08);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.ad-normref-logo{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(77,184,212,.12);border-radius:var(--radius-sm);flex-shrink:0;font-size:1rem;color:#4db8d4;}
+.ad-normref-logo--red{background:rgba(239,68,68,.1);color:#ef6060;}
+.ad-normref-card strong{display:block;font-size:.82rem;color:#dce8f4;font-weight:700;margin-bottom:.2rem;}
+.ad-normref-card span{display:block;font-size:.73rem;color:#8fa8bc;line-height:1.5;}
+.ad-normref-tag{margin-top:.3rem;font-size:.64rem !important;font-weight:600 !important;color:#4db8d4 !important;letter-spacing:.04em;text-transform:uppercase;}
+/* Light theme for refs */
+[data-theme="light"] .ad-normrefs-title{color:#1a2535;border-bottom-color:#d0dde8;}
+[data-theme="light"] .ad-normrefs-title i{color:#1a6080;}
+[data-theme="light"] .ad-normref-card{background:#f5f9fc;border-color:#d0dde8;}
+[data-theme="light"] .ad-normref-card:hover{background:#eef6fa;border-color:#4db8d4;}
+[data-theme="light"] .ad-normref-logo{background:rgba(26,103,130,.1);color:#1a6080;}
+[data-theme="light"] .ad-normref-logo--red{background:rgba(200,40,40,.08);color:#c04040;}
+[data-theme="light"] .ad-normref-card strong{color:#1a2535;}
+[data-theme="light"] .ad-normref-card span{color:#3d5060;}
+[data-theme="light"] .ad-normref-tag{color:#1a6080 !important;}
+
+/* Actions rapport */
+.ad-report-actions{display:flex;flex-wrap:wrap;gap:var(--spacing-sm);justify-content:center;padding:var(--spacing-lg) 0;}
+
+/* ══ Light theme — refonte complète lisibilité pro ════════ */
+
+/* Hero */
+[data-theme="light"] .ad-hero-sub{color:#3d5060;}
+[data-theme="light"] .ad-hero-badge{background:rgba(26,103,130,.1);border-color:rgba(26,103,130,.25);color:#1a6580;}
+[data-theme="light"] .ad-chip{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.12);color:#3d5060;}
+[data-theme="light"] .ad-chip--green{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.25);color:#186b38;}
+
+/* Profil bar */
+[data-theme="light"] .ad-profil-bar{background:#fff;border-color:#d0dde8;box-shadow:0 1px 6px rgba(0,30,60,.07);}
+[data-theme="light"] .ad-profil-label{color:#2a3e50;font-weight:600;}
+[data-theme="light"] .ad-profil-btn{border-color:#b8ccd8;color:#2a3e50;background:#f5f9fc;}
+[data-theme="light"] .ad-profil-btn:hover{border-color:rgba(26,103,130,.5);color:#1a4060;background:#eaf3f8;}
+[data-theme="light"] .ad-profil-btn.is-active{background:rgba(26,103,130,.12);border-color:rgba(26,103,130,.55);color:#1a5070;font-weight:700;}
+[data-theme="light"] .ad-profil-info{color:#5a7080;}
+
+/* ── Colonne questionnaire — fond blanc comme la radar card ── */
+[data-theme="light"] .ad-qcol{background:#fff;border:1px solid #b8d0e0;border-radius:var(--radius-xl);padding:var(--spacing-md);box-shadow:0 2px 16px rgba(0,30,60,.1);}
+
+/* ── KA blocks ── */
+[data-theme="light"] .ad-ka-block{background:#f8fbfd;border-color:#d0dde8;box-shadow:0 1px 4px rgba(0,30,60,.06);}
+[data-theme="light"] .ad-ka-block.is-open{border-color:#1a7fa0;background:#fff;box-shadow:0 3px 16px rgba(26,103,130,.12);}
+[data-theme="light"] .ad-ka-head:hover{background:#eef6fa;}
+[data-theme="light"] .ad-ka-block.is-open .ad-ka-head{background:#e4f2f9;}
+[data-theme="light"] .ad-ka-num{color:var(--accent-copper);}
+[data-theme="light"] .ad-ka-id{color:#1a2535;}
+[data-theme="light"] .ad-ka-lbl{color:#3d5060;}
+[data-theme="light"] .ad-ka-desc{color:#4a6070;}
+[data-theme="light"] .ad-ka-ref{color:#5a7080;}
+[data-theme="light"] .ad-ka-chevron{color:#5a7080;}
+[data-theme="light"] .ad-ka-score-badge{background:rgba(0,60,100,.06);color:#2a4060;border-color:rgba(0,60,100,.12);}
+
+/* ── KA body ── */
+[data-theme="light"] .ad-ka-body{background:#fff;border-top-color:#d8eaf4;}
+[data-theme="light"] .ad-sep{border-top-color:#e0eaf2;}
+
+/* ── Questions ── */
+[data-theme="light"] .ad-q-n{color:#c87a4a;}
+[data-theme="light"] .ad-q-t{color:#1a2535;font-weight:600;}
+[data-theme="light"] .ad-q-h{color:#3d5060;}
+[data-theme="light"] .ad-q-h i{color:#5a7a90;}
+[data-theme="light"] .ad-question--extra{background:rgba(200,122,74,.05);border-left-color:rgba(200,122,74,.35);}
+[data-theme="light"] .ad-extra-badge{color:#955a30;}
+
+/* ── Options de réponse ── */
+[data-theme="light"] .ad-opt{background:#fff;border-color:#c0d4e2;box-shadow:0 1px 3px rgba(0,30,60,.06);}
+[data-theme="light"] .ad-opt:hover{background:#eef6fc;border-color:#7abcdc;box-shadow:0 2px 8px rgba(0,80,140,.1);}
+[data-theme="light"] .ad-opt-ic{color:#4a7090;}
+[data-theme="light"] .ad-opt-lb{color:#1a2535;font-weight:600;}
+[data-theme="light"] .ad-opt-sb{color:#5a7080;}
+
+/* Options sélectionnées — fond orangé léger uniforme */
+[data-theme="light"] .ad-opt.is-sel{background:#fff3e0;border-color:#f0924a;box-shadow:0 2px 10px rgba(230,100,20,.18),0 0 0 2px rgba(240,140,40,.2);}
+[data-theme="light"] .ad-opt.is-sel .ad-opt-ic{color:#c85a00;}
+[data-theme="light"] .ad-opt.is-sel .ad-opt-lb{color:#7a3200;font-weight:700;}
+[data-theme="light"] .ad-opt.is-sel .ad-opt-sb{color:#a04a10;}
+
+/* ── Radar card ── */
+[data-theme="light"] .ad-radar-card{background:#fff;border-color:#b8d0e0;box-shadow:0 2px 16px rgba(0,30,60,.1);}
+[data-theme="light"] .ad-global-score{border-bottom-color:#ddeaf4;}
+[data-theme="light"] .ad-gs-bg{stroke:rgba(0,40,80,.12);}
+[data-theme="light"] .ad-gs-val{color:#1a2535;}
+[data-theme="light"] .ad-gs-max{color:#5a7080;}
+[data-theme="light"] .ad-gs-level{color:#1a6080;}
+[data-theme="light"] .ad-gs-pct{color:#3d5060;}
+[data-theme="light"] .ad-gs-progress-wrap{background:rgba(0,40,80,.1);}
+[data-theme="light"] .ad-gs-answered{color:#5a7080;}
+[data-theme="light"] .ad-mb-id{color:#4a6070;}
+[data-theme="light"] .ad-mb-track{background:rgba(0,40,80,.1);}
+[data-theme="light"] .ad-mb-val{color:#1a2535;}
+
+/* ── Barre de validation ── */
+[data-theme="light"] .ad-validate-bar{background:rgba(240,248,255,.97);border-top-color:#b8d0e0;box-shadow:0 -4px 16px rgba(0,30,60,.1);}
+[data-theme="light"] .ad-validate-info{color:#1a5070;}
+
+/* ── Boutons ── */
+[data-theme="light"] .ad-btn--ghost{background:#f5f9fc;border-color:#b8ccd8;color:#2a4060;}
+[data-theme="light"] .ad-btn--ghost:hover{background:#e8f3f8;border-color:#1a6080;color:#1a3050;}
+
+/* ── Rapport ── */
+[data-theme="light"] .ad-report-section{border-top-color:#d0dde8;}
+[data-theme="light"] .ad-report-h3{color:#1a2535;}
+[data-theme="light"] .ad-report-h3 i{color:#5a7a90;}
+
+/* Hero rapport */
+[data-theme="light"] .ad-report-hero{background:#fff;border-color:#b8d0e0;box-shadow:0 2px 12px rgba(0,30,60,.09);}
+[data-theme="light"] .ad-rh-bg{stroke:rgba(0,40,80,.12);}
+[data-theme="light"] .ad-rh-val{color:#1a2535;}
+[data-theme="light"] .ad-rh-unit{color:#5a7080;}
+[data-theme="light"] .ad-rh-desc{color:#3d5060;}
+[data-theme="light"] .ad-rh-sub{color:#5a7080;}
+[data-theme="light"] .ad-rh-ang-title{color:#955a30;}
+[data-theme="light"] .ad-rh-ang-item{color:#2a3e50;}
+
+/* Recommandations */
+[data-theme="light"] .ad-reco-card{background:#fff;border-color:#d0dde8;box-shadow:0 1px 6px rgba(0,30,60,.07);}
+[data-theme="light"] .ad-reco-badge{color:#3d5060;}
+[data-theme="light"] .ad-reco-qw .ad-reco-badge i{color:#0d9488;}
+[data-theme="light"] .ad-reco-mt .ad-reco-badge i{color:#d97706;}
+[data-theme="light"] .ad-reco-lt .ad-reco-badge i{color:#2d8bb5;}
+[data-theme="light"] .ad-reco-card li{color:#2a3e50;}
+[data-theme="light"] .ad-reco-card li::before{color:#1a6080;}
+[data-theme="light"] .ad-reco-card li strong{color:#1a2535;}
+
+/* Conformité */
+[data-theme="light"] .ad-comp-item{background:#f5f9fc;border-color:#d0dde8;}
+[data-theme="light"] .ad-comp-item strong{color:#1a2535;}
+[data-theme="light"] .ad-comp-item em{color:#4a6070;}
+
+/* Outils officiels */
+[data-theme="light"] .ad-official-card{background:#f5f9fc;border-color:#b8d0e0;}
+[data-theme="light"] .ad-official-card:hover{background:#eef6fa;border-color:#4db8d4;}
+[data-theme="light"] .ad-official-card strong{color:#1a2535;}
+[data-theme="light"] .ad-official-card span{color:#3d5060;}
+
+/* Sources */
+[data-theme="light"] .ad-src-item{background:#f5f9fc;border-color:#d0dde8;}
+[data-theme="light"] .ad-src-item:hover{border-color:#4db8d4;}
+[data-theme="light"] .ad-src-item>i{color:#955a30;}
+[data-theme="light"] .ad-src-item span{color:#3d5060;}
+[data-theme="light"] .ad-src-item strong{color:#1a2535;}
+[data-theme="light"] .ad-ka-desc{color:#5a7080;}
+[data-theme="light"] .ad-ka-score-badge{background:rgba(0,0,0,.04)!important;color:#5a7080!important;border-color:rgba(0,0,0,.1)!important;}
+[data-theme="light"] .ad-ka-ref{color:#7a9ab0;}
+[data-theme="light"] .ad-ka-chevron{color:#5a7080;}
+
+/* KA body — fond blanc, textes lisibles */
+[data-theme="light"] .ad-ka-body{background:#fff;border-top-color:#d8e6f0;}
+[data-theme="light"] .ad-sep{border-top-color:#e0eaf2;}
+[data-theme="light"] .ad-extra-badge{color:#a06830;}
+[data-theme="light"] .ad-question--extra{border-left-color:rgba(160,104,48,.35);background:rgba(160,104,48,.04);}
+[data-theme="light"] .ad-q-n{color:#a06830;}
+[data-theme="light"] .ad-q-t{color:#1a2535!important;}
+[data-theme="light"] .ad-q-h{color:#5a7080;}
+[data-theme="light"] .ad-q-h i{color:#7a9ab0;}
+
+/* Options — boutons réponse : fond blanc, texte lisible */
+[data-theme="light"] .ad-opt{background:#fff;border:1px solid #c0d4e2;}
+[data-theme="light"] .ad-opt:hover{background:#f0f7fc;border-color:#1a7fa0;box-shadow:0 1px 4px rgba(26,127,160,.12);}
+[data-theme="light"] .ad-opt-ic{color:#5a7080;}
+[data-theme="light"] .ad-opt-lb{color:#1a2535;font-weight:600;}
+[data-theme="light"] .ad-opt-sb{color:#5a7080;}
+/* Sélectionné — fond orangé léger pour toutes les réponses */
+[data-theme="light"] .ad-opt.is-sel,
+[data-theme="light"] .ad-opt.is-sel.opt-y,
+[data-theme="light"] .ad-opt.is-sel.opt-p,
+[data-theme="light"] .ad-opt.is-sel.opt-n,
+[data-theme="light"] .ad-opt.is-sel.opt-\?{background:#fff3e0;border:2px solid #f0924a;box-shadow:0 2px 10px rgba(230,100,20,.18),0 0 0 2px rgba(240,140,40,.22);}
+[data-theme="light"] .ad-opt.is-sel .ad-opt-lb,
+[data-theme="light"] .ad-opt.is-sel.opt-y .ad-opt-lb,
+[data-theme="light"] .ad-opt.is-sel.opt-p .ad-opt-lb,
+[data-theme="light"] .ad-opt.is-sel.opt-n .ad-opt-lb,
+[data-theme="light"] .ad-opt.is-sel.opt-\? .ad-opt-lb{color:#7a3200;font-weight:700;}
+[data-theme="light"] .ad-opt.is-sel .ad-opt-sb,
+[data-theme="light"] .ad-opt.is-sel.opt-y .ad-opt-sb,
+[data-theme="light"] .ad-opt.is-sel.opt-p .ad-opt-sb,
+[data-theme="light"] .ad-opt.is-sel.opt-n .ad-opt-sb,
+[data-theme="light"] .ad-opt.is-sel.opt-\? .ad-opt-sb{color:#a04a10;}
+[data-theme="light"] .ad-opt.is-sel .ad-opt-ic,
+[data-theme="light"] .ad-opt.is-sel.opt-y .ad-opt-ic,
+[data-theme="light"] .ad-opt.is-sel.opt-p .ad-opt-ic,
+[data-theme="light"] .ad-opt.is-sel.opt-n .ad-opt-ic,
+[data-theme="light"] .ad-opt.is-sel.opt-\? .ad-opt-ic{color:#c85a00;}
+
+/* Radar card */
+[data-theme="light"] .ad-radar-card{background:#fff;border-color:#b8d0e0;box-shadow:0 2px 16px rgba(0,30,60,.1);}
+[data-theme="light"] .ad-gs-bg{stroke:#d8e6f0;}
+[data-theme="light"] .ad-gs-val{color:#1a2535;}
+[data-theme="light"] .ad-gs-max{color:#7a9ab0;}
+[data-theme="light"] .ad-gs-pct{color:#5a7080;}
+[data-theme="light"] .ad-gs-answered{color:#7a9ab0;}
+[data-theme="light"] .ad-gs-progress-wrap{background:#d8e6f0;}
+[data-theme="light"] .ad-global-score{border-bottom-color:#e0eaf2;}
+[data-theme="light"] .ad-mb-id{color:#5a7080;}
+[data-theme="light"] .ad-mb-track{background:#d8e6f0;}
+
+/* Barre de validation fixe */
+[data-theme="light"] .ad-validate-bar{background:rgba(245,249,252,.98);border-top-color:rgba(26,103,130,.3);}
+[data-theme="light"] .ad-validate-info{color:#1a6580;}
+
+/* ── Rapport complet ────────────────────────────────────── */
+[data-theme="light"] .ad-report-h3{color:#1a2535;}
+[data-theme="light"] .ad-report-h3 i{color:#7a9ab0;}
+[data-theme="light"] .ad-report-section{border-top-color:#d8e6f0;}
+[data-theme="light"] .ad-report-hero{background:#fff;border-color:#d0dde8;box-shadow:0 2px 12px rgba(0,30,60,.08);}
+[data-theme="light"] .ad-rh-bg{stroke:#d8e6f0;}
+[data-theme="light"] .ad-rh-val{color:#1a2535;}
+[data-theme="light"] .ad-rh-unit{color:#7a9ab0;}
+[data-theme="light"] .ad-rh-desc{color:#3d5060;}
+[data-theme="light"] .ad-rh-sub{color:#7a9ab0;}
+[data-theme="light"] .ad-rh-ang-title{color:#a06830;}
+[data-theme="light"] .ad-rh-ang-item{color:#3d5060;}
+
+/* Recommandations */
+[data-theme="light"] .ad-reco-card{background:#fff;border-color:#d0dde8;box-shadow:0 1px 6px rgba(0,30,60,.06);}
+[data-theme="light"] .ad-reco-badge{color:#5a7080;}
+[data-theme="light"] .ad-reco-qw .ad-reco-badge i{color:#1a7fa0;}
+[data-theme="light"] .ad-reco-mt .ad-reco-badge i{color:#a06830;}
+[data-theme="light"] .ad-reco-card li{color:#3d5060;}
+[data-theme="light"] .ad-reco-card li::before{color:#7a9ab0;}
+[data-theme="light"] .ad-reco-card li strong{color:#1a2535;}
+
+/* Conformité */
+[data-theme="light"] .ad-comp-item{background:#fff;border-color:#d0dde8;}
+[data-theme="light"] .ad-comp-item strong{color:#1a2535;}
+[data-theme="light"] .ad-comp-item em{color:#5a7080;}
+
+/* Outils officiels */
+[data-theme="light"] .ad-official-card{background:rgba(26,103,130,.04);border-color:rgba(26,103,130,.2);}
+[data-theme="light"] .ad-official-card:hover{background:rgba(26,103,130,.09);border-color:rgba(26,103,130,.4);}
+[data-theme="light"] .ad-official-icon{color:#1a7fa0;}
+[data-theme="light"] .ad-official-card strong{color:#1a2535;}
+[data-theme="light"] .ad-official-card span{color:#3d5060;}
+
+/* Sources */
+[data-theme="light"] .ad-src-item{background:#f5f9fc;border-color:#d0dde8;}
+[data-theme="light"] .ad-src-item>i{color:#a07050;}
+[data-theme="light"] .ad-src-item span{color:#3d5060;}
+[data-theme="light"] .ad-src-item strong{color:#1a2535;}
+
+/* Boutons */
+[data-theme="light"] .ad-btn--ghost{border-color:rgba(0,0,0,.15);color:#3d5060;}
+[data-theme="light"] .ad-btn--ghost:hover{border-color:rgba(26,103,130,.4);color:#1a4060;}
+
+/* ── Print ────────────────────────────────────────────────── */
+@media print{
+  .main-nav,.ad-hero,.ad-profil-bar,.ad-qcol,.ad-rcol,.ad-validate-bar,.ocean-background{display:none!important;}
+  .ad-layout{display:none!important;}
+  .ad-report{display:block!important;}
+  body{background:#fff;color:#111;}
+}
+  </style>
+
+</BaseLayout>

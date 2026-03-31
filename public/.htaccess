@@ -88,6 +88,16 @@ media-src 'self'"
 # Redirige uniquement "/" vers "/terrain/" (les autres URLs ne sont pas affectées)
 RedirectMatch 301 ^/$ /terrain/
 
+# ── Cache des données dynamiques (site-data.json) ───────────
+# no-cache : le navigateur revalide à chaque requête (ETag → 304 si inchangé)
+# Permet une vue fraîche immédiatement après chaque publication admin.
+<IfModule mod_headers.c>
+  <FilesMatch "^site-data\.json$">
+    Header set Cache-Control "no-cache, must-revalidate"
+    Header unset Expires
+  </FilesMatch>
+</IfModule>
+
 # ── Bloc accès fichiers sensibles ────────────────────────────
 <FilesMatch "\.(md|env|lock|yml|yaml)$">
   Order Allow,Deny

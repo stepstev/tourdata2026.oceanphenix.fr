@@ -565,7 +565,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       try { adminProData.liens = JSON.parse(localStorage.getItem('op-radar-liens') || '[]'); } catch(e) { adminProData.liens = []; }
 
       try {
-        const resp = await fetch('/data/site-data.json', { signal: AbortSignal.timeout(5000) });
+        const resp = await fetch('/data/site-data.json', { cache: 'no-cache', signal: AbortSignal.timeout(5000) });
         if (resp.ok) {
           const d = await resp.json();
           const r = d.radar || {};
@@ -1676,61 +1676,71 @@ import OceanBackground from '../components/OceanBackground.astro';
   }
 
   @media (max-width: 640px) {
-    /* Panneaux */
-    .rd-controls-panel { padding: 8px 10px; }
-    .rd-panel--search  { margin-bottom: 0; }
-    .rd-panel--bottom-zone { margin-bottom: 0.75rem; }
-    .rd-ctrl-vsep      { display: none; }
-    .rd-panel-zone-label { display: none; }
+    /* ── Panneaux ── */
+    .rd-controls-panel      { padding: 8px 10px; }
+    .rd-panel--search       { margin-bottom: 0; }
+    .rd-panel--bottom-zone  { margin-bottom: 0.75rem; }
+    .rd-panel-zone-label    { display: none; }
+    .rd-ctrl-vsep           { display: none; }
+    .rd-ctrl-hint           { display: none; }
 
-    /* ── Zone 1 : ① pleine largeur · ② + ③ côte à côte sur ligne 2 ── */
-    .rd-ctrl-row  { flex-wrap: wrap; gap: 0; row-gap: 8px; align-items: center; }
-    .rd-ctrl-hint { display: none; }
-    .rd-ctrl-group { padding: 0; }
+    /* ── Zone 1 : CSS Grid 2 colonnes (slider | boutons mode) ── */
+    .rd-ctrl-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 8px;
+    }
 
-    /* Masquer les labels ② ③ sur mobile : icônes et curseur suffisent */
-    .rd-ctrl-group:not(.rd-ctrl-group--pos) .rd-ctrl-label { display: none; }
-
-    /* ① Position : pleine largeur */
-    .rd-ctrl-group--pos { flex: 0 0 100%; }
-    .rd-ctrl-group--pos .rd-ctrl-body { display: flex; width: 100%; gap: 6px; }
+    /* ① Position : span 2 colonnes */
+    .rd-ctrl-group--pos {
+      grid-column: 1 / -1;
+    }
+    .rd-ctrl-group--pos .rd-ctrl-body  { display: flex; gap: 6px; width: 100%; }
     .rd-ctrl-group--pos .rd-city-dropdown { flex: 1; min-width: 0; }
     .rd-ctrl-group--pos .rd-city-trigger  { width: 100%; min-width: 0; }
     #btn-locate { flex: 0 0 36px; width: 36px; padding: 0; justify-content: center; }
 
-    /* ② Rayon : flex:1, slider occupe tout l'espace */
+    /* Labels ②③ masqués sur mobile */
+    .rd-ctrl-group:not(.rd-ctrl-group--pos) .rd-ctrl-label { display: none; }
+    .rd-ctrl-group { padding: 0; }
+
+    /* ② Rayon : col 1 — slider prend toute la largeur */
     .rd-ctrl-group:not(.rd-ctrl-group--pos):not(.rd-ctrl-group--mode) {
-      flex: 1 1 0; min-width: 0;
+      grid-column: 1;
+      min-width: 0;
     }
     .rd-ctrl-group:not(.rd-ctrl-group--pos):not(.rd-ctrl-group--mode) .rd-ctrl-body {
       width: 100%;
+      overflow: hidden;
     }
-    .rd-radius-inline { width: 100%; flex-shrink: 1; box-sizing: border-box; }
-    #radius-slider    { flex: 1 1 0; min-width: 0; }
+    .rd-radius-inline {
+      width: 100%;
+      flex-shrink: 1;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    #radius-slider { flex: 1; min-width: 0; width: 1px; } /* width:1px forcé < flex:1 override */
 
-    /* ③ Mode : largeur fixe (2 × 34px + gap) */
-    .rd-ctrl-group--mode { flex: 0 0 auto; }
-    .rd-mode-toggle { gap: 5px; }
-    .rd-mode-btn    { width: 34px; height: 34px; }
+    /* ③ Mode : col 2 — boutons icône seulement, jamais de padding */
+    .rd-ctrl-group--mode    { grid-column: 2; align-self: center; padding: 0; }
+    .rd-mode-toggle         { gap: 5px; }
+    .rd-mode-btn            { width: 34px !important; height: 34px !important;
+                               padding: 0 !important; }
 
-    /* ── Zone 2 : statut pleine largeur (ligne 1) · cats+actions (ligne 2) ── */
-    .rd-panel-bottom-inner { flex-wrap: wrap; gap: 0; row-gap: 6px; align-items: center; }
-
-    /* Statut : occupe toute la ligne 1 */
-    .rd-filters-info {
+    /* ── Zone 2 : statut (ligne 1) · cats + actions (ligne 2) ── */
+    .rd-panel-bottom-inner  { flex-wrap: wrap; gap: 0; row-gap: 6px; align-items: center; }
+    .rd-filters-info        {
       flex: 0 0 100%;
       overflow: hidden;
       padding-bottom: 6px;
       border-bottom: 1px solid rgba(77, 184, 212, 0.08);
     }
-    .rd-status-label { max-width: 100%; }
-
-    /* Ligne 2 : cats à gauche, actions à droite */
-    .rd-bottom-vsep      { display: none; }
-    .rd-bottom-cat-label { display: none; }
-    .rd-legend           { display: none; }
-    .rd-bottom-cats      { flex: 0 0 auto; }
-    .rd-panel-actions    { flex: 0 0 auto; margin-left: auto; gap: 4px; }
+    .rd-status-label        { max-width: 100%; }
+    .rd-bottom-vsep         { display: none; }
+    .rd-bottom-cat-label    { display: none; }
+    .rd-legend              { display: none; }
+    .rd-bottom-cats         { flex: 0 0 auto; }
+    .rd-panel-actions       { flex: 0 0 auto; margin-left: auto; gap: 4px; }
     .rd-panel-actions .rd-btn { height: 30px; padding: 0 10px; font-size: 0.72rem; }
   }
 
@@ -2776,13 +2786,11 @@ import OceanBackground from '../components/OceanBackground.astro';
   .toast-show { opacity: 1; transform: translateY(0); }
   .toast-error { border-color: rgba(239,68,68,.45); color: #fca5a5; }
 
-  /* ── Responsive ────────────────────────────────────────── */
+  /* ── Responsive conteneur / tabs / carte ───────────────── */
   @media (max-width: 640px) {
     .rd-header { padding: 8px 12px; margin: 0 8px 0.5rem; }
     .rd-toolbar { gap: 6px; }
     .rd-select { min-width: 120px; max-width: none; flex: 1; }
-    .rd-radius-inline { margin-left: 0; width: 100%; }
-    #radius-slider { flex: 1; }
     .rd-container { padding: 0 8px; }
     .rd-tabs { gap: 0; }
     .rd-tab { padding: 0.5rem 0.7rem; font-size: var(--text-xs); }
@@ -3062,8 +3070,6 @@ import OceanBackground from '../components/OceanBackground.astro';
   /* Responsive modebar */
   @media (max-width: 640px) {
     .rd-modebar { padding: 7px 10px; gap: 7px; }
-    .rd-mode-btn { padding: 6px 10px; gap: 7px; }
-    .rd-mode-btn-sub { display: none; }
     .rd-modebar-sep { display: none; }
     .rd-mode-controls { gap: 6px; }
   }

@@ -627,7 +627,7 @@ const jalons = roadmapData.jalons;
               });
             }
 
-            fetch('/data/site-data.json', { signal: AbortSignal.timeout(4000) })
+            fetch('/data/site-data.json', { cache: 'no-cache', signal: AbortSignal.timeout(4000) })
               .then(function (r) { return r.ok ? r.json() : null; })
               .then(function (d) {
                 if (!d || !d.roadmap || !Array.isArray(d.roadmap.jalons) || d.roadmap.jalons.length === 0) return;

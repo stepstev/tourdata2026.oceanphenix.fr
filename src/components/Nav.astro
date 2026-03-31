@@ -1,5 +1,6 @@
 ---
 // src/components/Nav.astro
+const pathname = Astro.url.pathname;
 ---
 
 <nav class="main-nav">
@@ -37,7 +38,7 @@
         </ul>
       </li>
 
-      <!-- ── Data-Kpi ▾ ─────────────────────────────── -->
+      <!-- ── Data-API ▾ ────────────────────────────── -->
       <li class="nav-has-dropdown">
         <a href="#" class="nav-dropdown-trigger nav-trigger--nolink">
           <i class="fas fa-database"></i> Data-API
@@ -45,12 +46,13 @@
         </a>
         <ul class="nav-dropdown" role="menu">
           <li role="none"><a href="/radar" role="menuitem"><i class="fas fa-crosshairs"></i> Radar</a></li>
-          <li role="none" class="nav-dd-sep" aria-hidden="true"></li>
           <li role="none"><a href="/meteo" role="menuitem"><i class="fas fa-cloud-sun"></i> Météo</a></li>
-          <li role="none" class="nav-dd-sub"><a href="/meteo#position"   role="menuitem"><i class="fas fa-location-dot"></i> Position</a></li>
-          <li role="none" class="nav-dd-sub"><a href="/meteo#etapes"     role="menuitem"><i class="fas fa-route"></i> Étapes</a></li>
-          <li role="none" class="nav-dd-sub"><a href="/meteo#previsions" role="menuitem"><i class="fas fa-calendar-week"></i> Prévisions</a></li>
         </ul>
+      </li>
+
+      <!-- ── Audit Maturité ─────────────────────────── -->
+      <li class:list={[{ 'nav-active': pathname.startsWith('/audit-data') }]}>
+        <a href="/audit-data"><i class="fas fa-chart-bar"></i> Audit Data</a>
       </li>
 
       <!-- ── Profil ▾ ───────────────────────────────── -->

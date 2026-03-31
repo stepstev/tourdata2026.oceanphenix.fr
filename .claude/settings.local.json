@@ -4,7 +4,10 @@
       "Bash(npm install:*)",
       "Bash(npm audit:*)",
       "Bash(wc -l public/api/*.php)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "Bash(npm --version)",
+      "Bash(curl -s https://www.tourdata2026.oceanphenix.fr/assets/admin-terrain.BnKmpkOl.css)",
+      "Bash(curl -s https://www.tourdata2026.oceanphenix.fr/assets/terrain.Cs5XO4yb.css)"
     ]
   }
 }

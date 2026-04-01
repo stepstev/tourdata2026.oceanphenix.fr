@@ -51,7 +51,7 @@ const pathname = Astro.url.pathname;
       </li>
 
       <!-- ── Audit Maturité ─────────────────────────── -->
-      <li class:list={[{ 'nav-active': pathname.startsWith('/audit-data') }]}>
+      <li class:list={[{ 'nav-active': pathname.startsWith('/audit-data') }]} id="nav-audit">
         <a href="/audit-data"><i class="fas fa-chart-bar"></i> Audit Data</a>
       </li>
 

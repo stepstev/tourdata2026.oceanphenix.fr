@@ -106,113 +106,130 @@ import OceanBackground from '../components/OceanBackground.astro';
 
     <!-- ══ RÉFÉRENCES NORMATIVES ═══════════════════════════════ -->
     <div class="ad-normrefs">
-      <h3 class="ad-normrefs-title"><i class="fas fa-book-open"></i> Références normatives &amp; cadres méthodologiques</h3>
-      <div class="ad-normrefs-grid">
-        <a class="ad-normref-card" href="https://www.dama.org/cpages/body-of-knowledge" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-database"></i></span>
-          <div>
-            <strong>DAMA-DMBOK v2</strong>
-            <span>Data Management Body of Knowledge — 11 Knowledge Areas</span>
-            <span class="ad-normref-tag">Gouvernance · Qualité · Architecture</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://edmcouncil.org/page/dcam" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-diagram-project"></i></span>
-          <div>
-            <strong>EDM Council DCAM v2</strong>
-            <span>Data Capability Assessment Model — 8 capacités data</span>
-            <span class="ad-normref-tag">Maturité · Capabilities</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=484574" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-layer-group"></i></span>
-          <div>
-            <strong>SEI CMMI-DMM</strong>
-            <span>Data Management Maturity — niveaux 0 → 5</span>
-            <span class="ad-normref-tag">CMU SEI · Niveaux maturité</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener">
-          <span class="ad-normref-logo ad-normref-logo--red"><i class="fas fa-user-shield"></i></span>
-          <div>
-            <strong>RGPD 2016/679</strong>
-            <span>Règlement Général Protection des Données — Art. 5, 24, 30, 32, 35</span>
-            <span class="ad-normref-tag">Obligatoire · Sanction CNIL</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on" target="_blank" rel="noopener">
-          <span class="ad-normref-logo ad-normref-logo--red"><i class="fas fa-balance-scale"></i></span>
-          <div>
-            <strong>CNIL — Guide RGPD pratique</strong>
-            <span>Guides, outils, Q&amp;A pour la mise en conformité RGPD</span>
-            <span class="ad-normref-tag">cnil.fr</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022L2555" target="_blank" rel="noopener">
-          <span class="ad-normref-logo ad-normref-logo--red"><i class="fas fa-network-wired"></i></span>
-          <div>
-            <strong>NIS2 — 2022/2555</strong>
-            <span>Cybersécurité des systèmes d'information — directive européenne</span>
-            <span class="ad-normref-tag">Cybersécurité · SI critique</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022R1925" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-scale-balanced"></i></span>
-          <div>
-            <strong>DMA 2022/1925</strong>
-            <span>Digital Markets Act — interopérabilité &amp; accès aux données</span>
-            <span class="ad-normref-tag">Gatekeepers CA &gt; 75 M€</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://www.ssi.gouv.fr/guide/" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-shield"></i></span>
-          <div>
-            <strong>ANSSI — Guides sécurité SI</strong>
-            <span>Référentiels EBIOS RM, guides d'hygiène informatique, RGS</span>
-            <span class="ad-normref-tag">ssi.gouv.fr</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://www.iso.org/fr/standard/45086.html" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-circle-check"></i></span>
-          <div>
-            <strong>ISO 8000 — Qualité des données</strong>
-            <span>Norme internationale qualité données maîtresses &amp; de référence</span>
-            <span class="ad-normref-tag">Qualité · MDM</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://www.francenum.gouv.fr" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-flag"></i></span>
-          <div>
-            <strong>France Num</strong>
-            <span>Diagnostic maturité numérique officiel — Gouvernement français</span>
-            <span class="ad-normref-tag">francenum.gouv.fr</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://formulaire.observatoire-data-ia.fr/" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-chart-network"></i></span>
-          <div>
-            <strong>Observatoire Data &amp; IA</strong>
-            <span>Formulaire national d'évaluation Data/IA 2024–2026</span>
-            <span class="ad-normref-tag">État des lieux national</span>
-          </div>
-        </a>
-        <a class="ad-normref-card" href="https://www.cigref.fr/cigref_publications/" target="_blank" rel="noopener">
-          <span class="ad-normref-logo"><i class="fas fa-building"></i></span>
-          <div>
-            <strong>CIGREF</strong>
-            <span>Data Management pour les grandes entreprises — édition 2023</span>
-            <span class="ad-normref-tag">cigref.fr</span>
-          </div>
-        </a>
+      <div class="ad-normrefs-header">
+        <h3 class="ad-normrefs-title"><i class="fas fa-book-open"></i> Références normatives &amp; cadres méthodologiques</h3>
+        <div class="ad-normrefs-legend">
+          <span class="ad-nrleg ad-nrleg--blue"><i class="fas fa-layer-group"></i> Frameworks méthodologiques</span>
+          <span class="ad-nrleg ad-nrleg--red"><i class="fas fa-gavel"></i> Réglementations obligatoires</span>
+          <span class="ad-nrleg ad-nrleg--green"><i class="fas fa-lightbulb"></i> Bonnes pratiques &amp; guides</span>
+        </div>
+      </div>
+
+      <div class="ad-nrtable-wrap">
+        <table class="ad-nrtable">
+          <thead>
+            <tr>
+              <th class="ad-nrth-cat">Catégorie</th>
+              <th>Référence</th>
+              <th class="ad-nrth-desc">Description</th>
+              <th class="ad-nrth-scope">Périmètre</th>
+              <th class="ad-nrth-link">Lien</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ── Frameworks méthodologiques ── -->
+            <tr class="ad-nrtr--blue">
+              <td class="ad-nrtd-cat" rowspan="4"><span class="ad-nrcat ad-nrcat--blue"><i class="fas fa-layer-group"></i><br>Frameworks<br>méthodo&shy;logiques</span></td>
+              <td class="ad-nrtd-ref"><strong>DAMA-DMBOK v2</strong><span class="ad-nrver">2017</span></td>
+              <td>Data Management Body of Knowledge — 11 Knowledge Areas</td>
+              <td><span class="ad-nrtag">Gouvernance</span><span class="ad-nrtag">Qualité</span><span class="ad-nrtag">Architecture</span></td>
+              <td><a class="ad-nrlink" href="https://www.dama.org/cpages/body-of-knowledge" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> dama.org</a></td>
+            </tr>
+            <tr class="ad-nrtr--blue">
+              <td class="ad-nrtd-ref"><strong>EDM Council DCAM v2</strong><span class="ad-nrver">2020</span></td>
+              <td>Data Capability Assessment Model — 8 capacités data</td>
+              <td><span class="ad-nrtag">Maturité</span><span class="ad-nrtag">Capabilities</span></td>
+              <td><a class="ad-nrlink" href="https://edmcouncil.org/page/dcam" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> edmcouncil.org</a></td>
+            </tr>
+            <tr class="ad-nrtr--blue">
+              <td class="ad-nrtd-ref"><strong>SEI CMMI-DMM</strong><span class="ad-nrver">CMU</span></td>
+              <td>Data Management Maturity — niveaux 0 → 5</td>
+              <td><span class="ad-nrtag">Niveaux maturité</span><span class="ad-nrtag">Scoring</span></td>
+              <td><a class="ad-nrlink" href="https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=484574" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> sei.cmu.edu</a></td>
+            </tr>
+            <tr class="ad-nrtr--blue">
+              <td class="ad-nrtd-ref"><strong>ISO 8000</strong><span class="ad-nrver">Norme ISO</span></td>
+              <td>Qualité des données maîtresses &amp; de référence</td>
+              <td><span class="ad-nrtag">Qualité data</span><span class="ad-nrtag">MDM</span></td>
+              <td><a class="ad-nrlink" href="https://www.iso.org/fr/standard/45086.html" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> iso.org</a></td>
+            </tr>
+
+            <!-- ── Réglementations obligatoires ── -->
+            <tr class="ad-nrtr--red">
+              <td class="ad-nrtd-cat" rowspan="3"><span class="ad-nrcat ad-nrcat--red"><i class="fas fa-gavel"></i><br>Régle&shy;mentations<br>obligatoires</span></td>
+              <td class="ad-nrtd-ref"><strong>RGPD 2016/679</strong><span class="ad-nrver ad-nrver--red">Obligatoire</span></td>
+              <td>Règlement Général sur la Protection des Données — Art. 5, 24, 30, 32, 35</td>
+              <td><span class="ad-nrtag ad-nrtag--red">Données perso</span><span class="ad-nrtag ad-nrtag--red">CNIL</span></td>
+              <td><a class="ad-nrlink" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> eur-lex.eu</a></td>
+            </tr>
+            <tr class="ad-nrtr--red">
+              <td class="ad-nrtd-ref"><strong>NIS2 — 2022/2555</strong><span class="ad-nrver ad-nrver--red">Obligatoire</span></td>
+              <td>Cybersécurité des systèmes d'information — directive européenne</td>
+              <td><span class="ad-nrtag ad-nrtag--red">Cybersécurité</span><span class="ad-nrtag ad-nrtag--red">SI critique</span></td>
+              <td><a class="ad-nrlink" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022L2555" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> eur-lex.eu</a></td>
+            </tr>
+            <tr class="ad-nrtr--red">
+              <td class="ad-nrtd-ref"><strong>DMA 2022/1925</strong><span class="ad-nrver ad-nrver--red">Obligatoire</span></td>
+              <td>Digital Markets Act — interopérabilité &amp; accès aux données</td>
+              <td><span class="ad-nrtag ad-nrtag--red">Gatekeepers</span><span class="ad-nrtag ad-nrtag--red">CA &gt; 75 M€</span></td>
+              <td><a class="ad-nrlink" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022R1925" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> eur-lex.eu</a></td>
+            </tr>
+
+            <!-- ── Bonnes pratiques & guides ── -->
+            <tr class="ad-nrtr--green">
+              <td class="ad-nrtd-cat" rowspan="4"><span class="ad-nrcat ad-nrcat--green"><i class="fas fa-lightbulb"></i><br>Bonnes pratiques<br>&amp; guides</span></td>
+              <td class="ad-nrtd-ref"><strong>CNIL — Guide RGPD</strong><span class="ad-nrver ad-nrver--green">Guide</span></td>
+              <td>Guides, outils &amp; Q&amp;A pour la mise en conformité RGPD</td>
+              <td><span class="ad-nrtag ad-nrtag--green">Conformité</span><span class="ad-nrtag ad-nrtag--green">Pratique</span></td>
+              <td><a class="ad-nrlink" href="https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> cnil.fr</a></td>
+            </tr>
+            <tr class="ad-nrtr--green">
+              <td class="ad-nrtd-ref"><strong>ANSSI — Guides sécurité SI</strong><span class="ad-nrver ad-nrver--green">Guide</span></td>
+              <td>Référentiels EBIOS RM, guides d'hygiène informatique, RGS</td>
+              <td><span class="ad-nrtag ad-nrtag--green">Cybersécurité</span><span class="ad-nrtag ad-nrtag--green">EBIOS</span></td>
+              <td><a class="ad-nrlink" href="https://cyber.gouv.fr/publications" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> cyber.gouv.fr</a></td>
+            </tr>
+            <tr class="ad-nrtr--green">
+              <td class="ad-nrtd-ref"><strong>France Num</strong><span class="ad-nrver ad-nrver--green">Guide</span></td>
+              <td>Diagnostic maturité numérique officiel — Gouvernement français</td>
+              <td><span class="ad-nrtag ad-nrtag--green">Maturité num.</span><span class="ad-nrtag ad-nrtag--green">PME/TPE</span></td>
+              <td><a class="ad-nrlink" href="https://www.francenum.gouv.fr" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> francenum.gouv.fr</a></td>
+            </tr>
+            <tr class="ad-nrtr--green">
+              <td class="ad-nrtd-ref"><strong>CIGREF — Data Management</strong><span class="ad-nrver ad-nrver--green">Guide</span></td>
+              <td>Data Management pour les grandes entreprises — édition 2023</td>
+              <td><span class="ad-nrtag ad-nrtag--green">Grandes orgs</span><span class="ad-nrtag ad-nrtag--green">DSI</span></td>
+              <td><a class="ad-nrlink" href="https://www.cigref.fr/cigref_publications/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i> cigref.fr</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <!-- ══ RAPPORT COMPLET (affiché après completion) ═════════ -->
     <div class="ad-report" id="ad-report" style="display:none">
 
+      <!-- Titre du rapport -->
+      <div class="ad-report-titlebar">
+        <div class="ad-rtb-icon"><i class="fas fa-chart-bar"></i></div>
+        <div class="ad-rtb-info">
+          <h2 class="ad-rtb-h2">Rapport DataMaturity Score™</h2>
+          <p class="ad-rtb-meta" id="ad-rtb-meta">Évaluation complète — 11 dimensions DAMA-DMBOK2</p>
+        </div>
+        <span class="ad-rtb-stamp"><i class="fas fa-lock"></i> Local · Anonyme</span>
+      </div>
+
       <!-- Score général -->
       <div class="ad-report-hero" id="ad-report-hero">
         <!-- injecté -->
+      </div>
+
+      <!-- Radar 11 dimensions -->
+      <div class="ad-report-section">
+        <h3 class="ad-report-h3"><i class="fas fa-chart-area"></i> Radar de maturité — 11 dimensions</h3>
+        <div class="ad-report-radar-wrap">
+          <canvas id="ad-report-radar" width="480" height="400" aria-label="Radar de maturité DataMaturity Score"></canvas>
+        </div>
       </div>
 
       <!-- Recommandations -->
@@ -378,7 +395,7 @@ var KA = [
           mt:'Rédiger une charte data couvrant classification, accès, rétention, qualité.',
           lt:'Mettre en place un comité data mensuel avec représentant métier par domaine.'}
   },
-  { id:'DA',   icon:'fa-diagram-project', label:'Data Architecture',             short:'Architecture', color:'#6ec5d6',
+  { id:'DA',   icon:'fa-diagram-project', label:'Data Architecture',             short:'Architecture', color:'#4db8d4',
     ref:'DAMA KA02',
     desc:'Cartographie, structures de données et flux entre systèmes',
     bench:{pme:1.4,eti:2.2,gc:2.8},
@@ -397,7 +414,7 @@ var KA = [
           mt:'Cartographier les 5 flux critiques avec un outil simple (draw.io, Miro).',
           lt:'Définir une architecture cible sur 3 ans validée par un architecte data.'}
   },
-  { id:'DMD',  icon:'fa-object-group',    label:'Data Modeling & Design',        short:'Modélisation', color:'#5bc4de',
+  { id:'DMD',  icon:'fa-object-group',    label:'Data Modeling & Design',        short:'Modélisation', color:'#4db8d4',
     ref:'DAMA KA03',
     desc:'Modèles sémantiques, standards de nommage et conception des structures',
     bench:{pme:1.2,eti:2.0,gc:2.4},
@@ -416,7 +433,7 @@ var KA = [
           mt:'Mettre en place un glossaire métier partagé avec 50 termes clés (Notion, Confluence).',
           lt:'Déployer un Data Catalog léger (Amundsen, OpenMetadata) pour exposer les modèles.'}
   },
-  { id:'DSO',  icon:'fa-server',          label:'Data Storage & Operations',     short:'Stockage',     color:'#2d8bb5',
+  { id:'DSO',  icon:'fa-server',          label:'Data Storage & Operations',     short:'Stockage',     color:'#4db8d4',
     ref:'DAMA KA04',
     desc:'Infrastructures de stockage, performance, disponibilité et rétention',
     bench:{pme:2.8,eti:3.4,gc:3.8},
@@ -967,10 +984,36 @@ window.showResults=function(){
      '<div class="ad-comp-item"><strong>ISO 8000</strong><span class="ad-comp-s ad-comp-'+q.c+'">'+q.i+' '+q.l+'</span><em>Qualité des données maîtresses</em></div>'
     ].join('');
 
+  // Titre meta
+  var metaEl=document.getElementById('ad-rtb-meta');
+  if(metaEl){metaEl.innerHTML='Profil&nbsp;<strong>'+state.profile.toUpperCase()+'</strong> &nbsp;·&nbsp; '+new Date().toLocaleDateString('fr-FR')+'&nbsp;·&nbsp; '+countAnswered()+'/11 dimensions';}
+
   document.getElementById('ad-report').style.display='';
+
+  // Radar rapport
   setTimeout(function(){
+    var rc=document.getElementById('ad-report-radar');
+    if(rc&&window.Chart){
+      if(window.adReportChart){window.adReportChart.destroy();window.adReportChart=null;}
+      var isDark=document.documentElement.getAttribute('data-theme')!=='light';
+      var tc=isDark?'#8fa3b8':'#4a6275';
+      var gc=isDark?'rgba(255,255,255,.07)':'rgba(0,0,0,.08)';
+      var lc=isDark?'#ccd8e0':'#1a2535';
+      window.adReportChart=new Chart(rc,{
+        type:'radar',
+        data:{labels:KA.map(function(k){return k.short;}),
+          datasets:[
+            {label:'Votre score',data:scores,backgroundColor:'rgba(77,184,212,.18)',borderColor:'#4db8d4',borderWidth:2.5,pointBackgroundColor:'#4db8d4',pointRadius:5,pointHoverRadius:8,fill:true},
+            {label:'Benchmark '+state.profile.toUpperCase(),data:bench,backgroundColor:'rgba(200,122,74,.1)',borderColor:'#c87a4a',borderWidth:1.5,borderDash:[6,4],pointBackgroundColor:'#c87a4a',pointRadius:3,fill:true}
+          ]},
+        options:{responsive:true,maintainAspectRatio:true,animation:{duration:900},
+          scales:{r:{min:0,max:5,ticks:{stepSize:1,color:tc,backdropColor:'transparent',font:{size:11}},grid:{color:gc},angleLines:{color:gc},pointLabels:{color:lc,font:{size:11,weight:'600'}}}},
+          plugins:{legend:{position:'bottom',labels:{color:lc,boxWidth:14,padding:14,font:{size:12}}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+' : '+c.raw.toFixed(1)+'/5';}}}}
+        }
+      });
+    }
     document.getElementById('ad-report').scrollIntoView({behavior:'smooth',block:'start'});
-  },100);
+  },200);
 };
 
 window.resetAudit=function(){
@@ -1236,6 +1279,10 @@ else{init();}
 .ad-opt input{display:none;}
 .ad-opt:hover{border-color:rgba(77,184,212,.5);background:rgba(77,184,212,.12);}
 .ad-opt-ic{font-size:1.2rem;line-height:1;color:#6a90a8;transition:color .2s;}
+.opt-y .ad-opt-ic{color:#22c55e;}
+.opt-p .ad-opt-ic{color:#f59e0b;}
+.opt-n .ad-opt-ic{color:#ef4444;}
+.opt-\? .ad-opt-ic{color:#94a3b8;}
 .ad-opt-lb{font-size:.78rem;font-weight:700;color:#c8dce8;line-height:1.35;}
 .ad-opt-sb{font-size:.68rem;color:#8aaabb;line-height:1.35;}
 
@@ -1262,7 +1309,7 @@ else{init();}
 .ad-gs-level{font-size:.8rem;font-weight:700;margin-bottom:.2rem;transition:color .4s;color:#7ecfe0;}
 .ad-gs-pct{font-size:.68rem;color:#6a7f90;margin-bottom:.35rem;}
 .ad-gs-progress-wrap{height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin-bottom:.3rem;}
-.ad-gs-progress-bar{height:100%;background:linear-gradient(90deg,#4db8d4,#2d8bb5);transition:width .5s ease;}
+.ad-gs-progress-bar{height:100%;background:#4db8d4;transition:width .5s ease;}
 .ad-gs-answered{font-size:.62rem;color:#4a6275;}
 
 /* Radar */
@@ -1287,13 +1334,13 @@ else{init();}
 .ad-validate-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-md);flex-wrap:wrap;}
 .ad-validate-info{display:flex;align-items:center;gap:.6rem;font-size:var(--text-sm);color:#7ecfe0;font-weight:500;}
 .ad-validate-info i{font-size:1.1rem;}
-.ad-btn-validate{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 2rem;border-radius:var(--radius-full);background:linear-gradient(135deg,#4db8d4,#2d8bb5);color:#fff;font-size:var(--text-sm);font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 20px rgba(77,184,212,.35);transition:all var(--transition-fast);letter-spacing:.01em;}
+.ad-btn-validate{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 2rem;border-radius:var(--radius-full);background:#4db8d4;color:#fff;font-size:var(--text-sm);font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 20px rgba(77,184,212,.35);transition:all var(--transition-fast);letter-spacing:.01em;}
 .ad-btn-validate:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(77,184,212,.5);}
 @media(max-width:600px){.ad-validate-info span{font-size:.75rem;}.ad-btn-validate{width:100%;justify-content:center;}}
 
 /* ── Boutons génériques ───────────────────────────────────── */
 .ad-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:all var(--transition-fast);border:none;text-decoration:none;}
-.ad-btn--primary{background:linear-gradient(135deg,#4db8d4,#2d8bb5);color:#fff;box-shadow:0 3px 12px rgba(77,184,212,.25);}
+.ad-btn--primary{background:#4db8d4;color:#fff;box-shadow:0 3px 12px rgba(77,184,212,.25);}
 .ad-btn--primary:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(77,184,212,.4);}
 .ad-btn--copper{background:linear-gradient(135deg,#b8784a,#9a6038);color:#e8d4c0;}
 .ad-btn--copper:hover{transform:translateY(-2px);}
@@ -1363,31 +1410,117 @@ else{init();}
 .ad-src-item span{font-size:.72rem;color:#8fa8bc;line-height:1.5;}
 .ad-src-item strong{color:#b8d0e4;}
 
-/* ── Références normatives ───────────────────────────────── */
+/* ── Références normatives — tableau pro ────────────────── */
 .ad-normrefs{max-width:1100px;margin:var(--spacing-xl) auto var(--spacing-lg);padding:0 var(--spacing-md);}
-.ad-normrefs-title{font-size:var(--text-base);color:#c8d8e4;font-weight:700;margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:.6rem;letter-spacing:.01em;padding-bottom:.6rem;border-bottom:1px solid rgba(77,184,212,.2);}
+.ad-normrefs-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;margin-bottom:1.2rem;padding-bottom:.9rem;border-bottom:1px solid rgba(77,184,212,.18);}
+.ad-normrefs-title{font-size:var(--text-base);color:#c8d8e4;font-weight:700;display:flex;align-items:center;gap:.6rem;letter-spacing:.01em;margin:0;}
 .ad-normrefs-title i{color:#4db8d4;}
-.ad-normrefs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.65rem;}
-.ad-normref-card{display:flex;align-items:flex-start;gap:.85rem;padding:.9rem var(--spacing-sm);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);text-decoration:none;transition:all var(--transition-fast);}
-.ad-normref-card:hover{border-color:rgba(77,184,212,.4);background:rgba(77,184,212,.08);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.2);}
-.ad-normref-logo{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(77,184,212,.12);border-radius:var(--radius-sm);flex-shrink:0;font-size:1rem;color:#4db8d4;}
-.ad-normref-logo--red{background:rgba(239,68,68,.1);color:#ef6060;}
-.ad-normref-card strong{display:block;font-size:.82rem;color:#dce8f4;font-weight:700;margin-bottom:.2rem;}
-.ad-normref-card span{display:block;font-size:.73rem;color:#8fa8bc;line-height:1.5;}
-.ad-normref-tag{margin-top:.3rem;font-size:.64rem !important;font-weight:600 !important;color:#4db8d4 !important;letter-spacing:.04em;text-transform:uppercase;}
-/* Light theme for refs */
-[data-theme="light"] .ad-normrefs-title{color:#1a2535;border-bottom-color:#d0dde8;}
+.ad-normrefs-legend{display:flex;flex-wrap:wrap;gap:.5rem;}
+.ad-nrleg{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:600;padding:.25rem .75rem;border-radius:999px;letter-spacing:.03em;}
+.ad-nrleg--blue{background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.3);color:#7ecfe0;}
+.ad-nrleg--red{background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.3);color:#e08080;}
+.ad-nrleg--green{background:rgba(80,200,120,.08);border:1px solid rgba(80,200,120,.28);color:#70cc90;}
+
+/* table wrapper — scroll horizontal sur mobile */
+.ad-nrtable-wrap{width:100%;overflow-x:auto;border-radius:1rem;border:1px solid rgba(255,255,255,.09);box-shadow:0 4px 32px rgba(0,0,0,.35);}
+.ad-nrtable{width:100%;border-collapse:collapse;font-size:.84rem;}
+.ad-nrtable thead tr{background:rgba(77,184,212,.1);border-bottom:1px solid rgba(77,184,212,.25);}
+.ad-nrtable th{padding:.75rem 1rem;text-align:left;font-size:.72rem;font-weight:700;color:#7ecfe0;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
+.ad-nrth-cat{width:120px;}
+.ad-nrth-desc{width:35%;}
+.ad-nrth-scope{width:20%;}
+.ad-nrth-link{width:130px;}
+
+/* rows */
+.ad-nrtable tbody tr{border-bottom:1px solid rgba(255,255,255,.05);transition:background .15s ease;}
+.ad-nrtable tbody tr:last-child{border-bottom:none;}
+.ad-nrtable td{padding:.7rem 1rem;vertical-align:middle;color:#90aabf;line-height:1.5;}
+
+/* category cell */
+.ad-nrtd-cat{padding:.6rem .75rem;text-align:center;vertical-align:middle;}
+.ad-nrcat{display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;font-size:.7rem;font-weight:700;padding:.6rem .8rem;border-radius:.7rem;line-height:1.3;text-align:center;}
+.ad-nrcat i{font-size:1.1rem;}
+.ad-nrcat--blue{background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.25);color:#7ecfe0;}
+.ad-nrcat--red{background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.25);color:#e08080;}
+.ad-nrcat--green{background:rgba(80,200,120,.08);border:1px solid rgba(80,200,120,.22);color:#70cc90;}
+
+/* ref cell */
+.ad-nrtd-ref{white-space:nowrap;}
+.ad-nrtd-ref strong{display:block;color:#dce8f4;font-weight:700;font-size:.86rem;}
+.ad-nrver{display:inline-block;margin-top:.2rem;font-size:.63rem;font-weight:700;padding:.1rem .5rem;border-radius:999px;background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.2);color:#7ecfe0;letter-spacing:.04em;text-transform:uppercase;}
+.ad-nrver--red{background:rgba(220,70,70,.1);border-color:rgba(220,70,70,.25);color:#e08080;}
+.ad-nrver--green{background:rgba(80,200,120,.08);border-color:rgba(80,200,120,.22);color:#70cc90;}
+
+/* tags */
+.ad-nrtag{display:inline-block;font-size:.64rem;font-weight:600;padding:.1rem .5rem;border-radius:999px;margin:.1rem .1rem;background:rgba(77,184,212,.07);border:1px solid rgba(77,184,212,.18);color:#6dc8d8;letter-spacing:.03em;}
+.ad-nrtag--red{background:rgba(220,70,70,.07);border-color:rgba(220,70,70,.2);color:#e08080;}
+.ad-nrtag--green{background:rgba(80,200,120,.06);border-color:rgba(80,200,120,.2);color:#70cc90;}
+
+/* link */
+.ad-nrlink{display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;font-weight:600;color:#4db8d4;text-decoration:none;padding:.3rem .7rem;border-radius:999px;background:rgba(77,184,212,.08);border:1px solid rgba(77,184,212,.2);transition:all .15s ease;white-space:nowrap;}
+.ad-nrlink:hover{background:rgba(77,184,212,.2);border-color:#4db8d4;color:#fff;}
+.ad-nrlink i{font-size:.65rem;}
+
+/* row color coding */
+.ad-nrtr--blue{background:rgba(77,184,212,.025);}
+.ad-nrtr--blue:hover{background:rgba(77,184,212,.07)!important;}
+.ad-nrtr--red{background:rgba(220,70,70,.025);}
+.ad-nrtr--red:hover{background:rgba(220,70,70,.07)!important;}
+.ad-nrtr--green{background:rgba(80,200,120,.02);}
+.ad-nrtr--green:hover{background:rgba(80,200,120,.06)!important;}
+
+/* ── Light theme ── */
+[data-theme="light"] .ad-normrefs-header{border-bottom-color:#d0dde8;}
+[data-theme="light"] .ad-normrefs-title{color:#1a2535;}
 [data-theme="light"] .ad-normrefs-title i{color:#1a6080;}
-[data-theme="light"] .ad-normref-card{background:#f5f9fc;border-color:#d0dde8;}
-[data-theme="light"] .ad-normref-card:hover{background:#eef6fa;border-color:#4db8d4;}
-[data-theme="light"] .ad-normref-logo{background:rgba(26,103,130,.1);color:#1a6080;}
-[data-theme="light"] .ad-normref-logo--red{background:rgba(200,40,40,.08);color:#c04040;}
-[data-theme="light"] .ad-normref-card strong{color:#1a2535;}
-[data-theme="light"] .ad-normref-card span{color:#3d5060;}
-[data-theme="light"] .ad-normref-tag{color:#1a6080 !important;}
+[data-theme="light"] .ad-nrleg--blue{background:rgba(26,103,140,.1);border-color:rgba(26,103,140,.35);color:#0d5478;}
+[data-theme="light"] .ad-nrleg--red{background:rgba(180,40,40,.1);border-color:rgba(180,40,40,.35);color:#8a1010;}
+[data-theme="light"] .ad-nrleg--green{background:rgba(30,140,70,.1);border-color:rgba(30,140,70,.35);color:#0f5c2a;}
+[data-theme="light"] .ad-nrtable-wrap{background:#fff;border-color:#c8d8e4;box-shadow:0 2px 16px rgba(0,30,60,.1);}
+[data-theme="light"] .ad-nrtable thead tr{background:#e8f4fb;border-bottom:2px solid #b0cfe0;}
+[data-theme="light"] .ad-nrtable th{color:#0a4a6a;font-size:.73rem;}
+[data-theme="light"] .ad-nrtable tbody tr{border-bottom-color:#d8e8f0;}
+[data-theme="light"] .ad-nrtable td{color:#1a2e3e;background:#fff;}
+[data-theme="light"] .ad-nrcat--blue{background:#daeef8;border-color:#6ab8d8;color:#0a4a6a;}
+[data-theme="light"] .ad-nrcat--red{background:#fce8e8;border-color:#d88080;color:#7a1010;}
+[data-theme="light"] .ad-nrcat--green{background:#d8f0e4;border-color:#6abf8a;color:#0a5022;}
+[data-theme="light"] .ad-nrtd-ref strong{color:#0a2030;font-weight:700;}
+[data-theme="light"] .ad-nrver{background:#daeef8;border-color:#6ab8d8;color:#0a4a6a;}
+[data-theme="light"] .ad-nrver--red{background:#fce8e8;border-color:#d88080;color:#7a1010;}
+[data-theme="light"] .ad-nrver--green{background:#d8f0e4;border-color:#6abf8a;color:#0a5022;}
+[data-theme="light"] .ad-nrtag{background:#daeef8;border-color:#6ab8d8;color:#0a4a6a;}
+[data-theme="light"] .ad-nrtag--red{background:#fce8e8;border-color:#d88080;color:#7a1010;}
+[data-theme="light"] .ad-nrtag--green{background:#d8f0e4;border-color:#6abf8a;color:#0a5022;}
+[data-theme="light"] .ad-nrlink{background:#daeef8;border-color:#6ab8d8;color:#0a4a6a;font-weight:700;}
+[data-theme="light"] .ad-nrlink:hover{background:#0d6b94;border-color:#0d6b94;color:#fff;}
+[data-theme="light"] .ad-nrtr--blue td{background:#f0f9fd!important;}
+[data-theme="light"] .ad-nrtr--blue:hover td{background:#daeef8!important;}
+[data-theme="light"] .ad-nrtr--red td{background:#fff5f5!important;}
+[data-theme="light"] .ad-nrtr--red:hover td{background:#fcdada!important;}
+[data-theme="light"] .ad-nrtr--green td{background:#f3fdf6!important;}
+[data-theme="light"] .ad-nrtr--green:hover td{background:#d8f0e4!important;}
 
 /* Actions rapport */
 .ad-report-actions{display:flex;flex-wrap:wrap;gap:var(--spacing-sm);justify-content:center;padding:var(--spacing-lg) 0;}
+
+/* ── Titre du rapport généré ─────────────────────────── */
+.ad-report-titlebar{display:flex;align-items:center;gap:1.2rem;background:linear-gradient(135deg,rgba(77,184,212,.1),rgba(45,100,140,.07));border:1.5px solid rgba(77,184,212,.28);border-radius:var(--radius-xl);padding:1.4rem 2rem;margin-bottom:var(--spacing-lg);}
+.ad-rtb-icon{width:52px;height:52px;background:rgba(77,184,212,.15);border:1px solid rgba(77,184,212,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#4db8d4;flex-shrink:0;}
+.ad-rtb-info{flex:1;min-width:0;}
+.ad-rtb-h2{font-size:1.35rem;font-weight:800;color:#e8f4fc;margin:0 0 .25rem;letter-spacing:-.02em;}
+.ad-rtb-meta{font-size:.78rem;color:#6a90a8;margin:0;line-height:1.5;}
+.ad-rtb-meta strong{color:#8dc8da;}
+.ad-rtb-stamp{font-size:.68rem;font-weight:600;color:#4db8d4;background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.2);border-radius:999px;padding:.3rem .8rem;white-space:nowrap;display:inline-flex;align-items:center;gap:.3rem;flex-shrink:0;}
+/* Radar canvas dans le rapport */
+.ad-report-radar-wrap{display:flex;justify-content:center;padding:var(--spacing-sm) 0 var(--spacing-md);max-width:560px;margin:0 auto;}
+.ad-report-radar-wrap canvas{width:100%!important;height:auto!important;}
+/* Light theme */
+[data-theme="light"] .ad-report-titlebar{background:linear-gradient(135deg,rgba(26,103,130,.06),rgba(26,103,130,.04));border-color:rgba(26,103,130,.25);}
+[data-theme="light"] .ad-rtb-icon{background:rgba(26,103,130,.08);border-color:rgba(26,103,130,.25);color:#1a6580;}
+[data-theme="light"] .ad-rtb-h2{color:#1a2535;}
+[data-theme="light"] .ad-rtb-meta{color:#5a7080;}
+[data-theme="light"] .ad-rtb-meta strong{color:#1a6080;}
+[data-theme="light"] .ad-rtb-stamp{color:#1a6080;background:rgba(26,103,130,.07);border-color:rgba(26,103,130,.2);}
 
 /* ══ Light theme — refonte complète lisibilité pro ════════ */
 
@@ -1529,6 +1662,10 @@ else{init();}
 [data-theme="light"] .ad-opt{background:#fff;border:1px solid #c0d4e2;}
 [data-theme="light"] .ad-opt:hover{background:#f0f7fc;border-color:#1a7fa0;box-shadow:0 1px 4px rgba(26,127,160,.12);}
 [data-theme="light"] .ad-opt-ic{color:#5a7080;}
+[data-theme="light"] .opt-y .ad-opt-ic{color:#15803d;}
+[data-theme="light"] .opt-p .ad-opt-ic{color:#d97706;}
+[data-theme="light"] .opt-n .ad-opt-ic{color:#dc2626;}
+[data-theme="light"] .opt-\? .ad-opt-ic{color:#64748b;}
 [data-theme="light"] .ad-opt-lb{color:#1a2535;font-weight:600;}
 [data-theme="light"] .ad-opt-sb{color:#5a7080;}
 /* Sélectionné — fond orangé léger pour toutes les réponses */
@@ -1618,6 +1755,9 @@ else{init();}
   .main-nav,.ad-hero,.ad-profil-bar,.ad-qcol,.ad-rcol,.ad-validate-bar,.ocean-background{display:none!important;}
   .ad-layout{display:none!important;}
   .ad-report{display:block!important;}
+  .ad-report-titlebar{background:#e8f4fc!important;border:2px solid #4db8d4!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .ad-rtb-h2{color:#0a2535!important;}
+  .ad-report-radar-wrap{max-width:420px;}
   body{background:#fff;color:#111;}
 }
   </style>

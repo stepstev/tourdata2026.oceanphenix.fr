@@ -397,6 +397,19 @@
             background: var(--accent-copper);
         }
 
+        /* Audit Data : même traitement visuel que les autres items */
+        #nav-audit.nav-active > a {
+            color: #b0c6d6 !important;
+        }
+        #nav-audit.nav-active > a i {
+            color: var(--accent-copper) !important;
+        }
+        #nav-audit.nav-active > a::after {
+            transform: scaleX(1);
+            opacity: 1;
+            background: var(--accent-copper);
+        }
+
         .nav-admin-link {
             opacity: 0.45;
             font-size: 0.82em;

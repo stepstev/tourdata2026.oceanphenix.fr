@@ -242,6 +242,71 @@ import OceanBackground from '../components/OceanBackground.astro';
       </div>
     </div>
 
+    <!-- ══ OUTILS DE DIAGNOSTIC COMPLÉMENTAIRES ══════════════ -->
+    <div class="ad-tools-complement">
+      <div class="ad-tc-header">
+        <i class="fas fa-toolbox ad-tc-header-icon"></i>
+        <div>
+          <h3 class="ad-tc-title">Outils de diagnostic complémentaires</h3>
+          <p class="ad-tc-sub">Questionnaires officiels à utiliser en complément de cet audit</p>
+        </div>
+      </div>
+      <div class="ad-tc-grid">
+
+        <!-- ANSSI Questionnaire maturité gestion de crise -->
+        <a class="ad-tc-card" href="https://cyber.gouv.fr/publications/questionnaire-devaluation-la-maturite-en-gestion-de-crise-cyber" target="_blank" rel="noopener">
+          <div class="ad-tc-card-head">
+            <span class="ad-tc-badge ad-tc-badge--red"><i class="fas fa-shield-halved"></i> ANSSI</span>
+            <span class="ad-tc-format"><i class="fas fa-file-excel"></i> Excel</span>
+          </div>
+          <strong class="ad-tc-card-title">Questionnaire ANSSI — Maturité en gestion de crise cyber</strong>
+          <p class="ad-tc-card-desc">Évaluation officielle ANSSI de votre niveau de maturité sur la gestion des incidents et crises cybersécurité — fichier Excel TLP:CLEAR téléchargeable.</p>
+          <div class="ad-tc-card-tags">
+            <span>Cybersécurité</span><span>Gestion de crise</span><span>NIS2</span><span>EBIOS RM</span>
+          </div>
+          <div class="ad-tc-card-cta">
+            <span>cyber.gouv.fr</span>
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>
+
+        <!-- France Num -->
+        <a class="ad-tc-card" href="https://www.francenum.gouv.fr/guides-et-conseils/strategie-numerique/diagnostic-numerique/quel-est-le-niveau-de-maturite-de-votre" target="_blank" rel="noopener">
+          <div class="ad-tc-card-head">
+            <span class="ad-tc-badge ad-tc-badge--blue"><i class="fas fa-flag"></i> France Num</span>
+            <span class="ad-tc-format"><i class="fas fa-globe"></i> Web</span>
+          </div>
+          <strong class="ad-tc-card-title">Diagnostic maturité numérique</strong>
+          <p class="ad-tc-card-desc">Référentiel officiel du Gouvernement français pour évaluer le niveau de maturité numérique des PME et ETI.</p>
+          <div class="ad-tc-card-tags">
+            <span>Maturité num.</span><span>PME/TPE</span><span>Officiel</span>
+          </div>
+          <div class="ad-tc-card-cta">
+            <span>francenum.gouv.fr</span>
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>
+
+        <!-- Observatoire Data & IA -->
+        <a class="ad-tc-card" href="https://formulaire.observatoire-data-ia.fr/" target="_blank" rel="noopener">
+          <div class="ad-tc-card-head">
+            <span class="ad-tc-badge ad-tc-badge--green"><i class="fas fa-chart-network"></i> Data &amp; IA</span>
+            <span class="ad-tc-format"><i class="fas fa-globe"></i> Web</span>
+          </div>
+          <strong class="ad-tc-card-title">Observatoire Data &amp; IA 2024–2026</strong>
+          <p class="ad-tc-card-desc">Formulaire national d'évaluation de la maturité Data et Intelligence Artificielle — état des lieux 2026.</p>
+          <div class="ad-tc-card-tags">
+            <span>Data</span><span>IA</span><span>National</span>
+          </div>
+          <div class="ad-tc-card-cta">
+            <span>formulaire.observatoire-data-ia.fr</span>
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
     <!-- ══ RAPPORT COMPLET (affiché après completion) ═════════ -->
     <div class="ad-report" id="ad-report" style="display:none">
 
@@ -1445,6 +1510,46 @@ else{init();}
 .ad-src-item>i{color:#8a6a50;font-size:.9rem;flex-shrink:0;margin-top:.15rem;}
 .ad-src-item span{font-size:.72rem;color:#8fa8bc;line-height:1.5;}
 .ad-src-item strong{color:#b8d0e4;}
+
+/* ── Outils de diagnostic complémentaires ──────────────── */
+.ad-tools-complement{max-width:1100px;margin:0 auto var(--spacing-xl);padding:0 var(--spacing-md);}
+.ad-tc-header{display:flex;align-items:center;gap:.9rem;margin-bottom:1.2rem;padding-bottom:.9rem;border-bottom:1px solid rgba(77,184,212,.18);}
+.ad-tc-header-icon{font-size:1.3rem;color:var(--accent-copper);flex-shrink:0;opacity:.9;}
+.ad-tc-title{font-size:var(--text-base);color:#c8d8e4;font-weight:700;margin:0 0 .15rem;letter-spacing:.01em;}
+.ad-tc-sub{font-size:.74rem;color:#6a90a8;margin:0;}
+.ad-tc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--spacing-md);}
+/* card */
+.ad-tc-card{display:flex;flex-direction:column;gap:.65rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);padding:var(--spacing-md);text-decoration:none;transition:all var(--transition-fast);}
+.ad-tc-card:hover{background:rgba(77,184,212,.07);border-color:rgba(77,184,212,.35);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3);}
+.ad-tc-card-head{display:flex;align-items:center;justify-content:space-between;}
+.ad-tc-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;padding:.22rem .7rem;border-radius:999px;letter-spacing:.04em;text-transform:uppercase;}
+.ad-tc-badge--red{background:rgba(220,70,70,.12);border:1px solid rgba(220,70,70,.3);color:#e08080;}
+.ad-tc-badge--blue{background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.25);color:#7ecfe0;}
+.ad-tc-badge--green{background:rgba(80,200,120,.08);border:1px solid rgba(80,200,120,.25);color:#70cc90;}
+.ad-tc-format{font-size:.66rem;color:#6a90a8;display:flex;align-items:center;gap:.25rem;}
+.ad-tc-card-title{font-size:.86rem;font-weight:700;color:#dce8f4;line-height:1.4;}
+.ad-tc-card-desc{font-size:.78rem;color:#8aaabb;line-height:1.6;flex:1;}
+.ad-tc-card-tags{display:flex;flex-wrap:wrap;gap:.3rem;}
+.ad-tc-card-tags span{font-size:.62rem;padding:.12rem .5rem;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#6a90a8;}
+.ad-tc-card-cta{display:flex;align-items:center;justify-content:space-between;margin-top:.2rem;padding-top:.6rem;border-top:1px solid rgba(255,255,255,.07);}
+.ad-tc-card-cta span{font-size:.72rem;color:#4db8d4;font-weight:600;}
+.ad-tc-card-cta i{font-size:.65rem;color:#4db8d4;opacity:.7;}
+/* light theme */
+[data-theme="light"] .ad-tc-header{border-bottom-color:#d0dde8;}
+[data-theme="light"] .ad-tc-title{color:#1a2535;}
+[data-theme="light"] .ad-tc-sub{color:#5a7080;}
+[data-theme="light"] .ad-tc-card{background:#fff;border-color:#d0dde8;box-shadow:0 1px 6px rgba(0,30,60,.06);}
+[data-theme="light"] .ad-tc-card:hover{background:#eef6fa;border-color:#4db8d4;box-shadow:0 4px 16px rgba(26,103,130,.14);}
+[data-theme="light"] .ad-tc-badge--red{background:rgba(180,40,40,.07);border-color:rgba(180,40,40,.25);color:#8a1010;}
+[data-theme="light"] .ad-tc-badge--blue{background:rgba(26,103,130,.08);border-color:rgba(26,103,130,.25);color:#0d5478;}
+[data-theme="light"] .ad-tc-badge--green{background:rgba(30,140,70,.07);border-color:rgba(30,140,70,.25);color:#0f5c2a;}
+[data-theme="light"] .ad-tc-format{color:#7a9ab0;}
+[data-theme="light"] .ad-tc-card-title{color:#1a2535;}
+[data-theme="light"] .ad-tc-card-desc{color:#3d5060;}
+[data-theme="light"] .ad-tc-card-tags span{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:#5a7080;}
+[data-theme="light"] .ad-tc-card-cta{border-top-color:#e0eaf2;}
+[data-theme="light"] .ad-tc-card-cta span{color:#1a6580;}
+[data-theme="light"] .ad-tc-card-cta i{color:#1a6580;}
 
 /* ── Références normatives — tableau pro ────────────────── */
 .ad-normrefs{max-width:1100px;margin:var(--spacing-xl) auto var(--spacing-lg);padding:0 var(--spacing-md);}

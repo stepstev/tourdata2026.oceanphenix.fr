@@ -22,7 +22,14 @@ import OceanBackground from '../components/OceanBackground.astro';
     <!-- ══ HERO ═══════════════════════════════════════════════ -->
     <section class="ad-hero">
       <div class="ad-hero-badge"><i class="fas fa-database"></i> Outil Terrain — TourData 2026</div>
-      <h1 class="ad-hero-title"><i class="fas fa-chart-bar ad-cu"></i> DataMaturity Score™</h1>
+      <h1 class="ad-hero-title">
+        <i class="fas fa-chart-bar ad-cu"></i> DataMaturity Score™
+      </h1>
+      <button class="ad-info-btn" id="ad-info-btn" aria-label="En savoir plus sur cet audit">
+        <i class="fas fa-circle-info"></i>
+        <span>À propos de cet audit</span>
+        <i class="fas fa-chevron-right ad-info-btn-arrow"></i>
+      </button>
       <p class="ad-hero-sub">Évaluez la maturité data de votre organisation · 11 dimensions DAMA-DMBOK2 · Score /5 · Radar interactif · Plan d'action</p>
       <div class="ad-hero-chips">
         <span class="ad-chip">DAMA-DMBOK2</span><span class="ad-chip">EDM Council DCAM</span>
@@ -268,6 +275,79 @@ import OceanBackground from '../components/OceanBackground.astro';
 
   <Footer />
   <CopyrightBar />
+
+  <!-- ══ MODAL INFO AUDIT ══════════════════════════════════ -->
+  <div class="ad-modal-overlay" id="ad-info-modal" role="dialog" aria-modal="true" aria-labelledby="ad-modal-title" hidden>
+    <div class="ad-modal-box">
+      <button class="ad-modal-close" id="ad-modal-close" aria-label="Fermer"><i class="fas fa-xmark"></i></button>
+
+      <div class="ad-modal-header">
+        <i class="fas fa-chart-bar ad-modal-icon"></i>
+        <div>
+          <h2 id="ad-modal-title">À propos de cet audit</h2>
+          <p class="ad-modal-subtitle">DataMaturity Score™ — Audit de maturité data structuré</p>
+        </div>
+      </div>
+
+      <div class="ad-modal-body">
+        <p>Ce formulaire d'audit de maturité data permet d'évaluer de manière <strong>structurée et objective</strong> le niveau de maîtrise des données au sein de votre organisation.</p>
+        <p>Construit à partir des principaux référentiels internationaux — <strong>DAMA International (DMBOK&nbsp;v2)</strong>, <strong>EDM Council (DCAM)</strong> et le modèle <strong>Carnegie Mellon SEI (CMMI-DMM)</strong> — cet audit couvre l'ensemble des dimensions clés du Data Management.</p>
+
+        <div class="ad-modal-section ad-modal-section--blue">
+          <h3><i class="fas fa-magnifying-glass"></i> Une évaluation complète en 11 dimensions</h3>
+          <p>À travers <strong>55 questions</strong> (5 par dimension), ce diagnostic analyse notamment :</p>
+          <ul>
+            <li>la gouvernance des données</li>
+            <li>l'architecture data et les flux</li>
+            <li>la qualité et la fiabilité des données</li>
+            <li>les référentiels (MDM)</li>
+            <li>les plateformes data (DW, BI, Data Platform)</li>
+            <li>la sécurité et la conformité</li>
+            <li>les usages métiers et la prise de décision</li>
+          </ul>
+          <p>Chaque question évalue votre niveau selon <strong>4 niveaux</strong> : <em>Formalisé · En cours · Non mis en place · Angle mort</em></p>
+        </div>
+
+        <div class="ad-modal-section ad-modal-section--orange">
+          <h3><i class="fas fa-chart-bar"></i> Scoring basé sur les standards de maturité</h3>
+          <p>Résultats traduits en score global et par dimension selon le modèle <strong>CMMI-DMM</strong> :</p>
+          <div class="ad-modal-levels">
+            <span class="ad-mlvl ad-mlvl--0"><strong>0</strong> Inexistant</span>
+            <span class="ad-mlvl ad-mlvl--1"><strong>1</strong> Initial / ad hoc</span>
+            <span class="ad-mlvl ad-mlvl--2"><strong>2</strong> Répétable</span>
+            <span class="ad-mlvl ad-mlvl--3"><strong>3</strong> Défini</span>
+            <span class="ad-mlvl ad-mlvl--4"><strong>4</strong> Maîtrisé</span>
+            <span class="ad-mlvl ad-mlvl--5"><strong>5</strong> Optimisé</span>
+          </div>
+        </div>
+
+        <div class="ad-modal-section ad-modal-section--shield">
+          <h3><i class="fas fa-shield-halved"></i> Cadre aligné avec les exigences réglementaires</h3>
+          <p>L'audit intègre les principaux cadres de conformité :</p>
+          <div class="ad-modal-regs">
+            <span class="ad-mreg ad-mreg--rgpd"><i class="fas fa-user-shield"></i> RGPD</span>
+            <span class="ad-mreg ad-mreg--nis2"><i class="fas fa-network-wired"></i> NIS2</span>
+            <span class="ad-mreg ad-mreg--dma"><i class="fas fa-scale-balanced"></i> DMA</span>
+          </div>
+          <p style="margin-top:.7rem;margin-bottom:0;">Objectif : identifier non seulement les opportunités, mais aussi les <strong>risques réglementaires et opérationnels</strong>.</p>
+        </div>
+
+        <div class="ad-modal-chips">
+          <span class="ad-mchip ad-mchip--orange"><i class="fas fa-clock"></i> ~10 minutes</span>
+          <span class="ad-mchip ad-mchip--green"><i class="fas fa-lock"></i> Gratuit · Anonyme</span>
+          <span class="ad-mchip ad-mchip--green"><i class="fas fa-map-pin"></i> 100% local</span>
+        </div>
+
+        <p class="ad-modal-outcome">À l'issue du questionnaire, vous obtenez un <strong>score global de maturité</strong>, un <strong>détail par domaine</strong> et une <strong>vision claire de vos priorités</strong>.</p>
+      </div>
+
+      <div class="ad-modal-footer">
+        <button class="ad-btn ad-btn--primary" id="ad-modal-start">
+          <i class="fas fa-play"></i> Commencer l'audit
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══ Chart.js CDN ════════════════════════════════════════ -->
   <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -933,6 +1013,31 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 else{init();}
 
 }());
+
+/* ── Info modal ─────────────────────────────────────────── */
+(function(){
+  function openModal(){
+    const m=document.getElementById('ad-info-modal');
+    if(m){m.hidden=false;document.body.style.overflow='hidden';}
+  }
+  function closeModal(){
+    const m=document.getElementById('ad-info-modal');
+    if(m){m.hidden=true;document.body.style.overflow='';}
+  }
+  function setup(){
+    const btn=document.getElementById('ad-info-btn');
+    const cl=document.getElementById('ad-modal-close');
+    const st=document.getElementById('ad-modal-start');
+    const ov=document.getElementById('ad-info-modal');
+    if(btn)btn.addEventListener('click',openModal);
+    if(cl)cl.addEventListener('click',closeModal);
+    if(st)st.addEventListener('click',closeModal);
+    if(ov)ov.addEventListener('click',function(e){if(e.target===ov)closeModal();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',setup);}
+  else{setup();}
+}());
   </script>
 
   <!-- ═══ BARRE DE VALIDATION FIXE ═══════════════════════════ -->
@@ -964,6 +1069,116 @@ else{init();}
 .ad-hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;}
 .ad-chip{font-size:var(--text-xs);padding:.25rem .75rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#8fa3b8;border-radius:var(--radius-full);}
 .ad-chip--green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);color:#4caf77;}
+
+/* ── Info button ──────────────────────────────────────────── */
+.ad-info-btn{display:inline-flex;align-items:center;gap:.55rem;padding:.6rem 1.3rem .6rem 1rem;margin-top:.9rem;background:linear-gradient(135deg,rgba(234,120,40,.18),rgba(200,80,10,.22));border:1.5px solid rgba(234,120,40,.7);color:#ffb07a;border-radius:var(--radius-full,999px);cursor:pointer;font-size:.9rem;font-weight:600;letter-spacing:.02em;transition:all .18s ease;animation:ad-info-pulse 2s ease-in-out infinite;}
+@keyframes ad-info-pulse{0%,100%{box-shadow:0 2px 16px rgba(234,120,40,.2),0 0 0 0 rgba(234,120,40,.6);}60%{box-shadow:0 2px 16px rgba(234,120,40,.2),0 0 0 10px rgba(234,120,40,0);}}
+.ad-info-btn:hover{background:linear-gradient(135deg,rgba(234,120,40,.35),rgba(200,80,10,.42));border-color:#ea7828;color:#fff;box-shadow:0 4px 24px rgba(234,120,40,.45);transform:translateY(-2px);animation:none;}
+.ad-info-btn .fa-circle-info{font-size:1.1rem;color:#ffb07a;}
+.ad-info-btn:hover .fa-circle-info{color:#fff;}
+.ad-info-btn-arrow{font-size:.7rem;opacity:.7;transition:transform .18s ease;}
+.ad-info-btn:hover .ad-info-btn-arrow{transform:translateX(3px);opacity:1;}
+[data-theme="light"] .ad-info-btn{background:linear-gradient(135deg,rgba(180,70,0,.08),rgba(180,70,0,.15));border-color:rgba(200,80,10,.6);color:#b84600;box-shadow:0 2px 12px rgba(200,80,10,.14);}
+[data-theme="light"] .ad-info-btn:hover{background:linear-gradient(135deg,rgba(200,80,10,.18),rgba(200,80,10,.28));border-color:#b84600;color:#6b2200;}
+[data-theme="light"] .ad-info-btn .fa-circle-info{color:#b84600;}
+[data-theme="light"] .ad-info-btn:hover .fa-circle-info{color:#6b2200;}
+
+/* ── Info modal ───────────────────────────────────────────── */
+.ad-modal-overlay{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1rem;}
+.ad-modal-overlay[hidden]{display:none;}
+.ad-modal-box{background:#0d1e30;border:1px solid rgba(77,184,212,.22);border-radius:1.4rem;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;padding:0;position:relative;box-shadow:0 32px 80px rgba(0,0,0,.7);}
+.ad-modal-box::-webkit-scrollbar{width:5px;}
+.ad-modal-box::-webkit-scrollbar-track{background:transparent;}
+.ad-modal-box::-webkit-scrollbar-thumb{background:rgba(77,184,212,.25);border-radius:99px;}
+
+/* close */
+.ad-modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#7a96aa;width:2.1rem;height:2.1rem;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:all .15s ease;z-index:2;}
+.ad-modal-close:hover{background:rgba(220,60,60,.2);border-color:rgba(220,60,60,.4);color:#ff8080;}
+
+/* header band */
+.ad-modal-header{display:flex;align-items:center;gap:1rem;padding:1.6rem 2rem 1.3rem;border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(135deg,rgba(77,184,212,.08),rgba(45,90,140,.06));}
+.ad-modal-icon{font-size:2.2rem;color:#ea7828;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(234,120,40,.4));}
+.ad-modal-header h2{font-size:1.25rem;font-weight:800;color:#e8f4fc;margin:0 0 .2rem;letter-spacing:-.02em;}
+.ad-modal-subtitle{font-size:.78rem;color:#ea7828;margin:0;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+
+/* body */
+.ad-modal-body{padding:1.4rem 2rem;font-size:.9rem;line-height:1.8;color:#90aabf;}
+.ad-modal-body>p{margin-bottom:.9rem;}
+.ad-modal-body strong{color:#c8dce8;font-weight:700;}
+
+/* sections */
+.ad-modal-section{border-radius:.9rem;padding:1.1rem 1.3rem;margin:1.1rem 0;border:1px solid rgba(255,255,255,.07);}
+.ad-modal-section--blue{background:rgba(77,184,212,.06);border-color:rgba(77,184,212,.2);border-left:3px solid #4db8d4;}
+.ad-modal-section--orange{background:rgba(234,120,40,.06);border-color:rgba(234,120,40,.2);border-left:3px solid #ea7828;}
+.ad-modal-section--shield{background:rgba(100,180,100,.05);border-color:rgba(100,180,100,.18);border-left:3px solid #5ab870;}
+.ad-modal-section h3{font-size:.92rem;font-weight:700;color:#dceaf5;margin:0 0 .7rem;display:flex;align-items:center;gap:.55rem;}
+.ad-modal-section--blue h3 i{color:#4db8d4;}
+.ad-modal-section--orange h3 i{color:#ea7828;}
+.ad-modal-section--shield h3 i{color:#5ab870;}
+.ad-modal-section ul{margin:.3rem 0 .5rem;padding-left:1.2rem;}
+.ad-modal-section ul li{margin-bottom:.35rem;color:#90aabf;}
+.ad-modal-section ul li::marker{color:#4db8d4;}
+
+/* maturity levels */
+.ad-modal-levels{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.75rem;}
+.ad-mlvl{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;padding:.3rem .8rem;border-radius:var(--radius-full,999px);font-weight:600;border:1px solid transparent;}
+.ad-mlvl strong{font-size:.72rem;opacity:.75;font-weight:700;}
+.ad-mlvl--0{background:rgba(160,60,60,.12);border-color:rgba(200,80,80,.3);color:#e08080;}
+.ad-mlvl--1{background:rgba(200,100,40,.12);border-color:rgba(220,130,60,.3);color:#e0a060;}
+.ad-mlvl--2{background:rgba(200,180,40,.1);border-color:rgba(220,200,60,.25);color:#d4c060;}
+.ad-mlvl--3{background:rgba(60,120,200,.1);border-color:rgba(80,150,220,.25);color:#80aaee;}
+.ad-mlvl--4{background:rgba(60,180,180,.1);border-color:rgba(77,184,212,.3);color:#6dccd4;}
+.ad-mlvl--5{background:rgba(60,180,100,.12);border-color:rgba(80,200,120,.3);color:#70cc90;}
+
+/* reglementaire tags */
+.ad-modal-regs{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;}
+.ad-mreg{display:inline-flex;align-items:center;gap:.3rem;font-size:.76rem;font-weight:700;padding:.25rem .8rem;border-radius:var(--radius-full,999px);}
+.ad-mreg--rgpd{background:rgba(220,60,60,.12);border:1px solid rgba(220,60,60,.3);color:#e08080;}
+.ad-mreg--nis2{background:rgba(200,100,40,.12);border:1px solid rgba(220,130,60,.3);color:#e0a060;}
+.ad-mreg--dma{background:rgba(60,120,200,.1);border:1px solid rgba(80,150,220,.25);color:#80aaee;}
+
+/* chips rapides */
+.ad-modal-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0 .8rem;}
+.ad-mchip{display:inline-flex;align-items:center;gap:.35rem;font-size:.8rem;font-weight:600;padding:.35rem .95rem;border-radius:var(--radius-full,999px);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#8fa3b8;}
+.ad-mchip--green{background:rgba(80,200,120,.08);border-color:rgba(80,200,120,.28);color:#70cc90;}
+.ad-mchip--orange{background:rgba(234,120,40,.1);border-color:rgba(234,120,40,.3);color:#ffb07a;}
+
+/* outcome */
+.ad-modal-outcome{font-size:.88rem;color:#a8c0d0;padding:.9rem 1.1rem;background:rgba(77,184,212,.07);border-left:3px solid #4db8d4;border-radius:0 .6rem .6rem 0;margin-top:.6rem;line-height:1.7;}
+.ad-modal-outcome strong{color:#7ee8fa;}
+
+/* footer */
+.ad-modal-footer{padding:1.2rem 2rem 1.6rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:flex-end;background:rgba(0,0,0,.15);}
+
+/* ── Light theme overrides ──────────────────────────────── */
+[data-theme="light"] .ad-modal-box{background:#f8fbfd;border-color:rgba(0,100,140,.15);box-shadow:0 20px 60px rgba(0,40,80,.18);}
+[data-theme="light"] .ad-modal-header{background:linear-gradient(135deg,rgba(77,184,212,.07),rgba(45,90,140,.04));border-bottom-color:rgba(0,0,0,.07);}
+[data-theme="light"] .ad-modal-header h2{color:#0f2a40;}
+[data-theme="light"] .ad-modal-body{color:#3d5060;}
+[data-theme="light"] .ad-modal-body strong{color:#0f2a40;}
+[data-theme="light"] .ad-modal-section{border-color:rgba(0,0,0,.08);}
+[data-theme="light"] .ad-modal-section--blue{background:rgba(77,184,212,.05);}
+[data-theme="light"] .ad-modal-section--orange{background:rgba(200,90,20,.05);}
+[data-theme="light"] .ad-modal-section--shield{background:rgba(60,150,80,.05);}
+[data-theme="light"] .ad-modal-section h3{color:#0f2a40;}
+[data-theme="light"] .ad-modal-section ul li{color:#3d5060;}
+[data-theme="light"] .ad-mlvl--0{background:rgba(200,60,60,.07);color:#b03030;}
+[data-theme="light"] .ad-mlvl--1{background:rgba(200,100,30,.07);color:#9a5010;}
+[data-theme="light"] .ad-mlvl--2{background:rgba(160,140,0,.07);color:#7a6800;}
+[data-theme="light"] .ad-mlvl--3{background:rgba(40,80,180,.07);color:#2850b0;}
+[data-theme="light"] .ad-mlvl--4{background:rgba(0,140,160,.07);color:#006878;}
+[data-theme="light"] .ad-mlvl--5{background:rgba(30,140,70,.07);color:#1a7040;}
+[data-theme="light"] .ad-mreg--rgpd{background:rgba(200,40,40,.07);color:#a02020;}
+[data-theme="light"] .ad-mreg--nis2{background:rgba(180,90,20,.07);color:#904010;}
+[data-theme="light"] .ad-mreg--dma{background:rgba(30,80,180,.07);color:#1a4090;}
+[data-theme="light"] .ad-mchip{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:#3d5060;}
+[data-theme="light"] .ad-mchip--green{background:rgba(30,140,70,.07);border-color:rgba(30,140,70,.25);color:#1a7040;}
+[data-theme="light"] .ad-mchip--orange{background:rgba(200,80,10,.07);border-color:rgba(200,80,10,.25);color:#b04800;}
+[data-theme="light"] .ad-modal-outcome{background:rgba(77,184,212,.07);color:#1e4060;}
+[data-theme="light"] .ad-modal-outcome strong{color:#0a6080;}
+[data-theme="light"] .ad-modal-footer{background:rgba(0,0,0,.03);border-top-color:rgba(0,0,0,.07);}
+[data-theme="light"] .ad-modal-close{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:#4a6070;}
+[data-theme="light"] .ad-modal-close:hover{background:rgba(200,40,40,.08);border-color:rgba(200,40,40,.3);color:#a02020;}
 
 /* ── Profil bar ───────────────────────────────────────────── */
 .ad-profil-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;max-width:1100px;margin:0 auto var(--spacing-lg);padding:.8rem var(--spacing-md);background:rgba(8,18,34,.85);border:1px solid rgba(77,184,212,.2);border-radius:var(--radius-lg);backdrop-filter:blur(16px);}

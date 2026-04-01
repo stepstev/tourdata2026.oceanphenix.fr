@@ -635,10 +635,11 @@
 [data-theme="light"] .cp-tl-sub { color: #3d5060; }
 [data-theme="light"] .cp-diagram-caption { color: #c8d8e8; }
 
-/* Always keep diagram area dark regardless of theme */
+/* Fond gris pour le diagramme en thème clair */
 [data-theme="light"] .cp-diagram-wrap {
-  background: rgba(7, 14, 26, 0.9);
-  border-color: rgba(77, 184, 212, 0.18);
+  background: #e8edf2;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 12px rgba(0, 40, 80, 0.08);
 }
 
 /* ── Responsive ───────────────────────────────────── */

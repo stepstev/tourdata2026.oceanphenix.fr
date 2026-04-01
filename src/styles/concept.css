@@ -58,7 +58,7 @@
 }
 
 .cp-hero-sub {
-  color: var(--text-muted);
+  color: var(--text-light);
   font-size: var(--text-base);
   line-height: 1.75;
   max-width: 640px;
@@ -155,7 +155,7 @@
 }
 
 .cp-section-desc {
-  color: var(--text-muted);
+  color: var(--text-light);
   font-size: var(--text-sm);
   line-height: 1.8;
   max-width: 620px;
@@ -238,7 +238,7 @@
 
 .cp-card-text {
   font-size: 0.84rem;
-  color: var(--text-muted);
+  color: var(--text-light);
   line-height: 1.75;
 }
 
@@ -286,7 +286,7 @@
 
 .cp-validation-text {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: var(--text-light);
   line-height: 1.8;
 }
 
@@ -446,7 +446,7 @@
 
 .cp-decision-why {
   font-size: 0.82rem;
-  color: var(--text-muted);
+  color: var(--text-light);
   line-height: 1.7;
 }
 
@@ -469,10 +469,10 @@
 .cp-diagram-caption {
   text-align: center;
   font-size: 0.74rem;
-  color: var(--text-muted);
+  color: var(--text-light);
   margin-top: 0.85rem;
   font-style: italic;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 /* ── Timeline Roadmap ─────────────────────────────── */
@@ -568,7 +568,7 @@
 
 .cp-tl-sub {
   font-size: 0.72rem;
-  color: var(--text-muted);
+  color: var(--text-light);
   line-height: 1.45;
 }
 
@@ -618,6 +618,13 @@
 [data-theme="light"] .cp-section--alt {
   background: rgba(0, 0, 0, 0.015);
 }
+[data-theme="light"] .cp-hero-sub { color: #1a2535; }
+[data-theme="light"] .cp-section-desc { color: #1a2535; }
+[data-theme="light"] .cp-card-text { color: #2a3d50; }
+[data-theme="light"] .cp-validation-text { color: #1a2535; }
+[data-theme="light"] .cp-decision-why { color: #2a3d50; }
+[data-theme="light"] .cp-tl-sub { color: #3d5060; }
+[data-theme="light"] .cp-diagram-caption { color: #c8d8e8; }
 
 /* Always keep diagram area dark regardless of theme */
 [data-theme="light"] .cp-diagram-wrap {

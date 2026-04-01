@@ -1064,6 +1064,21 @@
 
         }
 
+        /* Liseré orange — carte Portfolio */
+        .platform-card--portfolio {
+            border: 1.5px solid rgba(234, 120, 40, 0.55) !important;
+            box-shadow:
+                0 4px 28px rgba(0, 40, 80, 0.22),
+                0 0 0 1px rgba(234, 120, 40, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+        .platform-card--portfolio:hover {
+            border-color: rgba(234, 120, 40, 0.85) !important;
+            box-shadow:
+                0 14px 44px rgba(0, 40, 80, 0.35),
+                0 0 0 1px rgba(234, 120, 40, 0.30);
+        }
+
 
 
         /* Fix pour les �l�ments interactifs dans les cartes */
@@ -3751,6 +3766,16 @@
     background: #eef7f5;
     border-color: rgba(0, 119, 168, 0.30);
     color: #1a6580;
+}
+[data-theme="light"] .platform-card--portfolio {
+    border: 1.5px solid rgba(234, 120, 40, 0.50) !important;
+    box-shadow:
+        0 1px 3px rgba(0, 50, 100, 0.06),
+        0 4px 16px rgba(0, 50, 100, 0.09),
+        0 0 0 1px rgba(234, 120, 40, 0.10);
+}
+[data-theme="light"] .platform-card--portfolio:hover {
+    border-color: rgba(234, 120, 40, 0.80) !important;
 }
 
 /* CV card */

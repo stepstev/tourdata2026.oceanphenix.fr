@@ -823,7 +823,7 @@
 
             stroke-width: 1.8;
 
-            color: var(--accent-cyan);
+            color: var(--accent-copper);
 
             flex-shrink: 0;
 
@@ -3335,7 +3335,7 @@
 }
 
 .icon-accent {
-    color: var(--accent-cyan);
+    color: var(--accent-copper);
     margin-right: 0.5rem;
 }
 
@@ -4096,9 +4096,6 @@
     text-shadow: none;
     -webkit-font-smoothing: auto;
 }
-[data-theme="light"] .section-title-icon {
-    color: #155a72;
-}
 [data-theme="light"] .section-subtitle {
     color: #1e3348;
     -webkit-font-smoothing: auto;
@@ -4191,9 +4188,6 @@
     border-color: rgba(160, 80, 15, 0.5);
     color: #4a2810; /* NOSONAR — fond rgba sur light bg clair, contraste réel > 7:1 */
     box-shadow: 0 4px 16px rgba(160, 80, 15, 0.15);
-}
-[data-theme="light"] .icon-accent {
-    color: #1a6580;
 }
 
 /* Action buttons */

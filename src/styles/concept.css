@@ -966,6 +966,13 @@
   .cp-cards {
     grid-template-columns: 1fr;
   }
+  /* Écrase la règle ID pour revenir en 1 colonne sur mobile */
+  #constat-marche .cp-pain-grid {
+    grid-template-columns: 1fr;
+  }
+  #constat-marche .cp-pain-grid .cp-card:nth-child(5) {
+    grid-column: span 1;
+  }
   .cp-pain-card--wide {
     grid-column: 1;
   }

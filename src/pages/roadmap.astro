@@ -269,24 +269,6 @@ const WAVE_LEN = 3200;
       </div>
     </section>
 
-    <!-- ── CAPTION CONCEPT ───────────────────────── -->
-    <section class="rm-caption-section">
-      <div class="rm-caption-inner">
-        <p class="rm-caption-text">
-          <span class="rm-caption-em">TourData 2026</span> est un projet de collecte de données terrain
-          mené à vélo sur 14 étapes et 2 500 km — de Fontenay-le-Comte à Caen.
-          Chaque jalon représente une couche du produit&nbsp;: du cadrage initial jusqu'à la restitution analytique post-tour.
-          L'objectif&nbsp;: démontrer qu'un bon Data Product Manager ne modélise pas depuis un open space —
-          il collecte, observe, mesure et restitue depuis le terrain.
-        </p>
-        <div class="rm-caption-meta">
-          <span><i class="fas fa-route"></i> 8 jalons · Avr – Juil 2026</span>
-          <span><i class="fas fa-database"></i> Data · RAG · LLM · Audit Maturité</span>
-          <span><i class="fas fa-person-biking"></i> Fontenay-le-Comte → Caen</span>
-        </div>
-      </div>
-    </section>
-
     <!-- ── LISTE MOBILE ──────────────────────────── -->
     <section class="rm-mob-wrap">
       <div class="rm-mob-list">
@@ -312,6 +294,31 @@ const WAVE_LEN = 3200;
             <i class="fas fa-arrow-right rm-mob-arrow"></i>
           </a>
         ))}
+      </div>
+    </section>
+
+    <!-- ── RÉSUMÉ CONCEPT ─────────────────────────── -->
+    <section class="rm-concept-summary">
+      <div class="rm-cs-inner">
+        <div class="rm-section-badge rm-cs-badge">
+          <i class="fas fa-layer-group"></i> Concept
+        </div>
+        <h2 class="rm-cs-title">Pourquoi ce projet — la vision produit en bref</h2>
+        <p class="rm-cs-intro">
+          Ce projet est né d'un constat simple&nbsp;: un <strong>Data Product Manager</strong> ne peut pas modéliser
+          la réalité depuis un open space. TourData 2026 est une démonstration en conditions réelles — 14 étapes,
+          2&nbsp;500&nbsp;km à vélo, face à des PME et ETI qui vivent concrètement six fractures data structurelles.
+          Chaque jalon construit une couche du produit&nbsp;: cadrage, collecte terrain, dashboards, APIs, audit maturité,
+          restitution RAG post-tour. Le ressenti précède la modélisation — c'est le principe fondateur.
+        </p>
+
+        <div class="rm-cs-cta-wrap">
+          <a href="/concept" class="rm-cs-cta">
+            <i class="fas fa-layer-group"></i>
+            Voir l'architecture &amp; la conception complète
+            <i class="fas fa-arrow-right rm-cs-cta-arrow"></i>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -518,11 +525,13 @@ const WAVE_LEN = 3200;
 .rm-ms--future   .rm-lbl-sub   { opacity: 0.28; }
 
 /* ── Mobile wrapper ───────────────────────────────── */
-.rm-mob-wrap { display: none; }
+.rm-mob-wrap { display: none; background: rgba(8,18,36,.5); }
 
 /* ── Caption concept ──────────────────────────────── */
 .rm-caption-section {
-  padding: 0 1.5rem 3rem;
+  padding: 2.5rem 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
 }
 .rm-caption-inner {
   max-width: 860px;
@@ -534,17 +543,17 @@ const WAVE_LEN = 3200;
   gap: 1.25rem;
 }
 .rm-caption-text {
-  font-size: 0.84rem;
-  font-weight: 300;
-  color: rgba(180, 210, 230, 0.62);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(210, 230, 245, 0.92);
   line-height: 1.85;
   letter-spacing: 0.01em;
   max-width: 740px;
   margin: 0;
 }
 .rm-caption-em {
-  font-weight: 500;
-  color: rgba(77, 184, 212, 0.75);
+  font-weight: 700;
+  color: #4db8d4;
   letter-spacing: 0.02em;
 }
 .rm-caption-meta {
@@ -558,26 +567,28 @@ const WAVE_LEN = 3200;
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.72rem;
-  font-weight: 400;
-  color: rgba(77, 184, 212, 0.42);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: rgba(77, 184, 212, 0.85);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .rm-caption-meta i {
-  font-size: 0.65rem;
-  opacity: 0.7;
+  font-size: 0.68rem;
+  opacity: 0.9;
 }
 
 /* ── Caption — light mode ─────────────────────────── */
 [data-theme="light"] .rm-caption-text {
-  color: rgba(30, 55, 80, 0.72);
+  color: #1a2e42;
 }
 [data-theme="light"] .rm-caption-em {
   color: var(--accent-blue);
+  font-weight: 700;
 }
 [data-theme="light"] .rm-caption-meta span {
-  color: rgba(26, 127, 160, 0.65);
+  color: var(--accent-blue);
+  opacity: 1;
 }
 
 /* ── Mobile list ──────────────────────────────────── */
@@ -594,17 +605,19 @@ const WAVE_LEN = 3200;
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(26,51,82,.4);
-  border: 1px solid rgba(77,184,212,.15);
+  background: rgba(10,22,44,.82);
+  border: 1px solid rgba(77,184,212,.18);
   border-radius: var(--radius-md);
   padding: 0.9rem 1.25rem;
   text-decoration: none;
   color: var(--text-light);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 .rm-mob-item:hover {
-  background: rgba(26,51,82,.7);
-  border-color: rgba(77,184,212,.4);
+  background: rgba(20,40,72,.9);
+  border-color: rgba(77,184,212,.42);
   transform: translateX(4px);
 }
 
@@ -648,27 +661,230 @@ const WAVE_LEN = 3200;
 .rm-mob-arrow { color: var(--accent-cyan); font-size: 0.6rem; opacity: 0.4; }
 
 /* ── Light mode overrides ─────────────────────────── */
+[data-theme="light"] .rm-page {
+  position: relative;
+  z-index: 1;
+}
 [data-theme="light"] .rm-title { color: #0a1e30; }
-[data-theme="light"] .rm-desc  { color: #3d5060; }
+[data-theme="light"] .rm-desc  { color: #2a3d50; }
 [data-theme="light"] .rm-desc strong { color: #0a1e30; }
-[data-theme="light"] .rm-leg   { color: #3d5060; }
-/* SVG zone : toujours sur fond sombre pour lisibilité maximale
-   → le rect de fond #rm-bg-grad gère ça directement dans le SVG */
+[data-theme="light"] .rm-leg   { color: #2a3d50; }
+[data-theme="light"] .rm-section-badge {
+  background: rgba(26,127,160,.1);
+  border-color: rgba(26,127,160,.3);
+  color: #15658a;
+}
+/* SVG zone : toujours sur fond sombre pour lisibilité maximale */
 [data-theme="light"] .rm-wave-wrapper {
   box-shadow: 0 8px 40px rgba(0,40,80,.18);
 }
+[data-theme="light"] .rm-hero {
+  background: linear-gradient(180deg, #e2eff8 0%, #edf5fb 100%);
+}
+[data-theme="light"] .rm-caption-section {
+  background: #ffffff;
+  border-top: 2px solid rgba(26,127,160,.15);
+  border-bottom: 2px solid rgba(26,127,160,.15);
+  box-shadow: 0 0 0 100vmax #ffffff;
+  clip-path: inset(0 -100vmax);
+}
+[data-theme="light"] .rm-caption-text {
+  color: #1a2535;
+  font-weight: 500;
+}
+[data-theme="light"] .rm-caption-em {
+  color: #0d5575;
+  font-weight: 700;
+}
+[data-theme="light"] .rm-caption-meta span {
+  color: #15658a;
+  opacity: 1;
+  font-weight: 700;
+}
+[data-theme="light"] .rm-mob-wrap {
+  background: #edf5fb;
+}
 [data-theme="light"] .rm-mob-item {
   background: #fff;
-  border-color: rgba(0,0,0,.1);
+  border-color: rgba(26,127,160,.2);
   color: #0a1e30;
-  box-shadow: 0 2px 10px rgba(0,40,80,.07);
+  box-shadow: 0 2px 10px rgba(0,40,80,.08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 [data-theme="light"] .rm-mob-item:hover {
   background: #f0f8fc;
-  border-color: rgba(26,127,160,.3);
+  border-color: rgba(26,127,160,.4);
+  box-shadow: 0 4px 18px rgba(26,127,160,.14);
 }
 [data-theme="light"] .rm-mob-label { color: #0a1e30; }
 [data-theme="light"] .rm-mob-sub   { color: #3d5060; }
+
+/* Dates status en light mode — contraste forcé */
+[data-theme="light"] .rm-mob-date               { color: #1a7fa0; }
+[data-theme="light"] .rm-mob--done .rm-mob-date    { color: #1a7fa0; }
+[data-theme="light"] .rm-mob--active .rm-mob-date  { color: #9a5828; }
+[data-theme="light"] .rm-mob--upcoming .rm-mob-date{ color: #1a5a88; }
+[data-theme="light"] .rm-mob--future .rm-mob-date  { color: #5a7080; opacity: 1; }
+[data-theme="light"] .rm-mob-arrow { color: #1a7fa0; opacity: 0.7; }
+
+/* Icônes status en light mode */
+[data-theme="light"] .rm-mob--done .rm-mob-icon     { border-color: #1a7fa0; color: #1a7fa0; background: rgba(26,127,160,.1); }
+[data-theme="light"] .rm-mob--active .rm-mob-icon   { border-color: #9a5828; color: #9a5828; background: rgba(154,88,40,.1); }
+[data-theme="light"] .rm-mob--upcoming .rm-mob-icon { border-color: #1a5a88; color: #1a5a88; }
+[data-theme="light"] .rm-mob--future .rm-mob-icon   { opacity: 0.55; }
+
+/* ── Concept Summary ──────────────────────────────── */
+.rm-concept-summary {
+  padding: 4.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 2;
+}
+[data-theme="light"] .rm-concept-summary {
+  background: #f4f8fc;
+  color: #0a1e30;
+}
+
+.rm-cs-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.rm-cs-badge {
+  margin-bottom: 1.2rem;
+}
+
+.rm-cs-title {
+  font-size: clamp(1.3rem, 3vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+  line-height: 1.25;
+}
+[data-theme="light"] .rm-cs-title { color: #0a1e30; }
+
+.rm-cs-intro {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+.rm-cs-intro strong { color: var(--text-light); font-weight: 700; }
+[data-theme="light"] .rm-cs-intro { color: #1a2e42; font-weight: 500; }
+[data-theme="light"] .rm-cs-intro strong { color: #0a1e30; font-weight: 700; }
+
+.rm-cs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  text-align: left;
+  margin-bottom: 3rem;
+}
+@media (max-width: 680px) {
+  .rm-cs-grid { grid-template-columns: 1fr; }
+}
+
+.rm-cs-card {
+  background: rgba(20, 40, 72, 0.55);
+  border: 1px solid rgba(77, 184, 212, 0.14);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.5rem 1.6rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.2s, background 0.2s;
+}
+.rm-cs-card:hover {
+  border-color: rgba(77, 184, 212, 0.32);
+  background: rgba(26, 52, 88, 0.65);
+}
+[data-theme="light"] .rm-cs-card {
+  background: #ffffff;
+  border-color: rgba(26, 127, 160, 0.18);
+  box-shadow: 0 2px 14px rgba(0, 40, 80, 0.08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+[data-theme="light"] .rm-cs-card:hover {
+  border-color: rgba(26, 127, 160, 0.38);
+  box-shadow: 0 4px 22px rgba(26, 127, 160, 0.14);
+}
+
+.rm-cs-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(77, 184, 212, 0.1);
+  border: 1px solid rgba(77, 184, 212, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  color: var(--accent-cyan);
+  margin-bottom: 0.9rem;
+}
+[data-theme="light"] .rm-cs-icon {
+  background: rgba(26, 127, 160, 0.1);
+  border-color: rgba(26, 127, 160, 0.25);
+  color: #1a7fa0;
+}
+
+.rm-cs-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin: 0 0 0.55rem;
+  line-height: 1.3;
+}
+[data-theme="light"] .rm-cs-card-title { color: #0a1e30; }
+
+.rm-cs-card-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0;
+}
+[data-theme="light"] .rm-cs-card-text { color: #38505e; }
+
+/* ── CTA ──────────────────────────────────────────── */
+.rm-cs-cta-wrap {
+  display: flex;
+  justify-content: center;
+}
+.rm-cs-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 2rem;
+  background: rgba(77, 184, 212, 0.1);
+  border: 1px solid rgba(77, 184, 212, 0.35);
+  border-radius: var(--radius-full);
+  color: var(--accent-cyan);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.rm-cs-cta:hover {
+  background: rgba(77, 184, 212, 0.2);
+  border-color: rgba(77, 184, 212, 0.65);
+  color: #7dd4e8;
+}
+.rm-cs-cta-arrow { font-size: 0.65rem; transition: transform 0.2s; }
+.rm-cs-cta:hover .rm-cs-cta-arrow { transform: translateX(3px); }
+[data-theme="light"] .rm-cs-cta {
+  background: rgba(26, 127, 160, 0.1);
+  border-color: rgba(26, 127, 160, 0.35);
+  color: #15658a;
+}
+[data-theme="light"] .rm-cs-cta:hover {
+  background: rgba(26, 127, 160, 0.18);
+  border-color: rgba(26, 127, 160, 0.6);
+  color: #0d4a6a;
+}
 
 /* ── Responsive ───────────────────────────────────── */
 @media (max-width: 900px) {

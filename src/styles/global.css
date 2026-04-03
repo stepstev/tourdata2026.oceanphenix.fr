@@ -456,18 +456,13 @@
             transform: translateX(-50%) translateY(-6px);
             z-index: 200;
         }
-        /* Ouverture via JS (.is-open) uniquement — :focus-within supprimé car
-           il maintenait le dropdown ouvert et bloquait les clics sur la page */
+        /* Ouverture via JS (.is-open) uniquement */
         .nav-has-dropdown.is-open .nav-dropdown {
             opacity: 1;
-            pointer-events: none;
+            pointer-events: auto;
             transform: translateX(-50%) translateY(0);
         }
-        /* Seuls les items sont cliquables — pas la zone vide du conteneur */
-        .nav-has-dropdown.is-open .nav-dropdown > li {
-            pointer-events: auto;
-        }
-        .nav-dropdown li { padding: 0; pointer-events: none; }
+        .nav-dropdown li { padding: 0; }
         .nav-dropdown a {
             display: flex !important;
             align-items: center;

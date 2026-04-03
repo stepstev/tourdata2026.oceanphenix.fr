@@ -176,6 +176,11 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 <style>
 /* ── Page ─────────────────────────────────────────── */
 .pt-page { min-height: 100vh; }
+[data-theme="light"] .pt-page {
+  background: #ffffff;
+  position: relative;
+  z-index: 2;
+}
 
 .pt-container {
   max-width: 1100px;
@@ -585,11 +590,9 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 [data-theme="light"] .pt-card-title { color: #0a1e30; }
 [data-theme="light"] .pt-card-text  { color: #2a3d50; }
 [data-theme="light"] .pt-card-text strong { color: #0a1e30; }
-[data-theme="light"] .pt-card-title  { color: #0a1e30; }
-[data-theme="light"] .pt-card-text   { color: #2a3d50; }
 [data-theme="light"] .pt-section--alt {
-  background: #edf4fb;
-  border-color: rgba(26, 127, 160, 0.18);
+  background: #f5f8fb;
+  border-color: rgba(26, 127, 160, 0.14);
 }
 [data-theme="light"] .pt-promise {
   background: #f4f9fd;
@@ -599,7 +602,6 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 }
 [data-theme="light"] .pt-promise-text { color: #0a1e30; }
 [data-theme="light"] .pt-promise-fine { color: #3d5060; }
-[data-theme="light"] .pt-promise-text { color: #0a1e30; }
 [data-theme="light"] .pt-notify { background: rgba(176, 104, 48, 0.05); border-color: rgba(176, 104, 48, 0.2); }
 [data-theme="light"] .pt-notify strong { color: #0a1e30; }
 

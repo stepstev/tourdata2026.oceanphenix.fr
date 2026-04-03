@@ -433,8 +433,7 @@
             transition: transform 0.2s ease;
             opacity: 0.7;
         }
-        .nav-has-dropdown.is-open .nav-dd-chevron,
-        .nav-has-dropdown:focus-within .nav-dd-chevron {
+        .nav-has-dropdown.is-open .nav-dd-chevron {
             transform: rotate(180deg);
         }
         .nav-dropdown {
@@ -457,14 +456,18 @@
             transform: translateX(-50%) translateY(-6px);
             z-index: 200;
         }
-        /* Ouverture via JS (.is-open) ou clavier (:focus-within) uniquement */
-        .nav-has-dropdown.is-open .nav-dropdown,
-        .nav-has-dropdown:focus-within .nav-dropdown {
+        /* Ouverture via JS (.is-open) uniquement — :focus-within supprimé car
+           il maintenait le dropdown ouvert et bloquait les clics sur la page */
+        .nav-has-dropdown.is-open .nav-dropdown {
             opacity: 1;
-            pointer-events: auto;
+            pointer-events: none;
             transform: translateX(-50%) translateY(0);
         }
-        .nav-dropdown li { padding: 0; }
+        /* Seuls les items sont cliquables — pas la zone vide du conteneur */
+        .nav-has-dropdown.is-open .nav-dropdown > li {
+            pointer-events: auto;
+        }
+        .nav-dropdown li { padding: 0; pointer-events: none; }
         .nav-dropdown a {
             display: flex !important;
             align-items: center;

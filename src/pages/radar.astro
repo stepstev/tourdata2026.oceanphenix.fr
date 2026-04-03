@@ -49,13 +49,13 @@ import OceanBackground from '../components/OceanBackground.astro';
             <span class="rd-ctrl-hint">Choisissez une ville ou utilisez votre GPS</span>
           </span>
           <div class="rd-ctrl-body">
-            <div class="rd-city-dropdown" id="city-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="city-panel">
-              <button class="rd-city-trigger" id="city-trigger" type="button" aria-label="Choisir une ville Data / IA">
+            <div class="rd-city-dropdown" id="city-dropdown">
+              <button class="rd-city-trigger" id="city-trigger" type="button" aria-label="Choisir une ville Data / IA" aria-haspopup="true" aria-expanded="false" aria-controls="city-panel">
                 <i class="fas fa-map-location-dot rd-city-trigger-icon"></i>
                 <span id="city-trigger-label">Ville Data / IA</span>
                 <i class="fas fa-chevron-down rd-city-chevron"></i>
               </button>
-              <div class="rd-city-panel" id="city-panel" role="listbox">
+              <div class="rd-city-panel" id="city-panel" role="dialog" aria-label="Choisir une ville Data / IA">
 
                 <div class="rd-city-group">
                   <div class="rd-city-group-label">Île-de-France</div>
@@ -193,13 +193,13 @@ import OceanBackground from '../components/OceanBackground.astro';
 
           <!-- Pro -->
           <div class="rd-mode-controls" id="mode-ctrl-pro">
-            <div class="rd-cat-dropdown" id="cat-dropdown" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel">
-              <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+            <div class="rd-cat-dropdown" id="cat-dropdown">
+              <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories" aria-haspopup="true" aria-expanded="false" aria-controls="cat-panel">
                 <i class="fas fa-layer-group rd-cat-icon"></i>
                 <span class="rd-cat-trigger-label">3 catégories</span>
                 <i class="fas fa-chevron-down rd-cat-chevron"></i>
               </button>
-              <div class="rd-cat-panel rd-cat-panel--up" id="cat-panel" role="listbox">
+              <div class="rd-cat-panel rd-cat-panel--up" id="cat-panel" role="group" aria-label="Catégories Pro">
                 <div class="rd-cat-panel-header">Catégories Pro</div>
                 <label class="rd-cat-item rd-cat-item--all">
                   <input type="checkbox" class="rd-cat-cb-all" checked>
@@ -215,13 +215,13 @@ import OceanBackground from '../components/OceanBackground.astro';
 
           <!-- Cyclo -->
           <div class="rd-mode-controls rd-mode-controls--hidden" id="mode-ctrl-cyclo">
-            <div class="rd-cat-dropdown" id="cat-dropdown-cyclo" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="cat-panel-cyclo">
-              <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories">
+            <div class="rd-cat-dropdown" id="cat-dropdown-cyclo">
+              <button class="rd-cat-trigger" type="button" aria-label="Filtrer les catégories" aria-haspopup="true" aria-expanded="false" aria-controls="cat-panel-cyclo">
                 <i class="fas fa-layer-group rd-cat-icon"></i>
                 <span class="rd-cat-trigger-label">5 catégories</span>
                 <i class="fas fa-chevron-down rd-cat-chevron"></i>
               </button>
-              <div class="rd-cat-panel rd-cat-panel--up" id="cat-panel-cyclo" role="listbox">
+              <div class="rd-cat-panel rd-cat-panel--up" id="cat-panel-cyclo" role="group" aria-label="Catégories Cyclo">
                 <div class="rd-cat-panel-header">Catégories Cyclo</div>
                 <label class="rd-cat-item rd-cat-item--all">
                   <input type="checkbox" class="rd-cat-cb-all" checked>
@@ -288,7 +288,7 @@ import OceanBackground from '../components/OceanBackground.astro';
         </button>
         <!-- PRO uniquement -->
         <button class="rd-tab" data-tab="coworking" data-modes="pro" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#8b5cf6"></span>
+          <span class="rd-tab-dot"></span>
           <i class="fas fa-laptop"></i> Coworkings
           <span class="rd-tab-count" id="count-coworking">0</span>
         </button>
@@ -297,27 +297,27 @@ import OceanBackground from '../components/OceanBackground.astro';
         </button>
         <!-- CYCLO uniquement -->
         <button class="rd-tab rd-tab--mode-hidden" data-tab="camping" data-modes="cyclo" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#10b981"></span>
+          <span class="rd-tab-dot"></span>
           <i class="fas fa-campground"></i> Campings
           <span class="rd-tab-count" id="count-camping">0</span>
         </button>
         <button class="rd-tab rd-tab--mode-hidden" data-tab="piscine" data-modes="cyclo" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#38bdf8"></span>
+          <span class="rd-tab-dot"></span>
           <i class="fas fa-person-swimming"></i> Piscines
           <span class="rd-tab-count" id="count-piscine">0</span>
         </button>
         <button class="rd-tab rd-tab--mode-hidden" data-tab="fontaine" data-modes="cyclo" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#67e8f9"></span>
+          <span class="rd-tab-dot"></span>
           <i class="fas fa-droplet"></i> Eau
           <span class="rd-tab-count" id="count-fontaine">0</span>
         </button>
         <button class="rd-tab rd-tab--mode-hidden" data-tab="douche" data-modes="cyclo" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#a78bfa"></span>
+          <span class="rd-tab-dot"></span>
           <i class="fas fa-shower"></i> Douches
           <span class="rd-tab-count" id="count-douche">0</span>
         </button>
         <button class="rd-tab rd-tab--mode-hidden" data-tab="abri" data-modes="cyclo" role="tab" aria-selected="false">
-          <span class="rd-tab-dot" style="--dot-color:#84cc16"></span>
+          <span class="rd-tab-dot"></span>
           <i class="fas fa-house-chimney"></i> Abris
           <span class="rd-tab-count" id="count-abri">0</span>
         </button>
@@ -333,22 +333,22 @@ import OceanBackground from '../components/OceanBackground.astro';
           <div class="rd-card-header">
             <h3><i class="fas fa-map"></i> Carte interactive</h3>
             <div class="rd-card-badges filter-chips" role="group" aria-label="Filtres carte">
-              <button class="chip chip--hidden" data-type="camping" aria-pressed="false" style="--dot:#10b981;--chip-color:#10b981">
+              <button class="chip chip--hidden" data-type="camping" aria-pressed="false">
                 <i class="fas fa-campground"></i>Camping
               </button>
-              <button class="chip active" data-type="coworking" aria-pressed="true" style="--dot:#8b5cf6;--chip-color:#8b5cf6">
+              <button class="chip active" data-type="coworking" aria-pressed="true">
                 <i class="fas fa-laptop"></i>Coworking
               </button>
-              <button class="chip chip--hidden" data-type="piscine" aria-pressed="false" style="--dot:#38bdf8;--chip-color:#38bdf8">
+              <button class="chip chip--hidden" data-type="piscine" aria-pressed="false">
                 <i class="fas fa-person-swimming"></i>Piscine
               </button>
-              <button class="chip chip--hidden" data-type="fontaine" aria-pressed="false" style="--dot:#67e8f9;--chip-color:#67e8f9">
+              <button class="chip chip--hidden" data-type="fontaine" aria-pressed="false">
                 <i class="fas fa-droplet"></i>Eau
               </button>
-              <button class="chip chip--hidden" data-type="douche" aria-pressed="false" style="--dot:#a78bfa;--chip-color:#a78bfa">
+              <button class="chip chip--hidden" data-type="douche" aria-pressed="false">
                 <i class="fas fa-shower"></i>Douche
               </button>
-              <button class="chip chip--hidden" data-type="abri" aria-pressed="false" style="--dot:#84cc16;--chip-color:#84cc16">
+              <button class="chip chip--hidden" data-type="abri" aria-pressed="false">
                 <i class="fas fa-house-chimney"></i>Abri
               </button>
             </div>
@@ -448,7 +448,7 @@ import OceanBackground from '../components/OceanBackground.astro';
             <span class="rd-card-hint">Organisateurs officiels · Plateformes de veille · Agrégateurs</span>
           </div>
           <div id="liens-utiles-content">
-            <div class="rd-list-empty" style="padding:1.5rem;color:#666;text-align:center;">
+            <div class="rd-list-empty rd-list-empty--init">
               <i class="fas fa-spinner fa-spin"></i> Chargement…
             </div>
           </div>
@@ -1299,8 +1299,8 @@ import OceanBackground from '../components/OceanBackground.astro';
 
       cityTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
-        const open = cityDropdown.getAttribute('aria-expanded') === 'true';
-        cityDropdown.setAttribute('aria-expanded', String(!open));
+        const open = cityTrigger.getAttribute('aria-expanded') === 'true';
+        cityTrigger.setAttribute('aria-expanded', String(!open));
         cityPanel.classList.toggle('rd-city-panel--open', !open);
       });
 
@@ -1315,6 +1315,7 @@ import OceanBackground from '../components/OceanBackground.astro';
           // Désactiver l'état GPS du bouton "Je suis ici"
           document.getElementById('btn-locate')?.classList.remove('rd-btn--gps-active');
           cityDropdown.setAttribute('aria-expanded', 'false');
+          cityTrigger.setAttribute('aria-expanded', 'false');
           cityPanel.classList.remove('rd-city-panel--open');
           showMapInfo('🏙️', label, 'info', 2500);
           search();
@@ -1323,7 +1324,7 @@ import OceanBackground from '../components/OceanBackground.astro';
 
       document.addEventListener('click', e => {
         if (!cityDropdown.contains(e.target)) {
-          cityDropdown.setAttribute('aria-expanded', 'false');
+          cityTrigger.setAttribute('aria-expanded', 'false');
           cityPanel.classList.remove('rd-city-panel--open');
         }
       });
@@ -1359,8 +1360,8 @@ import OceanBackground from '../components/OceanBackground.astro';
 
         trigger.addEventListener('click', (e) => {
           e.stopPropagation();
-          const open = dropdown.getAttribute('aria-expanded') === 'true';
-          dropdown.setAttribute('aria-expanded', String(!open));
+          const open = trigger.getAttribute('aria-expanded') === 'true';
+          trigger.setAttribute('aria-expanded', String(!open));
           panel.classList.toggle('rd-cat-panel--open', !open);
         });
 
@@ -1386,7 +1387,7 @@ import OceanBackground from '../components/OceanBackground.astro';
       document.addEventListener('click', e => {
         document.querySelectorAll('.rd-cat-dropdown').forEach(dropdown => {
           if (!dropdown.contains(e.target)) {
-            dropdown.setAttribute('aria-expanded', 'false');
+            dropdown.querySelector('.rd-cat-trigger')?.setAttribute('aria-expanded', 'false');
             dropdown.querySelector('.rd-cat-panel')?.classList.remove('rd-cat-panel--open');
           }
         });
@@ -2269,6 +2270,14 @@ import OceanBackground from '../components/OceanBackground.astro';
   }
   .rd-tab--active .rd-tab-dot { opacity: 1; }
 
+  /* Tab dot colors from data-tab */
+  [data-tab="coworking"] .rd-tab-dot { --dot-color: #8b5cf6; }
+  [data-tab="camping"]   .rd-tab-dot { --dot-color: #10b981; }
+  [data-tab="piscine"]   .rd-tab-dot { --dot-color: #38bdf8; }
+  [data-tab="fontaine"]  .rd-tab-dot { --dot-color: #67e8f9; }
+  [data-tab="douche"]    .rd-tab-dot { --dot-color: #a78bfa; }
+  [data-tab="abri"]      .rd-tab-dot { --dot-color: #84cc16; }
+
   .rd-tab-count {
     font-size: 0.65rem;
     background: rgba(77, 184, 212, 0.12);
@@ -2564,6 +2573,21 @@ import OceanBackground from '../components/OceanBackground.astro';
   .chip.active i { opacity: 1; color: var(--chip-color, var(--accent-cyan)); }
   .chip:hover { border-color: var(--chip-color, var(--accent-cyan)); color: var(--text-light); }
   .chip:hover i { opacity: 1; }
+
+  /* Chip / tab-dot colors from data-type */
+  [data-type="camping"]   { --dot: #10b981; --chip-color: #10b981; --chip-rgb: 16,185,129; }
+  [data-type="coworking"] { --dot: #8b5cf6; --chip-color: #8b5cf6; --chip-rgb: 139,92,246; }
+  [data-type="piscine"]   { --dot: #38bdf8; --chip-color: #38bdf8; --chip-rgb: 56,189,248; }
+  [data-type="fontaine"]  { --dot: #67e8f9; --chip-color: #67e8f9; --chip-rgb: 103,232,249; }
+  [data-type="douche"]    { --dot: #a78bfa; --chip-color: #a78bfa; --chip-rgb: 167,139,250; }
+  [data-type="abri"]      { --dot: #84cc16; --chip-color: #84cc16; --chip-rgb: 132,204,22; }
+
+  /* Loading placeholder */
+  .rd-list-empty--init {
+    padding: 1.5rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
 
   /* ── Résultats (listes) ────────────────────────────────── */
   .rd-list {

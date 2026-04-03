@@ -1,0 +1,737 @@
+---
+// src/pages/post-tour.astro — Restitution Post-Tour IA 2026
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+---
+
+<BaseLayout
+  title="Post-Tour IA — Restitution 2026 | OceanPhenix"
+  description="Dashboard de restitution du Tour de la Data à vélo — analyse IA, RAG, rapport final. Présenté en Juillet 2026. Si j'en reviens."
+  lastModified="03/04/2026 12:00"
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="main-content pt-page">
+
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <section class="pt-hero">
+      <div class="pt-container">
+
+        <div class="pt-hero-badge">
+          <i class="fas fa-person-biking"></i> Post-Tour &middot; Bientôt &middot; Peut-être
+        </div>
+
+        <h1 class="pt-title">
+          Un dashboard de restitution.<br/>
+          Une UX Map du monde qui change.<br/>
+          <span class="pt-title-accent">— bientôt, si je reviens.</span>
+        </h1>
+
+        <p class="pt-subtitle">
+          Un long parcours à vélo à travers la France — <em>peut-être, si la motivation est là</em> —
+          pour <strong>collecter les ressentis sur le terrain</strong> d'un marché IT en pleine recomposition.<br/>
+          Ce qui vous attend ici&nbsp;: un <strong>dashboard de restitution</strong>,
+          une <strong>UX Map du parcours</strong>, les insights bruts des rencontres,
+          et le récit d'un long chemin pour aller là où les données ne mentent pas.<br/>
+          <em>Bientôt disponible — si mes jambes me portent jusqu'au bout.</em>
+        </p>
+
+        <!-- Compteur "jours restants" -->
+        <div class="pt-countdown">
+          <div class="pt-count-inner">
+            <i class="fas fa-hourglass-half pt-count-icon"></i>
+            <span class="pt-count-label">Page disponible</span>
+            <span class="pt-count-value">Juillet 2026</span>
+            <span class="pt-count-sub">
+              — si mes jambes me portent et que le GPS ne m'emmène pas en Belgique
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── CE QUI EST PRÉVU ───────────────────────────────── -->
+    <section class="pt-section">
+      <div class="pt-container">
+
+        <div class="pt-section-header">
+          <div class="pt-section-badge">
+            <i class="fas fa-map-pin"></i> Le programme — si tout va bien
+          </div>
+          <h2 class="pt-section-title">Ce qui vous attend ici</h2>
+          <p class="pt-section-desc">
+            Un dashboard complet de restitution du Tour de la Data, alimenté par les données
+            collectées sur le terrain. Le genre de truc qu'on ne peut faire
+            <strong>qu'après avoir roulé</strong>.
+          </p>
+        </div>
+
+        <div class="pt-cards">
+
+          <div class="pt-card">
+            <div class="pt-card-icon"><i class="fas fa-chart-bar"></i></div>
+            <h3 class="pt-card-title">Dashboard Terrain Complet</h3>
+            <p class="pt-card-text">
+              KPIs consolidés des 14 étapes&nbsp;: kilomètres, dénivelés, météo réelle,
+              incidents (et il y en aura). Le tout visualisé proprement, pas dans un Excel
+              mal aligné.
+            </p>
+          </div>
+
+          <div class="pt-card">
+            <div class="pt-card-icon"><i class="fas fa-brain"></i></div>
+            <h3 class="pt-card-title">Analyse RAG &amp; LLM</h3>
+            <p class="pt-card-text">
+              Le journal du tour passé dans un pipeline RAG souverain&nbsp;: extraction
+              d'insights, synthèse automatique, matrice des rencontres entreprises.
+              L'IA qui lit mes notes de terrain pendant que je dors.
+            </p>
+          </div>
+
+          <div class="pt-card">
+            <div class="pt-card-icon"><i class="fas fa-building"></i></div>
+            <h3 class="pt-card-title">Restitution PME &amp; ETI</h3>
+            <p class="pt-card-text">
+              Synthèse des rencontres terrain&nbsp;: maturité data, besoins identifiés,
+              contacts qualifiés. Un rapport utile — pas un pitch deck de plus
+              dans une boîte mail.
+            </p>
+          </div>
+
+          <div class="pt-card pt-card--dms">
+            <div class="pt-card-icon pt-card-icon--dms"><i class="fas fa-chart-bar"></i></div>
+            <div class="pt-dms-badge">DataMaturity Score™</div>
+            <h3 class="pt-card-title">Score Agrégé Terrain</h3>
+            <p class="pt-card-text">
+              Les 14 étapes. 14 audits de maturité data réalisés sur le terrain avec
+              les PME et ETI rencontrées. Un <strong>score agrégé par région</strong>,
+              une matrice des gaps, et une carte de chaleur de la France data.
+              Parce qu'un bon Data Product Manager ramène des chiffres, pas des impressions.
+            </p>
+            <div class="pt-dms-dims">
+              <span>DAMA-DMBOK2</span><span>CMMI 0→5</span><span>11 dimensions</span>
+            </div>
+          </div>
+
+          <div class="pt-card">
+            <div class="pt-card-icon"><i class="fas fa-film"></i></div>
+            <h3 class="pt-card-title">Rapport Narratif</h3>
+            <p class="pt-card-text">
+              Le récit complet du tour&nbsp;: les bonnes surprises, les galères, les étapes
+              où j'ai cru ne pas arriver, et celles où j'ai regretté de ne pas avoir
+              pris le train.
+            </p>
+          </div>
+
+          <div class="pt-card">
+            <div class="pt-card-icon"><i class="fas fa-strava"></i></div>
+            <h3 class="pt-card-title">Analyse Strava Finale</h3>
+            <p class="pt-card-text">
+              Toutes les activités agrégées&nbsp;: segments Strava, puissance moyenne,
+              zones cardio, évolution de la forme sur 2&nbsp;500 km.
+              (Spoiler&nbsp;: ça va être intéressant à partir de l'étape 8.)
+            </p>
+          </div>
+
+          <div class="pt-card pt-card--highlight">
+            <div class="pt-card-icon pt-card-icon--accent"><i class="fas fa-trophy"></i></div>
+            <h3 class="pt-card-title">L'insight Final</h3>
+            <p class="pt-card-text">
+              Ce que 2&nbsp;500 km à vélo à travers les PME régionales ont vraiment appris
+              sur la maturité data en France. La vraie question&nbsp;:
+              <strong>le problème de matching IT est-il soluble sur le terrain&nbsp;?</strong>
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── UX MAP DU PARCOURS ────────────────────────────── -->
+    <section class="pt-section pt-section--alt">
+      <div class="pt-container">
+
+        <div class="pt-section-header">
+          <div class="pt-section-badge">
+            <i class="fas fa-route"></i> UX Map &middot; Data Product Manager en roue libre
+          </div>
+          <h2 class="pt-section-title">L'UX Map du Parcours</h2>
+          <p class="pt-section-desc">
+            Parce qu'un bon Data Product Manager ne se contente pas de collecter des données —
+            il <strong>cartographie l'expérience utilisateur</strong> de A à Z.
+            Et là, l'utilisateur, c'est moi. Sur un vélo. Sous la pluie.
+          </p>
+        </div>
+
+        <!-- UX Map Timeline -->
+        <div class="pt-uxmap">
+
+          <!-- Phase 1 -->
+          <div class="pt-ux-phase">
+            <div class="pt-ux-phase-head">
+              <span class="pt-ux-phase-label">Phase 1</span>
+              <span class="pt-ux-phase-name">Départ — Fontenay-le-Comte</span>
+              <span class="pt-ux-phase-date">Avr 2026</span>
+            </div>
+            <div class="pt-ux-rows">
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-user"></i> Actions</span>
+                <span class="pt-ux-row-value">Chargement du vélo · Vérification GPX · Dernier café civilisé</span>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-face-smile-beam"></i> Émotion</span>
+                <div class="pt-ux-emoji-track">
+                  <span class="pt-ux-emoji pt-ux-emoji--high" title="Excitation max">😁</span>
+                  <span class="pt-ux-emoji-label">Excitation · Confiance · Déni léger</span>
+                </div>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-database"></i> Data collectée</span>
+                <span class="pt-ux-row-value pt-ux-tag-list">
+                  <span class="pt-ux-tag">Position GPS</span>
+                  <span class="pt-ux-tag">Météo J0</span>
+                  <span class="pt-ux-tag">État matériel</span>
+                </span>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label pt-ux-row-label--pain"><i class="fas fa-triangle-exclamation"></i> Pain point</span>
+                <span class="pt-ux-row-value pt-ux-pain">Le GPS recalcule. Déjà.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connecteur -->
+          <div class="pt-ux-connector"><i class="fas fa-arrow-right-long"></i></div>
+
+          <!-- Phase 2 -->
+          <div class="pt-ux-phase">
+            <div class="pt-ux-phase-head">
+              <span class="pt-ux-phase-label">Phase 2</span>
+              <span class="pt-ux-phase-name">Milieu de parcours — Étapes 5–9</span>
+              <span class="pt-ux-phase-date">Mai–Juin 2026</span>
+            </div>
+            <div class="pt-ux-rows">
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-user"></i> Actions</span>
+                <span class="pt-ux-row-value">Rencontres PME · Interviews terrain · Notes vocales à bout de souffle</span>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-face-smile-beam"></i> Émotion</span>
+                <div class="pt-ux-emoji-track">
+                  <span class="pt-ux-emoji pt-ux-emoji--mid" title="Variable">😅</span>
+                  <span class="pt-ux-emoji-label">Fatigue · Satisfaction · Questionnement existentiel</span>
+                </div>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-database"></i> Data collectée</span>
+                <span class="pt-ux-row-value pt-ux-tag-list">
+                  <span class="pt-ux-tag">Activités Strava</span>
+                  <span class="pt-ux-tag">Journal ETI</span>
+                  <span class="pt-ux-tag">Radar maturité</span>
+                  <span class="pt-ux-tag">Météo réelle</span>
+                </span>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label pt-ux-row-label--pain"><i class="fas fa-triangle-exclamation"></i> Pain point</span>
+                <span class="pt-ux-row-value pt-ux-pain">La selle. La selle. La selle.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connecteur -->
+          <div class="pt-ux-connector"><i class="fas fa-arrow-right-long"></i></div>
+
+          <!-- Phase 3 -->
+          <div class="pt-ux-phase pt-ux-phase--highlight">
+            <div class="pt-ux-phase-head">
+              <span class="pt-ux-phase-label">Phase 3</span>
+              <span class="pt-ux-phase-name">Arrivée — Caen</span>
+              <span class="pt-ux-phase-date">Juil 2026</span>
+            </div>
+            <div class="pt-ux-rows">
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-user"></i> Actions</span>
+                <span class="pt-ux-row-value">Déposer le vélo · Ne plus bouger · Compiler les données</span>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-face-smile-beam"></i> Émotion</span>
+                <div class="pt-ux-emoji-track">
+                  <span class="pt-ux-emoji pt-ux-emoji--win" title="Victoire">🏆</span>
+                  <span class="pt-ux-emoji-label">Fierté · Soulagement · Besoin urgent de glucides</span>
+                </div>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label"><i class="fas fa-database"></i> Data collectée</span>
+                <span class="pt-ux-row-value pt-ux-tag-list">
+                  <span class="pt-ux-tag pt-ux-tag--win">2 500 km de traces GPS</span>
+                  <span class="pt-ux-tag pt-ux-tag--win">14 étapes documentées</span>
+                  <span class="pt-ux-tag pt-ux-tag--win">N rencontres qualifiées</span>
+                </span>
+              </div>
+              <div class="pt-ux-row">
+                <span class="pt-ux-row-label pt-ux-row-label--insight"><i class="fas fa-lightbulb"></i> Insight</span>
+                <span class="pt-ux-row-value pt-ux-insight">
+                  Un Data Product Manager qui collecte sur le terrain, c'est 80&nbsp;%
+                  de vélo et 20&nbsp;% d'insight — mais le 20&nbsp;% vaut vraiment le déplacement.
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.pt-uxmap -->
+
+        <!-- Note DPM -->
+        <div class="pt-dpm-note">
+          <div class="pt-dpm-note-icon"><i class="fas fa-person-biking"></i></div>
+          <div class="pt-dpm-note-body">
+            <span class="pt-dpm-note-label">Méthodologie DPM Terrain</span>
+            <p>
+              Contrairement à une UX Map réalisée en salle de conférence avec des post-its,
+              celle-ci sera construite <strong>sur le terrain</strong>,
+              avec les contraintes réelles&nbsp;: connexion intermittente, batterie à 8&nbsp;%,
+              et un carnet de notes qui a survécu à deux averses.
+              <em>C'est ça, la data qualitative.</em>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── BLOC HUMOUR / PROMESSE ─────────────────────────── -->
+    <section class="pt-section pt-section--alt pt-section--promise">
+      <div class="pt-container pt-container--narrow">
+
+        <div class="pt-promise">
+          <div class="pt-promise-icon">
+            <i class="fas fa-person-biking"></i>
+          </div>
+          <div class="pt-promise-body">
+            <div class="pt-promise-label">Engagement solennel</div>
+            <p class="pt-promise-text">
+              Je m'engage à produire ce dashboard <strong>dans les 30 jours suivant l'arrivée</strong>,
+              avec ou sans courbatures, avec ou sans selle de vélo encore vissée dans le dos.
+            </p>
+            <p class="pt-promise-fine">
+              * Engagement conditionnel à&nbsp;: (1) finir le tour, (2) revenir avec les données,
+              (3) avoir encore l'usage de mes doigts pour taper sur un clavier.
+              En cas de force majeure — ours dans les Vosges, crevaison en pleine
+              ZA industrielle, ou simple épuisement existentiel — le délai est rallongé
+              sans préavis.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-notify">
+          <i class="fas fa-bell"></i>
+          <span>Revenez en <strong>Juillet 2026</strong> — ou suivez le live sur
+            <a href="/terrain" class="pt-link">la page Terrain</a>
+            pour ne pas rater le dénouement.
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+</BaseLayout>
+
+<style>
+/* ── Page ─────────────────────────────────────────── */
+.pt-page { min-height: 100vh; }
+
+.pt-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.pt-container--narrow {
+  max-width: 760px;
+}
+
+/* ── Hero ─────────────────────────────────────────── */
+.pt-hero {
+  padding: 7rem 1.5rem 4rem;
+  text-align: center;
+  position: relative;
+}
+
+.pt-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 1.1rem;
+  background: rgba(77, 184, 212, 0.07);
+  border: 1px solid rgba(77, 184, 212, 0.2);
+  border-radius: var(--radius-full);
+  color: var(--accent-cyan);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+.pt-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text-light);
+  margin: 0 0 1.25rem;
+}
+.pt-title-accent {
+  display: inline-block;
+  color: var(--accent-orange);
+  font-style: italic;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.pt-subtitle {
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  line-height: 1.9;
+  max-width: 660px;
+  margin: 0 auto 2.5rem;
+}
+.pt-subtitle strong { color: var(--text-light); }
+.pt-subtitle em { color: rgba(192, 218, 235, 0.6); font-style: italic; }
+
+/* ── Countdown box ────────────────────────────────── */
+.pt-countdown {
+  max-width: 480px;
+  margin: 0 auto;
+}
+.pt-count-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.75rem 2rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(77, 184, 212, 0.2);
+  border-radius: var(--radius-xl);
+}
+.pt-count-icon {
+  font-size: 1.8rem;
+  color: var(--accent-cyan);
+  opacity: 0.55;
+  animation: pt-tick 2s ease-in-out infinite alternate;
+}
+@keyframes pt-tick {
+  from { opacity: 0.35; transform: scale(0.92); }
+  to   { opacity: 0.7;  transform: scale(1.05); }
+}
+.pt-count-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.pt-count-value {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  letter-spacing: -0.02em;
+}
+.pt-count-sub {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── Sections ─────────────────────────────────────── */
+.pt-section {
+  padding: 4rem 0;
+}
+.pt-section--alt {
+  background: rgba(255, 255, 255, 0.018);
+  border-top: 1px solid rgba(77, 184, 212, 0.08);
+  border-bottom: 1px solid rgba(77, 184, 212, 0.08);
+  padding: 4rem 1.5rem;
+}
+
+.pt-section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.pt-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 1rem;
+  background: rgba(77, 184, 212, 0.07);
+  border: 1px solid rgba(77, 184, 212, 0.18);
+  border-radius: var(--radius-full);
+  color: var(--accent-cyan);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 0.85rem;
+}
+.pt-section-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text-light);
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+}
+.pt-section-desc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 580px;
+  margin: 0 auto;
+}
+.pt-section-desc strong { color: var(--text-light); }
+
+/* ── Cards ────────────────────────────────────────── */
+.pt-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.pt-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.4rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.pt-card:hover {
+  border-color: rgba(77, 184, 212, 0.28);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+.pt-card--highlight {
+  border-color: rgba(212, 132, 90, 0.3);
+  border-left: 3px solid var(--accent-orange);
+}
+.pt-card--highlight:hover {
+  border-color: rgba(212, 132, 90, 0.55);
+  box-shadow: 0 12px 32px rgba(212, 132, 90, 0.1);
+}
+
+/* ── DataMaturity Score card ──────────────────────── */
+.pt-card--dms {
+  border-color: rgba(77, 184, 212, 0.3);
+  border-left: 3px solid var(--accent-cyan);
+  background: rgba(77, 184, 212, 0.04);
+}
+.pt-card--dms:hover {
+  border-color: rgba(77, 184, 212, 0.55);
+  box-shadow: 0 12px 32px rgba(77, 184, 212, 0.1);
+}
+.pt-card-icon--dms {
+  background: rgba(77, 184, 212, 0.12);
+  border-color: rgba(77, 184, 212, 0.25);
+  color: var(--accent-cyan);
+}
+.pt-dms-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.65rem;
+  background: rgba(77, 184, 212, 0.1);
+  border: 1px solid rgba(77, 184, 212, 0.28);
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 0.55rem;
+}
+.pt-dms-dims {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+.pt-dms-dims span {
+  padding: 0.15rem 0.5rem;
+  background: rgba(77, 184, 212, 0.06);
+  border: 1px solid rgba(77, 184, 212, 0.14);
+  border-radius: var(--radius-full);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: rgba(77, 184, 212, 0.75);
+  white-space: nowrap;
+}
+.pt-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(77, 184, 212, 0.09);
+  border: 1px solid rgba(77, 184, 212, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--accent-cyan);
+  margin-bottom: 1rem;
+}
+.pt-card-icon--accent {
+  background: rgba(212, 132, 90, 0.1);
+  border-color: rgba(212, 132, 90, 0.2);
+  color: var(--accent-orange);
+}
+.pt-card-title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 0.55rem;
+  line-height: 1.35;
+}
+.pt-card-text {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+.pt-card-text strong { color: var(--text-light); }
+
+/* ── Promise block ────────────────────────────────── */
+.pt-promise {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  background: rgba(77, 184, 212, 0.04);
+  border: 1px solid rgba(77, 184, 212, 0.2);
+  border-left: 4px solid var(--accent-cyan);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  padding: 1.75rem 1.75rem;
+  margin-bottom: 1.5rem;
+}
+.pt-promise-icon {
+  font-size: 2rem;
+  color: var(--accent-cyan);
+  opacity: 0.6;
+  flex-shrink: 0;
+  line-height: 1;
+  padding-top: 0.1rem;
+}
+.pt-promise-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+.pt-promise-text {
+  font-size: 0.92rem;
+  color: var(--text-light);
+  line-height: 1.75;
+  margin: 0 0 0.75rem;
+}
+.pt-promise-text strong { color: var(--accent-cyan); }
+.pt-promise-fine {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.75;
+}
+
+/* ── Notify bar ───────────────────────────────────── */
+.pt-notify {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.1rem 1.4rem;
+  background: rgba(212, 132, 90, 0.06);
+  border: 1px solid rgba(212, 132, 90, 0.22);
+  border-radius: var(--radius-md);
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+.pt-notify i {
+  color: var(--accent-orange);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.pt-notify strong { color: var(--text-light); }
+.pt-link {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(77, 184, 212, 0.4);
+  transition: color 0.2s;
+}
+.pt-link:hover { color: #7fd4e8; }
+
+/* ── Light mode ───────────────────────────────────── */
+[data-theme="light"] .pt-card--dms {
+  background: #f0fbfd;
+  border-color: rgba(26, 127, 160, 0.25);
+}
+[data-theme="light"] .pt-dms-badge {
+  background: rgba(26, 127, 160, 0.08);
+  border-color: rgba(26, 127, 160, 0.22);
+  color: var(--accent-blue);
+}
+[data-theme="light"] .pt-dms-dims span {
+  color: var(--accent-blue);
+  background: rgba(26, 127, 160, 0.06);
+  border-color: rgba(26, 127, 160, 0.14);
+}
+[data-theme="light"] .pt-title { color: #0a1e30; }
+[data-theme="light"] .pt-subtitle { color: #3d5060; }
+[data-theme="light"] .pt-subtitle em { color: #6a8090; }
+[data-theme="light"] .pt-count-inner {
+  background: #fff;
+  border-color: rgba(26, 127, 160, 0.2);
+  box-shadow: 0 2px 12px rgba(0, 40, 80, 0.07);
+}
+[data-theme="light"] .pt-count-sub { color: #5a7080; }
+[data-theme="light"] .pt-section-desc { color: #2a3d50; }
+[data-theme="light"] .pt-card {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 10px rgba(0, 40, 80, 0.06);
+}
+[data-theme="light"] .pt-card:hover {
+  border-color: rgba(26, 127, 160, 0.3);
+  box-shadow: 0 6px 24px rgba(26, 127, 160, 0.1);
+}
+[data-theme="light"] .pt-card--highlight {
+  border-left-color: var(--accent-copper);
+}
+[data-theme="light"] .pt-card-title  { color: #0a1e30; }
+[data-theme="light"] .pt-card-text   { color: #2a3d50; }
+[data-theme="light"] .pt-section--alt { background: #f4f8fb; border-color: rgba(26, 127, 160, 0.1); }
+[data-theme="light"] .pt-promise {
+  background: #fff;
+  border-color: rgba(26, 127, 160, 0.2);
+  border-left-color: var(--accent-blue);
+  box-shadow: 0 2px 10px rgba(0, 40, 80, 0.06);
+}
+[data-theme="light"] .pt-promise-text { color: #0a1e30; }
+[data-theme="light"] .pt-notify { background: rgba(176, 104, 48, 0.05); border-color: rgba(176, 104, 48, 0.2); }
+[data-theme="light"] .pt-notify strong { color: #0a1e30; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .pt-hero { padding: 5rem 1.5rem 3rem; }
+  .pt-cards { grid-template-columns: 1fr; }
+  .pt-promise { flex-direction: column; gap: 1rem; }
+}
+@media (max-width: 480px) {
+  .pt-title { font-size: 1.75rem; }
+}
+</style>

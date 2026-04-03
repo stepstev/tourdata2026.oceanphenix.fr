@@ -23,21 +23,11 @@ const pathname = Astro.url.pathname;
 
     <ul class="nav-links" id="nav-links">
 
-      <!-- ── TourData2026 ▾ ────────────────────────── -->
-      <li class="nav-has-dropdown" id="nav-terrain">
-        <a href="/terrain" class="nav-dropdown-trigger">
+      <!-- ── TourData2026 → Roadmap ───────────────── -->
+      <li class:list={[{ 'nav-active': ['/roadmap','/terrain','/concept','/tourdata','/strava','/radar','/meteo','/etapes','/rag-2026'].some(p => pathname.startsWith(p)) }]} id="nav-terrain">
+        <a href="/roadmap">
           <i class="fas fa-bicycle"></i> TourData2026
-          <i class="fas fa-chevron-down nav-dd-chevron"></i>
         </a>
-        <ul class="nav-dropdown" role="menu">
-          <li role="none"><a href="/terrain"  role="menuitem"><i class="fas fa-map-marked-alt"></i> Parcours</a></li>
-          <li role="none"><a href="/concept"  role="menuitem"><i class="fas fa-layer-group nav-icon--orange"></i> Concept</a></li>
-          <li role="none" class="nav-dd-sep" aria-hidden="true"></li>
-          <li role="none"><a href="/tourdata" role="menuitem"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-          <li role="none"><a href="/strava"   role="menuitem"><i class="fab fa-strava"></i> Activités</a></li>
-          <li role="none"><a href="/radar"    role="menuitem"><i class="fas fa-crosshairs"></i> Radar</a></li>
-          <li role="none"><a href="/meteo"    role="menuitem"><i class="fas fa-cloud-sun"></i> Météo</a></li>
-        </ul>
       </li>
 
       <!-- ── Audit Maturité ─────────────────────────── -->

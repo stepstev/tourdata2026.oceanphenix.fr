@@ -247,6 +247,35 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
+/* ── UX Map block variant ────────────────────────── */
+.cp-uxmap-block {
+  margin-top: 2.5rem;
+  border-left-color: var(--accent-orange);
+  background: rgba(212, 132, 90, 0.04);
+  border-color: rgba(212, 132, 90, 0.22);
+}
+.cp-uxmap-block .cp-validation-icon {
+  background: rgba(212, 132, 90, 0.1);
+  border-color: rgba(212, 132, 90, 0.2);
+  color: var(--accent-orange);
+}
+.cp-uxmap-block .cp-validation-label {
+  color: var(--accent-orange);
+}
+[data-theme="light"] .cp-uxmap-block {
+  background: rgba(176, 104, 48, 0.04);
+  border-color: rgba(176, 104, 48, 0.2);
+  border-left-color: var(--accent-copper);
+}
+[data-theme="light"] .cp-uxmap-block .cp-validation-icon {
+  background: rgba(176, 104, 48, 0.09);
+  border-color: rgba(176, 104, 48, 0.18);
+  color: var(--accent-copper);
+}
+[data-theme="light"] .cp-uxmap-block .cp-validation-label {
+  color: var(--accent-copper);
+}
+
 /* ── Bloc validation ──────────────────────────────── */
 .cp-validation {
   display: flex;
@@ -635,17 +664,313 @@
 [data-theme="light"] .cp-tl-sub { color: #3d5060; }
 [data-theme="light"] .cp-diagram-caption { color: #c8d8e8; }
 
-/* Fond gris pour le diagramme en thème clair */
+/* Diagrammes toujours sur fond sombre pour lisibilité maximale */
 [data-theme="light"] .cp-diagram-wrap {
-  background: #e8edf2;
-  border-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 12px rgba(0, 40, 80, 0.08);
+  background: #0c1828;
+  border-color: rgba(77, 184, 212, 0.25);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ══════════════════════════════════════════════════════
+   CONSTAT MARCHÉ 2026 — Pain Cards
+   ══════════════════════════════════════════════════════ */
+
+/* ── Pain card grid ───────────────────────────────── */
+.cp-pain-grid {
+  margin-bottom: 2rem;
+}
+
+/* ── Layout sans zone vide : 2 cols, carte 5 pleine largeur ── */
+#constat-marche .cp-pain-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+#constat-marche .cp-pain-grid .cp-card:nth-child(5) {
+  grid-column: span 2;
+}
+
+/* ── Pain card wrapper ────────────────────────────── */
+.cp-pain-card {
+  border-left: 3px solid rgba(77, 184, 212, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.cp-pain-card:hover {
+  border-left-color: var(--accent-cyan);
+}
+.cp-pain-card--ai {
+  border-left-color: rgba(212, 132, 90, 0.6);
+}
+.cp-pain-card--ai:hover {
+  border-left-color: var(--accent-orange);
+  border-color: rgba(212, 132, 90, 0.42);
+  box-shadow: 0 12px 32px rgba(212, 132, 90, 0.12);
+}
+.cp-pain-card--wide {
+  grid-column: 1 / -1;
+}
+
+/* ── Card head row: icon + number ────────────────── */
+.cp-pain-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.1rem;
+}
+.cp-pain-head .cp-card-icon {
+  margin-bottom: 0;
+}
+
+/* ── Pain number ─────────────────────────────────── */
+.cp-pain-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: rgba(77, 184, 212, 0.14);
+  user-select: none;
+}
+.cp-pain-card--ai .cp-pain-num {
+  color: rgba(212, 132, 90, 0.18);
+}
+
+/* ── Icon orange variant ─────────────────────────── */
+.cp-card-icon--orange {
+  background: rgba(212, 132, 90, 0.1);
+  border-color: rgba(212, 132, 90, 0.22);
+  color: var(--accent-orange);
+}
+
+/* ── Icon danger (rouge, plus grand) ─────────────── */
+.cp-card-icon--danger {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.28);
+  color: #ef4444;
+  font-size: 1.55rem;
+  width: 52px;
+  height: 52px;
+}
+
+/* ── Stat chips ──────────────────────────────────── */
+.cp-pain-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cp-stat {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.5rem;
+  background: rgba(77, 184, 212, 0.06);
+  border: 1px solid rgba(77, 184, 212, 0.14);
+  border-radius: var(--radius-full);
+  font-size: 0.67rem;
+  font-weight: 600;
+  color: #8ec8dc;
+  white-space: nowrap;
+}
+.cp-stat--up {
+  background: rgba(34, 197, 94, 0.06);
+  border-color: rgba(34, 197, 94, 0.18);
+  color: #6dc48a;
+}
+.cp-stat--down {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.18);
+  color: #e88888;
+}
+.cp-stat--warn {
+  background: rgba(234, 179, 8, 0.06);
+  border-color: rgba(234, 179, 8, 0.18);
+  color: #d4b860;
+}
+.cp-stat--ai {
+  background: rgba(212, 132, 90, 0.07);
+  border-color: rgba(212, 132, 90, 0.22);
+  color: #d4a080;
+}
+
+/* ── Insight line ────────────────────────────────── */
+.cp-pain-insight {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(77, 184, 212, 0.1);
+  font-size: 0.74rem;
+  color: rgba(77, 184, 212, 0.75);
+  font-style: italic;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  line-height: 1.55;
+}
+.cp-pain-insight i {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  font-size: 0.62rem;
+  opacity: 0.7;
+}
+.cp-pain-insight--orange {
+  color: rgba(212, 132, 90, 0.85);
+  border-top-color: rgba(212, 132, 90, 0.12);
+}
+
+/* ── Fractures synthesis block ───────────────────── */
+.cp-fractures-block {
+  display: flex;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(77, 184, 212, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+}
+.cp-fractures-left {
+  flex: 1;
+  min-width: 0;
+}
+.cp-fractures-right {
+  flex: 1.3;
+  min-width: 0;
+}
+.cp-fractures-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--accent-cyan);
+  margin-bottom: 1.1rem;
+}
+.cp-fractures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.cp-fracture {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.84rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+.cp-fracture i {
+  color: #e06060;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+.cp-fracture--geo {
+  font-weight: 600;
+  color: rgba(239, 155, 155, 0.95);
+  margin-top: 0.3rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(77, 184, 212, 0.1);
+}
+.cp-fracture--geo i {
+  color: #7ab8cc;
+  font-size: 0.72rem;
+}
+.cp-fractures-insight {
+  background: rgba(77, 184, 212, 0.045);
+  border: 1px solid rgba(77, 184, 212, 0.18);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  height: 100%;
+  box-sizing: border-box;
+}
+.cp-fractures-insight-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+}
+.cp-fractures-insight p {
+  font-size: 0.84rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin: 0;
+}
+.cp-fractures-quote {
+  font-style: italic;
+  color: rgba(192, 218, 235, 0.85) !important;
+  padding: 0.6rem 0.9rem;
+  border-left: 2px solid rgba(77, 184, 212, 0.3);
+  background: rgba(77, 184, 212, 0.04);
+  border-radius: 0 4px 4px 0;
+}
+.cp-fractures-strategic {
+  font-size: 0.78rem !important;
+  color: var(--text-muted) !important;
+}
+
+/* ── Light theme overrides — pain cards ──────────── */
+[data-theme="light"] .cp-pain-num {
+  color: rgba(26, 127, 160, 0.18);
+}
+[data-theme="light"] .cp-pain-card--ai .cp-pain-num {
+  color: rgba(176, 104, 48, 0.22);
+}
+[data-theme="light"] .cp-pain-insight {
+  color: var(--accent-blue);
+  border-top-color: rgba(26, 127, 160, 0.18);
+}
+[data-theme="light"] .cp-pain-insight--orange {
+  color: var(--accent-copper);
+  border-top-color: rgba(176, 104, 48, 0.18);
+}
+[data-theme="light"] .cp-stat {
+  background: rgba(26, 127, 160, 0.06);
+  border-color: rgba(26, 127, 160, 0.14);
+  color: var(--accent-blue);
+}
+[data-theme="light"] .cp-stat--up   { color: #1a8040; border-color: rgba(26, 128, 64, 0.2); }
+[data-theme="light"] .cp-stat--down { color: #c02020; border-color: rgba(192, 32, 32, 0.2); }
+[data-theme="light"] .cp-stat--warn { color: #9a7010; border-color: rgba(154, 112, 16, 0.2); }
+[data-theme="light"] .cp-stat--ai   { color: var(--accent-copper); border-color: rgba(176, 104, 48, 0.2); }
+[data-theme="light"] .cp-fractures-block {
+  background: #fff;
+  border-color: rgba(26, 127, 160, 0.16);
+  box-shadow: 0 2px 12px rgba(0, 40, 80, 0.06);
+}
+[data-theme="light"] .cp-fracture {
+  color: #1a2e42;
+}
+[data-theme="light"] .cp-fractures-insight {
+  background: #f4fafb;
+  border-color: rgba(26, 127, 160, 0.2);
+  border-left-color: var(--accent-blue);
+}
+[data-theme="light"] .cp-fractures-insight p {
+  color: #1a2e42;
+}
+[data-theme="light"] .cp-fractures-quote {
+  color: #2a4a6a !important;
+  background: rgba(26, 127, 160, 0.04);
+  border-left-color: rgba(26, 127, 160, 0.3);
+}
+[data-theme="light"] .cp-fractures-strategic {
+  color: #4a6070 !important;
 }
 
 /* ── Responsive ───────────────────────────────────── */
 @media (max-width: 768px) {
   .cp-cards {
     grid-template-columns: 1fr;
+  }
+  .cp-pain-card--wide {
+    grid-column: 1;
+  }
+  .cp-fractures-block {
+    flex-direction: column;
   }
 
   .cp-decisions {

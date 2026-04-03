@@ -23,14 +23,14 @@
     },
     {
       "id": "tour",
-      "date": "Avr–Juil 2026",
+      "date": "Avr–Mai 2026",
       "titre": "Tour Terrain",
       "sous": "2 500 km · 12 régions · Live",
       "statut": "future"
     },
     {
       "id": "posttour",
-      "date": "Juil+ 2026",
+      "date": "Mai+ 2026",
       "titre": "Post-Tour IA",
       "sous": "Rapport · RAG · Matrice data",
       "statut": "future"

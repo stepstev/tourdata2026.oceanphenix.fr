@@ -1,0 +1,679 @@
+---
+// src/pages/roadmap.astro — Roadmap sinusoïdale TourData 2026
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CopyrightBar from '../components/CopyrightBar.astro';
+import OceanBackground from '../components/OceanBackground.astro';
+
+// ── Géométrie ────────────────────────────────────────────
+const NR  = 26;   // node radius
+const YC  = 290;  // y centre
+const YT  = 110;  // y pics (top)
+const YB  = 470;  // y creux (bottom)
+const VBW = 1440;
+const VBH = 580;
+
+const WAVE =
+  `M 80,${YC} C 170,${YC} 170,${YT} 260,${YT}` +
+  ` S 350,${YB} 440,${YB}` +
+  ` S 530,${YT} 620,${YT}` +
+  ` S 710,${YB} 800,${YB}` +
+  ` S 890,${YT} 980,${YT}` +
+  ` S 1070,${YB} 1160,${YB}` +
+  ` S 1250,${YC} 1340,${YC}`;
+
+// ── Helpers positionnement étiquettes ─────────────────────
+function dateY(x: number, y: number, pos: 'top' | 'bottom') {
+  return pos === 'top' ? y - NR - 56 : y + NR + 24;
+}
+function titleY(x: number, y: number, pos: 'top' | 'bottom') {
+  return pos === 'top' ? y - NR - 38 : y + NR + 42;
+}
+function subY(x: number, y: number, pos: 'top' | 'bottom') {
+  return pos === 'top' ? y - NR - 20 : y + NR + 58;
+}
+function connY1(y: number, pos: 'top' | 'bottom') {
+  return pos === 'top' ? y - NR : y + NR;
+}
+function connY2(y: number, pos: 'top' | 'bottom') {
+  return pos === 'top' ? y - NR - 12 : y + NR + 12;
+}
+
+// ── Données jalons ────────────────────────────────────────
+const milestones = [
+  {
+    id: 'concept',
+    label: 'Concept',
+    sub: 'Ressentis · Douleur · Architecture · Vision · Stack',
+    date: 'Fév 2026',
+    href: '/concept',
+    status: 'done',
+    x: 80,
+    y: YC,
+    labelPos: 'bottom' as const,
+    icon: '\uf5fd',  // fa-layer-group
+  },
+  {
+    id: 'terrain',
+    label: 'Parcours',
+    sub: '14 étapes · 2 500 km · Live',
+    date: '17 Avr 2026',
+    href: '/terrain',
+    status: 'active',
+    x: 260,
+    y: YT,
+    labelPos: 'top' as const,
+    icon: '\uf206',  // fa-bicycle
+  },
+  {
+    id: 'tourdata',
+    label: 'Dashboard',
+    sub: 'KPIs · Métriques · Données',
+    date: 'Mars 2026',
+    href: '/tourdata',
+    status: 'done',
+    x: 440,
+    y: YB,
+    labelPos: 'bottom' as const,
+    icon: '\uf200',  // fa-chart-pie
+  },
+  {
+    id: 'strava',
+    label: 'Activités',
+    sub: 'GPS · Segments · Efforts',
+    date: 'Avr – Mai 2026',
+    href: '/strava',
+    status: 'active',
+    x: 620,
+    y: YT,
+    labelPos: 'top' as const,
+    icon: '\uf0e7',  // fa-bolt
+  },
+  {
+    id: 'radar',
+    label: 'Radar Data',
+    sub: 'Maturité · Score · Gaps',
+    date: 'Avr – Mai 2026',
+    href: '/radar',
+    status: 'active',
+    x: 800,
+    y: YB,
+    labelPos: 'bottom' as const,
+    icon: '\uf05b',  // fa-crosshairs
+  },
+  {
+    id: 'meteo',
+    label: 'Météo',
+    sub: 'Conditions · Alertes Route',
+    date: 'Avr 2026',
+    href: '/meteo',
+    status: 'active',
+    x: 980,
+    y: YT,
+    labelPos: 'top' as const,
+    icon: '\uf6c4',  // fa-cloud-sun
+  },
+  {
+    id: 'etapes',
+    label: 'Étapes',
+    sub: '14 villes · PME & ETI',
+    date: 'Avr – Juil 2026',
+    href: '/terrain#carte',
+    status: 'upcoming',
+    x: 1160,
+    y: YB,
+    labelPos: 'bottom' as const,
+    icon: '\uf276',  // fa-map-pin
+  },
+  {
+    id: 'rag',
+    label: 'Post-Tour IA',
+    sub: 'Rapport · RAG · Matrice',
+    date: 'Juil+ 2026',
+    href: '/post-tour',
+    status: 'future',
+    x: 1340,
+    y: YC,
+    labelPos: 'top' as const,
+    icon: '\uf544',  // fa-robot
+  },
+];
+
+// ── Longueur approximative du chemin (pour l'animation stroke-dasharray)
+const WAVE_LEN = 3200;
+---
+
+<BaseLayout
+  title="Vision Produit & Jalons — TourData 2026 | OceanPhenix"
+  description="Roadmap sinusoïdale du projet TourData 2026 — 8 jalons du Tour de la Data à vélo. Cliquez sur un jalon pour accéder à la section correspondante."
+  lastModified="03/04/2026 12:00"
+>
+  <OceanBackground />
+  <Nav />
+
+  <main class="rm-page main-content">
+
+    <!-- ── HERO ─────────────────────────────────────── -->
+    <section class="rm-hero">
+      <div class="rm-hero-inner">
+        <div class="rm-section-badge">
+          <i class="fas fa-route"></i> Roadmap
+        </div>
+        <h1 class="rm-title">Vision Produit &amp; Jalons</h1>
+        <p class="rm-desc">
+          De l'<strong>idéation</strong> au <strong>terrain</strong> — 8 jalons pour le
+          Tour de la Data à vélo. Cliquez sur un jalon pour accéder à la page.
+        </p>
+        <div class="rm-legend">
+          <span class="rm-leg rm-leg--done">    <span class="rm-dot"></span>Terminé</span>
+          <span class="rm-leg rm-leg--active">  <span class="rm-dot"></span>En cours</span>
+          <span class="rm-leg rm-leg--upcoming"><span class="rm-dot"></span>À venir</span>
+          <span class="rm-leg rm-leg--future">  <span class="rm-dot"></span>Futur</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SINUSOÏDE (desktop) ────────────────────── -->
+    <section class="rm-wave-section">
+      <div class="rm-wave-wrapper">
+        <svg
+          class="rm-wave-svg"
+          viewBox={`0 0 ${VBW} ${VBH}`}
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-label="Roadmap sinusoïdale TourData 2026 — 8 jalons cliquables"
+          role="img"
+        >
+          <defs>
+            <linearGradient id="rm-wg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#4db8d4" stop-opacity="0.5"/>
+              <stop offset="42%"  stop-color="#4db8d4" stop-opacity="1"/>
+              <stop offset="58%"  stop-color="#d4845a" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#2d8bb5" stop-opacity="0.5"/>
+            </linearGradient>
+            <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
+              <stop offset="0%"  stop-color="#1a3352" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#0a182c" stop-opacity="1"/>
+            </radialGradient>
+          </defs>
+
+          <!-- fond sombre forcé (visible en light mode) -->
+          <rect width={VBW} height={VBH} fill="url(#rm-bg-grad)" rx="16"/>
+
+          <!-- grille de fond -->
+          <!-- lignes verticales — pas de 90px -->
+          {Array.from({ length: 16 }, (_, i) => (
+            <line
+              x1={i * 90} y1="0" x2={i * 90} y2={VBH}
+              stroke="#4db8d4" stroke-width="0.8" opacity="0.18"
+            />
+          ))}
+          <!-- lignes horizontales — pas de 72px -->
+          {Array.from({ length: 9 }, (_, i) => (
+            <line
+              x1="0" y1={i * 72} x2={VBW} y2={i * 72}
+              stroke="#4db8d4" stroke-width="0.8" opacity="0.18"
+            />
+          ))}
+          <!-- croix d'intersection aux nœuds de grille clés -->
+          {[260, 440, 620, 800, 980, 1160].map(x => (
+            <g opacity="0.32">
+              <line x1={x - 7} y1={VBH / 2} x2={x + 7} y2={VBH / 2} stroke="#4db8d4" stroke-width="1.5"/>
+              <line x1={x} y1={VBH / 2 - 7} x2={x} y2={VBH / 2 + 7} stroke="#4db8d4" stroke-width="1.5"/>
+            </g>
+          ))}
+
+          <!-- halo ambiant -->
+          <path d={WAVE} stroke="#4db8d4" stroke-width="48" fill="none" stroke-linecap="round" opacity="0.06"/>
+          <!-- ombre portée -->
+          <path d={WAVE} stroke="#020a16" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
+          <!-- vague principale — animation draw -->
+          <path d={WAVE} stroke="url(#rm-wg)" stroke-width="3" fill="none"
+                stroke-linecap="round" class="rm-wave-line"/>
+
+          {/* ── Jalons ── */}
+          {milestones.map((m) => (
+            <a href={m.href} aria-label={`${m.label} — ${m.date}`} class="rm-ms-link">
+              <g class={`rm-ms rm-ms--${m.status}`}>
+                {m.status === 'active' && (
+                  <circle cx={m.x} cy={m.y} r={NR + 14} class="rm-pulse"/>
+                )}
+                <circle cx={m.x} cy={m.y} r={NR} class="rm-circle"/>
+                <text
+                  x={m.x} y={m.y} dy="0.35em"
+                  text-anchor="middle"
+                  class="rm-node-icon"
+                >{m.icon}</text>
+                <line
+                  x1={m.x} y1={connY1(m.y, m.labelPos)}
+                  x2={m.x} y2={connY2(m.y, m.labelPos)}
+                  class="rm-conn"
+                />
+                <text
+                  x={m.x} y={dateY(m.x, m.y, m.labelPos)}
+                  text-anchor="middle" class="rm-lbl-date"
+                >{m.date}</text>
+                <text
+                  x={m.x} y={titleY(m.x, m.y, m.labelPos)}
+                  text-anchor="middle" class="rm-lbl-title"
+                >{m.label}</text>
+                <text
+                  x={m.x} y={subY(m.x, m.y, m.labelPos)}
+                  text-anchor="middle" class="rm-lbl-sub"
+                >{m.sub}</text>
+              </g>
+            </a>
+          ))}
+        </svg>
+      </div>
+    </section>
+
+    <!-- ── CAPTION CONCEPT ───────────────────────── -->
+    <section class="rm-caption-section">
+      <div class="rm-caption-inner">
+        <p class="rm-caption-text">
+          <span class="rm-caption-em">TourData 2026</span> est un projet de collecte de données terrain
+          mené à vélo sur 14 étapes et 2 500 km — de Fontenay-le-Comte à Caen.
+          Chaque jalon représente une couche du produit&nbsp;: du cadrage initial jusqu'à la restitution analytique post-tour.
+          L'objectif&nbsp;: démontrer qu'un bon Data Product Manager ne modélise pas depuis un open space —
+          il collecte, observe, mesure et restitue depuis le terrain.
+        </p>
+        <div class="rm-caption-meta">
+          <span><i class="fas fa-route"></i> 8 jalons · Avr – Juil 2026</span>
+          <span><i class="fas fa-database"></i> Data · RAG · LLM · Audit Maturité</span>
+          <span><i class="fas fa-person-biking"></i> Fontenay-le-Comte → Caen</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LISTE MOBILE ──────────────────────────── -->
+    <section class="rm-mob-wrap">
+      <div class="rm-mob-list">
+        {milestones.map((m) => (
+          <a href={m.href} class={`rm-mob-item rm-mob--${m.status}`}>
+            <div class="rm-mob-icon">
+              <i class={`fas fa-${
+                m.id === 'concept'  ? 'layer-group' :
+                m.id === 'terrain'  ? 'bicycle'     :
+                m.id === 'tourdata' ? 'chart-pie'   :
+                m.id === 'strava'   ? 'bolt'        :
+                m.id === 'radar'    ? 'crosshairs'  :
+                m.id === 'meteo'    ? 'cloud-sun'   :
+                m.id === 'etapes'   ? 'map-pin'     :
+                'robot'
+              }`}></i>
+            </div>
+            <div class="rm-mob-body">
+              <span class="rm-mob-date">{m.date}</span>
+              <span class="rm-mob-label">{m.label}</span>
+              <span class="rm-mob-sub">{m.sub}</span>
+            </div>
+            <i class="fas fa-arrow-right rm-mob-arrow"></i>
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <CopyrightBar />
+</BaseLayout>
+
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ROADMAP TourData 2026
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── Page ─────────────────────────────────────────── */
+.rm-page { min-height: 100vh; padding-top: 0; }
+
+/* ── Hero ─────────────────────────────────────────── */
+.rm-hero {
+  text-align: center;
+  padding: 5.5rem 1.5rem 2.5rem;
+}
+.rm-hero-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.rm-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 1.1rem;
+  background: rgba(77, 184, 212, 0.08);
+  border: 1px solid rgba(77, 184, 212, 0.22);
+  border-radius: var(--radius-full);
+  color: var(--accent-cyan);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.rm-title {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-light);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.rm-desc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin: 0 0 1.75rem;
+}
+.rm-desc strong { color: var(--text-light); font-weight: 700; }
+
+/* ── Legend ───────────────────────────────────────── */
+.rm-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.rm-leg {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.rm-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.rm-leg--done     .rm-dot { background: #4db8d4; }
+.rm-leg--active   .rm-dot { background: #d4845a; box-shadow: 0 0 6px rgba(212,132,90,.6); }
+.rm-leg--upcoming .rm-dot { border: 2px solid #2d8bb5; }
+.rm-leg--future   .rm-dot { background: var(--secondary-dark); border: 1.5px solid rgba(77,184,212,.4); }
+
+/* ── Wave section ─────────────────────────────────── */
+.rm-wave-section {
+  padding: 0 1.5rem 4rem;
+}
+.rm-wave-wrapper {
+  max-width: 1480px;
+  margin: 0 auto;
+  overflow-x: auto;
+  border-radius: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(77,184,212,.3) transparent;
+}
+.rm-wave-svg {
+  display: block;
+  min-width: 900px;
+  width: 100%;
+  border-radius: 16px;
+}
+
+/* ── Wave draw animation ──────────────────────────── */
+.rm-wave-line {
+  stroke-dasharray: 3400;
+  stroke-dashoffset: 3400;
+  animation: rm-draw 2.4s cubic-bezier(.4,0,.2,1) forwards 0.5s;
+}
+@keyframes rm-draw { to { stroke-dashoffset: 0; } }
+
+/* ── SVG links ────────────────────────────────────── */
+.rm-ms-link { cursor: pointer; outline: none; text-decoration: none; }
+.rm-ms-link:focus-visible .rm-circle { stroke: #fff; stroke-width: 3; }
+.rm-ms-link:hover .rm-ms { filter: brightness(1.18); }
+
+/* ── Node circles ─────────────────────────────────── */
+.rm-circle { transition: filter 0.2s ease; }
+
+.rm-ms--done .rm-circle {
+  fill: #4db8d4;
+  filter: drop-shadow(0 0 7px rgba(77,184,212,.55));
+}
+.rm-ms--active .rm-circle {
+  fill: #d4845a;
+  filter: drop-shadow(0 0 10px rgba(212,132,90,.6));
+}
+.rm-ms--upcoming .rm-circle {
+  fill: #0d1e32;
+  stroke: #2d8bb5;
+  stroke-width: 2.5;
+}
+.rm-ms--future .rm-circle {
+  fill: #0a1626;
+  stroke: rgba(77,184,212,.25);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+
+/* ── Pulse (active) ───────────────────────────────── */
+.rm-pulse {
+  fill: none;
+  stroke: #d4845a;
+  stroke-width: 2.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rm-pulse-anim 2.4s ease-out infinite;
+}
+@keyframes rm-pulse-anim {
+  0%   { opacity: 0.8; transform: scale(0.8); }
+  100% { opacity: 0;   transform: scale(1.6); }
+}
+
+/* ── FA icons in SVG ──────────────────────────────── */
+.rm-node-icon {
+  font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 14px;
+  fill: #fff;
+  pointer-events: none;
+}
+.rm-ms--upcoming .rm-node-icon { fill: #2d8bb5; }
+.rm-ms--future   .rm-node-icon { fill: rgba(255,255,255,.3); }
+
+/* ── Connectors ───────────────────────────────────── */
+.rm-conn {
+  stroke-width: 1.2;
+  stroke-dasharray: 3,3;
+  opacity: 0.45;
+}
+.rm-ms--done     .rm-conn { stroke: #4db8d4; }
+.rm-ms--active   .rm-conn { stroke: #d4845a; }
+.rm-ms--upcoming .rm-conn { stroke: #2d8bb5; }
+.rm-ms--future   .rm-conn { stroke: rgba(77,184,212,.2); }
+
+/* ── Label text ───────────────────────────────────── */
+.rm-lbl-date {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rm-lbl-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  fill: #e8ecf0;
+}
+.rm-lbl-sub {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 9px;
+  fill: #7a96b0;
+}
+
+.rm-ms--done     .rm-lbl-date { fill: #4db8d4; }
+.rm-ms--active   .rm-lbl-date { fill: #d4845a; }
+.rm-ms--upcoming .rm-lbl-date { fill: #2d8bb5; }
+.rm-ms--future   .rm-lbl-date { fill: #6ec5d6; opacity: 0.45; }
+.rm-ms--future   .rm-lbl-title { opacity: 0.38; }
+.rm-ms--future   .rm-lbl-sub   { opacity: 0.28; }
+
+/* ── Mobile wrapper ───────────────────────────────── */
+.rm-mob-wrap { display: none; }
+
+/* ── Caption concept ──────────────────────────────── */
+.rm-caption-section {
+  padding: 0 1.5rem 3rem;
+}
+.rm-caption-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.rm-caption-text {
+  font-size: 0.84rem;
+  font-weight: 300;
+  color: rgba(180, 210, 230, 0.62);
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+  max-width: 740px;
+  margin: 0;
+}
+.rm-caption-em {
+  font-weight: 500;
+  color: rgba(77, 184, 212, 0.75);
+  letter-spacing: 0.02em;
+}
+.rm-caption-meta {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.rm-caption-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(77, 184, 212, 0.42);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.rm-caption-meta i {
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+/* ── Caption — light mode ─────────────────────────── */
+[data-theme="light"] .rm-caption-text {
+  color: rgba(30, 55, 80, 0.72);
+}
+[data-theme="light"] .rm-caption-em {
+  color: var(--accent-blue);
+}
+[data-theme="light"] .rm-caption-meta span {
+  color: rgba(26, 127, 160, 0.65);
+}
+
+/* ── Mobile list ──────────────────────────────────── */
+.rm-mob-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 1.25rem 3.5rem;
+}
+
+.rm-mob-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(26,51,82,.4);
+  border: 1px solid rgba(77,184,212,.15);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.25rem;
+  text-decoration: none;
+  color: var(--text-light);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.rm-mob-item:hover {
+  background: rgba(26,51,82,.7);
+  border-color: rgba(77,184,212,.4);
+  transform: translateX(4px);
+}
+
+.rm-mob-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--secondary-dark);
+  border: 2px solid rgba(77,184,212,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+.rm-mob--done     .rm-mob-icon { border-color: #4db8d4; color: #4db8d4; background: rgba(77,184,212,.1); }
+.rm-mob--active   .rm-mob-icon { border-color: #d4845a; color: #d4845a; background: rgba(212,132,90,.1); }
+.rm-mob--upcoming .rm-mob-icon { border-color: #2d8bb5; border-style: dashed; color: #2d8bb5; }
+.rm-mob--future   .rm-mob-icon { opacity: 0.45; }
+
+.rm-mob-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.rm-mob-date {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #4db8d4;
+}
+.rm-mob--active   .rm-mob-date { color: #d4845a; }
+.rm-mob--upcoming .rm-mob-date { color: #2d8bb5; }
+.rm-mob--future   .rm-mob-date { color: var(--text-muted); opacity: 0.6; }
+.rm-mob-label { font-size: 0.9rem; font-weight: 700; color: var(--text-light); }
+.rm-mob-sub   { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
+.rm-mob-arrow { color: var(--accent-cyan); font-size: 0.6rem; opacity: 0.4; }
+
+/* ── Light mode overrides ─────────────────────────── */
+[data-theme="light"] .rm-title { color: #0a1e30; }
+[data-theme="light"] .rm-desc  { color: #3d5060; }
+[data-theme="light"] .rm-desc strong { color: #0a1e30; }
+[data-theme="light"] .rm-leg   { color: #3d5060; }
+/* SVG zone : toujours sur fond sombre pour lisibilité maximale
+   → le rect de fond #rm-bg-grad gère ça directement dans le SVG */
+[data-theme="light"] .rm-wave-wrapper {
+  box-shadow: 0 8px 40px rgba(0,40,80,.18);
+}
+[data-theme="light"] .rm-mob-item {
+  background: #fff;
+  border-color: rgba(0,0,0,.1);
+  color: #0a1e30;
+  box-shadow: 0 2px 10px rgba(0,40,80,.07);
+}
+[data-theme="light"] .rm-mob-item:hover {
+  background: #f0f8fc;
+  border-color: rgba(26,127,160,.3);
+}
+[data-theme="light"] .rm-mob-label { color: #0a1e30; }
+[data-theme="light"] .rm-mob-sub   { color: #3d5060; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 900px) {
+  .rm-wave-section { display: none; }
+  .rm-mob-wrap     { display: block; }
+  .rm-hero         { padding-top: 4rem; }
+}
+</style>

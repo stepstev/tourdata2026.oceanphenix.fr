@@ -192,6 +192,9 @@ const WAVE_LEN = 3200;
               <stop offset="58%"  stop-color="#d4845a" stop-opacity="1"/>
               <stop offset="100%" stop-color="#2d8bb5" stop-opacity="0.5"/>
             </linearGradient>
+            <filter id="rm-bike-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="1" stdDeviation="5" flood-color="#7ecfe0" flood-opacity="0.75"/>
+            </filter>
             <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
               <stop offset="0%"  stop-color="#1a3352" stop-opacity="0.95"/>
               <stop offset="100%" stop-color="#0a182c" stop-opacity="1"/>
@@ -229,8 +232,23 @@ const WAVE_LEN = 3200;
           <!-- ombre portée -->
           <path d={WAVE} stroke="#020a16" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.6"/>
           <!-- vague principale — animation draw -->
-          <path d={WAVE} stroke="url(#rm-wg)" stroke-width="3" fill="none"
+          <path id="rm-wave-path" d={WAVE} stroke="url(#rm-wg)" stroke-width="3" fill="none"
                 stroke-linecap="round" class="rm-wave-line"/>
+
+          <!-- vélo animé le long de la vague -->
+          <g class="rm-bike-rider">
+            <text
+              text-anchor="middle"
+              dominant-baseline="middle"
+              dy="-14"
+              class="rm-bike-icon"
+              filter="url(#rm-bike-glow)"
+            >&#xf206;</text>
+            <animateMotion dur="28s" repeatCount="indefinite" rotate="auto" calcMode="spline"
+              keyTimes="0;1" keySplines="0.4 0 0.6 1">
+              <mpath href="#rm-wave-path"/>
+            </animateMotion>
+          </g>
 
           {/* ── Jalons ── */}
           {milestones.map((m) => (
@@ -474,6 +492,18 @@ const WAVE_LEN = 3200;
 @keyframes rm-pulse-anim {
   0%   { opacity: 0.8; transform: scale(0.8); }
   100% { opacity: 0;   transform: scale(1.6); }
+}
+
+/* ── Vélo animé ───────────────────────────────────── */
+.rm-bike-rider {
+  pointer-events: none;
+}
+.rm-bike-icon {
+  font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 22px;
+  fill: #7ecfe0;
+  opacity: 0.92;
 }
 
 /* ── FA icons in SVG ──────────────────────────────── */

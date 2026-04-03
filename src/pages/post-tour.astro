@@ -197,16 +197,18 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.35rem 1.1rem;
-  background: rgba(77, 184, 212, 0.07);
-  border: 1px solid rgba(77, 184, 212, 0.2);
+  padding: 0.45rem 1.4rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-full);
-  color: var(--accent-cyan);
-  font-size: 0.7rem;
-  font-weight: 700;
+  color: var(--text-light);
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.07em;
   margin-bottom: 1.5rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .pt-title {
@@ -303,16 +305,18 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 1rem;
-  background: rgba(77, 184, 212, 0.07);
-  border: 1px solid rgba(77, 184, 212, 0.18);
+  padding: 0.4rem 1.1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-full);
-  color: var(--accent-cyan);
-  font-size: 0.68rem;
-  font-weight: 700;
+  color: var(--text-light);
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.06em;
   margin-bottom: 0.85rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .pt-section-title {
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -337,42 +341,52 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   gap: 1rem;
 }
 .pt-card {
-  background: #0e1f3d;
-  border: 1px solid rgba(77, 184, 212, 0.22);
-  border-top: 2px solid rgba(77, 184, 212, 0.5);
-  border-radius: var(--radius-lg);
-  padding: 1.1rem 1.2rem 1.2rem;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  background: rgba(12, 24, 48, 0.65);
+  border: 1px solid rgba(77, 184, 212, 0.12);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.4rem 1.35rem;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-medium);
 }
+.pt-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--transition-medium);
+}
+.pt-card:hover::before { transform: scaleX(1); }
 .pt-card:hover {
-  border-color: rgba(77, 184, 212, 0.42);
-  border-top-color: rgba(77, 184, 212, 0.8);
+  border-color: rgba(77, 184, 212, 0.24);
   transform: translateY(-3px);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
 }
 .pt-card--highlight {
-  background: #1a1408;
-  border-color: rgba(212, 132, 90, 0.28);
-  border-top: 2px solid rgba(212, 132, 90, 0.65);
-  border-left: none;
+  border-color: rgba(212, 132, 90, 0.18);
+}
+.pt-card--highlight::before {
+  background: linear-gradient(90deg, var(--accent-orange), var(--accent-copper));
 }
 .pt-card--highlight:hover {
-  border-color: rgba(212, 132, 90, 0.52);
-  border-top-color: rgba(212, 132, 90, 0.9);
-  box-shadow: 0 14px 36px rgba(212, 132, 90, 0.14);
+  border-color: rgba(212, 132, 90, 0.35);
+  box-shadow: 0 8px 32px rgba(212, 132, 90, 0.14);
 }
 
 /* ── DataMaturity Score card ──────────────────────── */
 .pt-card--dms {
-  background: #081c38;
-  border-color: rgba(77, 184, 212, 0.35);
-  border-top: 2px solid rgba(77, 184, 212, 0.75);
-  border-left: none;
+  background: rgba(6, 22, 48, 0.75);
+  border-color: rgba(77, 184, 212, 0.22);
+}
+.pt-card--dms::before {
+  background: linear-gradient(90deg, var(--accent-cyan), #2d8bb5);
 }
 .pt-card--dms:hover {
-  border-color: rgba(77, 184, 212, 0.58);
-  border-top-color: rgba(77, 184, 212, 1);
-  box-shadow: 0 14px 36px rgba(77, 184, 212, 0.18);
+  border-color: rgba(77, 184, 212, 0.38);
+  box-shadow: 0 8px 32px rgba(77, 184, 212, 0.18);
 }
 .pt-card-icon--dms {
   background: rgba(77, 184, 212, 0.12);
@@ -543,25 +557,31 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 }
 [data-theme="light"] .pt-count-sub { color: #5a7080; }
 [data-theme="light"] .pt-section-desc { color: #2a3d50; }
+[data-theme="light"] .pt-hero-badge {
+  background: rgba(10, 30, 60, 0.07);
+  border-color: rgba(10, 30, 60, 0.18);
+  color: #0a1e30;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+[data-theme="light"] .pt-section-badge {
+  background: rgba(26, 127, 160, 0.08);
+  border-color: rgba(26, 127, 160, 0.22);
+  color: #15658a;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 [data-theme="light"] .pt-card {
   background: #ffffff;
-  border-color: rgba(26, 127, 160, 0.2);
-  border-top-color: rgba(26, 127, 160, 0.45);
-  box-shadow: 0 2px 14px rgba(0, 40, 80, 0.09);
+  border-color: rgba(0, 40, 80, 0.1);
+  box-shadow: 0 2px 14px rgba(0, 40, 80, 0.07);
 }
 [data-theme="light"] .pt-card:hover {
-  border-color: rgba(26, 127, 160, 0.35);
-  border-top-color: rgba(26, 127, 160, 0.7);
-  box-shadow: 0 8px 28px rgba(26, 127, 160, 0.14);
+  border-color: rgba(26, 127, 160, 0.22);
+  box-shadow: 0 8px 28px rgba(0, 40, 80, 0.12);
 }
-[data-theme="light"] .pt-card--highlight {
-  background: #fffaf6;
-  border-top-color: rgba(176, 104, 48, 0.65);
-}
-[data-theme="light"] .pt-card--dms {
-  background: #f2fbff;
-  border-top-color: rgba(26, 127, 160, 0.72);
-}
+[data-theme="light"] .pt-card--dms { background: #f4fbff; }
+[data-theme="light"] .pt-card--highlight { background: #fffcf8; }
 [data-theme="light"] .pt-card-title { color: #0a1e30; }
 [data-theme="light"] .pt-card-text  { color: #2a3d50; }
 [data-theme="light"] .pt-card-text strong { color: #0a1e30; }

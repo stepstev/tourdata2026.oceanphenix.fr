@@ -52,7 +52,7 @@ import CopyrightBar from '../components/CopyrightBar.astro';
           <div class="pt-section-badge">
             <i class="fas fa-map-pin"></i> Le programme — si tout va bien
           </div>
-          <h2 class="pt-section-title">Ce qui vous attend ici</h2>
+          <h2 class="pt-section-title"><i class="fas fa-gauge-high pt-cu"></i> Ce qui vous attend ici</h2>
           <p class="pt-section-desc">
             Un dashboard complet de restitution du Tour de la Data, alimenté par les données
             collectées sur le terrain. Le genre de truc qu'on ne peut faire
@@ -221,7 +221,7 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
-  color: var(--text-light);
+  color: var(--heading-color);
   margin: 0 0 1.25rem;
 }
 .pt-title-accent {
@@ -326,10 +326,11 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 .pt-section-title {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-  color: var(--text-light);
+  color: var(--heading-color);
   margin: 0 0 0.75rem;
   letter-spacing: -0.02em;
 }
+.pt-cu { color: var(--accent-copper); margin-right: 0.4rem; font-size: 0.85em; }
 .pt-section-desc {
   font-size: var(--text-sm);
   color: var(--text-muted);
@@ -546,8 +547,6 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   background: rgba(26, 127, 160, 0.06);
   border-color: rgba(26, 127, 160, 0.14);
 }
-[data-theme="light"] .pt-title { color: #0a1e30; }
-[data-theme="light"] .pt-section-title { color: #0a1e30; }
 [data-theme="light"] .pt-subtitle { color: #2a3d50; }
 [data-theme="light"] .pt-subtitle em { color: #5a7080; }
 [data-theme="light"] .pt-subtitle strong { color: #0a1e30; }

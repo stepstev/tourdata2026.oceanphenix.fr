@@ -160,7 +160,7 @@ const WAVE_LEN = 3200;
         <div class="rm-section-badge">
           <i class="fas fa-route"></i> Roadmap
         </div>
-        <h1 class="rm-title">Vision Produit &amp; Jalons</h1>
+        <h1 class="rm-title"><i class="fas fa-route rm-cu"></i> Vision Produit &amp; Jalons</h1>
         <p class="rm-desc">
           De l'<strong>idéation</strong> au <strong>terrain</strong> — 8 jalons pour le
           Tour de la Data à vélo. Cliquez sur un jalon pour accéder à la page.
@@ -321,7 +321,7 @@ const WAVE_LEN = 3200;
         <div class="rm-section-badge rm-cs-badge">
           <i class="fas fa-layer-group"></i> Concept
         </div>
-        <h2 class="rm-cs-title">Pourquoi ce projet — la vision produit en bref</h2>
+        <h2 class="rm-cs-title"><i class="fas fa-layer-group rm-cu"></i> Pourquoi ce projet — la vision produit en bref</h2>
         <p class="rm-cs-intro">
           TourData 2026 est une démarche de <strong>rapprochement du terrain</strong> — une volonté délibérée
           d'aller chercher les vraies valeurs, les vrais besoins, les vraies douleurs là où elles existent&nbsp;:
@@ -385,10 +385,11 @@ const WAVE_LEN = 3200;
   font-size: clamp(1.7rem, 4vw, 2.6rem);
   font-weight: 700;
   letter-spacing: -0.025em;
-  color: var(--text-light);
+  color: var(--heading-color);
   margin: 0 0 0.75rem;
   line-height: 1.2;
 }
+.rm-cu { color: var(--accent-copper); margin-right: 0.35rem; font-size: 0.85em; vertical-align: middle; }
 
 .rm-desc {
   font-size: var(--text-sm);
@@ -694,7 +695,6 @@ const WAVE_LEN = 3200;
   position: relative;
   z-index: 1;
 }
-[data-theme="light"] .rm-title { color: #0a1e30; }
 [data-theme="light"] .rm-desc  { color: #2a3d50; }
 [data-theme="light"] .rm-desc strong { color: #0a1e30; }
 [data-theme="light"] .rm-leg   { color: #2a3d50; }
@@ -788,11 +788,10 @@ const WAVE_LEN = 3200;
   font-size: clamp(1.3rem, 3vw, 1.85rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--text-light);
+  color: var(--heading-color);
   margin: 0 0 1rem;
   line-height: 1.25;
 }
-[data-theme="light"] .rm-cs-title { color: #0a1e30; }
 
 .rm-cs-intro {
   font-size: 0.9rem;

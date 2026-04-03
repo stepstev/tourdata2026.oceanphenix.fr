@@ -149,10 +149,11 @@
   font-size: clamp(1.5rem, 3vw, 2.1rem);
   font-weight: 700;
   letter-spacing: -0.025em;
-  color: var(--text-light);
+  color: var(--heading-color);
   margin-bottom: 0.65rem;
   line-height: 1.2;
 }
+.cp-section-title .cp-cu { color: var(--accent-copper); margin-right: 0.4rem; font-size: 0.85em; }
 
 .cp-section-desc {
   color: var(--text-light);

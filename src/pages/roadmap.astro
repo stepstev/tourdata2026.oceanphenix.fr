@@ -556,7 +556,7 @@ const WAVE_LEN = 3200;
 .rm-ms--future   .rm-lbl-sub   { opacity: 0.28; }
 
 /* ── Mobile wrapper ───────────────────────────────── */
-.rm-mob-wrap { display: none; background: rgba(8,18,36,.5); }
+.rm-mob-wrap { display: none; background: #07132a; }
 
 /* ── Caption concept ──────────────────────────────── */
 .rm-caption-section {
@@ -636,19 +636,17 @@ const WAVE_LEN = 3200;
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(10,22,44,.82);
-  border: 1px solid rgba(77,184,212,.18);
+  background: #0e2044;
+  border: 1px solid rgba(77,184,212,.22);
   border-radius: var(--radius-md);
   padding: 0.9rem 1.25rem;
   text-decoration: none;
-  color: var(--text-light);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  color: #e8ecf0;
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 .rm-mob-item:hover {
-  background: rgba(20,40,72,.9);
-  border-color: rgba(77,184,212,.42);
+  background: #142850;
+  border-color: rgba(77,184,212,.45);
   transform: translateX(4px);
 }
 
@@ -687,9 +685,9 @@ const WAVE_LEN = 3200;
 .rm-mob--active   .rm-mob-date { color: #d4845a; }
 .rm-mob--upcoming .rm-mob-date { color: #2d8bb5; }
 .rm-mob--future   .rm-mob-date { color: var(--text-muted); opacity: 0.6; }
-.rm-mob-label { font-size: 0.9rem; font-weight: 700; color: var(--text-light); }
-.rm-mob-sub   { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
-.rm-mob-arrow { color: var(--accent-cyan); font-size: 0.6rem; opacity: 0.4; }
+.rm-mob-label { font-size: 0.9rem; font-weight: 700; color: #e8ecf0; }
+.rm-mob-sub   { font-size: 0.75rem; color: #8fa3b8; line-height: 1.4; }
+.rm-mob-arrow { color: #4db8d4; font-size: 0.6rem; opacity: 0.55; }
 
 /* ── Light mode overrides ─────────────────────────── */
 [data-theme="light"] .rm-page {

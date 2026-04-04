@@ -649,10 +649,12 @@ import OceanBackground from '../components/OceanBackground.astro';
           iconAnchor: [32, 18],
           iconSize:   [64, 54],
         });
+        const { score: mapScore, comment: mapComment } = cyclingScore(maxT, wind, pop > 5 ? 1 : 0);
         const popup = window.L.popup({ className: 'mt-leaflet-popup' }).setContent(
           `<strong>${city.name}</strong><br>${info.emoji} ${info.label}<br>` +
-          `🌡 ${maxT}° / ${minT}°&nbsp;&nbsp;💨 ${wind} km/h` +
-          (pop > 5 ? `<br>💧 Pluie : ${pop}%` : '')
+          `<span style="color:#8ab4c8">▲ ${maxT}°&nbsp; ▼ ${minT}°&nbsp;&nbsp; 💨 ${wind} km/h</span>` +
+          (pop > 5 ? `<br><span style="color:#7aaec8">🌧 Pluie : ${pop}%</span>` : '') +
+          `<br><span style="color:${scoreColor(mapScore)};font-weight:600">🚴 ${mapScore}/10 — ${mapComment}</span>`
         );
         const marker = window.L.marker([city.lat, city.lon], { icon }).bindPopup(popup);
         marker.addTo(mapInstance);

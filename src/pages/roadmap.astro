@@ -171,6 +171,9 @@ const WAVE_LEN = 3200;
           <span class="rm-leg rm-leg--upcoming"><span class="rm-dot"></span>À venir</span>
           <span class="rm-leg rm-leg--future">  <span class="rm-dot"></span>Futur</span>
         </div>
+        <p class="rm-click-hint">
+          Cliquez sur un jalon pour voir le détail <i class="fas fa-arrow-down rm-hint-arrow"></i>
+        </p>
       </div>
     </section>
 
@@ -406,6 +409,53 @@ const WAVE_LEN = 3200;
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
+}
+.rm-click-hint {
+  margin-top: 1.1rem;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-family: var(--font-primary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0a1e35;
+  background: rgba(77,184,212,.18);
+  border: 1.5px solid rgba(77,184,212,.4);
+  border-radius: 999px;
+  padding: 0.45rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+  animation: rm-hint-blink 1.4s ease-in-out infinite;
+}
+.rm-click-hint i {
+  font-size: 1.1rem;
+  color: #0d6a8a;
+}
+.rm-hint-arrow {
+  animation: rm-arrow-bounce 0.9s ease-in-out infinite;
+}
+@keyframes rm-arrow-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
+}
+[data-theme="dark"] .rm-click-hint,
+html:not([data-theme]) .rm-click-hint {
+  color: #e8f4fc;
+  background: rgba(77,184,212,.12);
+  border-color: rgba(77,184,212,.35);
+}
+[data-theme="dark"] .rm-click-hint i,
+html:not([data-theme]) .rm-click-hint i {
+  color: #4db8d4;
+}
+@keyframes rm-hint-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.08; }
 }
 .rm-leg {
   display: flex;

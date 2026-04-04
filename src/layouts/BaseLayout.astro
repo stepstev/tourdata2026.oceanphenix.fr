@@ -66,6 +66,14 @@ const {
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XY2QBRBH35"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XY2QBRBH35');
+  </script>
 </head>
 <body>
   <slot />

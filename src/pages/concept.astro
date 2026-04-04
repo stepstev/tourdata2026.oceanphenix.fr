@@ -796,6 +796,9 @@ const jalons = roadmapData.jalons;
                 <span class={`cp-tl-date${j.statut === 'active' ? ' cp-tl-date--active' : ''}`}>{j.date}</span>
                 <span class="cp-tl-title">{j.titre}</span>
                 <span class="cp-tl-sub">{j.sous}</span>
+                <a href={j.href} class={`cp-tl-cta${j.statut === 'active' ? ' cp-tl-cta--active' : ''}`} aria-label={`Voir ${j.titre}`}>
+                  <i class="fas fa-arrow-up-right-from-square"></i> Voir
+                </a>
               </div>
             </div>
           ))}
@@ -829,9 +832,16 @@ const jalons = roadmapData.jalons;
                 sous.className = 'cp-tl-sub';
                 sous.textContent = j.sous || '';
 
+                var cta = document.createElement('a');
+                cta.className = 'cp-tl-cta' + (j.statut === 'active' ? ' cp-tl-cta--active' : '');
+                cta.href = j.href || '#';
+                cta.setAttribute('aria-label', 'Voir ' + (j.titre || ''));
+                cta.innerHTML = '<i class="fas fa-arrow-up-right-from-square"></i> Voir';
+
                 content.appendChild(date);
                 content.appendChild(titre);
                 content.appendChild(sous);
+                content.appendChild(cta);
                 item.appendChild(node);
                 item.appendChild(content);
                 container.appendChild(item);

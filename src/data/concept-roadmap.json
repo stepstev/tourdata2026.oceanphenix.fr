@@ -5,35 +5,40 @@
       "date": "Fév 2026",
       "titre": "Idéation",
       "sous": "Problème · Vision · Périmètre · Stack",
-      "statut": "done"
+      "statut": "done",
+      "href": "#ideation"
     },
     {
       "id": "mvp",
       "date": "Fév–Mar 2026",
       "titre": "MVP Terrain",
       "sous": "Astro · Nav · Étapes · Journal",
-      "statut": "done"
+      "statut": "done",
+      "href": "#stack"
     },
     {
       "id": "modules",
       "date": "Mar 2026 — en cours",
       "titre": "Modules Data",
       "sous": "Radar · Météo · Strava · APIs",
-      "statut": "active"
+      "statut": "active",
+      "href": "/terrain"
     },
     {
       "id": "tour",
       "date": "Avr–Mai 2026",
       "titre": "Tour Terrain",
-      "sous": "2 500 km · 12 régions · Live",
-      "statut": "future"
+      "sous": "12 régions · Live",
+      "statut": "future",
+      "href": "/terrain"
     },
     {
       "id": "posttour",
       "date": "Mai+ 2026",
       "titre": "Post-Tour IA",
       "sous": "Rapport · RAG · Matrice data",
-      "statut": "future"
+      "statut": "future",
+      "href": "/post-tour"
     }
   ]
 }

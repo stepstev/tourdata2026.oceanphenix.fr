@@ -515,7 +515,9 @@
         @media (max-width: 768px) {
             .nav-has-dropdown .nav-dropdown {
                 position: static;
-                opacity: 0;
+                /* Override desktop visibility:hidden — en mobile le max-height gère la visibilité */
+                visibility: visible !important;
+                opacity: 1;
                 pointer-events: none;
                 transform: none;
                 box-shadow: none;
@@ -527,12 +529,12 @@
                 min-width: unset;
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.25s ease, opacity 0.2s ease;
+                transition: max-height 0.3s ease, opacity 0.2s ease;
             }
             .nav-has-dropdown.is-open .nav-dropdown {
                 opacity: 1;
                 pointer-events: auto;
-                max-height: 320px;
+                max-height: 500px;
                 transform: none;
             }
             .nav-has-dropdown::before { display: none; }

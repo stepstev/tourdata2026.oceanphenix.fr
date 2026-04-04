@@ -367,6 +367,10 @@ document.querySelectorAll('.platform-card[href]').forEach(card => {
             hamburger.classList.add('is-open');
             navLinks.classList.add('is-open');
             overlay.classList.add('is-open');
+            // Ouvrir TourData2026 et Profil par défaut en mobile
+            navLinks.querySelectorAll('.nav-has-dropdown').forEach(function (dd) {
+                dd.classList.add('is-open');
+            });
         }
 
         function closeMenu() {
@@ -374,6 +378,10 @@ document.querySelectorAll('.platform-card[href]').forEach(card => {
             hamburger.classList.remove('is-open');
             navLinks.classList.remove('is-open');
             overlay.classList.remove('is-open');
+            // Refermer tous les sous-menus à la fermeture du panneau
+            navLinks.querySelectorAll('.nav-has-dropdown').forEach(function (dd) {
+                dd.classList.remove('is-open');
+            });
         }
 
         hamburger.addEventListener('click', function () {

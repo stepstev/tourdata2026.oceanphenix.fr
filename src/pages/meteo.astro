@@ -249,10 +249,10 @@ import OceanBackground from '../components/OceanBackground.astro';
             <button class="mt-period-btn" data-day="5">J+5</button>
           </div>
           <div class="mt-map-legend">
-            <span class="mt-legend-dot" style="background:#4a80a8"></span>&lt;5°
-            <span class="mt-legend-dot" style="background:#3d8860"></span>5–15°
-            <span class="mt-legend-dot" style="background:#7a7a38"></span>15–25°
-            <span class="mt-legend-dot" style="background:#a04e2a"></span>&gt;25°
+            <span class="mt-legend-dot" style="background:#5b9bd5"></span>&lt;5°
+            <span class="mt-legend-dot" style="background:#4db87a"></span>5–15°
+            <span class="mt-legend-dot" style="background:#e8a030"></span>15–25°
+            <span class="mt-legend-dot" style="background:#d94f3a"></span>&gt;25°
           </div>
         </div>
         <div class="mt-carte-wrap">
@@ -419,12 +419,12 @@ import OceanBackground from '../components/OceanBackground.astro';
 
     function scoreColor(s) { return s >= 7 ? '#5a9470' : s >= 5 ? '#9e7840' : '#9e5050'; }
 
-    // Palette température professionnelle 4 zones (sobre, sans couleurs criardes)
+    // Palette température 4 zones — cohérente avec carte et légende
     function tempTint(t) {
-      if (t <  5) return '#4a80a8';   // bleu acier  — froid
-      if (t < 15) return '#3d8a72';   // teal foncé  — frais
-      if (t < 25) return '#8a7e3a';   // olive doré  — doux
-      return '#a8602e';               // brun-orange — chaud
+      if (t <  5) return '#5b9bd5';   // bleu vif    — froid
+      if (t < 15) return '#4db87a';   // vert franc  — frais
+      if (t < 25) return '#e8a030';   // ambre       — doux
+      return '#d94f3a';               // rouge-orange — chaud
     }
 
     // ── Appel Open-Meteo ──────────────────────────────────────────────────────
@@ -587,10 +587,10 @@ import OceanBackground from '../components/OceanBackground.astro';
     let mapDayData   = null;
 
     function tempColor(t) {
-      if (t <  5) return '#4a80a8';   // bleu acier  — froid
-      if (t < 15) return '#3d8a72';   // teal foncé  — frais
-      if (t < 25) return '#8a7e3a';   // olive doré  — doux
-      return '#a8602e';               // brun-orange — chaud
+      if (t <  5) return '#5b9bd5';   // bleu vif    — froid
+      if (t < 15) return '#4db87a';   // vert franc  — frais
+      if (t < 25) return '#e8a030';   // ambre       — doux
+      return '#d94f3a';               // rouge-orange — chaud
     }
 
     function loadLeaflet() {

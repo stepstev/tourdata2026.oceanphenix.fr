@@ -377,22 +377,41 @@ import OceanBackground from '../components/OceanBackground.astro';
     }
 
     function cyclingScore(temp, windKmh, rain) {
-      let score = 10;
-      if (windKmh > 20) score -= 1;
-      if (windKmh > 35) score -= 2;
-      if (windKmh > 50) score -= 2;
-      if (temp < 5)     score -= 1;
-      if (temp < 0)     score -= 2;
-      if (temp > 35)    score -= 2;
-      if (rain > 0)     score -= 2;
-      if (rain > 2)     score -= 1;
-      score = Math.max(0, Math.min(10, score));
+      // Score de base selon la température — idéal cycliste : 18-24°C
+      // En-dessous de 15°C la pratique devient médiocre (base ≤ 5)
+      let base;
+      if      (temp <  0)  base = 1;   // gel — dangereux
+      else if (temp <  5)  base = 2;   // très froid
+      else if (temp < 10)  base = 3;   // froid, inconfortable
+      else if (temp < 15)  base = 5;   // frais — médiocre au mieux
+      else if (temp < 18)  base = 7;   // limite acceptable
+      else if (temp <= 24) base = 10;  // zone idéale
+      else if (temp <= 28) base = 8;   // chaud mais gérable
+      else if (temp <= 32) base = 6;   // chaud, fatiguant
+      else if (temp <= 36) base = 4;   // très chaud
+      else                 base = 2;   // extrême
+
+      // Pénalité vent (km/h)
+      let windP = 0;
+      if      (windKmh > 50) windP = 4;
+      else if (windKmh > 35) windP = 3;
+      else if (windKmh > 25) windP = 2;
+      else if (windKmh > 15) windP = 1;
+
+      // Pénalité précipitations (mm)
+      let rainP = 0;
+      if      (rain > 10) rainP = 4;
+      else if (rain >  5) rainP = 3;
+      else if (rain >  2) rainP = 2;
+      else if (rain >  0) rainP = 1;
+
+      const score = Math.max(0, Math.min(10, base - windP - rainP));
       const comments = {
         10:'🏆 Parfait pour le vélo !', 9:'✅ Excellentes conditions',
         8:'👍 Très bonnes conditions',  7:'🟢 Bonnes conditions',
         6:'🟡 Conditions correctes',    5:'⚠️ Conditions moyennes',
-        4:'⚠️ Peu favorable',           3:'🔴 Difficile à vélo',
-        2:'🔴 Très difficile',          1:'🚫 Déconseillé',
+        4:'😐 Médiocre',                3:'🔴 Peu favorable',
+        2:'🔴 Difficile à vélo',        1:'🚫 Déconseillé',
         0:'🚫 Conditions extrêmes',
       };
       return { score, comment: comments[score] ?? '' };

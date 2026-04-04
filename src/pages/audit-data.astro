@@ -56,12 +56,21 @@ import OceanBackground from '../components/OceanBackground.astro';
 
       <!-- ── Colonne gauche : questionnaire ─────────────────── -->
       <div class="ad-qcol" id="ad-qcol">
+        <div class="ad-col-header">
+          <h2 class="ad-col-title"><i class="fas fa-clipboard-list"></i> Questionnaire</h2>
+          <span class="ad-col-meta">11 dimensions · 33 questions</span>
+        </div>
         <!-- généré par JS -->
       </div>
 
       <!-- ── Colonne droite : radar sticky ──────────────────── -->
       <div class="ad-rcol">
         <div class="ad-radar-card" id="ad-radar-card">
+
+          <div class="ad-col-header">
+            <h2 class="ad-col-title"><i class="fas fa-chart-radar"></i> Radar de maturité</h2>
+            <span class="ad-col-meta">Score /5 · DataMaturity Score™</span>
+          </div>
 
           <!-- Score global -->
           <div class="ad-global-score" id="ad-global-score">
@@ -1201,10 +1210,11 @@ else{init();}
   <!-- ═══ STYLES ══════════════════════════════════════════════ -->
   <style is:global>
 /* ── Page ─────────────────────────────────────────────────── */
-.ad-page{position:relative;z-index:1;padding-top:80px;padding-bottom:120px;overflow-x:hidden;max-width:100%;}
+.ad-page{position:relative;z-index:1;padding-top:80px;padding-bottom:120px;overflow-x:hidden;width:100%;box-sizing:border-box;}
 
 /* ── Hero ─────────────────────────────────────────────────── */
 .ad-hero{text-align:center;padding:var(--spacing-xl) var(--spacing-md) var(--spacing-lg);max-width:820px;margin:0 auto;}
+@media(max-width:900px){.ad-hero{padding-left:1.25rem;padding-right:1.25rem;}}
 @media(max-width:640px){.ad-hero{padding-left:1rem;padding-right:1rem;}}
 .ad-hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(77,184,212,.1);border:1px solid rgba(77,184,212,.25);color:#7ecfe0;border-radius:var(--radius-full);padding:.35rem 1.1rem;font-size:var(--text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--spacing-sm);}
 .ad-hero-title{font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:800;color:var(--heading-color);margin-bottom:.6rem;letter-spacing:-.03em;}
@@ -1325,6 +1335,7 @@ else{init();}
 [data-theme="light"] .ad-modal-close:hover{background:rgba(200,40,40,.08);border-color:rgba(200,40,40,.3);color:#a02020;}
 
 /* ── Profil bar ───────────────────────────────────────────── */
+/* profil-bar : même padding horizontal que .ad-layout à chaque breakpoint */
 .ad-profil-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;max-width:1100px;margin:0 auto var(--spacing-lg);padding:.8rem var(--spacing-md);background:rgba(8,18,34,.85);border:1px solid rgba(77,184,212,.2);border-radius:var(--radius-lg);backdrop-filter:blur(16px);}
 .ad-profil-label{font-size:var(--text-sm);color:#b0c8dc;font-weight:600;display:flex;align-items:center;gap:.4rem;}
 .ad-profil-btns{display:flex;gap:.4rem;flex-wrap:wrap;}
@@ -1333,18 +1344,31 @@ else{init();}
 .ad-profil-btn:hover{border-color:rgba(77,184,212,.5);color:#dce8f4;background:rgba(77,184,212,.1);}
 .ad-profil-btn.is-active{background:rgba(77,184,212,.15);border-color:rgba(77,184,212,.6);color:#7ecfe0;font-weight:600;}
 .ad-profil-info{margin-left:auto;font-size:var(--text-xs);color:#8fa8bc;display:flex;align-items:center;gap:.4rem;}
+@media(max-width:900px){
+  .ad-profil-bar{padding:.75rem 1.25rem;margin-left:1.25rem;margin-right:1.25rem;}
+}
 @media(max-width:640px){
-  .ad-profil-bar{flex-direction:column;align-items:stretch;padding:.75rem 1rem;gap:.55rem;}
+  .ad-profil-bar{flex-direction:column;align-items:stretch;padding:.75rem 1rem;margin-left:1rem;margin-right:1rem;gap:.55rem;}
   .ad-profil-label{justify-content:center;}
   .ad-profil-btns{flex-direction:column;}
   .ad-profil-btn{justify-content:center;width:100%;}
   .ad-profil-info{margin-left:0;justify-content:center;}
 }
+@media(max-width:400px){
+  .ad-profil-bar{padding:.65rem .75rem;margin-left:.75rem;margin-right:.75rem;}
+}
 
-/* ── Layout ───────────────────────────────────────────────── */
+/* ── Layout — marges symétriques à tous breakpoints ──────── */
 .ad-layout{display:grid;grid-template-columns:1fr 360px;gap:var(--spacing-lg);max-width:1100px;margin:0 auto;padding:0 var(--spacing-md);align-items:start;}
-@media(max-width:900px){.ad-layout{grid-template-columns:1fr;}}
+@media(max-width:900px){.ad-layout{grid-template-columns:1fr;padding:0 1.25rem;}}
 @media(max-width:640px){.ad-layout{padding:0 1rem;gap:.75rem;}}
+@media(max-width:400px){.ad-layout{padding:0 .75rem;}}
+
+/* ── Titres de zone ───────────────────────────────────────── */
+.ad-col-header{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;padding-bottom:.75rem;margin-bottom:.5rem;border-bottom:1px solid rgba(77,184,212,.15);}
+.ad-col-title{font-size:.9rem;font-weight:700;color:#7ecfe0;letter-spacing:.01em;display:flex;align-items:center;gap:.45rem;margin:0;}
+.ad-col-title i{font-size:.82rem;color:var(--accent-copper);opacity:.9;}
+.ad-col-meta{font-size:.68rem;color:#6a8090;font-weight:500;white-space:nowrap;}
 
 /* ── KA blocks (colonne gauche) ───────────────────────────── */
 .ad-qcol{display:flex;flex-direction:column;gap:.5rem;background:rgba(6,14,28,.92);border:1px solid rgba(77,184,212,.2);border-radius:var(--radius-xl);padding:var(--spacing-md);backdrop-filter:blur(20px);box-shadow:0 4px 32px rgba(0,0,0,.5);position:relative;z-index:4;}
@@ -1405,8 +1429,9 @@ else{init();}
 .ad-opt.is-sel .ad-opt-sb{color:#f0b870;}
 
 /* ── Colonne droite — Radar card ──────────────────────────── */
-.ad-rcol{position:sticky;top:90px;z-index:5;}
-.ad-radar-card{background:rgba(8,18,34,.9);border:1px solid rgba(77,184,212,.18);border-radius:var(--radius-xl);padding:var(--spacing-md);backdrop-filter:blur(16px);}
+.ad-rcol{position:sticky;top:90px;z-index:5;min-width:0;max-width:100%;}
+@media(max-width:900px){.ad-rcol{position:static;}}
+.ad-radar-card{background:rgba(8,18,34,.9);border:1px solid rgba(77,184,212,.18);border-radius:var(--radius-xl);padding:var(--spacing-md);backdrop-filter:blur(16px);overflow:hidden;}
 
 /* Score anneau */
 .ad-global-score{display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);padding-bottom:var(--spacing-sm);border-bottom:1px solid rgba(255,255,255,.07);}
@@ -1425,8 +1450,8 @@ else{init();}
 .ad-gs-answered{font-size:.62rem;color:#4a6275;}
 
 /* Radar */
-.ad-radar-canvas-wrap{margin:.4rem 0;}
-.ad-radar-canvas-wrap canvas{max-width:100%;height:auto;}
+.ad-radar-canvas-wrap{margin:.4rem 0;overflow:hidden;}
+.ad-radar-canvas-wrap canvas{width:100%;max-width:100%;height:auto;display:block;}
 
 /* Mini barres */
 .ad-mini-bars{display:flex;flex-direction:column;gap:.28rem;margin-top:.4rem;}
@@ -1466,6 +1491,7 @@ else{init();}
 
 /* ── Rapport complet ──────────────────────────────────────── */
 .ad-report{max-width:1100px;margin:var(--spacing-xl) auto 0;padding:0 var(--spacing-md);}
+@media(max-width:900px){.ad-report{padding:0 1.25rem;}}
 @media(max-width:640px){.ad-report{padding:0 1rem;}}
 .ad-report-section{padding:var(--spacing-lg) 0;border-top:1px solid rgba(255,255,255,.06);}
 .ad-report-section--white{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-xl);padding:var(--spacing-lg);margin-bottom:var(--spacing-md);}

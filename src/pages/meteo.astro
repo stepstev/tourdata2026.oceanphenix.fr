@@ -587,13 +587,10 @@ import OceanBackground from '../components/OceanBackground.astro';
     let mapDayData   = null;
 
     function tempColor(t) {
-      if (t <  0) return '#3d6e90';   // bleu froid profond
-      if (t <  5) return '#4a80a8';   // bleu acier
-      if (t < 10) return '#3a7a6a';   // teal foncé
-      if (t < 15) return '#3d8860';   // vert sauge
-      if (t < 20) return '#7a7a38';   // olive
-      if (t < 25) return '#9a6830';   // ambre-brun
-      return '#a04e2a';               // brun-orangé
+      if (t <  5) return '#4a80a8';   // bleu acier  — froid
+      if (t < 15) return '#3d8a72';   // teal foncé  — frais
+      if (t < 25) return '#8a7e3a';   // olive doré  — doux
+      return '#a8602e';               // brun-orange — chaud
     }
 
     function loadLeaflet() {

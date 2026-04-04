@@ -3157,6 +3157,11 @@
 
 
 
+            /* Controls pushed to right when nav-links is off-canvas */
+            .nav-controls {
+                margin-left: auto;
+            }
+
             /* -- Hamburger menu mobile -- */
             .nav-hamburger {
                 display: flex;

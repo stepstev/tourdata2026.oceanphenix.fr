@@ -73,7 +73,7 @@ const pathname = Astro.url.pathname;
       <!-- ── Icônes fixes ───────────────────────────── -->
       <li><a href="#" id="about-link" aria-label="À propos"><i class="fas fa-circle-info"></i> À propos</a></li>
       <li><a href="/admin-terrain" class="nav-admin-link" title="Administration"><i class="fas fa-cog"></i> Admin</a></li>
-      <li><a href="https://analytics.google.com/analytics/web/?authuser=0#/a338817732p470082691/reports/intelligenthome" target="_blank" rel="noopener" class="nav-admin-link" title="Analytics"><i class="fas fa-chart-line"></i> Analytics</a></li>
+      <li id="nav-analytics" style="display:none"><a href="https://analytics.google.com/analytics/web/?authuser=0#/a338817732p470082691/reports/intelligenthome" target="_blank" rel="noopener" class="nav-admin-link" title="Analytics"><i class="fas fa-chart-line"></i> Analytics</a></li>
 
     </ul>
 
@@ -87,23 +87,28 @@ const pathname = Astro.url.pathname;
           localStorage.setItem('op-terrain-public', '1');
         }
 
-        // Le lien est visible par défaut dans le HTML.
-        // On le masque uniquement si mode public désactivé ET pas de session admin.
-        if (localStorage.getItem('op-terrain-public') === '1') return;
-
+        // Vérification session admin (valable 1h)
         var AUTH_KEY = 'op-admin-auth';
-        var MAX_AGE = 3600000;
-        var raw = sessionStorage.getItem(AUTH_KEY);
-        var ok = false;
+        var MAX_AGE  = 3600000;
+        var raw      = sessionStorage.getItem(AUTH_KEY);
+        var isAdmin  = false;
         if (raw) {
           try {
             var s = JSON.parse(raw);
-            if (s.v === 2 && s.ts && (Date.now() - s.ts <= MAX_AGE)) ok = true;
+            if (s.v === 2 && s.ts && (Date.now() - s.ts <= MAX_AGE)) isAdmin = true;
           } catch(e) {}
         }
-        if (!ok) {
-          const el = document.getElementById('nav-terrain');
-          if (el) el.style.display = 'none';
+
+        // Analytics : visible uniquement en session admin
+        if (isAdmin) {
+          var ana = document.getElementById('nav-analytics');
+          if (ana) ana.style.display = '';
+        }
+
+        // Lien Terrain : masqué si mode public OFF et pas admin
+        if (localStorage.getItem('op-terrain-public') !== '1' && !isAdmin) {
+          var ter = document.getElementById('nav-terrain');
+          if (ter) ter.style.display = 'none';
         }
       })();
     </script>

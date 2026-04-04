@@ -26,18 +26,14 @@ import CopyrightBar from '../components/CopyrightBar.astro';
         </div>
 
         <h1 class="pt-title">
-          Un dashboard de restitution.<br/>
-          Une UX Map du monde qui change.<br/>
-          <span class="pt-title-accent">— bientôt, si je reviens.</span>
+          Un dashboard de restitution &amp; une UX Map du monde qui change.
+          <span class="pt-title-accent">— bientôt, si je reviens. <span style="font-style:normal;">😅</span></span>
         </h1>
 
         <p class="pt-subtitle">
-          Un long parcours à vélo à travers la France — <em>peut-être, si la motivation est là</em> —
-          pour <strong>collecter les ressentis sur le terrain</strong> d'un marché IT en pleine recomposition.<br/>
-          Ce qui vous attend ici&nbsp;: un <strong>dashboard de restitution</strong>,
-          une <strong>UX Map du parcours</strong>, les insights bruts des rencontres,
-          et le récit d'un long chemin pour aller là où les données ne mentent pas.<br/>
-          <em>Bientôt disponible — si mes jambes me portent jusqu'au bout.</em>
+          Un long parcours à vélo à travers la France pour <strong>collecter les ressentis terrain</strong>
+          d'un marché IT en pleine recomposition — dashboard, UX Map du parcours, insights bruts des rencontres.
+          <em>Bientôt disponible, si mes jambes me portent jusqu'au bout.</em>
         </p>
 
 
@@ -141,17 +137,10 @@ import CopyrightBar from '../components/CopyrightBar.astro';
             <i class="fas fa-person-biking"></i>
           </div>
           <div class="pt-promise-body">
-            <div class="pt-promise-label">Engagement solennel</div>
             <p class="pt-promise-text">
-              Je m'engage à produire ce dashboard <strong>dans les 30 jours suivant l'arrivée</strong>,
-              avec ou sans courbatures, avec ou sans selle de vélo encore vissée dans le dos.
-            </p>
-            <p class="pt-promise-fine">
-              * Engagement conditionnel à&nbsp;: (1) finir le tour, (2) revenir avec les données,
-              (3) avoir encore l'usage de mes doigts pour taper sur un clavier.
-              En cas de force majeure — ours dans les Vosges, crevaison en pleine
-              ZA industrielle, ou simple épuisement existentiel — le délai est rallongé
-              sans préavis.
+              Dashboard disponible <strong>dans les 30 jours suivant l'arrivée</strong> —
+              sous réserve de finir le tour, de rentrer avec les données,
+              et d'avoir encore l'usage de mes doigts.
             </p>
           </div>
         </div>
@@ -193,7 +182,7 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 
 /* ── Hero ─────────────────────────────────────────── */
 .pt-hero {
-  padding: 5rem 1.5rem 2.5rem;
+  padding: 3.5rem 1.5rem 2rem;
   text-align: center;
   position: relative;
 }
@@ -202,7 +191,7 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.45rem 1.4rem;
+  padding: 0.4rem 1.2rem;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-full);
@@ -211,36 +200,40 @@ import CopyrightBar from '../components/CopyrightBar.astro';
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
 
 .pt-title {
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-size: clamp(1.65rem, 4vw, 2.6rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--heading-color);
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .pt-title-accent {
-  display: inline-block;
+  display: block;
   color: var(--accent-orange);
   font-style: italic;
-  font-size: 0.85em;
+  font-size: 0.78em;
   font-weight: 600;
+  margin-top: 0.3rem;
 }
 
 .pt-subtitle {
-  font-size: var(--text-base);
+  font-size: 0.9rem;
   color: var(--text-muted);
-  line-height: 1.75;
-  max-width: 640px;
-  margin: 0 auto 2rem;
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0 auto 1.5rem;
 }
 .pt-subtitle strong { color: var(--text-light); }
-.pt-subtitle em { color: rgba(192, 218, 235, 0.6); font-style: italic; }
+.pt-subtitle em { color: rgba(192, 218, 235, 0.75); font-style: italic; }
 
 /* ── Countdown box ────────────────────────────────── */
 .pt-countdown {
@@ -293,7 +286,7 @@ import CopyrightBar from '../components/CopyrightBar.astro';
 
 /* ── Sections ─────────────────────────────────────── */
 .pt-section {
-  padding: 3rem 0;
+  padding: 2rem 0;
 }
 .pt-section--alt {
   background: rgba(6, 16, 36, 0.45);

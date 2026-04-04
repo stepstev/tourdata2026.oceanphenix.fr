@@ -165,9 +165,9 @@ const pathname = Astro.url.pathname;
             a.addEventListener('click', function (e) { e.preventDefault(); });
           });
 
-          /* Fermer en cliquant à l'extérieur */
+          /* Fermer en cliquant à l'extérieur — sauf hamburger (openMenu gère les dropdowns) */
           document.addEventListener('click', function (e) {
-            if (!e.target.closest('.nav-has-dropdown')) closeAll();
+            if (!e.target.closest('.nav-has-dropdown') && !e.target.closest('#nav-hamburger')) closeAll();
           });
         }
 

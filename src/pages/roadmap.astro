@@ -206,8 +206,8 @@ const WAVE_LEN = 3200;
             </radialGradient>
           </defs>
 
-          <!-- fond sombre forcé (visible en light mode) -->
-          <rect width={VBW} height={VBH} fill="url(#rm-bg-grad)" rx="16"/>
+          <!-- fond transparent — carte Leaflet visible en dessous -->
+          <rect width={VBW} height={VBH} fill="rgba(14,32,68,0.08)" rx="16"/>
 
           <!-- grille de fond -->
           <!-- lignes verticales — pas de 90px -->

@@ -65,6 +65,18 @@
       Object.keys(tplDash).forEach(function(k) {
         if (!(k in data.dashboard)) data.dashboard[k] = tplDash[k];
       });
+      // Purge stale synthetic entries (replaced by real Strava data)
+      var STALE_KEYS = new Set([
+        '2026-04-01|Sortie finale — boucle Seine-et-Marne — 73 km avant le départ',
+        '2026-03-25|Test bivouac Dourdan — nuit dehors + boucle récupération 44 km',
+        '2026-03-16|Forêt de Fontainebleau — 94 km / 1 020 m D+ — test dénivelé',
+        '2026-03-08|Forêt de Rambouillet — premier test vélo chargé — 68 km',
+        '2026-02-28|Boucle endurance Beauce — 87 km / 520 m D+',
+        '2026-02-20|Première sortie test vélo de voyage — Vallée de Chevreuse — 52 km'
+      ]);
+      data.journal = data.journal.filter(function(e) {
+        return !STALE_KEYS.has(e.date + '|' + e.titre);
+      });
       // Merge new journal entries from template (adds entries not yet in localStorage)
       var tplJournal = etapesData.journal || [];
       var savedKeys = new Set(data.journal.map(function(e) { return e.date + '|' + e.titre; }));

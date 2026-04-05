@@ -201,8 +201,8 @@ const WAVE_LEN = 3200;
               <feDropShadow dx="0" dy="1" stdDeviation="5" flood-color="#7ecfe0" flood-opacity="0.75"/>
             </filter>
             <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
-              <stop offset="0%"  stop-color="#0e2044" stop-opacity="0.00"/>
-              <stop offset="100%" stop-color="#0e2044" stop-opacity="0.00"/>
+              <stop offset="0%"  stop-color="#0e2044" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0b1a38" stop-opacity="0.70"/>
             </radialGradient>
           </defs>
 
@@ -518,7 +518,7 @@ html:not([data-theme]) .rm-click-hint i {
   scrollbar-width: thin;
   scrollbar-color: rgba(77,184,212,.3) transparent;
   position: relative;
-  background: radial-gradient(ellipse at 50% 40%, #112554 0%, #0e2044 45%, #08152e 100%);
+  background: linear-gradient(180deg, #0f2347 0%, #0e2044 50%, #0b1a38 100%);
   box-shadow: 0 4px 40px rgba(8,21,46,0.7), inset 0 1px 0 rgba(77,184,212,0.10);
   border: 1px solid rgba(45,139,181,0.18);
 }
@@ -529,7 +529,7 @@ html:not([data-theme]) .rm-click-hint i {
   border-radius: 16px;
   pointer-events: none;
   opacity: 1;
-  filter: contrast(0.95) brightness(1.20) saturate(0.70) opacity(0.88);
+  filter: brightness(1.30) contrast(0.90) saturate(0.60) opacity(0.75);
 }
 .rm-wave-svg {
   display: block;

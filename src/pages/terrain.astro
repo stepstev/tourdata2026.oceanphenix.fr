@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import CopyrightBar from '../components/CopyrightBar.astro';
-import CguModal from '../components/CguModal.astro';
 import OceanBackground from '../components/OceanBackground.astro';
 import TerrainDashboard from '../components/TerrainDashboard.astro';
 import '../styles/terrain.css';
@@ -499,7 +498,6 @@ const gpxFiles = etapesData.gpxFiles || [];
 
   <Footer />
   <CopyrightBar />
-  <CguModal />
 
   <!-- Leaflet JS (self-hosted) -->
   <script src="/lib/leaflet.min.js" is:inline></script>

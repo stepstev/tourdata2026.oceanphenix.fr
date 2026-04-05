@@ -4,6 +4,7 @@ import '../styles/tokens.css';  // Design tokens (branding)
 import '../styles/global.css';  // Styles globaux + composants
 import ThemeHint from '../components/ThemeHint.astro';
 import AboutModal from '../components/AboutModal.astro';
+import CguModal from '../components/CguModal.astro';
 
 export interface Props {
   title?: string;
@@ -78,6 +79,7 @@ const {
 <body>
   <slot />
   <AboutModal />
+  <CguModal />
   <ThemeHint />
   <!-- JS main — chargé en fin de body comme l'original -->
   <script src="/js/main.js" is:inline></script>

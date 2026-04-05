@@ -3694,7 +3694,7 @@
 
 /* Navigation  dark header on light background */
 [data-theme="light"] .main-nav {
-    background: rgba(10, 24, 44, 0.97);
+    background: rgba(14, 32, 68, 1);
     -webkit-backdrop-filter: blur(14px) saturate(1.5);
     backdrop-filter: blur(14px) saturate(1.5);
     border-bottom-color: rgba(45, 130, 170, 0.20);

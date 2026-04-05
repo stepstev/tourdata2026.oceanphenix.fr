@@ -181,8 +181,9 @@ const WAVE_LEN = 3200;
     <!-- ── SINUSOÏDE (desktop) ────────────────────── -->
     <section class="rm-wave-section">
       <div class="rm-wave-wrapper">
-        <div id="rm-map" aria-hidden="true"></div>
-        <svg
+        <div class="rm-map-sizer">
+          <div id="rm-map" aria-hidden="true"></div>
+          <svg
           class="rm-wave-svg"
           viewBox={`0 0 ${VBW} ${VBH}`}
           preserveAspectRatio="xMidYMid meet"
@@ -282,6 +283,7 @@ const WAVE_LEN = 3200;
             </a>
           ))}
         </svg>
+        </div><!-- /.rm-map-sizer -->
       </div>
     </section>
 
@@ -347,10 +349,15 @@ const WAVE_LEN = 3200;
   <script is:inline src="/lib/leaflet.min.js"></script>
   <script is:inline>
   (function () {
+    var _rmMap = null;
     function initRmMap() {
       var el = document.getElementById('rm-map');
-      if (!el || !window.L) return;
-      var map = L.map('rm-map', {
+      if (!el || !window.L || _rmMap) return;
+      /* garantir une hauteur lisible par Leaflet */
+      if (!el.offsetHeight) {
+        el.style.height = (Math.round(el.offsetWidth * 580 / 1440) || 400) + 'px';
+      }
+      _rmMap = L.map('rm-map', {
         center: [46.6, 2.3],
         zoom: 5,
         zoomControl: false,
@@ -361,12 +368,17 @@ const WAVE_LEN = 3200;
         touchZoom: false,
         keyboard: false,
       });
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
         maxZoom: 7,
-      }).addTo(map);
+        crossOrigin: true,
+      }).addTo(_rmMap);
+      requestAnimationFrame(function () { _rmMap.invalidateSize(); });
     }
-    if (document.readyState !== 'loading') initRmMap();
-    else document.addEventListener('DOMContentLoaded', initRmMap);
+    if (document.readyState === 'complete') {
+      initRmMap();
+    } else {
+      window.addEventListener('load', initRmMap);
+    }
   })();
   </script>
 </BaseLayout>
@@ -509,25 +521,36 @@ html:not([data-theme]) .rm-click-hint i {
   background: transparent;
   scrollbar-width: thin;
   scrollbar-color: rgba(77,184,212,.3) transparent;
+}
+/* boîte aspect-ratio garantie — technique padding-top */
+.rm-map-sizer {
   position: relative;
+  min-width: 900px;
+  padding-top: 40.28%; /* 580/1440 */
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 1;
+  isolation: isolate;
+  background: rgba(14, 32, 68, 1);
 }
 #rm-map {
   position: absolute;
   inset: 0;
   z-index: 0;
-  border-radius: 16px;
   pointer-events: none;
-  opacity: 1;
-  filter: contrast(1.6) brightness(0.85) saturate(1.3);
+  /* filter déplacé sur le wrapper pour éviter bug compositing */
+}
+.rm-map-sizer .leaflet-container {
+  filter: contrast(2.8) brightness(1.3) saturate(2.0);
 }
 .rm-wave-svg {
-  display: block;
-  min-width: 900px;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  border-radius: 16px;
+  height: 100%;
   background: transparent;
-  position: relative;
   z-index: 1;
+  pointer-events: none;
 }
 
 /* ── Wave draw animation ──────────────────────────── */

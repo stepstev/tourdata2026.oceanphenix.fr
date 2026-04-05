@@ -154,7 +154,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            background: rgba(7, 16, 30, 0.96);
+            background: #073a4c;
             -webkit-backdrop-filter: blur(16px) saturate(1.4);
             backdrop-filter: blur(16px) saturate(1.4);
             border-bottom: 1px solid rgba(45, 130, 170, 0.18);
@@ -320,7 +320,7 @@
 
 
         .nav-links a {
-            color: #b0c6d6;
+            color: #ffffff;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.93rem;
@@ -442,7 +442,7 @@
             top: 100%;
             left: 50%;
             min-width: 210px;
-            background: rgba(8,18,36,0.97);
+            background: #073a4c;
             border: 1px solid rgba(77,184,212,0.18);
             border-radius: var(--radius-md);
             box-shadow: 0 8px 28px rgba(0,0,0,0.38);
@@ -470,7 +470,7 @@
             align-items: center;
             gap: 8px;
             font-size: 0.93rem !important;
-            color: var(--text-muted) !important;
+            color: #ffffff !important;
             padding: 0.45rem 1rem !important;
             white-space: nowrap;
             border-radius: 0 !important;
@@ -2002,7 +2002,7 @@
 
         .main-footer {
 
-            background: rgba(10, 24, 44, 0.88);
+            background: #073a4c;
 
             border-top: 1px solid rgba(45, 130, 170, 0.12);
 
@@ -2050,7 +2050,7 @@
 
         .footer-links a {
 
-            color: var(--text-muted);
+            color: #ffffff;
 
             text-decoration: none;
 
@@ -3977,7 +3977,7 @@
 
 /* Footer — dark background */
 [data-theme="light"] .main-footer {
-    background: rgba(10, 24, 44, 0.97);
+    background: #073a4c;
     border-top-color: rgba(45, 130, 170, 0.20);
     color: var(--text-muted);
 }
@@ -3994,7 +3994,7 @@
     color: var(--accent-cyan);
 }
 [data-theme="light"] .footer-links a {
-    color: var(--text-muted);
+    color: #ffffff;
 }
 [data-theme="light"] .footer-links a:hover {
     color: var(--accent-copper);

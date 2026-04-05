@@ -73,103 +73,22 @@ const gpxFiles = etapesData.gpxFiles || [];
           <span><i class="fas fa-calendar-alt"></i> <span id="live-periode">{projet.periode}</span></span>
         </div>
 
-        <!-- Onglets : Visuel / Le Projet -->
-        <div class="thero-tabs-wrapper">
-
-          <div class="thero-tabs" role="tablist">
-            <button class="thero-tab thero-tab--active"
-              data-thero="visuel" role="tab"
-              aria-selected="true" aria-controls="thero-panel-visuel">
-              <i class="fas fa-image" aria-hidden="true"></i> Visuel
-            </button>
-            <button class="thero-tab"
-              data-thero="projet" role="tab"
-              aria-selected="false" aria-controls="thero-panel-projet">
-              <i class="fas fa-lightbulb" aria-hidden="true"></i> Le Projet
-            </button>
-          </div>
-
-          <!-- Panneau 1 : Image -->
-          <div class="thero-panel thero-panel--active" id="thero-panel-visuel" role="tabpanel">
-            <div class="terrain-hero-visual">
-              <div class="terrain-hero-img-wrap">
-                <div class="terrain-hero-img-glow"></div>
-                <img
-                  src="/Images/RDT.png"
-                  alt="Retour au Terrain — Besoins Data 2026"
-                  class="terrain-hero-img"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div class="terrain-hero-img-badge">
-                  <i class="fas fa-map-marked-alt"></i>
-                  <span>Parcours 2026</span>
-                </div>
-              </div>
+        <!-- Visuel -->
+        <div class="terrain-hero-visual">
+          <div class="terrain-hero-img-wrap">
+            <div class="terrain-hero-img-glow"></div>
+            <img
+              src="/Images/RDT.png"
+              alt="Retour au Terrain — Besoins Data 2026"
+              class="terrain-hero-img"
+              loading="eager"
+              decoding="async"
+            />
+            <div class="terrain-hero-img-badge">
+              <i class="fas fa-map-marked-alt"></i>
+              <span>Parcours 2026</span>
             </div>
           </div>
-
-          <!-- Panneau 2 : Manifesto -->
-          <div class="thero-panel" id="thero-panel-projet" role="tabpanel">
-            <div class="terrain-hero-manifesto">
-
-              <!-- Block 1 : Accroche -->
-              <div class="thm-block thm-block--hook">
-                <span class="thm-eyebrow">Avril&nbsp;2026</span>
-                <p class="thm-headline">
-                  À 58 ans, je prends mon vélo.<br>
-                  Et je vais tenter de traverser la France.
-                </p>
-                <p class="thm-context">
-                  Le monde est complexe. En transition. Instable.<br>
-                  Les entreprises cherchent des repères. Les profils cherchent du sens.<br>
-                  Et parfois, ralentir est la décision la plus stratégique.
-                </p>
-              </div>
-
-              <!-- Block 2 : Problème + action -->
-              <div class="thm-block thm-block--problem">
-                <p class="thm-statement">
-                  Des consultants data disponibles.<br>
-                  Des entreprises qui cherchent.
-                </p>
-                <p class="thm-punch">Et pourtant&hellip;&nbsp;<strong>ça ne se rencontre pas.</strong></p>
-                <div class="thm-ride">
-                  <span class="thm-ride-icon"><i class="fas fa-bicycle" aria-hidden="true"></i></span>
-                  <span class="thm-ride-km">+ 1&nbsp;700&nbsp;km</span>
-                  <span class="thm-ride-text">pour écouter les deux côtés.</span>
-                </div>
-                <p class="thm-method">
-                  Sans algorithme. Juste du <strong>face à face.</strong><br>
-                  Mon itinéraire ne dépend pas d'une carte —<br>
-                  il se construira au fil de vos rendez-vous.
-                </p>
-              </div>
-
-              <!-- Block 3 : Bio -->
-              <div class="thm-block thm-block--bio">
-                <p class="thm-bio-name">Je m'appelle <strong>Stéphane Celton.</strong></p>
-                <p class="thm-bio-role">Data Product Manager Senior — 15 ans en environnements IT complexes.</p>
-                <p class="thm-bio-skills">Data | BI | Observabilité — IA éthique au service de l’humain et de Gaïa.</p>
-                <p class="thm-bio-stance">
-                  Entre deux missions, j'ai choisi de bouger plutôt qu'attendre.<br>
-                  Prendre la route pour aller à la rencontre du terrain — vraiment.
-                </p>
-              </div>
-
-              <!-- Block 4 : CTA texte -->
-              <div class="thm-block thm-block--cta-text">
-                <p class="thm-cta-question">Vous avez un besoin data&nbsp;? Une mission à partager&nbsp;?</p>
-                <p class="thm-cta-body">
-                  Contactez-moi directement ou rejoignez le groupe <strong>#TourData2026.</strong><br>
-                  Sans intermédiaire. Pour que consultants et entreprises<br>
-                  se trouvent enfin — simplement.
-                </p>
-              </div>
-
-            </div>
-          </div>
-
         </div>
 
         <!-- CTA -->
@@ -511,32 +430,5 @@ const gpxFiles = etapesData.gpxFiles || [];
   <!-- Live updates from admin localStorage + cross-tab sync -->
   <script src="/js/terrain-live.js" is:inline></script>
 
-  <!-- Onglets hero (Visuel / Le Projet) -->
-  <script is:inline>
-  (function () {
-    function onReady(fn) {
-      if (document.readyState !== 'loading') fn();
-      else document.addEventListener('DOMContentLoaded', fn);
-    }
-    onReady(function () {
-      document.querySelectorAll('.thero-tab').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var key = btn.dataset.thero;
-          document.querySelectorAll('.thero-tab').forEach(function (b) {
-            b.classList.remove('thero-tab--active');
-            b.setAttribute('aria-selected', 'false');
-          });
-          document.querySelectorAll('.thero-panel').forEach(function (p) {
-            p.classList.remove('thero-panel--active');
-          });
-          btn.classList.add('thero-tab--active');
-          btn.setAttribute('aria-selected', 'true');
-          var panel = document.getElementById('thero-panel-' + key);
-          if (panel) panel.classList.add('thero-panel--active');
-        });
-      });
-    });
-  })();
-  </script>
 
 </BaseLayout>

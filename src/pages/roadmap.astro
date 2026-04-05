@@ -359,7 +359,7 @@ const WAVE_LEN = 3200;
       if (!el || !window.L) return;
       var map = L.map('rm-map', {
         center: [46.6, 2.3],
-        zoom: 5,
+        zoom: 6,
         zoomControl: false,
         attributionControl: false,
         dragging: false,
@@ -367,6 +367,8 @@ const WAVE_LEN = 3200;
         doubleClickZoom: false,
         touchZoom: false,
         keyboard: false,
+        maxBounds: [[41.0, -5.5], [51.5, 10.0]],
+        maxBoundsViscosity: 1.0,
       });
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         maxZoom: 7,

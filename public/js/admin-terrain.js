@@ -60,6 +60,20 @@
       if (!data.positionActuelle) data.positionActuelle = structuredClone(etapesData.positionActuelle || {});
       if (!data.projet) data.projet = structuredClone(etapesData.projet || {});
       if (!data.journal) data.journal = [];
+      // Merge new dashboard fields from template (e.g. kmEntrainement added later)
+      var tplDash = etapesData.dashboard || {};
+      Object.keys(tplDash).forEach(function(k) {
+        if (!(k in data.dashboard)) data.dashboard[k] = tplDash[k];
+      });
+      // Merge new journal entries from template (adds entries not yet in localStorage)
+      var tplJournal = etapesData.journal || [];
+      var savedKeys = new Set(data.journal.map(function(e) { return e.date + '|' + e.titre; }));
+      tplJournal.forEach(function(te) {
+        if (!savedKeys.has(te.date + '|' + te.titre)) {
+          data.journal.push(structuredClone(te));
+        }
+      });
+      data.journal.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
       return;
     }
     data = structuredClone(etapesData);

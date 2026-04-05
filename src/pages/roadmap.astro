@@ -149,6 +149,7 @@ const WAVE_LEN = 3200;
   description="Roadmap sinusoïdale du projet TourData 2026 — 8 jalons du Tour de la Data à vélo. Cliquez sur un jalon pour accéder à la section correspondante."
   lastModified="03/04/2026 12:00"
 >
+  <link slot="head" rel="stylesheet" href="/lib/leaflet.min.css" />
   <OceanBackground />
   <Nav />
 
@@ -180,6 +181,7 @@ const WAVE_LEN = 3200;
     <!-- ── SINUSOÏDE (desktop) ────────────────────── -->
     <section class="rm-wave-section">
       <div class="rm-wave-wrapper">
+        <div id="rm-map" aria-hidden="true"></div>
         <svg
           class="rm-wave-svg"
           viewBox={`0 0 ${VBW} ${VBH}`}
@@ -199,8 +201,8 @@ const WAVE_LEN = 3200;
               <feDropShadow dx="0" dy="1" stdDeviation="5" flood-color="#7ecfe0" flood-opacity="0.75"/>
             </filter>
             <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
-              <stop offset="0%"  stop-color="#1e4a72" stop-opacity="0.90"/>
-              <stop offset="100%" stop-color="#0d2540" stop-opacity="1"/>
+              <stop offset="0%"  stop-color="#1e4a72" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0d2540" stop-opacity="0.72"/>
             </radialGradient>
           </defs>
 
@@ -348,6 +350,32 @@ const WAVE_LEN = 3200;
 
   <Footer />
   <CopyrightBar />
+
+  <script is:inline src="/lib/leaflet.min.js"></script>
+  <script is:inline>
+  (function () {
+    function initRmMap() {
+      var el = document.getElementById('rm-map');
+      if (!el || !window.L) return;
+      var map = L.map('rm-map', {
+        center: [46.6, 2.3],
+        zoom: 5,
+        zoomControl: false,
+        attributionControl: false,
+        dragging: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        touchZoom: false,
+        keyboard: false,
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 7,
+      }).addTo(map);
+    }
+    if (document.readyState !== 'loading') initRmMap();
+    else document.addEventListener('DOMContentLoaded', initRmMap);
+  })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -487,12 +515,24 @@ html:not([data-theme]) .rm-click-hint i {
   border-radius: 16px;
   scrollbar-width: thin;
   scrollbar-color: rgba(77,184,212,.3) transparent;
+  position: relative;
+}
+#rm-map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  opacity: 0.38;
+  filter: saturate(0.5) brightness(0.7);
 }
 .rm-wave-svg {
   display: block;
   min-width: 900px;
   width: 100%;
   border-radius: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Wave draw animation ──────────────────────────── */

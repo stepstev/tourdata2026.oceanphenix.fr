@@ -7,7 +7,7 @@
 import etapesData from '../data/terrain-etapes.json';
 
 const projet = etapesData.projet;
-const dash = etapesData.dashboard;
+const dash = etapesData.dashboard as typeof etapesData.dashboard & { kmEntrainement?: number };
 const position = etapesData.positionActuelle;
 const etapes = etapesData.etapes;
 
@@ -134,6 +134,13 @@ const arrivee = dash.prochaineEtape || '—';
               <strong id="live-rencontres">{dash.rencontresEntreprises}</strong>
               <span>rencontres<br/>entreprises</span>
             </div>
+            {(dash.kmEntrainement ?? 0) > 0 && (
+              <div class="tdash-metric tdash-metric--training">
+                <i class="fas fa-person-biking"></i>
+                <strong id="live-km-training">{dash.kmEntrainement}</strong>
+                <span>km<br/>entraînement</span>
+              </div>
+            )}
           </div>
           <a href="#journal" class="tdash-btn">
             <i class="fas fa-book-open"></i> Journal du parcours

@@ -340,21 +340,25 @@ const gpxFiles = etapesData.gpxFiles || [];
           </h2>
         </div>
         <div class="terrain-journal-timeline" id="live-journal">
-          {journal.map((entry) => (
-            <div class="terrain-journal-entry">
+          {(journal || []).map((entry: any) => {
+            const isTraining = (entry.tags || []).includes('entrainement');
+            return (
+            <div class={`terrain-journal-entry${isTraining ? ' terrain-journal-entry--training' : ''}`}>
               <div class="terrain-journal-date">
                 <i class="fas fa-calendar-day"></i> {entry.date}
                 <span class="terrain-journal-ville">— {entry.ville}</span>
+                {isTraining && <span class="terrain-journal-badge-training"><i class="fas fa-person-biking"></i> Entraînement</span>}
               </div>
               <h3 class="terrain-journal-titre">{entry.titre}</h3>
               <p class="terrain-journal-contenu" set:html={entry.contenu.replace(/\n/g, '<br>')}></p>
               <div class="terrain-journal-tags">
-                {entry.tags.map((tag: string) => (
+                {(entry.tags || []).map((tag: string) => (
                   <span class="terrain-tag">{tag}</span>
                 ))}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

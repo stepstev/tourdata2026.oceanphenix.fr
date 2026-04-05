@@ -119,10 +119,12 @@
     if (!journalEl || !journal.length) return;
     let jhtml = '';
     journal.forEach(function (entry) {
-      jhtml += '<div class="terrain-journal-entry">' +
+      var isTraining = Array.isArray(entry.tags) && entry.tags.includes('entrainement');
+      jhtml += '<div class="terrain-journal-entry' + (isTraining ? ' terrain-journal-entry--training' : '') + '">' +
         '<div class="terrain-journal-date">' +
         '<i class="fas fa-calendar-day"></i> ' + escapeHtml(entry.date || '') +
         '<span class="terrain-journal-ville">\u2014 ' + escapeHtml(entry.ville || '') + '</span>' +
+        (isTraining ? '<span class="terrain-journal-badge-training"><i class="fas fa-person-biking"></i> Entra\u00eenement</span>' : '') +
         '</div>' +
         '<h3 class="terrain-journal-titre">' + escapeHtml(entry.titre || '') + '</h3>' +
         '<p class="terrain-journal-contenu">' + escapeHtml(entry.contenu || '').replaceAll('\n', '<br>') + '</p>';

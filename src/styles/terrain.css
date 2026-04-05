@@ -1629,6 +1629,29 @@
   font-weight: 400;
 }
 
+.terrain-journal-entry--training {
+  border-left: 3px solid rgba(100, 200, 120, 0.4);
+}
+.terrain-journal-entry--training .terrain-journal-date { color: #64c878; }
+.terrain-journal-entry--training::before { background: #64c878; }
+
+.terrain-journal-badge-training {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.6rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  background: rgba(100, 200, 120, 0.1);
+  border: 1px solid rgba(100, 200, 120, 0.25);
+  color: #64c878;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
 .terrain-journal-titre {
   font-size: var(--text-base);
   color: var(--white);

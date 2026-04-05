@@ -360,6 +360,18 @@
   line-height: 1.3;
 }
 
+.tdash-metric--training {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(100, 200, 120, 0.05);
+  border-color: rgba(100, 200, 120, 0.15);
+}
+.tdash-metric--training i { color: #64c878; }
+.tdash-metric--training strong { font-size: 1.2rem; color: #64c878; }
+.tdash-metric--training span { font-size: 0.68rem; }
+
 /* Journal button */
 .tdash-btn {
   display: flex;

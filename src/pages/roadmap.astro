@@ -202,7 +202,7 @@ const WAVE_LEN = 3200;
             </filter>
             <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
               <stop offset="0%"  stop-color="#0e2044" stop-opacity="0.00"/>
-              <stop offset="100%" stop-color="#0e2044" stop-opacity="0.10"/>
+              <stop offset="100%" stop-color="#0e2044" stop-opacity="0.00"/>
             </radialGradient>
           </defs>
 
@@ -518,6 +518,7 @@ html:not([data-theme]) .rm-click-hint i {
   scrollbar-width: thin;
   scrollbar-color: rgba(77,184,212,.3) transparent;
   position: relative;
+  background: #0e2044;
 }
 #rm-map {
   position: absolute;
@@ -526,7 +527,7 @@ html:not([data-theme]) .rm-click-hint i {
   border-radius: 16px;
   pointer-events: none;
   opacity: 1;
-  filter: contrast(1.0) brightness(1.35) saturate(0.80);
+  filter: contrast(0.95) brightness(1.20) saturate(0.70) opacity(0.88);
 }
 .rm-wave-svg {
   display: block;

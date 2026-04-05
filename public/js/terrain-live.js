@@ -318,8 +318,49 @@
     }
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      // Admin browser : localStorage prioritaire
-      try { applyLiveData(JSON.parse(raw)); } catch { /* invalid JSON, skip */ }
+      try {
+        var lsData = JSON.parse(raw);
+        // Merge template si version plus récente que localStorage
+        var tplEl = document.getElementById('terrain-tpl');
+        if (tplEl) {
+          try {
+            var tpl = JSON.parse(tplEl.textContent);
+            var lsV  = lsData._v || '';
+            var tplV = tpl._v   || '';
+            if (tplV > lsV) {
+              // Purge entrées synthétiques obsolètes
+              var STALE = new Set([
+                '2026-04-01|Sortie finale \u2014 boucle Seine-et-Marne \u2014 73 km avant le d\u00e9part',
+                '2026-03-25|Test bivouac Dourdan \u2014 nuit dehors + boucle r\u00e9cup\u00e9ration 44 km',
+                '2026-03-16|For\u00eat de Fontainebleau \u2014 94 km / 1 020 m D+ \u2014 test d\u00e9nivel\u00e9',
+                '2026-03-08|For\u00eat de Rambouillet \u2014 premier test v\u00e9lo charg\u00e9 \u2014 68 km',
+                '2026-02-28|Boucle endurance Beauce \u2014 87 km / 520 m D+',
+                '2026-02-20|Premi\u00e8re sortie test v\u00e9lo de voyage \u2014 Vall\u00e9e de Chevreuse \u2014 52 km'
+              ]);
+              if (!lsData.journal) lsData.journal = [];
+              lsData.journal = lsData.journal.filter(function(e) {
+                return !STALE.has(e.date + '|' + e.titre);
+              });
+              // Ajouter entrées manquantes depuis template
+              var saved = new Set(lsData.journal.map(function(e) { return e.date + '|' + e.titre; }));
+              (tpl.journal || []).forEach(function(te) {
+                if (!saved.has(te.date + '|' + te.titre)) lsData.journal.push(JSON.parse(JSON.stringify(te)));
+              });
+              lsData.journal.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+              // Merge champs dashboard manquants
+              if (lsData.dashboard && tpl.dashboard) {
+                Object.keys(tpl.dashboard).forEach(function(k) {
+                  if (!(k in lsData.dashboard)) lsData.dashboard[k] = tpl.dashboard[k];
+                });
+              }
+              lsData._v = tplV;
+              // Persiste le merge pour éviter de refaire à chaque rechargement
+              try { localStorage.setItem(STORAGE_KEY, JSON.stringify(lsData)); } catch(_) {}
+            }
+          } catch(_) {}
+        }
+        applyLiveData(lsData);
+      } catch { /* invalid JSON, skip */ }
     } else {
       // Visiteur public : charger depuis le fichier serveur publié
       fetchServerData();

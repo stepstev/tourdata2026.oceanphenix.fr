@@ -427,6 +427,8 @@ const gpxFiles = etapesData.gpxFiles || [];
 
   <!-- Data for map scripts (CSP-safe: not executed) -->
   <script type="application/json" id="terrain-data" set:html={JSON.stringify({ etapes, position, gpxFiles })}></script>
+  <!-- Template version + journal pour merge localStorage (CSP-safe: not executed) -->
+  <script type="application/json" id="terrain-tpl" set:html={JSON.stringify({ _v: etapesData._v, journal: etapesData.journal, dashboard: etapesData.dashboard })}></script>
 
   <!-- Carte Leaflet init -->
   <script src="/js/terrain-maps.js" is:inline></script>

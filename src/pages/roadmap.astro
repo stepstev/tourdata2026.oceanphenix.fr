@@ -200,7 +200,14 @@ const WAVE_LEN = 3200;
             <filter id="rm-bike-glow" x="-50%" y="-50%" width="200%" height="200%">
               <feDropShadow dx="0" dy="1" stdDeviation="5" flood-color="#7ecfe0" flood-opacity="0.75"/>
             </filter>
+            <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
+              <stop offset="0%"  stop-color="#0e2044" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#0e2044" stop-opacity="0.60"/>
+            </radialGradient>
           </defs>
+
+          <!-- fond sombre forcé (visible en light mode) -->
+          <rect width={VBW} height={VBH} fill="url(#rm-bg-grad)" rx="16"/>
 
           <!-- grille de fond -->
           <!-- lignes verticales — pas de 90px -->
@@ -517,7 +524,7 @@ html:not([data-theme]) .rm-click-hint i {
   border-radius: 16px;
   pointer-events: none;
   opacity: 1;
-  filter: contrast(1.6) brightness(0.85) saturate(1.3);
+  filter: contrast(1.2) brightness(0.9);
 }
 .rm-wave-svg {
   display: block;

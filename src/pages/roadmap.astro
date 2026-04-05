@@ -201,8 +201,8 @@ const WAVE_LEN = 3200;
               <feDropShadow dx="0" dy="1" stdDeviation="5" flood-color="#7ecfe0" flood-opacity="0.75"/>
             </filter>
             <radialGradient id="rm-bg-grad" gradientUnits="userSpaceOnUse" cx="720" cy="290" r="680">
-              <stop offset="0%"  stop-color="#0e2044" stop-opacity="0.45"/>
-              <stop offset="100%" stop-color="#0e2044" stop-opacity="0.60"/>
+              <stop offset="0%"  stop-color="#0e2044" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#0e2044" stop-opacity="0.28"/>
             </radialGradient>
           </defs>
 
@@ -214,19 +214,19 @@ const WAVE_LEN = 3200;
           {Array.from({ length: 16 }, (_, i) => (
             <line
               x1={i * 90} y1="0" x2={i * 90} y2={VBH}
-              stroke="#4db8d4" stroke-width="0.8" opacity="0.18"
+              stroke="#4db8d4" stroke-width="0.8" opacity="0.30"
             />
           ))}
           <!-- lignes horizontales — pas de 72px -->
           {Array.from({ length: 9 }, (_, i) => (
             <line
               x1="0" y1={i * 72} x2={VBW} y2={i * 72}
-              stroke="#4db8d4" stroke-width="0.8" opacity="0.18"
+              stroke="#4db8d4" stroke-width="0.8" opacity="0.30"
             />
           ))}
           <!-- croix d'intersection aux nœuds de grille clés -->
           {[260, 440, 620, 800, 980, 1160].map(x => (
-            <g opacity="0.32">
+            <g opacity="0.50">
               <line x1={x - 7} y1={VBH / 2} x2={x + 7} y2={VBH / 2} stroke="#4db8d4" stroke-width="1.5"/>
               <line x1={x} y1={VBH / 2 - 7} x2={x} y2={VBH / 2 + 7} stroke="#4db8d4" stroke-width="1.5"/>
             </g>
@@ -524,7 +524,7 @@ html:not([data-theme]) .rm-click-hint i {
   border-radius: 16px;
   pointer-events: none;
   opacity: 1;
-  filter: contrast(1.2) brightness(0.9);
+  filter: contrast(1.05) brightness(1.15) saturate(0.85);
 }
 .rm-wave-svg {
   display: block;
